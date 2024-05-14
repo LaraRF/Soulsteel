@@ -23,13 +23,13 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
     int tilesetCols = 1;
     int tileSize = 32;
 
-    for (int y = 0; y < rows; y++){
-        for (int x = 0; x < cols; x++){
-            int data = tiles[y*cols + x];
+    for (int y = 0; y < cols; y++){
+        for (int x = 0; x < rows; x++){
+            int data = tiles[y*rows + x];
             if (data < 0) continue;
-            Rectangle src = {(float)(data % tilesetCols * tileSize), (float)(data / tilesetCols * tileSize), static_cast<float>(tileSize), static_cast<float>(tileSize)};
-            Rectangle dest = {static_cast<float>(x * tileSize), static_cast<float>(y * tileSize), static_cast<float>(tileSize), static_cast<float>(tileSize)};
-
+            Rectangle src = {(float)(data % tilesetCols * tileSize), (float)(data / tilesetCols * tileSize), (float)(tileSize), (float)(tileSize)};
+            Rectangle dest = {(float)(x * tileSize), (float)(y * tileSize), (float)(tileSize), (float)(tileSize)};
+//hier kann man "static_cast<float>" durch (float) ersetzen -> ist C, aber geht hier auch
             DrawTexturePro(tilesetgrass, src, dest, {}, 0, WHITE);
         }
     }
@@ -82,6 +82,6 @@ gameplay::gameplay() {
             tiles.back()--;
         }
     }
-    rows = layer->getSize().y;
-    cols = layer->getSize().x;
+    rows = layer->getSize().x;
+    cols = layer->getSize().y;
 }
