@@ -8,7 +8,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp
+        soundsettings.h
+        pausescreen.cpp
+        pausescreen.h
+        optionen.cpp
+        optionen.h
+        mainmenu.cpp
+        mainmenu.h
+        languagesettings.h
+        journal.cpp
+        journal.h
+        gameplay.cpp
+        gameplay.h
+        globalstates.h
+        controlsettings.h)
 
 # Add config.h.in file
 configure_file(config.h.in config.h)
