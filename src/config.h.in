@@ -10,5 +10,8 @@ namespace Game {
     inline constexpr int ScreenWidth = 960;
     inline constexpr int ScreenHeight = 540;
 
+//Portfoliogröße Lara: 960x540
+//Größe Map: 800x480
+
     //#define GAME_START_FULLSCREEN
 }
