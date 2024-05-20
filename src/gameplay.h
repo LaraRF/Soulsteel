@@ -18,8 +18,8 @@
 
         void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
         Texture2D heart = LoadTexture("assets/graphics/heart.png");
-        Texture2D modeRobo = LoadTexture("assets/graphics/robot_anuki_3.png");
-        Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
+        //Texture2D modeRobo = LoadTexture("assets/graphics/robot_anuki_3.png");
+        //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
         Texture2D tilesetgrass = LoadTexture("assets/graphics/grasses.png");
 
         std::vector<int> tiles;
