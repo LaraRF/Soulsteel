@@ -35,6 +35,9 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
                 globalstates = gameplayscreen;
         }
     }
+    if(IsKeyPressed(KEY_J)){
+        globalstates=gameplayscreen;
+    }
 }
 
 void journal::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {

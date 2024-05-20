@@ -46,6 +46,7 @@ int main() {
     journal journal;
 
 
+
     //SetWindowSize(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()));
     //ToggleFullscreen();
 
