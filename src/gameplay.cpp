@@ -70,7 +70,7 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
 
 gameplay::gameplay() {
     tson::Tileson tileson;
-    auto map = tileson.parse("assets/graphics/tilesets/grassmap2.tmj");
+    auto map = tileson.parse("assets/graphics/tilesets/grassmap_bigger.tmj");
     if (map->getStatus() != tson::ParseStatus::OK) {
         std::cout << map->getStatusMessage();
     }

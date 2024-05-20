@@ -13,6 +13,7 @@
 #include "journal.h"
 #include "controlsettings.h"
 #include "soundsettings.h"
+#include "maincharacter.h"
 
 int main() {
     // Raylib initialization
@@ -44,6 +45,7 @@ int main() {
     gameplay gameplay;
     pausescreen pausescreen;
     journal journal;
+    maincharacter maincharacter;
 
 
 
@@ -72,6 +74,7 @@ int main() {
                 break;
             case gameplayscreen:
                 gameplay.update(state, language,sound,control);
+                maincharacter.update();
                 break;
             case pausieren:
                 pausescreen.update(state, language, sound,control);
@@ -98,6 +101,7 @@ int main() {
                     break;
                 case gameplayscreen:
                     gameplay.draw(language,sound,control);
+                    maincharacter.draw();
                     break;
                 case pausieren:
                     pausescreen.draw(language,sound,control);

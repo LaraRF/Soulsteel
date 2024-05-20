@@ -23,6 +23,8 @@ add_executable(${PROJECT_NAME} main.cpp
         gameplay.h
         globalstates.h
         controlsettings.h
+        maincharacter.cpp
+        maincharacter.h
 )
 
 # Add config.h.in file
