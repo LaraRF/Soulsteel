@@ -14,8 +14,6 @@ public:
     void draw();
 
     Vector2 characterposition={(float)960/2, (float)540/2 };
-    Rectangle characterplaceholder;
-
 };
 
 
