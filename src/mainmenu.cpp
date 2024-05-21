@@ -19,7 +19,7 @@ void mainmenu::update(globalstates &globalstates, languagestates &languagestates
             cursor--;
         }
     }
-
+    //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
@@ -51,12 +51,12 @@ void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, co
         default:
             break;
     }
-
+    //draws the buttons
     DrawRectangleRec(hitbox_play, GRAY);
     DrawRectangleRec(hitbox_settings, GRAY);
     DrawRectangleRec(hitbox_close, GRAY);
 
-
+    //draws the images on the buttons
     DrawTexture(button1play, 140, 365, WHITE);
     DrawTexture(button1settings, 415, 340, WHITE);
     DrawTexture(button1close, 740, 360, WHITE);

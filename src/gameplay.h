@@ -17,11 +17,17 @@
         void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
 
         void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+
+        //loads the necessary textures
         Texture2D heart = LoadTexture("assets/graphics/heart.png");
         //Texture2D modeRobo = LoadTexture("assets/graphics/robot_anuki_3.png");
         //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
+
+        //loads the textures on the map (Kachelsatz)
         Texture2D tilesetgrass = LoadTexture("assets/graphics/grasses.png");
 
+
+        //attributes necessary for using the map
         std::vector<int> tiles;
         int rows;
         int cols;

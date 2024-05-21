@@ -20,6 +20,8 @@ public:
 
     void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
 
+    //creates the boxes that will be used as buttons
+    //the marked version is used to outline the button that is currently selected
     Rectangle hitbox_flagDE = {200, 340, 150, 90};
     Rectangle hitbox_flagDE_marked = {190, 330, 170, 110};
 
@@ -42,7 +44,7 @@ public:
     Rectangle hitbox_soundmore_marked ={590, 210,170,110};
 
 
-
+    //loads all the necessary textures
 
     Texture2D flagDE = LoadTexture("assets/graphics/flag_DE_5.png");
     Texture2D flagENG = LoadTexture("assets/graphics/flag_ENG_2.png");

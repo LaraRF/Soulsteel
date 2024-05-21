@@ -18,8 +18,11 @@ public:
 
     void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
 
+    //loads the necessary textures
     Texture2D pausebutton = LoadTexture("assets/graphics/button_pause.png");
     Texture2D title = LoadTexture("assets/graphics/title_3.png");
+
+    //creates the box that will be used as a button
     Rectangle boxforpausebutton = {400,400,122,122};
 };
 #endif //RAYLIBSTARTER_PAUSESCREEN_H

@@ -7,6 +7,8 @@
 #include "languagesettings.h"
 
 void journal::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
+
+    //navigating the journal by using arrow keys
     if(IsKeyPressed(KEY_RIGHT)){
         if(cursor == 2){
             cursor = 2; //ends with last box, does not come back on the other side of the screen
@@ -23,6 +25,7 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
         }
     }
 
+    //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
@@ -35,6 +38,7 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
                 globalstates = gameplayscreen;
         }
     }
+    //pressing J gets you back to the game play screen
     if(IsKeyPressed(KEY_J)){
         globalstates=gameplayscreen;
     }
@@ -65,7 +69,7 @@ void journal::draw(languagestates &languagestates, soundstates &soundstates, con
 
     DrawTexture(closeButton, 825,450,WHITE);
 
-
+    //shows the text depending on which language is chosen
     switch(languagestates) {
         case german:
             DrawText("Journal Inhalt TBD", 50, 15, 30, BLACK);

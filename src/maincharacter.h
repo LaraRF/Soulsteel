@@ -15,6 +15,7 @@ public:
     void update(languagestates &languagestates, maincharactermodus &maincharactermodus);
     void draw(languagestates &languagestates, maincharactermodus &maincharactermodus);
 
+    //lets the character start in the middle of the screen
     Vector2 characterposition={(float)960/2, (float)540/2 };
 };
 

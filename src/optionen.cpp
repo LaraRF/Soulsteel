@@ -8,6 +8,7 @@
 
 void optionen::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
 
+    //allows navigation through the menu by using arrow keys
     switch (cursor) {
         case 0:
             if (IsKeyPressed(KEY_RIGHT)) {
@@ -73,6 +74,8 @@ void optionen::update(globalstates &globalstates, languagestates &languagestates
                     break;
             }
     }
+
+    //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)){
         switch(cursor){
             case 0:
@@ -104,7 +107,8 @@ void optionen::update(globalstates &globalstates, languagestates &languagestates
 
 void optionen::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
 
-    switch (cursor) { //shows which box is selected by giving it a white outline
+    //shows which button is selected by giving it a white outline
+    switch (cursor) {
         case 0:
             DrawRectangleRec(hitbox_tastatur_marked, WHITE);
             break;
@@ -130,6 +134,7 @@ void optionen::draw(languagestates &languagestates, soundstates &soundstates, co
             break;
     }
 
+    //draws the buttons
     DrawRectangleRec(hitbox_flagDE, GRAY);
     DrawRectangleRec(hitbox_flagENG, GRAY);
     DrawRectangleRec(hitbox_close, GRAY);
@@ -140,6 +145,7 @@ void optionen::draw(languagestates &languagestates, soundstates &soundstates, co
     DrawRectangleRec(hitbox_soundless, GRAY);
     DrawRectangleRec(hitbox_soundmore, GRAY);
 
+    //draws the images on the buttons
     DrawTexture(flagDE, 225, 355, WHITE);
     DrawTexture(flagENG, 625, 355, WHITE);
     DrawTexture(closeButton, 810, 450, WHITE);
@@ -148,6 +154,7 @@ void optionen::draw(languagestates &languagestates, soundstates &soundstates, co
     DrawTexture(soundlessbutton, 225, 235, WHITE);
     DrawTexture(soundmorebutton, 625, 235, WHITE);
 
+    //draws the text depending on the selected language
     switch (languagestates) {
         case german:
             DrawText("Einstellungen", 320, 23, 50, WHITE);

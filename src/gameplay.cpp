@@ -6,6 +6,7 @@
 
 void gameplay::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates,
                       controlmodes &controlmodes) {
+    //lets you switch between different screens
     if (IsKeyPressed(KEY_M)) {
         globalstates = menu;
     }
@@ -20,6 +21,7 @@ void gameplay::update(globalstates &globalstates, languagestates &languagestates
 void gameplay::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
     ClearBackground(GRAY);
 
+    //draws the map
     int tilesetCols = 1;
     int tileSize = 32;
 
@@ -34,6 +36,7 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
         }
     }
 
+    //draws text depending on chosen language
     switch (languagestates) {
         case german:
             //DrawText("Dieses Spiel kommt in 09/2024 raus.", 10, 350, 30, BLACK);
@@ -68,6 +71,7 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
     }*/
 }
 
+//gets the data from the map needed to draw it
 gameplay::gameplay() {
     tson::Tileson tileson;
     auto map = tileson.parse("assets/graphics/tilesets/grassmap_bigger.tmj");

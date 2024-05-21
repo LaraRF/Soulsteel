@@ -71,6 +71,7 @@ int main() {
             }
         }
 
+        //checks which screen is shown and calls the methods needed there
         switch (state) {
             case menu:
                 mainmenu.update(state, language, sound, control);
@@ -98,6 +99,8 @@ int main() {
         BeginTextureMode(canvas);
         { //Within this block is where we draw our app to the canvas.
             ClearBackground(BLACK);
+
+            //checks which screen is shown and calls the methods needed there
             switch (state) {
                 case menu:
                     mainmenu.draw(language,sound,control);
