@@ -14,6 +14,7 @@
 #include "controlsettings.h"
 #include "soundsettings.h"
 #include "maincharacter.h"
+#include "maincharactermodus.h"
 
 int main() {
     // Raylib initialization
@@ -32,6 +33,8 @@ int main() {
     float renderScale{}; //those two are relevant to drawing and code-cleanliness
     Rectangle renderRec{};
 
+    //set enums to the state they have when starting the game
+
     languagestates language =german;
 
     globalstates state = menu;
@@ -40,6 +43,9 @@ int main() {
 
     controlmodes control =tastaturmode;
 
+    maincharactermodus modus =soul;
+
+    //create objects of the classes
     mainmenu mainmenu;
     optionen optionen;
     gameplay gameplay;
@@ -74,7 +80,7 @@ int main() {
                 break;
             case gameplayscreen:
                 gameplay.update(state, language,sound,control);
-                maincharacter.update();
+                maincharacter.update(language, modus);
                 break;
             case pausieren:
                 pausescreen.update(state, language, sound,control);
@@ -101,7 +107,7 @@ int main() {
                     break;
                 case gameplayscreen:
                     gameplay.draw(language,sound,control);
-                    maincharacter.draw();
+                    maincharacter.draw(language, modus);
                     break;
                 case pausieren:
                     pausescreen.draw(language,sound,control);

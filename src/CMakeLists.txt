@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME} main.cpp
         controlsettings.h
         maincharacter.cpp
         maincharacter.h
+        maincharactermodus.h
 )
 
 # Add config.h.in file

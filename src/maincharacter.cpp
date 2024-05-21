@@ -5,7 +5,22 @@
 #include "maincharacter.h"
 
 
-void maincharacter::update() {
+void maincharacter::update(languagestates &languagestates, maincharactermodus &maincharactermodus) {
+
+   switch(maincharactermodus){
+       case soul:
+           if(IsKeyPressed(KEY_SPACE)){
+               maincharactermodus=robot;
+           }
+           break;
+       case robot:
+           if(IsKeyPressed(KEY_SPACE)){
+               maincharactermodus=soul;
+           }
+           break;
+   }
+
+
 
    if (IsKeyPressed(KEY_S)||IsKeyDown(KEY_S)) {
         characterposition.y = characterposition.y+5.0f;
@@ -22,8 +37,17 @@ void maincharacter::update() {
 
 }
 
-void maincharacter::draw() {
+void maincharacter::draw(languagestates &languagestates, maincharactermodus &maincharactermodus) {
 
-    DrawRectangle(characterposition.x, characterposition.y, 32,32, BLACK);
+    switch(maincharactermodus){
+        case soul:
+            DrawRectangle(characterposition.x, characterposition.y, 32, 32, PINK);
+            break;
+        case robot:
+            DrawRectangle(characterposition.x, characterposition.y, 32, 32, BLACK);
+            break;
+    }
+
+
 
 }
