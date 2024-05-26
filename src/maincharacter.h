@@ -17,6 +17,9 @@ public:
 
     //lets the character start in the middle of the screen
     Vector2 characterposition={(float)960/2, (float)540/2 };
+
+    //movement
+    float stepsize =5.0f;
 };
 
 
