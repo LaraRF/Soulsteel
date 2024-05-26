@@ -60,7 +60,7 @@ void maincharacter::update(languagestates &languagestates, maincharactermodus &m
                 break;
         }
     }
-}
+
 
 void maincharacter::draw(languagestates &languagestates, maincharactermodus &maincharactermodus) {
 
