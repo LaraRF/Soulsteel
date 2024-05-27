@@ -8,7 +8,7 @@
 #include "raylib.h"
 #include "languagesettings.h"
 #include "maincharactermodus.h"
-
+#include <iostream>
 class maincharacter {
 
 public:
@@ -19,7 +19,10 @@ public:
     Vector2 characterposition={(float)960/2, (float)540/2 };
 
     //movement
+    bool souldashactivated =false;
+    int souldash=0;
     float stepsize =5.0f;
+    float stepzisesouldash =20;
 };
 
 
