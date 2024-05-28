@@ -77,7 +77,7 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
 //gets the data from the map needed to draw it
 gameplay::gameplay() {
     tson::Tileson tileson;
-    auto map = tileson.parse("assets/graphics/tilesets/grassmap_bigger.tmj");
+    auto map = tileson.parse("assets/graphics/tilesets/grassmap_actualsize.tmj");
     if (map->getStatus() != tson::ParseStatus::OK) {
         std::cout << map->getStatusMessage();
     }

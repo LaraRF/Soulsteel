@@ -35,7 +35,7 @@ void mainmenu::update(globalstates &globalstates, languagestates &languagestates
 }
 
 void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
-    DrawTexture(title, 10, 50, WHITE);
+    DrawTexture(title, -55, 50, WHITE);
 
 
     switch(cursor){ //shows which box is selected by giving it a white outline
@@ -57,7 +57,7 @@ void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, co
     DrawRectangleRec(hitbox_close, GRAY);
 
     //draws the images on the buttons
-    DrawTexture(button1play, 140, 365, WHITE);
-    DrawTexture(button1settings, 415, 340, WHITE);
-    DrawTexture(button1close, 740, 360, WHITE);
+    DrawTexture(button1play, 130, 345, WHITE);
+    DrawTexture(button1settings, 340, 320, WHITE);
+    DrawTexture(button1close, 600, 340, WHITE);
 }

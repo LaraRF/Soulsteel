@@ -20,14 +20,14 @@ public:
     void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
 
     //creates the boxes that will be used as buttons; marked boxes are to create an outline that shows which button is selected
-    Rectangle hitbox_play = {100, 350, 150, 90};
-    Rectangle hitbox_play_marked = {90, 340, 170, 110};
+    Rectangle hitbox_play = {90, 330, 150, 90};
+    Rectangle hitbox_play_marked = {80, 320, 170, 110};
 
-    Rectangle hitbox_settings = {400, 350, 150, 90};
-    Rectangle hitbox_settings_marked = {390, 340, 170, 110};
+    Rectangle hitbox_settings = {325, 330, 150, 90};
+    Rectangle hitbox_settings_marked = {315, 320, 170, 110};
 
-    Rectangle hitbox_close = {700, 350, 150, 90};
-    Rectangle hitbox_close_marked = {690, 340, 170, 110};
+    Rectangle hitbox_close = {560, 330, 150, 90};
+    Rectangle hitbox_close_marked = {550, 320, 170, 110};
 
     //loads the necessary textures
     Texture2D title = LoadTexture("assets/graphics/title_3.png");
