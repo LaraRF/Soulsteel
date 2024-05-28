@@ -35,7 +35,7 @@ void mainmenu::update(globalstates &globalstates, languagestates &languagestates
 }
 
 void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
-    DrawTexture(title, -55, 50, WHITE);
+    DrawTexture(title, -65, 50, WHITE);
 
 
     switch(cursor){ //shows which box is selected by giving it a white outline
