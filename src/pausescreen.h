@@ -23,6 +23,6 @@ public:
     Texture2D title = LoadTexture("assets/graphics/title_3.png");
 
     //creates the box that will be used as a button
-    Rectangle boxforpausebutton = {400,400,122,122};
+    Rectangle boxforpausebutton = {339,340,122,122};
 };
 #endif //RAYLIBSTARTER_PAUSESCREEN_H

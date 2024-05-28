@@ -16,18 +16,18 @@ void pausescreen::draw(languagestates &languagestates, soundstates &soundstates,
     //draws the background and textures
     ClearBackground(DARKGRAY);
     DrawRectangleRec(boxforpausebutton, GRAY);
-    DrawTexture(pausebutton, 398,398, WHITE);
-    DrawTexture(title, 30,50,WHITE);
+    DrawTexture(pausebutton, 337,338, WHITE);
+    DrawTexture(title, -70,50,WHITE);
 
     //draws the text depending on which language is selected
     switch(languagestates){
         case german:
             DrawText("Das Spiel ist pausiert. Drücke P erneut, um zurück zum Spiel zu gelangen.",
-                     12,300, 25, WHITE);
+                     14,300, 20, WHITE);
             break;
         case english:
             DrawText("The game is paused. Press P again to get back to the game.",
-                     10,300,30,WHITE);
+                     75,300,20,WHITE);
 
     }
 
