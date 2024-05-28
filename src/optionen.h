@@ -23,32 +23,32 @@ public:
 
     //creates the boxes that will be used as buttons
     //the marked version is used to outline the button that is currently selected
-    Rectangle hitbox_flagDE = {200, 310, 150, 70};
-    Rectangle hitbox_flagDE_marked = {190, 300, 170, 90};
+    Rectangle hitbox_flagDE = {50, 270, 150, 70};
+    Rectangle hitbox_flagDE_marked = {40, 260, 170, 90};
 
-    Rectangle hitbox_flagENG = {600, 310, 150, 70};
-    Rectangle hitbox_flagENG_marked = {590, 300, 170, 90};
+    Rectangle hitbox_flagENG = {450, 270, 150, 70};
+    Rectangle hitbox_flagENG_marked = {440, 260, 170, 90};
 
-    Rectangle hitbox_close = {790, 460, 150, 70};
-    Rectangle hitbox_close_marked = {780, 450, 170, 90};
+    Rectangle hitbox_close = {640, 360, 150, 70};
+    Rectangle hitbox_close_marked = {630, 350, 170, 90};
 
-    Rectangle hitbox_tastatur ={200, 90,150,70};
-    Rectangle hitbox_tastatur_marked={190, 80, 170, 90};
+    Rectangle hitbox_tastatur ={50, 90,150,70};
+    Rectangle hitbox_tastatur_marked={40, 80, 170, 90};
 
-    Rectangle hitbox_controller ={600,90,150,70};
-    Rectangle hitbox_controller_marked={590,80,170,90};
+    Rectangle hitbox_controller ={450,90,150,70};
+    Rectangle hitbox_controller_marked={440,80,170,90};
 
-    Rectangle hitbox_soundless ={200, 200,150,70};
-    Rectangle hitbox_soundless_marked ={190, 190,170,90};
+    Rectangle hitbox_soundless ={50, 180,150,70};
+    Rectangle hitbox_soundless_marked ={40, 170,170,90};
 
-    Rectangle hitbox_soundmore ={600,200, 150,70};
-    Rectangle hitbox_soundmore_marked ={590, 190,170,90};
+    Rectangle hitbox_soundmore ={450,180, 150,70};
+    Rectangle hitbox_soundmore_marked ={440, 170,170,90};
 
-    Rectangle hitbox_guided ={200,420,150,70};
-    Rectangle hitbox_guided_marked ={190,410,170,90};
+    Rectangle hitbox_guided ={50,360,150,70};
+    Rectangle hitbox_guided_marked ={40,350,170,90};
 
-    Rectangle hitbox_exploration ={600,420,150,70};
-    Rectangle hitbox_exploration_marked ={590,410,170,90};
+    Rectangle hitbox_exploration ={450,360,150,70};
+    Rectangle hitbox_exploration_marked ={440,350,170,90};
 
 
 

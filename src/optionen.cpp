@@ -201,31 +201,31 @@ void optionen::draw(languagestates &languagestates, soundstates &soundstates, co
     }
 
     //draws the images on the buttons
-    DrawTexture(flagDE, 225, 315, WHITE);
-    DrawTexture(flagENG, 625, 315, WHITE);
-    DrawTexture(closeButton, 830, 460, WHITE);
-    DrawTexture(tastaturbutton, 225, 95, WHITE);
-    DrawTexture(controllerbutton, 625, 95, WHITE);
-    DrawTexture(soundlessbutton, 225, 205, WHITE);
-    DrawTexture(soundmorebutton, 625, 205, WHITE);
-    DrawText("G", 255,435, 50, BLACK);
-    DrawText("E", 665,435, 50, BLACK);
+    DrawTexture(flagDE, 75, 275, WHITE);
+    DrawTexture(flagENG, 475, 275, WHITE);
+    DrawTexture(closeButton, 680, 360, WHITE);
+    DrawTexture(tastaturbutton, 75, 95, WHITE);
+    DrawTexture(controllerbutton, 475, 95, WHITE);
+    DrawTexture(soundlessbutton, 75, 185, WHITE);
+    DrawTexture(soundmorebutton, 475, 185, WHITE);
+    DrawText("G", 105,375, 50, BLACK);
+    DrawText("E", 515,375, 50, BLACK);
 
     //draws the text depending on the selected language
     switch (languagestates) {
         case german:
-            DrawText("Einstellungen", 320, 23, 50, WHITE);
-            DrawText("Steuerung", 400, 115, 30, WHITE);
-            DrawText("Ton", 400, 215, 30, WHITE);
-            DrawText("Sprache", 400, 335, 30, WHITE);
-            DrawText("Spielmodus", 400, 450, 30, WHITE);
+            DrawText("Einstellungen", 170, 23, 50, WHITE);
+            DrawText("Steuerung", 250, 115, 30, WHITE);
+            DrawText("Ton", 250, 195, 30, WHITE);
+            DrawText("Sprache", 250, 295, 30, WHITE);
+            DrawText("Spielmodus", 250, 390, 30, WHITE);
             break;
         case english:
-            DrawText("Settings", 380, 23, 50, WHITE);
-            DrawText("Control", 400, 115, 30, WHITE);
-            DrawText("Sound", 400, 215, 30, WHITE);
-            DrawText("Language", 400, 335, 30, WHITE);
-            DrawText("Game mode", 400, 450, 30, WHITE);
+            DrawText("Settings", 170, 23, 50, WHITE);
+            DrawText("Control", 250, 115, 30, WHITE);
+            DrawText("Sound", 250, 195, 30, WHITE);
+            DrawText("Language", 250, 295, 30, WHITE);
+            DrawText("Game mode", 250, 390, 30, WHITE);
             break;
         default:
             break;
