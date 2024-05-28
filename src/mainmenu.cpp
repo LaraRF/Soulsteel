@@ -4,7 +4,7 @@
 #include "mainmenu.h"
 
 void mainmenu::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
-    if(IsKeyPressed(KEY_RIGHT)){
+    if(IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)){
         if(cursor == 2){
             cursor = 2; //makes it, so you can't go "more to the right" than last box
         }else{
@@ -12,7 +12,7 @@ void mainmenu::update(globalstates &globalstates, languagestates &languagestates
         }
     }
 
-    if(IsKeyPressed(KEY_LEFT)){
+    if(IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)){
         if(cursor == 0){
             cursor = 0; //same here, but for other side of screen
         }else{

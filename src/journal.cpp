@@ -9,7 +9,7 @@
 void journal::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
     //navigating the journal by using arrow keys
-    if(IsKeyPressed(KEY_RIGHT)){
+    if(IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)){
         if(cursor == 2){
             cursor = 2; //ends with last box, does not come back on the other side of the screen
         }else{
@@ -17,7 +17,7 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
         }
     }
 
-    if(IsKeyPressed(KEY_LEFT)){
+    if(IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)){
         if(cursor == 0){
             cursor = 0; //same here: you can't go more the side if you're already on the last box
         }else{

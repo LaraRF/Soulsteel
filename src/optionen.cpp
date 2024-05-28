@@ -8,84 +8,84 @@
 
 void optionen::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
-    //allows navigation through the menu by using arrow keys
+    //allows navigation through the menu by using WASD keys
     switch (cursor) {
         case 0:
-            if (IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 1:
-            if (IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
                 cursor--;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
-            } else if (IsKeyPressed(KEY_RIGHT)) {
+            } else if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor = cursor + 7;
             }
             break;
         case 2:
-            if (IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 3:
-            if (IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
                 cursor--;
-            } else if (IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
-            } else if (IsKeyPressed(KEY_RIGHT)) {
+            } else if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor = cursor + 5;
             }
             break;
         case 4:
-            if (IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 5:
-            if (IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
                 cursor--;
-            } else if (IsKeyPressed(KEY_RIGHT)) {
+            } else if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor = cursor + 3;
-            } else if (IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 6:
-            if (IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 7:
-            if (IsKeyPressed(KEY_UP)) {
+            if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_RIGHT)|| IsKeyPressed(KEY_DOWN)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_LEFT)) {
+            } else if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
                 cursor--;
             }
             break;
         case 8:
-            if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_UP)|| IsKeyPressed(KEY_LEFT)) {
                 cursor--;
                 break;
             }
