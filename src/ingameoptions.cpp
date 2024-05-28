@@ -9,6 +9,10 @@
 
 void ingameoptions::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
+    if(IsKeyPressed(KEY_O)){
+        globalstates =gameplayscreen;
+    }
+
     //allows navigation through the menu by using arrow keys
     switch (cursor) {
         case 0:

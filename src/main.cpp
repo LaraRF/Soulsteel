@@ -87,6 +87,7 @@ int main() {
                 break;
             case ingameoptions:
                 ingameoptions1.update(state, language, sound,control, difficultylevel);
+                break;
             case gameplayscreen:
                 gameplay.update(state, language,sound,control, difficultylevel);
                 maincharacter.update(language, modus, difficultylevel);
@@ -118,6 +119,7 @@ int main() {
                     break;
                 case ingameoptions:
                     ingameoptions1.draw(language, sound,control, difficultylevel);
+                    break;
                 case gameplayscreen:
                     gameplay.draw(language,sound,control, difficultylevel);
                     maincharacter.draw(language, modus, difficultylevel);
