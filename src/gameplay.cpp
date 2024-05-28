@@ -42,13 +42,13 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
     //draws text depending on chosen language
     switch (languagestates) {
         case german:
-            //DrawText("Dieses Spiel kommt in 09/2024 raus.", 10, 350, 30, BLACK);
+            DrawText("Drücke O, um zu den Optionen zu kommen.", 10, 350, 30, BLACK);
             DrawText("Drücke P, um das Spiel zu pausieren.", 10, 400, 30, BLACK);
             DrawText("Drücke M, um zurück zum Menü zu kommen.", 10, 450, 30, BLACK);
             DrawText("Drücke J, um das Journal zu öffnen.", 10, 500, 30, BLACK);
             break;
         case english:
-            //DrawText("This game will come out 09/2024.", 10, 350, 30, BLACK);
+            DrawText("Press O to go to options.", 10, 350, 30, BLACK);
             DrawText("Press P to pause the game.", 10, 400, 30, BLACK);
             DrawText("Press M to go back to the main menu.", 10, 450, 30, BLACK);
             DrawText("Press J to open the journal.", 10, 500, 30, BLACK);
