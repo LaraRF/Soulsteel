@@ -24,6 +24,9 @@ public:
     int souldash=0;
     float stepsize =8.0f;
     float stepzisesouldash =24;
+
+    //sprite animation
+    //Texture2D soulanimated =LoadTexture("assets/graphics/soulsprite.png");
 };
 
 

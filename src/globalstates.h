@@ -10,7 +10,6 @@ enum globalstates{
     menu,
     hauptoptionen,
     ingameoptions,
-    difficultychoice,
     gameplayscreen,
     pausieren,
     hauptjournal
