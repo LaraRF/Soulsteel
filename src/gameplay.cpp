@@ -42,22 +42,22 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
     //draws text depending on chosen language
     switch (languagestates) {
         case german:
-            DrawText("Drücke O, um zu den Optionen zu kommen.", 10, 350, 30, BLACK);
-            DrawText("Drücke P, um das Spiel zu pausieren.", 10, 400, 30, BLACK);
-            DrawText("Drücke M, um zurück zum Menü zu kommen.", 10, 450, 30, BLACK);
-            DrawText("Drücke J, um das Journal zu öffnen.", 10, 500, 30, BLACK);
+            DrawText("Drücke O, um zu den Optionen zu kommen.", 10, 400, 10, WHITE);
+            DrawText("Drücke P, um das Spiel zu pausieren.", 10, 420, 10, WHITE);
+            DrawText("Drücke M, um zurück zum Menü zu kommen.", 10, 440, 10, WHITE);
+            DrawText("Drücke J, um das Journal zu öffnen.", 10, 460, 10, WHITE);
             break;
         case english:
-            DrawText("Press O to go to options.", 10, 350, 30, BLACK);
-            DrawText("Press P to pause the game.", 10, 400, 30, BLACK);
-            DrawText("Press M to go back to the main menu.", 10, 450, 30, BLACK);
-            DrawText("Press J to open the journal.", 10, 500, 30, BLACK);
+            DrawText("Press O to go to options.", 10, 400, 10, WHITE);
+            DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
+            DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
+            DrawText("Press J to open the journal.", 10, 460, 10, WHITE);
             break;
     }
 
-    DrawTexture(heart, 10, 10, WHITE);
-    DrawTexture(heart, 100, 10, WHITE);
-    DrawTexture(heart, 190, 10, WHITE);
+    DrawTexture(heart, 10, 20, WHITE);
+    DrawTexture(heart, 50, 20, WHITE);
+    DrawTexture(heart, 90, 20, WHITE);
 
     //DrawTexture(modeRobo, 800, 40, WHITE);
     //DrawTexture(modeSoul, 880, 40, WHITE);

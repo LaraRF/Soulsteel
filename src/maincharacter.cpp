@@ -92,9 +92,9 @@ void maincharacter::draw(languagestates &languagestates, maincharactermodus &mai
     switch(maincharactermodus){
         case soul:
             if(souldashactivated){
-                DrawText("Souldash activated", 10,40, 10,BLACK);
+                DrawText("Souldash activated", 10,10, 10,WHITE);
             }else if (!souldashactivated) {
-                DrawText("Souldash deactivated", 10,40, 10,BLACK);
+                DrawText("Souldash deactivated", 10,10, 10,WHITE);
             }
             DrawRectangle(characterposition.x, characterposition.y, 32, 32, PINK);
             break;

@@ -16,14 +16,14 @@ public:
     void update(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel);
     void draw(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel);
 
-    //lets the character start in the middle of the screen
-    Vector2 characterposition={(float)960/2, (float)540/2 };
+    //lets the character start in the middle of the screen (almost, to match the tiles)
+    Vector2 characterposition={(float)416, (float)224 };
 
     //movement
     bool souldashactivated =false;
     int souldash=0;
-    float stepsize =5.0f;
-    float stepzisesouldash =20;
+    float stepsize =8.0f;
+    float stepzisesouldash =24;
 };
 
 

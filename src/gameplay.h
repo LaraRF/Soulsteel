@@ -20,7 +20,7 @@
         void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
 
         //loads the necessary textures
-        Texture2D heart = LoadTexture("assets/graphics/heart.png");
+        Texture2D heart = LoadTexture("assets/graphics/heart_smaller.png");
         //Texture2D modeRobo = LoadTexture("assets/graphics/robot_anuki_3.png");
         //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
 
