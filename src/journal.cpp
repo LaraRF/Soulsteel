@@ -67,23 +67,23 @@ void journal::draw(languagestates &languagestates, soundstates &soundstates, con
     DrawRectangleRec(journalpage2, GRAY);
     DrawRectangleRec(hitbox_close, GRAY);
 
-    DrawTexture(closeButton, 825,450,WHITE);
+    DrawTexture(closeButton, 685,395,WHITE);
 
     //shows the text depending on which language is chosen
     switch(languagestates) {
         case german:
-            DrawText("Journal Inhalt TBD", 50, 15, 30, BLACK);
-            DrawText("Journal Inhalt TBD", 575, 15, 30, BLACK);
-            DrawText("Hier wird es mal ein Journal\nmit verschiedenen\nSeiten geben.", 60, 200, 20, BLACK);
-            DrawText("Aktuell passiert\nauf diesen beiden\nSeiten noch nichts.", 610, 200, 20, BLACK);
+            DrawText("Journal Inhalt TBD", 45, 20, 23, BLACK);
+            DrawText("Journal Inhalt TBD", 395, 20, 23, BLACK);
+            DrawText("Hier wird es mal ein\nJournal mit\nverschiedenen\nSeiten geben.", 60, 200, 20, BLACK);
+            DrawText("Aktuell passiert\nauf diesen beiden\nSeiten noch nichts.", 410, 200, 20, BLACK);
 
 
             break;
         case english:
-            DrawText("Journal content TBD", 45, 15, 30, BLACK);
-            DrawText("Journal content TBD", 570, 15, 30, BLACK);
+            DrawText("Journal content TBD", 45, 20, 23, BLACK);
+            DrawText("Journal content TBD", 395, 20, 23, BLACK);
             DrawText("Eventually here\nwill be a journal\nwith different pages.", 60, 200, 20, BLACK);
-            DrawText("At this time\nnothing happens on\nthese two pages.", 610, 200, 20, BLACK);
+            DrawText("At this time\nnothing happens on\nthese two pages.", 410, 200, 20, BLACK);
             break;
         default:
             break;

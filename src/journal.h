@@ -21,17 +21,17 @@ public:
     void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
 
     //creates the boxes that will be used as buttons and loads the textures; marked boxes will work as an outline to show which button is selected
-    Rectangle hitbox_close = {800, 440, 120, 80};
-    Rectangle hitbox_close_marked = {790, 430, 140, 100};
+    Rectangle hitbox_close = {670, 400, 100, 60};
+    Rectangle hitbox_close_marked = {660, 390, 120, 80};
     Texture2D closeButton = LoadTexture("assets/graphics/button_close.png");
 
-    Rectangle journalpage1 = {45, 70, 320, 350};
-    Rectangle journalpage1_marked = {35, 60, 340, 370};
+    Rectangle journalpage1 = {25, 70, 280, 350};
+    Rectangle journalpage1_marked = {15, 60, 300, 370};
 
-    Rectangle journalpage2 = {570, 70, 320, 350};
-    Rectangle journalpage2_marked = {560, 60, 340, 370};
+    Rectangle journalpage2 = {375, 70, 280, 350};
+    Rectangle journalpage2_marked = {365, 60, 300, 370};
 
-    Texture2D journalbackground = LoadTexture("assets/graphics/journal_background.png");
+    Texture2D journalbackground = LoadTexture("assets/graphics/journal_background_newsize.png");
 
 };
 
