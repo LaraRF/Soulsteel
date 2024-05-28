@@ -6,7 +6,7 @@
 #include "raylib.h"
 #include "languagesettings.h"
 
-void journal::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
+void journal::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
     //navigating the journal by using arrow keys
     if(IsKeyPressed(KEY_RIGHT)){
@@ -44,7 +44,7 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
     }
 }
 
-void journal::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
+void journal::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
     DrawTexture(journalbackground, 5,5,WHITE);
 

@@ -9,7 +9,14 @@
 enum globalstates{
     menu,
     hauptoptionen,
+    ingameoptions,
+    difficultychoice,
     gameplayscreen,
+    roomone,
+    roomtwo,
+    roomthree,
+    roomfour,
+    roomfive,
     pausieren,
     hauptjournal
 };

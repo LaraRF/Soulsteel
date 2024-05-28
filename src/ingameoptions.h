@@ -1,9 +1,10 @@
 //
-// Created by lrfri on 14.05.2024.
+// Created by lrfri on 28.05.2024.
 //
 
-#ifndef RAYLIBSTARTER_OPTIONEN_H
-#define RAYLIBSTARTER_OPTIONEN_H
+#ifndef RAYLIBSTARTER_INGAMEOPTIONS_H
+#define RAYLIBSTARTER_INGAMEOPTIONS_H
+
 
 #include "raylib.h"
 #include "globalstates.h"
@@ -13,7 +14,7 @@
 #include "controlsettings.h"
 #include "difficultysettings.h"
 
-class optionen {
+class ingameoptions {
 public:
     int cursor=0;
 
@@ -65,4 +66,4 @@ public:
 };
 
 
-#endif //RAYLIBSTARTER_OPTIONEN_H
+#endif //RAYLIBSTARTER_INGAMEOPTIONS_H

@@ -15,6 +15,8 @@
 #include "soundsettings.h"
 #include "maincharacter.h"
 #include "maincharactermodus.h"
+#include "difficultysettings.h"
+#include "ingameoptions.h"
 
 int main() {
     // Raylib initialization
@@ -45,6 +47,8 @@ int main() {
 
     maincharactermodus modus =soul;
 
+    difficultylevel difficultylevel =guided;
+
     //create objects of the classes
     mainmenu mainmenu;
     optionen optionen;
@@ -52,6 +56,8 @@ int main() {
     pausescreen pausescreen;
     journal journal;
     maincharacter maincharacter;
+    class ingameoptions ingameoptions1;
+
 
 
 
@@ -77,17 +83,19 @@ int main() {
                 mainmenu.update(state, language, sound, control);
                 break;
             case hauptoptionen:
-                optionen.update(state, language, sound,control);
+                optionen.update(state, language, sound,control, difficultylevel);
                 break;
+            case ingameoptions:
+                ingameoptions1.update(state, language, sound,control, difficultylevel);
             case gameplayscreen:
-                gameplay.update(state, language,sound,control);
-                maincharacter.update(language, modus);
+                gameplay.update(state, language,sound,control, difficultylevel);
+                maincharacter.update(language, modus, difficultylevel);
                 break;
             case pausieren:
                 pausescreen.update(state, language, sound,control);
                 break;
             case hauptjournal:
-                journal.update(state, language, sound,control);
+                journal.update(state, language, sound,control, difficultylevel);
                 break;
             default:
                 break;
@@ -106,17 +114,19 @@ int main() {
                     mainmenu.draw(language,sound,control);
                     break;
                 case hauptoptionen:
-                    optionen.draw(language,sound,control);
+                    optionen.draw(language,sound,control, difficultylevel);
                     break;
+                case ingameoptions:
+                    ingameoptions1.draw(language, sound,control, difficultylevel);
                 case gameplayscreen:
-                    gameplay.draw(language,sound,control);
-                    maincharacter.draw(language, modus);
+                    gameplay.draw(language,sound,control, difficultylevel);
+                    maincharacter.draw(language, modus, difficultylevel);
                     break;
                 case pausieren:
                     pausescreen.draw(language,sound,control);
                     break;
                 case hauptjournal:
-                    journal.draw(language,sound,control);
+                    journal.draw(language,sound,control, difficultylevel);
                     break;
                 default:
                     break;

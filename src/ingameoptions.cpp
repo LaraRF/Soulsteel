@@ -1,12 +1,13 @@
 //
-// Created by lrfri on 14.05.2024.
+// Created by lrfri on 28.05.2024.
 //
-#include "optionen.h"
+
+#include "ingameoptions.h"
 #include "globalstates.h"
 #include "raylib.h"
 #include "languagesettings.h"
 
-void optionen::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
+void ingameoptions::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
     //allows navigation through the menu by using arrow keys
     switch (cursor) {
@@ -119,7 +120,7 @@ void optionen::update(globalstates &globalstates, languagestates &languagestates
                 difficultylevel =exploration;
                 break;
             case 8:
-                globalstates=menu;
+                globalstates=gameplayscreen;
                 break;
 
 
@@ -129,7 +130,7 @@ void optionen::update(globalstates &globalstates, languagestates &languagestates
     }
 }
 
-void optionen::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
+void ingameoptions::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
 
     //shows which button is selected by giving it a white outline
     switch (cursor) {

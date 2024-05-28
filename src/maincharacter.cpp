@@ -5,7 +5,7 @@
 #include "maincharacter.h"
 
 
-void maincharacter::update(languagestates &languagestates, maincharactermodus &maincharactermodus) {
+void maincharacter::update(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel) {
 
     //souldash
 
@@ -86,7 +86,7 @@ void maincharacter::update(languagestates &languagestates, maincharactermodus &m
 
 
 
-void maincharacter::draw(languagestates &languagestates, maincharactermodus &maincharactermodus) {
+void maincharacter::draw(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel) {
 
     //draws soul or robot, depending on which is chosen
     switch(maincharactermodus){

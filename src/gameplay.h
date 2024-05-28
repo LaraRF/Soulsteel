@@ -11,12 +11,13 @@
 #include "languagesettings.h"
 #include "controlsettings.h"
 #include "soundsettings.h"
+#include "difficultysettings.h"
 
     class gameplay {
     public:
-        void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+        void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes, difficultylevel &difficultylevel);
 
-        void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+        void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
 
         //loads the necessary textures
         Texture2D heart = LoadTexture("assets/graphics/heart.png");

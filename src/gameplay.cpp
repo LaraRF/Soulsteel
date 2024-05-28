@@ -5,7 +5,7 @@
 #include "tileson.hpp"
 
 void gameplay::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates,
-                      controlmodes &controlmodes) {
+                      controlmodes &controlmodes,difficultylevel &difficultylevel) {
     //lets you switch between different screens
     if (IsKeyPressed(KEY_M)) {
         globalstates = menu;
@@ -16,9 +16,12 @@ void gameplay::update(globalstates &globalstates, languagestates &languagestates
     if (IsKeyPressed(KEY_J)) {
         globalstates = hauptjournal;
     }
+    if (IsKeyPressed(KEY_O)) {
+        globalstates= ingameoptions;
+    }
 }
 
-void gameplay::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
+void gameplay::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
     ClearBackground(GRAY);
 
     //draws the map

@@ -26,6 +26,9 @@ add_executable(${PROJECT_NAME} main.cpp
         maincharacter.cpp
         maincharacter.h
         maincharactermodus.h
+        difficultysettings.h
+        ingameoptions.cpp
+        ingameoptions.h
 )
 
 # Add config.h.in file

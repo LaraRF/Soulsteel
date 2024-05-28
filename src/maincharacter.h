@@ -8,12 +8,13 @@
 #include "raylib.h"
 #include "languagesettings.h"
 #include "maincharactermodus.h"
+#include "difficultysettings.h"
 #include <iostream>
 class maincharacter {
 
 public:
-    void update(languagestates &languagestates, maincharactermodus &maincharactermodus);
-    void draw(languagestates &languagestates, maincharactermodus &maincharactermodus);
+    void update(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel);
+    void draw(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel);
 
     //lets the character start in the middle of the screen
     Vector2 characterposition={(float)960/2, (float)540/2 };

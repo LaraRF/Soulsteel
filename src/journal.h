@@ -10,14 +10,15 @@
 #include "languagesettings.h"
 #include "soundsettings.h"
 #include "controlsettings.h"
+#include "difficultysettings.h"
 
 class journal {
 public:
     int cursor = 0;
 
-    void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+    void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
 
-    void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+    void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
 
     //creates the boxes that will be used as buttons and loads the textures; marked boxes will work as an outline to show which button is selected
     Rectangle hitbox_close = {800, 440, 120, 80};
