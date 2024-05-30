@@ -18,9 +18,13 @@ class journal :public scene{
 public:
     int cursor = 0;
 
-    void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
+    void update() override;
 
-    void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
+    scene *evaluateSceneChange() override;
+
+    void draw() override;
+
+    void drawDebug() override;
 
     //creates the boxes that will be used as buttons and loads the textures; marked boxes will work as an outline to show which button is selected
     Rectangle hitbox_close = {670, 400, 100, 60};

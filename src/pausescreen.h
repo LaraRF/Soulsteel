@@ -20,9 +20,13 @@ private:
 
 
 public:
-    void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+    void update() override;
 
-    void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
+    scene *evaluateSceneChange() override;
+
+    void draw() override;
+
+    void drawDebug() override;
 
     //loads the necessary textures
     Texture2D pausebutton = assestmanagergraphics::getTexture("userinterface/button_pause");

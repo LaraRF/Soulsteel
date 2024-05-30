@@ -7,13 +7,8 @@
 #include "raylib.h"
 #include "languagesettings.h"
 
-void ingameoptions::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
-
-    if(IsKeyPressed(KEY_O)){
-        globalstates =gameplayscreen;
-    }
-
-    //allows navigation through the menu by using WASD keys
+void ingameoptions::update() {
+//allows navigation through the menu by using WASD keys
     switch (cursor) {
         case 0:
             if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
@@ -95,8 +90,14 @@ void ingameoptions::update(globalstates &globalstates, languagestates &languages
                 break;
             }
     }
+}
 
-    //gives the buttons their functions
+scene *ingameoptions::evaluateSceneChange() {
+    return this;
+    /*if(IsKeyPressed(KEY_O)){
+        globalstates =gameplayscreen;
+    }
+        //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)){
         switch(cursor){
             case 0:
@@ -126,17 +127,14 @@ void ingameoptions::update(globalstates &globalstates, languagestates &languages
             case 8:
                 globalstates=gameplayscreen;
                 break;
-
-
             default:
                 break;
         }
-    }
+    }*/
 }
 
-void ingameoptions::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
-
-    //shows which button is selected by giving it a white outline
+void ingameoptions::draw() {
+//shows which button is selected by giving it a white outline
     switch (cursor) {
         case 0:
             DrawRectangleRec(hitbox_tastatur_marked, WHITE);
@@ -170,7 +168,7 @@ void ingameoptions::draw(languagestates &languagestates, soundstates &soundstate
     }
 
     //draws the buttons
-    switch(languagestates){
+    /*switch(languagestates){
         case german:
             DrawRectangleRec(hitbox_flagDE, PINK);
             DrawRectangleRec(hitbox_flagENG, GRAY);
@@ -234,5 +232,10 @@ void ingameoptions::draw(languagestates &languagestates, soundstates &soundstate
             break;
         default:
             break;
-    }
+    }*/
 }
+
+void ingameoptions::drawDebug() {
+
+}
+

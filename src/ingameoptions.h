@@ -19,9 +19,13 @@ class ingameoptions: public scene {
 public:
     int cursor=0;
 
-    void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
+    void update() override;
 
-    void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
+    scene *evaluateSceneChange() override;
+
+    void draw() override;
+
+    void drawDebug() override;
 
     //creates the boxes that will be used as buttons
     //the marked version is used to outline the button that is currently selected

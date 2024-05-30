@@ -26,10 +26,6 @@ public:
 
     mainmenu();
 
-    void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
-
-    void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes);
-
     void update() override;
 
     scene *evaluateSceneChange() override;

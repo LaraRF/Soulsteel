@@ -17,9 +17,14 @@
 
     class gameplay:public scene {
     public:
-        void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes, difficultylevel &difficultylevel);
 
-        void draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel);
+        void update() override;
+
+        scene *evaluateSceneChange() override;
+
+        void draw() override;
+
+        void drawDebug() override;
 
         //loads the necessary textures
         Texture2D heart = assestmanagergraphics::getTexture("assets/graphics/heart_smaller.png");

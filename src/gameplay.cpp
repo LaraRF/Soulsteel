@@ -5,10 +5,14 @@
 #include "tileson.hpp"
 #include "raymath.h"
 
-void gameplay::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates,
-                      controlmodes &controlmodes,difficultylevel &difficultylevel) {
+void gameplay::update() {
+
+}
+
+scene *gameplay::evaluateSceneChange() {
+    return this;
     //lets you switch between different screens
-    if (IsKeyPressed(KEY_M)) {
+    /*if (IsKeyPressed(KEY_M)) {
         globalstates = menu;
     }
     if (IsKeyPressed(KEY_P)) {
@@ -19,10 +23,10 @@ void gameplay::update(globalstates &globalstates, languagestates &languagestates
     }
     if (IsKeyPressed(KEY_O)) {
         globalstates= ingameoptions;
-    }
+    }*/
 }
 
-void gameplay::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
+void gameplay::draw() {
     ClearBackground(GRAY);
 
     //draws the map
@@ -41,7 +45,7 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
     }
 
     //draws text depending on chosen language
-    switch (languagestates) {
+    /*switch (languagestates) {
         case german:
             DrawText("Drücke O, um zu den Optionen zu kommen.", 10, 400, 10, WHITE);
             DrawText("Drücke P, um das Spiel zu pausieren.", 10, 420, 10, WHITE);
@@ -54,7 +58,7 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
             DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
             DrawText("Press J to open the journal.", 10, 460, 10, WHITE);
             break;
-    }
+    }*/
 
     DrawTexture(heart, 10, 20, WHITE);
     DrawTexture(heart, 50, 20, WHITE);
@@ -73,6 +77,11 @@ void gameplay::draw(languagestates &languagestates, soundstates &soundstates, co
         default:
             break;
     }*/
+}
+
+
+void gameplay::drawDebug() {
+
 }
 
 //gets the data from the map needed to draw it

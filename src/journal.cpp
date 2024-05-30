@@ -6,8 +6,7 @@
 #include "raylib.h"
 #include "languagesettings.h"
 
-void journal::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
-
+void journal::update() {
     //navigating the journal by using arrow keys
     if(IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)){
         if(cursor == 2){
@@ -24,8 +23,12 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
             cursor--;
         }
     }
+}
 
-    //gives the buttons their functions
+scene *journal::evaluateSceneChange() {
+    return this;
+
+    /*//gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
@@ -41,11 +44,10 @@ void journal::update(globalstates &globalstates, languagestates &languagestates,
     //pressing J gets you back to the game play screen
     if(IsKeyPressed(KEY_J)){
         globalstates=gameplayscreen;
-    }
+    }*/
 }
 
-void journal::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
-
+void journal::draw() {
     DrawTexture(journalbackground, 5,5,WHITE);
 
     switch(cursor){ //shows which box is selected by giving it a white outline
@@ -70,7 +72,7 @@ void journal::draw(languagestates &languagestates, soundstates &soundstates, con
     DrawTexture(closeButton, 685,395,WHITE);
 
     //shows the text depending on which language is chosen
-    switch(languagestates) {
+    /*switch(languagestates) {
         case german:
             DrawText("Journal Inhalt TBD", 45, 20, 23, BLACK);
             DrawText("Journal Inhalt TBD", 395, 20, 23, BLACK);
@@ -87,5 +89,9 @@ void journal::draw(languagestates &languagestates, soundstates &soundstates, con
             break;
         default:
             break;
-    }
+    }*/
+}
+
+void journal::drawDebug() {
+
 }

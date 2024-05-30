@@ -6,9 +6,8 @@
 #include "raylib.h"
 #include "languagesettings.h"
 
-void optionen::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
-
-    //allows navigation through the menu by using WASD keys
+void optionen::update() {
+//allows navigation through the menu by using WASD keys
     switch (cursor) {
         case 0:
             if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
@@ -90,7 +89,11 @@ void optionen::update(globalstates &globalstates, languagestates &languagestates
                 break;
             }
     }
+}
 
+scene *optionen::evaluateSceneChange() {
+    return this;
+    /*
     //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)){
         switch(cursor){
@@ -127,11 +130,11 @@ void optionen::update(globalstates &globalstates, languagestates &languagestates
                 break;
         }
     }
+     */
 }
 
-void optionen::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes,difficultylevel &difficultylevel) {
-
-    //shows which button is selected by giving it a white outline
+void optionen::draw() {
+//shows which button is selected by giving it a white outline
     switch (cursor) {
         case 0:
             DrawRectangleRec(hitbox_tastatur_marked, WHITE);
@@ -165,7 +168,7 @@ void optionen::draw(languagestates &languagestates, soundstates &soundstates, co
     }
 
     //draws the buttons
-    switch(languagestates){
+    /*switch(languagestates){
         case german:
             DrawRectangleRec(hitbox_flagDE, PINK);
             DrawRectangleRec(hitbox_flagENG, GRAY);
@@ -229,5 +232,9 @@ void optionen::draw(languagestates &languagestates, soundstates &soundstates, co
             break;
         default:
             break;
-    }
+    }*/
+}
+
+void optionen::drawDebug() {
+
 }

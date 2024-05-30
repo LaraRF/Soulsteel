@@ -2,7 +2,8 @@
 // Created by lrfri on 14.05.2024.
 //
 #include "mainmenu.h"
-
+#include "gameplay.h"
+#include "optionen.h"
 
 
 void mainmenu::update() {
@@ -21,24 +22,24 @@ void mainmenu::update() {
             cursor--;
         }
     }
-    //gives the buttons their functions
-    if(IsKeyPressed(KEY_ENTER)) {
+}
+
+scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
+    /*if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
-                //globalstates = gameplayscreen;
+                //return new gameplay();
                 break;
             case 1:
-                //globalstates = hauptoptionen;
+                //return new optionen();
                 break;
             case 2:
                 CloseWindow();
         }
-    }
-}
+    }else{*/
+        return this;}//return this = bleib bei dieser Szene (pointer auf sich selbst)
 
-scene *mainmenu::evaluateSceneChange() {
-    return this; //return this = bleib bei dieser Szene (pointer auf sich selbst)
-}
+//}
 
 void mainmenu::draw() {
     DrawTexture(title, -65, 50, WHITE);
