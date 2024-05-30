@@ -3,9 +3,9 @@
 //
 
 #include "ingameoptions.h"
-#include "globalstates.h"
 #include "raylib.h"
 #include "languagesettings.h"
+#include "gameplay.h"
 
 void ingameoptions::update() {
 //allows navigation through the menu by using WASD keys
@@ -93,13 +93,8 @@ void ingameoptions::update() {
 }
 
 scene *ingameoptions::evaluateSceneChange() {
-    return this;
-    /*if(IsKeyPressed(KEY_O)){
-        globalstates =gameplayscreen;
-    }
-        //gives the buttons their functions
-    if(IsKeyPressed(KEY_ENTER)){
-        switch(cursor){
+    if (IsKeyPressed(KEY_ENTER)) {
+        switch (cursor) {
             case 0:
                 //control =tastatur
                 break;
@@ -113,24 +108,28 @@ scene *ingameoptions::evaluateSceneChange() {
                 //sound =more
                 break;
             case 4:
-                languagestates=german;
+                //languagestates=german;
                 break;
             case 5:
-                languagestates=english;
+                //languagestates=english;
                 break;
             case 6:
-                difficultylevel =guided;
+                //difficultylevel =guided;
                 break;
             case 7:
-                difficultylevel =exploration;
+                //difficultylevel =exploration;
                 break;
             case 8:
-                globalstates=gameplayscreen;
+                return new gameplay();
                 break;
             default:
                 break;
         }
-    }*/
+    } else if (IsKeyPressed(KEY_O)) {
+        return new gameplay();
+    } else {
+        return this;
+    }
 }
 
 void ingameoptions::draw() {

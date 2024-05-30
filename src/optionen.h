@@ -6,7 +6,6 @@
 #define RAYLIBSTARTER_OPTIONEN_H
 
 #include "raylib.h"
-#include "globalstates.h"
 #include <iostream>
 #include "languagesettings.h"
 #include "soundsettings.h"

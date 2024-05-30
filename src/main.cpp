@@ -5,7 +5,6 @@
 
 #include "config.h"
 #include "mainmenu.h"
-#include "globalstates.h"
 #include "languagesettings.h"
 #include "optionen.h"
 #include "gameplay.h"
@@ -41,8 +40,6 @@ int main() {
     //set enums to the state they have when starting the game
 
     languagestates language =german;
-
-    globalstates state = menu;
 
     soundstates sound =stumm;
 

@@ -2,9 +2,9 @@
 // Created by lrfri on 14.05.2024.
 //
 #include "optionen.h"
-#include "globalstates.h"
 #include "raylib.h"
 #include "languagesettings.h"
+#include "mainmenu.h"
 
 void optionen::update() {
 //allows navigation through the menu by using WASD keys
@@ -92,9 +92,6 @@ void optionen::update() {
 }
 
 scene *optionen::evaluateSceneChange() {
-    return this;
-    /*
-    //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)){
         switch(cursor){
             case 0:
@@ -110,27 +107,25 @@ scene *optionen::evaluateSceneChange() {
                 //sound =more
                 break;
             case 4:
-                languagestates=german;
+                //languagestates=german;
                 break;
             case 5:
-                languagestates=english;
+                //languagestates=english;
                 break;
             case 6:
-                difficultylevel =guided;
+                //difficultylevel =guided;
                 break;
             case 7:
-                difficultylevel =exploration;
+                //difficultylevel =exploration;
                 break;
             case 8:
-                globalstates=menu;
+                return new mainmenu();
                 break;
-
-
             default:
                 break;
         }
-    }
-     */
+    }else{
+        return this;}
 }
 
 void optionen::draw() {

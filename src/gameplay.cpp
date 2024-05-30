@@ -4,26 +4,27 @@
 #include "gameplay.h"
 #include "tileson.hpp"
 #include "raymath.h"
+#include "mainmenu.h"
+#include "pausescreen.h"
+#include "journal.h"
+#include "ingameoptions.h"
 
 void gameplay::update() {
 
 }
 
 scene *gameplay::evaluateSceneChange() {
-    return this;
-    //lets you switch between different screens
-    /*if (IsKeyPressed(KEY_M)) {
-        globalstates = menu;
+    if(IsKeyPressed(KEY_M)){
+        return new mainmenu();
+    }else if(IsKeyPressed(KEY_P)){
+        return new pausescreen();
+    }else if(IsKeyPressed(KEY_J)){
+        return new journal();
+    }else if(IsKeyPressed(KEY_O)){
+        return new ingameoptions();
+    }else{
+        return this;
     }
-    if (IsKeyPressed(KEY_P)) {
-        globalstates = pausieren;
-    }
-    if (IsKeyPressed(KEY_J)) {
-        globalstates = hauptjournal;
-    }
-    if (IsKeyPressed(KEY_O)) {
-        globalstates= ingameoptions;
-    }*/
 }
 
 void gameplay::draw() {

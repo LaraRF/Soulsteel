@@ -21,7 +21,6 @@ add_executable(${PROJECT_NAME} main.cpp
         journal.h
         gameplay.cpp
         gameplay.h
-        globalstates.h
         controlsettings.h
         maincharacter.cpp
         maincharacter.h

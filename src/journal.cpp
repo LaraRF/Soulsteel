@@ -2,9 +2,9 @@
 // Created by lrfri on 14.05.2024.
 //
 #include "journal.h"
-#include "globalstates.h"
 #include "raylib.h"
 #include "languagesettings.h"
+#include "gameplay.h"
 
 void journal::update() {
     //navigating the journal by using arrow keys
@@ -26,11 +26,10 @@ void journal::update() {
 }
 
 scene *journal::evaluateSceneChange() {
-    return this;
-
-    /*//gives the buttons their functions
-    if(IsKeyPressed(KEY_ENTER)) {
-        switch(cursor){
+    if(IsKeyPressed(KEY_J)){
+        return new gameplay();
+    }else if(IsKeyPressed(KEY_ENTER)) {
+        switch (cursor) {
             case 0:
                 //no journal content yet
                 break;
@@ -38,13 +37,10 @@ scene *journal::evaluateSceneChange() {
                 //no journal content yet
                 break;
             case 2:
-                globalstates = gameplayscreen;
+                return new gameplay();
         }
-    }
-    //pressing J gets you back to the game play screen
-    if(IsKeyPressed(KEY_J)){
-        globalstates=gameplayscreen;
-    }*/
+    }else{
+        return this;}
 }
 
 void journal::draw() {

@@ -4,19 +4,18 @@
 #include "pausescreen.h"
 #include <iostream>
 #include "raylib.h"
+#include "gameplay.h"
 
 void pausescreen::update() {
 
 }
 
 scene *pausescreen::evaluateSceneChange() {
-    return this;
-    /*
-      //pressing P gets you back to gameplay screen
     if(IsKeyPressed(KEY_P)){
-        globalstates =gameplayscreen;
+        return new gameplay();
+    }else{
+        return this;
     }
-     */
 }
 
 void pausescreen::draw() {

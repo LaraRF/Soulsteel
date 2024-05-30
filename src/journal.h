@@ -6,7 +6,6 @@
 #define RAYLIBSTARTER_JOURNAL_H
 
 #include "raylib.h"
-#include "globalstates.h"
 #include "languagesettings.h"
 #include "soundsettings.h"
 #include "controlsettings.h"

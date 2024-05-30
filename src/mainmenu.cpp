@@ -25,21 +25,21 @@ void mainmenu::update() {
 }
 
 scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
-    /*if(IsKeyPressed(KEY_ENTER)) {
+    if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
-                //return new gameplay();
+                return new gameplay();
                 break;
             case 1:
-                //return new optionen();
+                return new optionen();
                 break;
             case 2:
                 CloseWindow();
         }
-    }else{*/
+    }else{
         return this;}//return this = bleib bei dieser Szene (pointer auf sich selbst)
 
-//}
+}
 
 void mainmenu::draw() {
     DrawTexture(title, -65, 50, WHITE);
