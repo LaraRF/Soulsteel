@@ -12,8 +12,9 @@
 #include "controlsettings.h"
 #include "difficultysettings.h"
 #include "assestmanagergraphics.h"
+#include "scene.h"
 
-class journal {
+class journal :public scene{
 public:
     int cursor = 0;
 

@@ -18,7 +18,7 @@
 #include "difficultysettings.h"
 #include "ingameoptions.h"
 #include "assestmanagergraphics.h"
-
+#include "scene.h"
 
 int main() {
     // Raylib initialization
@@ -26,6 +26,7 @@ int main() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
     InitWindow(Game::ScreenWidth, Game::ScreenHeight, "Soul Steel");
     SetTargetFPS(60);
+    assestmanagergraphics::init();
 
 #ifdef GAME_START_FULLSCREEN
     ToggleFullscreen();
@@ -51,15 +52,8 @@ int main() {
 
     difficultylevel difficultylevel =guided;
 
-    //create objects of the classes
-    mainmenu mainmenu;
-    optionen optionen;
-    gameplay gameplay;
-    pausescreen pausescreen;
-    journal journal;
-    maincharacter maincharacter;
-    class ingameoptions ingameoptions1;
 
+    scene* currentScene = new mainmenu();
 
 
 
@@ -80,29 +74,9 @@ int main() {
         }
 
         //checks which screen is shown and calls the methods needed there
-        switch (state) {
-            case menu:
-                mainmenu.update(state, language, sound, control);
-                break;
-            case hauptoptionen:
-                optionen.update(state, language, sound,control, difficultylevel);
-                break;
-            case ingameoptions:
-                ingameoptions1.update(state, language, sound,control, difficultylevel);
-                break;
-            case gameplayscreen:
-                gameplay.update(state, language,sound,control, difficultylevel);
-                maincharacter.update(language, modus, difficultylevel);
-                break;
-            case pausieren:
-                pausescreen.update(state, language, sound,control);
-                break;
-            case hauptjournal:
-                journal.update(state, language, sound,control, difficultylevel);
-                break;
-            default:
-                break;
-        }
+        currentScene->update();
+        scene* newScene = currentScene->evaluateSceneChange();
+
 
         BeginDrawing();
         // You can draw on the screen between BeginDrawing() and EndDrawing()
@@ -112,29 +86,7 @@ int main() {
             ClearBackground(BLACK);
 
             //checks which screen is shown and calls the methods needed there
-            switch (state) {
-                case menu:
-                    mainmenu.draw(language,sound,control);
-                    break;
-                case hauptoptionen:
-                    optionen.draw(language,sound,control, difficultylevel);
-                    break;
-                case ingameoptions:
-                    ingameoptions1.draw(language, sound,control, difficultylevel);
-                    break;
-                case gameplayscreen:
-                    gameplay.draw(language,sound,control, difficultylevel);
-                    maincharacter.draw(language, modus, difficultylevel);
-                    break;
-                case pausieren:
-                    pausescreen.draw(language,sound,control);
-                    break;
-                case hauptjournal:
-                    journal.draw(language,sound,control, difficultylevel);
-                    break;
-                default:
-                    break;
-            }
+           currentScene->draw();
         }
         EndTextureMode();
         //The following lines put the canvas in the middle of the window and have the negative as black
@@ -150,7 +102,10 @@ int main() {
                        renderRec,
                        {}, 0, WHITE);
         EndDrawing();
-
+        if (currentScene != newScene){
+            delete currentScene;
+            currentScene = newScene;
+        }
     } // Main game loop end
 
     // De-initialization here

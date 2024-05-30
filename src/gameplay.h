@@ -13,8 +13,9 @@
 #include "soundsettings.h"
 #include "difficultysettings.h"
 #include "assestmanagergraphics.h"
+#include "scene.h"
 
-    class gameplay {
+    class gameplay:public scene {
     public:
         void update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes, difficultylevel &difficultylevel);
 
@@ -34,6 +35,17 @@
         int rows;
         int cols;
         gameplay();
+        bool touchesWall(Vector2 pos, float size);
+        bool touchesWall(Vector2 pos);
+
+        Vector2 touchWallPosition(Vector2 pos, Vector2 size);
+        Rectangle getWallAt(Vector2 pos);
+        int getTileAt(float x, float y);
+        Rectangle getTouchedWall(Vector2 position, float radius);
+
+        std::vector<int> tileMap;
+        int mapWidth = 25;
+        int mapHeight = 15;
     };
 
 

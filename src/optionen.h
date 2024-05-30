@@ -13,6 +13,7 @@
 #include "controlsettings.h"
 #include "difficultysettings.h"
 #include "assestmanagergraphics.h"
+#include "scene.h"
 
 class optionen {
 public:

@@ -8,14 +8,15 @@
 
 #include <map>
 #include "raylib.h"
+#include <string>
 
 class assestmanagergraphics {
 public:
     static void init();
-    static Texture2D getTexture(const char *name);
+    static Texture2D getTexture(std::string name);
 private:
     static bool m_texturesLoaded;
-    static std::map<const char*, Texture2D> m_textures;
+    static std::map<std::string, Texture2D> m_textures;
 };
 
 

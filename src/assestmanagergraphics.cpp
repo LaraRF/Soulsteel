@@ -5,7 +5,7 @@
 #include "assestmanagergraphics.h"
 
 bool assestmanagergraphics::m_texturesLoaded = false;
-std::map<const char *, Texture2D> assestmanagergraphics::m_textures;
+std::map<std::string, Texture2D> assestmanagergraphics::m_textures;
 
 void assestmanagergraphics::init() {
     if (m_texturesLoaded) {
@@ -45,12 +45,12 @@ void assestmanagergraphics::init() {
 
     for (auto &texture: m_textures) {
         if (!IsTextureReady(texture.second)) {
-            TraceLog(LOG_WARNING, "assetmanagergraphics::init() failed to load texture: %s", texture.first);
+            TraceLog(LOG_WARNING, "assetmanagergraphics::init() failed to load texture: %s", texture.first.c_str());
         }
     }
 }
 
-Texture2D assestmanagergraphics::getTexture(const char *name) { //call this texture on consturction of a new object,
+Texture2D assestmanagergraphics::getTexture(std::string name) { //call this texture on consturction of a new object,
     //not every frame, check if the texture exists in map
     if (m_textures.find(name) != m_textures.end()) {
         return m_textures[name];

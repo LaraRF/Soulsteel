@@ -3,6 +3,7 @@
 //
 #include "gameplay.h"
 #include "tileson.hpp"
+#include "raymath.h"
 
 void gameplay::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates,
                       controlmodes &controlmodes,difficultylevel &difficultylevel) {
@@ -91,4 +92,50 @@ gameplay::gameplay() {
     }
     rows = layer->getSize().x;
     cols = layer->getSize().y;
+}
+
+
+int gameplay::getTileAt(float x, float y){
+    //catch out of bounds
+    if (x < 0 || y < 0 || x >= mapWidth * 32 || y >= mapHeight * 32) {
+        return 0;
+    }
+    int tileX = x / 32;
+    int tileY = y / 32;
+    return tileMap[tileY * mapWidth + tileX];
+}
+
+bool gameplay::touchesWall(Vector2 pos, float size) {
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if (getTileAt(x * 32,y * 32) == 1) {
+                if (CheckCollisionCircleRec(pos,size,Rectangle{(float)x*32,(float)y*32,(float)32,(float)32})) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
+    //check all walls
+    //on contact, note distance to wall
+    //return wall with shortest distance
+    float shortestDistance = 1000000;
+    Rectangle closestWall{};
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if (getTileAt(x * 32,y * 32) <= 1) {
+                Rectangle wall{static_cast<float>(x*32),static_cast<float>(y*32),16,16};
+                Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y}, Vector2{wall.x + wall.width, wall.y + wall.height});
+                float distance = Vector2Distance(position, wallTouchPoint);
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    closestWall = wall;
+                }
+            }
+        }
+    }
+    return closestWall;
 }

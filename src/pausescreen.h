@@ -12,8 +12,9 @@
 #include "soundsettings.h"
 #include <iostream>
 #include "assestmanagergraphics.h"
+#include "scene.h"
 
-class pausescreen {
+class pausescreen:public scene {
 private:
     //Texture2D pausebutton = assestmanagergraphics::getTexture("userinterface/button_pause");
 

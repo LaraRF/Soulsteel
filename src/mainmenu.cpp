@@ -3,7 +3,9 @@
 //
 #include "mainmenu.h"
 
-void mainmenu::update(globalstates &globalstates, languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
+
+
+void mainmenu::update() {
     if(IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)){
         if(cursor == 2){
             cursor = 2; //makes it, so you can't go "more to the right" than last box
@@ -23,10 +25,10 @@ void mainmenu::update(globalstates &globalstates, languagestates &languagestates
     if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
-                globalstates = gameplayscreen;
+                //globalstates = gameplayscreen;
                 break;
             case 1:
-                globalstates = hauptoptionen;
+                //globalstates = hauptoptionen;
                 break;
             case 2:
                 CloseWindow();
@@ -34,7 +36,11 @@ void mainmenu::update(globalstates &globalstates, languagestates &languagestates
     }
 }
 
-void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, controlmodes &controlmodes) {
+scene *mainmenu::evaluateSceneChange() {
+    return this; //return this = bleib bei dieser Szene (pointer auf sich selbst)
+}
+
+void mainmenu::draw() {
     DrawTexture(title, -65, 50, WHITE);
 
 
@@ -60,4 +66,12 @@ void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, co
     DrawTexture(buttonplay1, 130, 345, WHITE);
     DrawTexture(button1settings, 340, 320, WHITE);
     DrawTexture(button1close, 600, 340, WHITE);
+}
+
+void mainmenu::drawDebug() {
+
+}
+
+mainmenu::mainmenu() {
+
 }

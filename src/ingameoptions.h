@@ -13,8 +13,9 @@
 #include "controlsettings.h"
 #include "difficultysettings.h"
 #include "assestmanagergraphics.h"
+#include "scene.h"
 
-class ingameoptions {
+class ingameoptions: public scene {
 public:
     int cursor=0;
 
