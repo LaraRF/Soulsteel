@@ -96,10 +96,10 @@ void maincharacter::draw(languagestates &languagestates, maincharactermodus &mai
             }else if (!souldashactivated) {
                 DrawText("Souldash deactivated", 10,10, 10,WHITE);
             }
-            DrawRectangle(characterposition.x, characterposition.y, 32, 32, PINK);
+            DrawTexture(characterSoulTexture, 32, 32, WHITE );
             break;
         case robot:
-            DrawRectangle(characterposition.x, characterposition.y, 32, 32, BLACK);
+            DrawTexture(characterRobotTexture, 32, 32, WHITE );
             break;
     }
 

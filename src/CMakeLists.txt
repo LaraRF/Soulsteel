@@ -29,6 +29,8 @@ add_executable(${PROJECT_NAME} main.cpp
         difficultysettings.h
         ingameoptions.cpp
         ingameoptions.h
+        assestmanagergraphics.cpp
+        assestmanagergraphics.h
 )
 
 # Add config.h.in file

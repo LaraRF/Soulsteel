@@ -17,6 +17,8 @@
 #include "maincharactermodus.h"
 #include "difficultysettings.h"
 #include "ingameoptions.h"
+#include "assestmanagergraphics.h"
+
 
 int main() {
     // Raylib initialization

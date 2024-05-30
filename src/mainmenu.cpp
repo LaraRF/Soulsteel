@@ -57,7 +57,7 @@ void mainmenu::draw(languagestates &languagestates, soundstates &soundstates, co
     DrawRectangleRec(hitbox_close, GRAY);
 
     //draws the images on the buttons
-    DrawTexture(button1play, 130, 345, WHITE);
+    DrawTexture(buttonplay1, 130, 345, WHITE);
     DrawTexture(button1settings, 340, 320, WHITE);
     DrawTexture(button1close, 600, 340, WHITE);
 }

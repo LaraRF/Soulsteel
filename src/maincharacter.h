@@ -10,7 +10,11 @@
 #include "maincharactermodus.h"
 #include "difficultysettings.h"
 #include <iostream>
+#include "assestmanagergraphics.h"
 class maincharacter {
+private:
+    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Soul_front");
+    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/soul/Soul_front");
 
 public:
     void update(languagestates &languagestates, maincharactermodus &maincharactermodus, difficultylevel &difficultylevel);

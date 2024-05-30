@@ -12,6 +12,7 @@
 #include "soundsettings.h"
 #include "controlsettings.h"
 #include "difficultysettings.h"
+#include "assestmanagergraphics.h"
 
 class ingameoptions {
 public:
@@ -54,13 +55,13 @@ public:
 
     //loads all the necessary textures
 
-    Texture2D flagDE = LoadTexture("assets/graphics/flag_DE_5.png");
-    Texture2D flagENG = LoadTexture("assets/graphics/flag_ENG_2.png");
-    Texture2D closeButton = LoadTexture("assets/graphics/button_close.png");
-    Texture2D tastaturbutton = LoadTexture("assets/graphics/tastatur.png");
-    Texture2D controllerbutton = LoadTexture("assets/graphics/controller.png");
-    Texture2D soundlessbutton = LoadTexture("assets/graphics/soundless.png");
-    Texture2D soundmorebutton = LoadTexture("assets/graphics/soundmore.png");
+    Texture2D flagDE = assestmanagergraphics::getTexture("assets/graphics/flag_DE_5.png");
+    Texture2D flagENG = assestmanagergraphics::getTexture("assets/graphics/flag_ENG_2.png");
+    Texture2D closeButton = assestmanagergraphics::getTexture("assets/graphics/button_close.png");
+    Texture2D tastaturbutton = assestmanagergraphics::getTexture("assets/graphics/tastatur.png");
+    Texture2D controllerbutton = assestmanagergraphics::getTexture("assets/graphics/controller.png");
+    Texture2D soundlessbutton = assestmanagergraphics::getTexture("assets/graphics/soundless.png");
+    Texture2D soundmorebutton = assestmanagergraphics::getTexture("assets/graphics/soundmore.png");
 
 };
 
