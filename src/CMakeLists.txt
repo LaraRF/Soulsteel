@@ -9,23 +9,19 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(${PROJECT_NAME} main.cpp
-        soundsettings.h
         pausescreen.cpp
         pausescreen.h
         optionen.cpp
         optionen.h
         mainmenu.cpp
         mainmenu.h
-        languagesettings.h
         journal.cpp
         journal.h
         gameplay.cpp
         gameplay.h
-        controlsettings.h
         maincharacter.cpp
         maincharacter.h
         maincharactermodus.h
-        difficultysettings.h
         ingameoptions.cpp
         ingameoptions.h
         assestmanagergraphics.cpp

@@ -6,9 +6,6 @@
 #define RAYLIBSTARTER_PAUSESCREEN_H
 
 #include "raylib.h"
-#include "languagesettings.h"
-#include "controlsettings.h"
-#include "soundsettings.h"
 #include <iostream>
 #include "assestmanagergraphics.h"
 #include "scene.h"

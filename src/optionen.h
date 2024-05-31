@@ -7,10 +7,6 @@
 
 #include "raylib.h"
 #include <iostream>
-#include "languagesettings.h"
-#include "soundsettings.h"
-#include "controlsettings.h"
-#include "difficultysettings.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
 

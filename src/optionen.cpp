@@ -3,88 +3,88 @@
 //
 #include "optionen.h"
 #include "raylib.h"
-#include "languagesettings.h"
 #include "mainmenu.h"
 
 void optionen::update() {
 //allows navigation through the menu by using WASD keys
     switch (cursor) {
         case 0:
-            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 1:
-            if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)) {
                 cursor--;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
-            } else if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            } else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor = cursor + 7;
             }
             break;
         case 2:
-            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 3:
-            if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)) {
                 cursor--;
-            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
-            } else if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            } else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor = cursor + 5;
             }
             break;
         case 4:
-            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 5:
-            if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)) {
                 cursor--;
-            } else if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            } else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor = cursor + 3;
-            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 6:
-            if (IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)) {
+            if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
+            } else if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_DOWN)) {
                 cursor = cursor + 2;
             }
             break;
         case 7:
-            if (IsKeyPressed(KEY_W)|| IsKeyPressed(KEY_UP)) {
+            if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_UP)) {
                 cursor = cursor - 2;
-            } else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_S)|| IsKeyPressed(KEY_RIGHT)|| IsKeyPressed(KEY_DOWN)) {
+            } else if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_RIGHT) ||
+                       IsKeyPressed(KEY_DOWN)) {
                 cursor++;
-            } else if (IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)) {
+            } else if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)) {
                 cursor--;
             }
             break;
         case 8:
-            if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_UP)|| IsKeyPressed(KEY_LEFT)) {
+            if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_A) || IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_LEFT)) {
                 cursor--;
                 break;
             }
@@ -92,8 +92,8 @@ void optionen::update() {
 }
 
 scene *optionen::evaluateSceneChange() {
-    if(IsKeyPressed(KEY_ENTER)){
-        switch(cursor){
+    if (IsKeyPressed(KEY_ENTER)) {
+        switch (cursor) {
             case 0:
                 //control =tastatur
                 break;
@@ -124,8 +124,9 @@ scene *optionen::evaluateSceneChange() {
             default:
                 break;
         }
-    }else{
-        return this;}
+    } else {
+        return this;
+    }
 }
 
 void optionen::draw() {
@@ -163,40 +164,26 @@ void optionen::draw() {
     }
 
     //draws the buttons
-    /*switch(languagestates){
-        case german:
-            DrawRectangleRec(hitbox_flagDE, PINK);
-            DrawRectangleRec(hitbox_flagENG, GRAY);
-            break;
-        case english:
-            DrawRectangleRec(hitbox_flagDE, GRAY);
-            DrawRectangleRec(hitbox_flagENG, PINK);
-    }
+
+
+    DrawRectangleRec(hitbox_flagDE, GRAY);
+    DrawRectangleRec(hitbox_flagENG, PINK);
+
 
     DrawRectangleRec(hitbox_close, GRAY);
 
-    switch(controlmodes){
-        case tastaturmode:
-            DrawRectangleRec(hitbox_tastatur, PINK);
-            DrawRectangleRec(hitbox_controller, GRAY);
-            break;
-        case controllermode:
-            DrawRectangleRec(hitbox_tastatur, GRAY);
-            DrawRectangleRec(hitbox_controller, PINK);
-    }
+
+    DrawRectangleRec(hitbox_tastatur, PINK);
+    DrawRectangleRec(hitbox_controller, GRAY);
+
     //Switch missing and maybe not needed?, because we don't have sound settings yet
     DrawRectangleRec(hitbox_soundless, GRAY);
     DrawRectangleRec(hitbox_soundmore, GRAY);
 
-    switch(difficultylevel){
-        case guided:
-            DrawRectangleRec(hitbox_guided, PINK);
-            DrawRectangleRec(hitbox_exploration, GRAY);
-            break;
-        case exploration:
-            DrawRectangleRec(hitbox_guided, GRAY);
-            DrawRectangleRec(hitbox_exploration, PINK);
-    }
+
+    DrawRectangleRec(hitbox_guided, PINK);
+    DrawRectangleRec(hitbox_exploration, GRAY);
+
 
     //draws the images on the buttons
     DrawTexture(flagDE, 75, 275, WHITE);
@@ -206,28 +193,18 @@ void optionen::draw() {
     DrawTexture(controllerbutton, 475, 95, WHITE);
     DrawTexture(soundlessbutton, 75, 185, WHITE);
     DrawTexture(soundmorebutton, 475, 185, WHITE);
-    DrawText("G", 105,375, 50, BLACK);
-    DrawText("E", 515,375, 50, BLACK);
+    DrawText("G", 105, 375, 50, BLACK);
+    DrawText("E", 515, 375, 50, BLACK);
 
     //draws the text depending on the selected language
-    switch (languagestates) {
-        case german:
-            DrawText("Einstellungen", 170, 23, 50, WHITE);
-            DrawText("Steuerung", 250, 115, 30, WHITE);
-            DrawText("Ton", 250, 195, 30, WHITE);
-            DrawText("Sprache", 250, 295, 30, WHITE);
-            DrawText("Spielmodus", 250, 390, 30, WHITE);
-            break;
-        case english:
-            DrawText("Settings", 170, 23, 50, WHITE);
-            DrawText("Control", 250, 115, 30, WHITE);
-            DrawText("Sound", 250, 195, 30, WHITE);
-            DrawText("Language", 250, 295, 30, WHITE);
-            DrawText("Game mode", 250, 390, 30, WHITE);
-            break;
-        default:
-            break;
-    }*/
+
+
+    DrawText("Settings", 170, 23, 50, WHITE);
+    DrawText("Control", 250, 115, 30, WHITE);
+    DrawText("Sound", 250, 195, 30, WHITE);
+    DrawText("Language", 250, 295, 30, WHITE);
+    DrawText("Game mode", 250, 390, 30, WHITE);
+
 }
 
 void optionen::drawDebug() {

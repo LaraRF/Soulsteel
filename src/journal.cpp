@@ -3,32 +3,31 @@
 //
 #include "journal.h"
 #include "raylib.h"
-#include "languagesettings.h"
 #include "gameplay.h"
 
 void journal::update() {
     //navigating the journal by using arrow keys
-    if(IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)){
-        if(cursor == 2){
+    if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
+        if (cursor == 2) {
             cursor = 2; //ends with last box, does not come back on the other side of the screen
-        }else{
+        } else {
             cursor++;
         }
     }
 
-    if(IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)){
-        if(cursor == 0){
+    if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)) {
+        if (cursor == 0) {
             cursor = 0; //same here: you can't go more the side if you're already on the last box
-        }else{
+        } else {
             cursor--;
         }
     }
 }
 
 scene *journal::evaluateSceneChange() {
-    if(IsKeyPressed(KEY_J)){
+    if (IsKeyPressed(KEY_J)) {
         return new gameplay();
-    }else if(IsKeyPressed(KEY_ENTER)) {
+    } else if (IsKeyPressed(KEY_ENTER)) {
         switch (cursor) {
             case 0:
                 //no journal content yet
@@ -39,14 +38,15 @@ scene *journal::evaluateSceneChange() {
             case 2:
                 return new gameplay();
         }
-    }else{
-        return this;}
+    } else {
+        return this;
+    }
 }
 
 void journal::draw() {
-    DrawTexture(journalbackground, 5,5,WHITE);
+    DrawTexture(journalbackground, 5, 5, WHITE);
 
-    switch(cursor){ //shows which box is selected by giving it a white outline
+    switch (cursor) { //shows which box is selected by giving it a white outline
         case 0:
             DrawRectangleRec(journalpage1_marked, WHITE);
             break;
@@ -65,27 +65,13 @@ void journal::draw() {
     DrawRectangleRec(journalpage2, GRAY);
     DrawRectangleRec(hitbox_close, GRAY);
 
-    DrawTexture(closeButton, 685,395,WHITE);
+    DrawTexture(closeButton, 685, 395, WHITE);
 
-    //shows the text depending on which language is chosen
-    /*switch(languagestates) {
-        case german:
-            DrawText("Journal Inhalt TBD", 45, 20, 23, BLACK);
-            DrawText("Journal Inhalt TBD", 395, 20, 23, BLACK);
-            DrawText("Hier wird es mal ein\nJournal mit\nverschiedenen\nSeiten geben.", 60, 200, 20, BLACK);
-            DrawText("Aktuell passiert\nauf diesen beiden\nSeiten noch nichts.", 410, 200, 20, BLACK);
+    DrawText("Journal content TBD", 45, 20, 23, BLACK);
+    DrawText("Journal content TBD", 395, 20, 23, BLACK);
+    DrawText("Eventually here\nwill be a journal\nwith different pages.", 60, 200, 20, BLACK);
+    DrawText("At this time\nnothing happens on\nthese two pages.", 410, 200, 20, BLACK);
 
-
-            break;
-        case english:
-            DrawText("Journal content TBD", 45, 20, 23, BLACK);
-            DrawText("Journal content TBD", 395, 20, 23, BLACK);
-            DrawText("Eventually here\nwill be a journal\nwith different pages.", 60, 200, 20, BLACK);
-            DrawText("At this time\nnothing happens on\nthese two pages.", 410, 200, 20, BLACK);
-            break;
-        default:
-            break;
-    }*/
 }
 
 void journal::drawDebug() {

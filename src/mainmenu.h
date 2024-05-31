@@ -6,9 +6,6 @@
 #define RAYLIBSTARTER_MAINMENU_H
 
 #include "raylib.h"
-#include "languagesettings.h"
-#include "controlsettings.h"
-#include "soundsettings.h"
 #include "scene.h"
 #include "assestmanagergraphics.h"
 

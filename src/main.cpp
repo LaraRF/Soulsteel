@@ -5,16 +5,12 @@
 
 #include "config.h"
 #include "mainmenu.h"
-#include "languagesettings.h"
 #include "optionen.h"
 #include "gameplay.h"
 #include "pausescreen.h"
 #include "journal.h"
-#include "controlsettings.h"
-#include "soundsettings.h"
 #include "maincharacter.h"
 #include "maincharactermodus.h"
-#include "difficultysettings.h"
 #include "ingameoptions.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
@@ -39,15 +35,9 @@ int main() {
 
     //set enums to the state they have when starting the game
 
-    languagestates language =german;
-
-    soundstates sound =stumm;
-
-    controlmodes control =tastaturmode;
 
     maincharactermodus modus =soul;
 
-    difficultylevel difficultylevel =guided;
 
 
     scene* currentScene = new mainmenu();

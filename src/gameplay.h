@@ -7,10 +7,6 @@
 
 #include <vector>
 #include "raylib.h"
-#include "languagesettings.h"
-#include "controlsettings.h"
-#include "soundsettings.h"
-#include "difficultysettings.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
 
