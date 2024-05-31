@@ -55,7 +55,7 @@ Texture2D assestmanagergraphics::getTexture(std::string name) { //call this text
     if (m_textures.find(name) != m_textures.end()) {
         return m_textures[name];
 }
-    TraceLog(LOG_WARNING, "assetmanagergraphics::getTexture() called with unknown texture name: %s", name);
+    TraceLog(LOG_WARNING, "assetmanagergraphics::getTexture() called with unknown texture name: %s", name.c_str());
     return m_textures["ERROR"];
 
 }
