@@ -22,12 +22,12 @@
         void drawDebug() override;
 
         //loads the necessary textures
-        Texture2D heart = assestmanagergraphics::getTexture("assets/graphics/heart_smaller.png");
+        Texture2D heart = assestmanagergraphics::getTexture("userinterface/heart_smaller");
         //Texture2D modeRobo = LoadTexture("assets/graphics/robot_anuki_3.png");
         //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
 
         //loads the textures on the map (Kachelsatz)
-        Texture2D tilesetgrass = assestmanagergraphics::getTexture("assets/graphics/grasses.png");
+        Texture2D tilesetgrass = assestmanagergraphics::getTexture("userinterface/grasses");
 
 
         //attributes necessary for using the map
