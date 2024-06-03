@@ -103,8 +103,8 @@ void maincharacter::draw() {
     //draws soul or robot, depending on which is chosen
     switch (currentmode) {
         case soul:
-            DrawCircle(position.x, position.y, size,PINK);
-            //DrawTexture(characterSoulTexture, position.x, position.y, WHITE);
+            //DrawCircle(position.x, position.y, size,PINK);
+            DrawTexture(characterSoulTexture, position.x, position.y, WHITE);
             if (souldashactivated) {
                 DrawText("Souldash activated", 10, 10, 10, WHITE);
             } else if (!souldashactivated) {
