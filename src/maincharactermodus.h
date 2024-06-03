@@ -7,8 +7,8 @@
 
 
 enum maincharactermodus {
-    soul,
-    robot
+    soul=0,
+    robot=1
 };
 
 

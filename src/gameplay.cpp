@@ -8,8 +8,12 @@
 #include "pausescreen.h"
 #include "journal.h"
 #include "ingameoptions.h"
+#include "maincharacter.h"
+#include "maincharactermodus.h"
+
 
 void gameplay::update() {
+    maincharacter->update();
 
 }
 
@@ -46,6 +50,7 @@ void gameplay::draw() {
         }
     }
 
+    maincharacter->draw();
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
@@ -94,6 +99,8 @@ gameplay::gameplay() {
     }
     rows = layer->getSize().x;
     cols = layer->getSize().y;
+
+    maincharacter=new class maincharacter(this);
 }
 
 
@@ -104,13 +111,13 @@ int gameplay::getTileAt(float x, float y) {
     }
     int tileX = x / 32;
     int tileY = y / 32;
-    return tileMap[tileY * mapWidth + tileX];
+    return tiles[tileY * mapWidth + tileX];
 }
 
 bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 1) {
+            if (getTileAt(x * 32, y * 32) == 0) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
@@ -129,8 +136,8 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     Rectangle closestWall{};
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) <= 1) {
-                Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 16, 16};
+            if (getTileAt(x * 32, y * 32) ==0) {
+                Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
                                                       Vector2{wall.x + wall.width, wall.y + wall.height});
                 float distance = Vector2Distance(position, wallTouchPoint);

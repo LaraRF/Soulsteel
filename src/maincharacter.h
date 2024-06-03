@@ -18,11 +18,11 @@ class gameplay;
 class maincharacter {
 private:
     Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Soul_front");
-    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/soul/Soul_front");
+    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Robot_front");
 
 public:
-    void update(maincharactermodus &maincharactermodus);
-    void draw(maincharactermodus &maincharactermodus);
+    void update();
+    void draw();
 
     //maincharacter();
     //lets the character start in the middle of the screen (almost, to match the tiles)
@@ -30,8 +30,8 @@ public:
     //movement
     bool souldashactivated =false;
     int souldash=0;
-    float stepsize =8.0f;
-    float stepzisesouldash =24;
+    float stepsize =4.0f;
+    float stepzisesouldash =11.5;
     gameplay* _scene;
 
     //sprite animation
@@ -39,8 +39,10 @@ public:
 
     //Character map interaction stuff
     maincharacter(gameplay *scene);
-    Vector2 position = {32 * 7, 32 * 7};
+    Vector2 position = {124, 32 * 7};
     float size = 16;
+
+    maincharactermodus currentmode=soul;
 };
 
 

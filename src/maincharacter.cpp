@@ -6,7 +6,7 @@
 #include "scene.h"
 
 
-void maincharacter::update(maincharactermodus &maincharactermodus) {
+void maincharacter::update() {
 
     //souldash
 
@@ -20,40 +20,40 @@ void maincharacter::update(maincharactermodus &maincharactermodus) {
     }
 
     //allows you to switch between soul and robot functions
-    switch (maincharactermodus) {
+    switch (currentmode) {
         case soul:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                maincharactermodus = robot;
+                currentmode = robot;
             }
 
             //movement
             switch (souldashactivated) {
                 case 0:
-                    if (IsKeyPressed(KEY_S) || IsKeyDown(KEY_S)) {
+                    if (IsKeyDown(KEY_S)) {
                         position.y = position.y + stepsize;
                     }
-                    if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) {
+                    if (IsKeyDown(KEY_W)) {
                         position.y = position.y - stepsize;
                     }
-                    if (IsKeyPressed(KEY_A) || IsKeyDown(KEY_A)) {
+                    if (IsKeyDown(KEY_A)) {
                         position.x = position.x - stepsize;
                     }
-                    if (IsKeyPressed(KEY_D) || IsKeyDown(KEY_D)) {
+                    if (IsKeyDown(KEY_D)) {
                         position.x = position.x + stepsize;
                     }
                     break;
                 case 1:
-                    if (IsKeyPressed(KEY_S) || IsKeyDown(KEY_S)) {
+                    if (IsKeyDown(KEY_S)) {
                         position.y = position.y + (stepsize + stepzisesouldash);
                     }
-                    if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) {
+                    if (IsKeyDown(KEY_W)) {
                         position.y = position.y - (stepsize + stepzisesouldash);
                     }
-                    if (IsKeyPressed(KEY_A) || IsKeyDown(KEY_A)) {
+                    if (IsKeyDown(KEY_A)) {
                         position.x = position.x - (stepsize + stepzisesouldash);
                     }
-                    if (IsKeyPressed(KEY_D) || IsKeyDown(KEY_D)) {
+                    if (IsKeyDown(KEY_D)) {
                         position.x = position.x + (stepsize + stepzisesouldash);
                     }
             }
@@ -63,20 +63,20 @@ void maincharacter::update(maincharactermodus &maincharactermodus) {
         case robot:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                maincharactermodus = soul;
+                currentmode = soul;
             }
 
             //movement
-            if (IsKeyPressed(KEY_S) || IsKeyDown(KEY_S)) {
+            if (IsKeyDown(KEY_S)) {
                 position.y = position.y + stepsize;
             }
-            if (IsKeyPressed(KEY_W) || IsKeyDown(KEY_W)) {
+            if (IsKeyDown(KEY_W)) {
                 position.y = position.y - stepsize;
             }
-            if (IsKeyPressed(KEY_A) || IsKeyDown(KEY_A)) {
+            if (IsKeyDown(KEY_A)) {
                 position.x = position.x - stepsize;
             }
-            if (IsKeyPressed(KEY_D) || IsKeyDown(KEY_D)) {
+            if (IsKeyDown(KEY_D)) {
                 position.x = position.x + stepsize;
             }//end movement code
             //space for more robot function
@@ -98,22 +98,24 @@ void maincharacter::update(maincharactermodus &maincharactermodus) {
     }
 }
 
-void maincharacter::draw(maincharactermodus &maincharactermodus) {
+void maincharacter::draw() {
 
     //draws soul or robot, depending on which is chosen
-    switch (maincharactermodus) {
+    switch (currentmode) {
         case soul:
+            DrawCircle(position.x, position.y, size,PINK);
+            //DrawTexture(characterSoulTexture, position.x, position.y, WHITE);
             if (souldashactivated) {
                 DrawText("Souldash activated", 10, 10, 10, WHITE);
             } else if (!souldashactivated) {
                 DrawText("Souldash deactivated", 10, 10, 10, WHITE);
             }
-
-            DrawTexture(characterSoulTexture, 32, 32, WHITE);
             break;
         case robot:
-            DrawTexture(characterRobotTexture, 32, 32, WHITE);
+            //DrawCircle(position.x, position.y, size,GRAY);
+            DrawTexture(characterRobotTexture, position.x, position.y, WHITE);
             break;
+        default: std::cout << "help";
     }
 }
 

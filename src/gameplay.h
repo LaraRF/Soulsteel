@@ -10,6 +10,8 @@
 #include "assestmanagergraphics.h"
 #include "scene.h"
 
+class maincharacter;
+
     class gameplay:public scene {
     public:
 
@@ -43,9 +45,11 @@
         int getTileAt(float x, float y);
         Rectangle getTouchedWall(Vector2 position, float radius);
 
-        std::vector<int> tileMap;
+        //std::vector<int> tileMap;
         int mapWidth = 25;
         int mapHeight = 15;
+
+        maincharacter *maincharacter;
     };
 
 
