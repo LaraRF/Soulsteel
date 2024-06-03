@@ -55,13 +55,13 @@ public:
 
     //loads all the necessary textures
 
-    Texture2D flagDE = assestmanagergraphics::getTexture("assets/graphics/flag_DE_5.png");
-    Texture2D flagENG = assestmanagergraphics::getTexture("assets/graphics/flag_ENG_2.png");
-    Texture2D closeButton = assestmanagergraphics::getTexture("assets/graphics/button_close.png");
-    Texture2D tastaturbutton = assestmanagergraphics::getTexture("assets/graphics/tastatur.png");
-    Texture2D controllerbutton = assestmanagergraphics::getTexture("assets/graphics/controller.png");
-    Texture2D soundlessbutton = assestmanagergraphics::getTexture("assets/graphics/soundless.png");
-    Texture2D soundmorebutton = assestmanagergraphics::getTexture("assets/graphics/soundmore.png");
+    Texture2D flagDE = assestmanagergraphics::getTexture("userinterface/flag_DE_5");
+    Texture2D flagENG = assestmanagergraphics::getTexture("userinterface/flag_ENG_2");
+    Texture2D closeButton = assestmanagergraphics::getTexture("userinterface/button_close");
+    Texture2D tastaturbutton = assestmanagergraphics::getTexture("userinterface/tastatur");
+    Texture2D controllerbutton = assestmanagergraphics::getTexture("userinterface/controller");
+    Texture2D soundlessbutton = assestmanagergraphics::getTexture("userinterface/soundless");
+    Texture2D soundmorebutton = assestmanagergraphics::getTexture("userinterface/soundmore");
 
 };
 
