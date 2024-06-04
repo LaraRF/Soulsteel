@@ -7,6 +7,7 @@
 #include "gameplay.h"
 #include "raylib.h"
 #include "scene.h"
+#include "raymath.h"
 
 class gameplay;
 
