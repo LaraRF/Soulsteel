@@ -4,7 +4,7 @@
 
 #include "enemies.h"
 
-/*
+
 //timer to have the enemies pause between steps instead of running nonstop
 //(re-)start a timer
 void enemies::StartTimer(Timer *timer, float pausetime) {
@@ -23,7 +23,7 @@ bool enemies::TimerDone(Timer *timer) {
     if (timer != nullptr) {
         return timer->Pausetime <= 0;//returns true when the timer is done
     }else {return false;}
-}*/
+}
 
 void enemies::update() {
 
@@ -32,30 +32,68 @@ void enemies::update() {
      if (Timer >= 2.0f)*/
 
     //movement with timer for the current enemy
+    StartTimer(&enemytimer, enemypause);
+    UpdateTimer(&enemytimer);
     switch (direction) {
         case left:
-            do {
-                position.x = position.x - 1;
-            } while (position.x > (10 * 32 - 1));
-            direction = down;
+            position.x = position.x - stepsize;
+            StartTimer(&enemytimer, enemypause);
+            UpdateTimer(&enemytimer);
+            if(TimerDone(&enemytimer)) {
+                while (position.x >= 10 * 32 - 16) {
+                    position.x = position.x - stepsize;
+                    StartTimer(&enemytimer, enemypause);
+                    UpdateTimer(&enemytimer);
+                }
+            }
+                if(position.x==10*32-16){
+                    direction = down;
+                }
             break;
         case down:
-            do {
-                position.y = position.y + 1;
-            } while (position.y < (12 * 32 + 1));
+            position.y = position.y + stepsize;
+            StartTimer(&enemytimer, enemypause);
+            UpdateTimer(&enemytimer);
+            if(TimerDone(&enemytimer)) {
+                while(position.y <= (12 * 32+16)) {
+                    position.y = position.y + stepsize;
+                    StartTimer(&enemytimer, enemypause);
+                    UpdateTimer(&enemytimer);
+                }
+            }
+            if(position.y == (12 * 32+16)){
             direction = right;
+            }
             break;
         case right:
-            do {
-                position.x = position.x + 1;
-            } while (position.x < (14 * 32 + 1));
-            direction = up;
+            position.x = position.x + stepsize;
+            StartTimer(&enemytimer, enemypause);
+            UpdateTimer(&enemytimer);
+            if(TimerDone(&enemytimer)) {
+                while(position.x <= (14 * 32-16)) {
+                    position.x = position.x + stepsize;
+                    StartTimer(&enemytimer, enemypause);
+                    UpdateTimer(&enemytimer);
+                }
+            }
+            if(position.x==(14 * 32-16)) {
+                direction = up;
+            }
             break;
         case up:
-            do {
-                position.y = position.y - 1;
-            } while (position.y > (10 * 32 - 1));
-            direction = left;
+            position.y = position.y - stepsize;
+            StartTimer(&enemytimer, enemypause);
+            UpdateTimer(&enemytimer);
+            if(TimerDone(&enemytimer)) {
+                while(position.y >= (10 * 32-16)) {
+                    position.y = position.y - stepsize;
+                    StartTimer(&enemytimer, enemypause);
+                    UpdateTimer(&enemytimer);
+                }
+            }
+            if(position.y==(10 * 32-16)) {
+                direction = left;
+            }
             break;
     }
     //end movement code
@@ -73,12 +111,29 @@ void enemies::update() {
         pushForce = Vector2Normalize(pushForce);
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
+        if(controltype==1) {
+            switch (direction) {
+                case left:
+                    direction = down;
+                    break;
+                case down:
+                    direction = right;
+                    break;
+                case right:
+                    direction = up;
+                    break;
+                case up:
+                    direction = left;
+                    break;
+            }
+        }
     }
 }
 
 void enemies::draw() {
 
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
+    //DrawCircle(position.x, position.y, size, RED);
 
 
 }

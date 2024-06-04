@@ -25,6 +25,7 @@ public:
     //enemy map interaction > same as in maincharacter.h?
     enemies(gameplay *scene);
 
+    Vector2 positionStart = {14 * 32, 32 * 10};
     Vector2 position = {14 * 32, 32 * 10};
     float size = 16;
 
@@ -35,13 +36,18 @@ public:
         left, right, up, down
     };
     direction direction = left;
-/*
+
+    enum controltype{
+        path=0, random=1
+    };
+    controltype controltype =path;
+
     struct Timer{float Pausetime=2.0f;};
     static void StartTimer(Timer *timer,float pausetime);
     static void UpdateTimer(Timer*timer);
     static bool TimerDone(Timer*timer);
     float enemypause =2.0f;
-    Timer enemytimer={0};*/
+    Timer enemytimer={0};
 
 };
 #endif //RAYLIBSTARTER_ENEMIES_H
