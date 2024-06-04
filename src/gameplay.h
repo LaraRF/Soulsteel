@@ -11,6 +11,7 @@
 #include "scene.h"
 
 class maincharacter;
+class enemies;
 
     class gameplay:public scene {
     public:
@@ -50,6 +51,7 @@ class maincharacter;
         int mapHeight = 15;
 
         maincharacter *maincharacter;
+        enemies *enemies;
     };
 
 

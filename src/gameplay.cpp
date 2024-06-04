@@ -10,10 +10,12 @@
 #include "ingameoptions.h"
 #include "maincharacter.h"
 #include "maincharactermodus.h"
+#include "enemies.h"
 
 
 void gameplay::update() {
     maincharacter->update();
+    enemies->update();
 
 }
 
@@ -51,6 +53,7 @@ void gameplay::draw() {
     }
 
     maincharacter->draw();
+    enemies->draw();
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
@@ -101,6 +104,7 @@ gameplay::gameplay() {
     cols = layer->getSize().y;
 
     maincharacter=new class maincharacter(this);
+    enemies =new class enemies(this);
 }
 
 

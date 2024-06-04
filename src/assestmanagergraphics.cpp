@@ -42,6 +42,9 @@ void assestmanagergraphics::init() {
     //placeholder character
     m_textures["characters/soul/Soul_front"] = LoadTexture("assets/graphics/characters/soul/Soul_front.png");
     m_textures["characters/robot/Robot_front"] = LoadTexture("assets/graphics/characters/robot/Robot_front.png");
+    //enemies
+    m_textures["characters/enemies/enemy_1"] = LoadTexture("assets/graphics/characters/enemies/enemy_1.png");
+    m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
 
     for (auto &texture: m_textures) {
         if (!IsTextureReady(texture.second)) {

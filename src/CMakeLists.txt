@@ -28,6 +28,9 @@ add_executable(${PROJECT_NAME} main.cpp
         assestmanagergraphics.h
         scene.cpp
         scene.h
+        enemies.cpp
+        enemies.h
+        enemymodus.h
 )
 
 # Add config.h.in file
