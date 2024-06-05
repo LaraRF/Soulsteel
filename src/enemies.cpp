@@ -3,6 +3,8 @@
 //
 
 #include "enemies.h"
+#include "gameplay.h"
+
 
 
 //timer to have the enemies pause between steps instead of running nonstop
@@ -32,69 +34,69 @@ void enemies::update() {
      if (Timer >= 2.0f)*/
 
     //movement with timer for the current enemy
-    StartTimer(&enemytimer, enemypause);
-    UpdateTimer(&enemytimer);
-    switch (direction) {
-        case left:
-            position.x = position.x - stepsize;
-            StartTimer(&enemytimer, enemypause);
-            UpdateTimer(&enemytimer);
-            if(TimerDone(&enemytimer)) {
-                while (position.x >= 10 * 32 - 16) {
-                    position.x = position.x - stepsize;
-                    StartTimer(&enemytimer, enemypause);
-                    UpdateTimer(&enemytimer);
+    if(controltype==path||controltype==random) {
+        switch (direction) {
+            case left:
+                position.x = position.x - stepsize;
+                StartTimer(&enemytimer, enemypause);
+                UpdateTimer(&enemytimer);
+                if (TimerDone(&enemytimer)) {
+                    while (position.x >= stopleft) {
+                        position.x = position.x - stepsize;
+                        StartTimer(&enemytimer, enemypause);
+                        UpdateTimer(&enemytimer);
+                    }
                 }
-            }
-                if(position.x==10*32-16){
+                if (position.x == stopleft) {
                     direction = down;
                 }
-            break;
-        case down:
-            position.y = position.y + stepsize;
-            StartTimer(&enemytimer, enemypause);
-            UpdateTimer(&enemytimer);
-            if(TimerDone(&enemytimer)) {
-                while(position.y <= (12 * 32+16)) {
-                    position.y = position.y + stepsize;
-                    StartTimer(&enemytimer, enemypause);
-                    UpdateTimer(&enemytimer);
+                break;
+            case down:
+                position.y = position.y + stepsize;
+                StartTimer(&enemytimer, enemypause);
+                UpdateTimer(&enemytimer);
+                if (TimerDone(&enemytimer)) {
+                    while (position.y <= stopdown) {
+                        position.y = position.y + stepsize;
+                        StartTimer(&enemytimer, enemypause);
+                        UpdateTimer(&enemytimer);
+                    }
                 }
-            }
-            if(position.y == (12 * 32+16)){
-            direction = right;
-            }
-            break;
-        case right:
-            position.x = position.x + stepsize;
-            StartTimer(&enemytimer, enemypause);
-            UpdateTimer(&enemytimer);
-            if(TimerDone(&enemytimer)) {
-                while(position.x <= (14 * 32-16)) {
-                    position.x = position.x + stepsize;
-                    StartTimer(&enemytimer, enemypause);
-                    UpdateTimer(&enemytimer);
+                if (position.y == stopdown) {
+                    direction = right;
                 }
-            }
-            if(position.x==(14 * 32-16)) {
-                direction = up;
-            }
-            break;
-        case up:
-            position.y = position.y - stepsize;
-            StartTimer(&enemytimer, enemypause);
-            UpdateTimer(&enemytimer);
-            if(TimerDone(&enemytimer)) {
-                while(position.y >= (10 * 32-16)) {
-                    position.y = position.y - stepsize;
-                    StartTimer(&enemytimer, enemypause);
-                    UpdateTimer(&enemytimer);
+                break;
+            case right:
+                position.x = position.x + stepsize;
+                StartTimer(&enemytimer, enemypause);
+                UpdateTimer(&enemytimer);
+                if (TimerDone(&enemytimer)) {
+                    while (position.x <= stopright) {
+                        position.x = position.x + stepsize;
+                        StartTimer(&enemytimer, enemypause);
+                        UpdateTimer(&enemytimer);
+                    }
                 }
-            }
-            if(position.y==(10 * 32-16)) {
-                direction = left;
-            }
-            break;
+                if (position.x == stopright) {
+                    direction = up;
+                }
+                break;
+            case up:
+                position.y = position.y - stepsize;
+                StartTimer(&enemytimer, enemypause);
+                UpdateTimer(&enemytimer);
+                if (TimerDone(&enemytimer)) {
+                    while (position.y >= stopup) {
+                        position.y = position.y - stepsize;
+                        StartTimer(&enemytimer, enemypause);
+                        UpdateTimer(&enemytimer);
+                    }
+                }
+                if (position.y == stopup) {
+                    direction = left;
+                }
+                break;
+        }
     }
     //end movement code
 
@@ -111,7 +113,8 @@ void enemies::update() {
         pushForce = Vector2Normalize(pushForce);
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
-        if(controltype==1) {
+
+        if(controltype==random) {
             switch (direction) {
                 case left:
                     direction = down;
@@ -138,7 +141,9 @@ void enemies::draw() {
 
 }
 
-enemies::enemies(gameplay *scene) : _scene(scene) {
+enemies::enemies(gameplay *scene): _scene(scene) {
 
 }
+
+
 

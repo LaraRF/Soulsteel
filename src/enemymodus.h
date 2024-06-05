@@ -5,9 +5,12 @@
 #ifndef RAYLIBSTARTER_ENEMYMODUS_H
 #define RAYLIBSTARTER_ENEMYMODUS_H
 
-enum enemymode{
-    idle,
-    chase
+enum direction {
+    left, right, up, down
+};
+
+enum controltype{
+    path=0, random=1, idle=2, chase=3
 };
 
 #endif //RAYLIBSTARTER_ENEMYMODUS_H
