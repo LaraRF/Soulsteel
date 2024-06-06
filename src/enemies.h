@@ -15,9 +15,21 @@
 class gameplay;
 
 class enemies {
-public:
-    float damage = 0;
+protected:
+    //general enemy info
+    std::string enemyName;
+    //movement
+    float stopleft;
+    float stopdown;
+    float stopright;
+    float stopup;
+    //attack
+    float enemyDamage;
 
+public:
+
+    void getEnemyData();
+    void getEnemyType();
     void draw(); //method to draw enemy texture in base class
     void update();
 
@@ -34,15 +46,12 @@ public:
 
     //function to change between enemy number
 
+
+
     //position enemy1
     Vector2 positionStart_enemy1 = {14 * 32, 32 * 10};
     Vector2 position = {14 * 32, 32 * 10};
     float size = 16;
-
-    float stopleft = 10 * 32 - 16;
-    float stopdown = 12 * 32 + 16;
-    float stopright = 14 * 32 - 16;
-    float stopup =10 * 32 - 16;
 
     //Textures
     Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
@@ -61,11 +70,25 @@ public:
 
     float enemypause = 2.0f;
     Timer enemytimer = {0};
-    enemies *enemy1;
+    //enemies *enemy1;
 };
 
 // child classes
 class enemy1: public enemies {
+    public:
+        void getEnemyData(){
+            enemyName = "Red Ghost";
+            //movement
+            stopleft = 10 * 32 - 16;
+            stopdown = 12 * 32 + 16;
+            stopright = 14 * 32 - 16;
+            stopup = 10 * 32 + 16;
+            enemies::getEnemyData();
+        }
+    };
+
+class enemy2: public enemies {
+public:
 
 };
 

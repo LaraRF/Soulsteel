@@ -105,6 +105,9 @@ gameplay::gameplay() {
 
     maincharacter=new class maincharacter(this);
     enemies =new class enemies(this);
+
+
+
 }
 
 

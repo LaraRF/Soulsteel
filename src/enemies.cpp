@@ -27,6 +27,13 @@ bool enemies::TimerDone(Timer *timer) {
     }else {return false;}
 }
 
+void enemies::getEnemyData() {
+    //enemy1::getEnemyData(); ich möchte auf die Daten von enemy1 zugreifen
+    //wenn enemy 1 dann enemy.getEnemydata
+
+}
+
+
 void enemies::update() {
 
     /* Timer += Timer->GetTimeElapsed();
