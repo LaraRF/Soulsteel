@@ -18,6 +18,12 @@ class enemies {
 protected:
     //general enemy info
     std::string enemyName;
+    float enemyHP;
+    bool enemyTypeNormal;
+    bool enemyTypeRanged;
+    bool enemyTypeWeaponized;
+    //int enemyHits;
+
     //movement
     float stopleft;
     float stopdown;
@@ -29,7 +35,7 @@ protected:
 public:
 
     void getEnemyData();
-    void getEnemyType();
+   // void getEnemyType();
     void draw(); //method to draw enemy texture in base class
     void update();
 
@@ -55,7 +61,7 @@ public:
 
     //Textures
     Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
-    //Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
+    Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
 
     //Timer stuff
     struct Timer {
@@ -77,19 +83,37 @@ public:
 class enemy1: public enemies {
     public:
         void getEnemyData(){
-            enemyName = "Red Ghost";
+            //general enemy info            maybe enum for enemy type (normal, ranged, weaponized)???
+            enemyName = "Normal Enemy";
+            enemyHP = 2.0f;
+            enemyDamage = 0.5;
+            enemyTypeNormal = true;
+
             //movement
             stopleft = 10 * 32 - 16;
             stopdown = 12 * 32 + 16;
             stopright = 14 * 32 - 16;
             stopup = 10 * 32 + 16;
-            enemies::getEnemyData();
+            //enemies::getEnemyData(); //endlosschleife?
         }
     };
 
 class enemy2: public enemies {
 public:
+    void getEnemyData(){
+        //general enemy info            maybe enum for enemy type (normal, ranged, weaponized)???
+        enemyName = "Range Enemy";
+        enemyHP = 3.0f;
+        enemyDamage = 0.5;
+        enemyTypeRanged = true;
 
+        //movement
+        stopleft = 20 * 32 - 16;
+        stopdown = 24 * 32 + 16;
+        stopright = 26 * 32 - 16;
+        stopup = 28 * 32 + 16;
+        //enemies::getEnemyData(); //endlosschleife?
+    }
 };
 
 #endif //RAYLIBSTARTER_ENEMIES_H

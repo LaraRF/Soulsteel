@@ -28,6 +28,18 @@ bool enemies::TimerDone(Timer *timer) {
 }
 
 void enemies::getEnemyData() {
+
+    if (enemyTypeNormal = true) {
+
+        enemy1*getEnemyData();
+    }
+   // else if (enemyTypeRanged = true) {
+    //    enemy2*getEnemyData();
+
+
+    //if (enemyTypeX = true) {
+
+
     //enemy1::getEnemyData(); ich möchte auf die Daten von enemy1 zugreifen
     //wenn enemy 1 dann enemy.getEnemydata
 
@@ -144,6 +156,7 @@ void enemies::draw() {
 
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
     //DrawCircle(position.x, position.y, size, RED);
+    DrawTexture(enemyTexture2, position.x, position.y,WHITE);
 
 
 }
