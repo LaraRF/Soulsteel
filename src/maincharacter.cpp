@@ -119,6 +119,6 @@ void maincharacter::draw() {
     }
 }
 
-maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
+maincharacter::maincharacter(gameplayroom1 *scene) : _scene(scene) {
 
 }

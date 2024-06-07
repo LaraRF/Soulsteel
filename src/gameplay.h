@@ -30,7 +30,7 @@ class enemies;
         //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
 
         //loads the textures on the map (Kachelsatz)
-        Texture2D tilesetgrass = assestmanagergraphics::getTexture("userinterface/grasses");
+        Texture2D tilesetgrass = assestmanagergraphics::getTexture("tilesets/grassesfour");
 
 
         //attributes necessary for using the map

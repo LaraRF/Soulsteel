@@ -2,7 +2,7 @@
 // Created by lrfri on 14.05.2024.
 //
 #include "mainmenu.h"
-#include "gameplay.h"
+#include "gameplayroom1.h"
 #include "optionen.h"
 
 
@@ -28,7 +28,7 @@ scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
     if(IsKeyPressed(KEY_ENTER)) {
         switch(cursor){
             case 0:
-                return new gameplay();
+                return new gameplayroom1();
                 break;
             case 1:
                 return new optionen();

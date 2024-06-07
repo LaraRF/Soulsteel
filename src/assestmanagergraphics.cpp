@@ -26,6 +26,7 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/flag_DE_5"] = LoadTexture("assets/graphics/userinterface/flag_DE_5.png");
     m_textures["userinterface/flag_ENG_2"] = LoadTexture("assets/graphics/userinterface/flag_ENG_2.png");
     m_textures["userinterface/grasses"] = LoadTexture("assets/graphics/userinterface/grasses.png");
+    m_textures["tilesets/grassesfour"] = LoadTexture("assets/graphics/tilesets/grassesfour.png");
     m_textures["userinterface/heart"] = LoadTexture("assets/graphics/userinterface/heart.png");
     m_textures["userinterface/heart_smaller"] = LoadTexture("assets/graphics/userinterface/heart_smaller.png");
     m_textures["userinterface/journal_background"] = LoadTexture("assets/graphics/userinterface/journal_background.png");

@@ -1,7 +1,13 @@
 //
-// Created by lrfri on 14.05.2024.
+// Created by lrfri on 05.06.2024.
 //
-#include "gameplay.h"
+
+#include "gameplayroom2.h"
+//
+// Created by lrfri on 05.06.2024.
+//
+
+#include "gameplayroom1.h"
 #include "tileson.hpp"
 #include "raymath.h"
 #include "mainmenu.h"
@@ -13,13 +19,13 @@
 #include "enemies.h"
 
 
-void gameplay::update() {
+void gameplayroom2::update() {
     maincharacter->update();
     enemies->update();
 
 }
 
-scene *gameplay::evaluateSceneChange() {
+scene *gameplayroom2::evaluateSceneChange() {
     if (IsKeyPressed(KEY_M)) {
         return new mainmenu();
     } else if (IsKeyPressed(KEY_P)) {
@@ -28,12 +34,16 @@ scene *gameplay::evaluateSceneChange() {
         return new journal();
     } else if (IsKeyPressed(KEY_O)) {
         return new ingameoptions();
-    } else {
+    }
+    else if(maincharacter->position.x == lastdoor.x && maincharacter->position.y == lastdoor.y){
+        return new gameplayroom1();
+    }else {
         return this;
     }
+
 }
 
-void gameplay::draw() {
+void gameplayroom2::draw() {
     ClearBackground(GRAY);
 
     //draws the map
@@ -65,30 +75,17 @@ void gameplay::draw() {
     DrawTexture(heart, 50, 20, WHITE);
     DrawTexture(heart, 90, 20, WHITE);
 
-    //DrawTexture(modeRobo, 800, 40, WHITE);
-    //DrawTexture(modeSoul, 880, 40, WHITE);
-
-    /*switch (languagestates) {
-        case german:
-            DrawText("Modus:", 840, 10, 20, BLACK);
-            break;
-        case english:
-            DrawText("Mode:", 840, 10, 20, BLACK);
-            break;
-        default:
-            break;
-    }*/
 }
 
 
-void gameplay::drawDebug() {
+void gameplayroom2::drawDebug() {
 
 }
 
 //gets the data from the map needed to draw it
-gameplay::gameplay() {
+gameplayroom2::gameplayroom2() {
     tson::Tileson tileson;
-    auto map = tileson.parse("assets/graphics/tilesets/room1test.tmj");
+    auto map = tileson.parse("assets/graphics/tilesets/room2test.tmj");
     if (map->getStatus() != tson::ParseStatus::OK) {
         std::cout << map->getStatusMessage();
     }
@@ -111,7 +108,7 @@ gameplay::gameplay() {
 }
 
 
-int gameplay::getTileAt(float x, float y) {
+int gameplayroom2::getTileAt(float x, float y) {
     //catch out of bounds
     if (x < 0 || y < 0 || x >= mapWidth * 32 || y >= mapHeight * 32) {
         return 0;
@@ -121,7 +118,7 @@ int gameplay::getTileAt(float x, float y) {
     return tiles[tileY * mapWidth + tileX];
 }
 
-bool gameplay::touchesWall(Vector2 pos, float size) {
+bool gameplayroom2::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             if (getTileAt(x * 32, y * 32) == 0) {
@@ -135,7 +132,7 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
     return false;
 }
 
-Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
+Rectangle gameplayroom2::getTouchedWall(Vector2 position, float radius) {
     //check all walls
     //on contact, note distance to wall
     //return wall with shortest distance

@@ -3,7 +3,7 @@
 //
 
 #include "enemies.h"
-#include "gameplay.h"
+#include "gameplayroom1.h"
 
 
 
@@ -156,12 +156,12 @@ void enemies::draw() {
 
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
     //DrawCircle(position.x, position.y, size, RED);
-    DrawTexture(enemyTexture2, position.x, position.y,WHITE);
+    DrawTexture(enemyTexture2, position.x-50, position.y,WHITE);
 
 
 }
 
-enemies::enemies(gameplay *scene): _scene(scene) {
+enemies::enemies(gameplayroom1 *scene): _scene(scene) {
 
 }
 

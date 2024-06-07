@@ -11,9 +11,9 @@
 #include "maincharactermodus.h"
 #include <iostream>
 #include "assestmanagergraphics.h"
-#include "gameplay.h"
+#include "gameplayroom1.h"
 
-class gameplay;
+class gameplayroom1;
 
 class maincharacter {
 private:
@@ -32,13 +32,13 @@ public:
     int souldash=0;
     float stepsize =4.0f;
     float stepzisesouldash =11.5;
-    gameplay* _scene;
+    gameplayroom1* _scene;
 
     //sprite animation
     //Texture2D soulanimated =LoadTexture("assets/graphics/soulsprite.png");
 
     //Character map interaction stuff
-    maincharacter(gameplay *scene);
+    maincharacter(gameplayroom1 *scene);
     Vector2 position = {124, 32 * 7};
     float size = 16;
 

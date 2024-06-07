@@ -5,14 +5,14 @@
 #ifndef RAYLIBSTARTER_ENEMIES_H
 #define RAYLIBSTARTER_ENEMIES_H
 
-#include "gameplay.h"
+#include "gameplayroom1.h"
 #include "raylib.h"
 #include "scene.h"
 #include "raymath.h"
 #include "enemymodus.h"
 #include <iostream>
 
-class gameplay;
+class gameplayroom1;
 
 class enemies {
 protected:
@@ -25,10 +25,10 @@ protected:
     //int enemyHits;
 
     //movement
-    float stopleft;
-    float stopdown;
-    float stopright;
-    float stopup;
+    float stopleft = 5* 32-16;
+    float stopdown = 9 * 32 + 16;
+    float stopright = 10 * 32 - 16;
+    float stopup = 4 * 32 + 16;
     //attack
     float enemyDamage;
 
@@ -41,22 +41,22 @@ public:
 
     //movement
     float stepsize = 1.0f;
-    gameplay *_scene;
+    gameplayroom1 *_scene;
 
     //enums
     direction direction = left;
     controltype controltype = path;
 
     //enemy map interaction > same as in maincharacter.h?
-    enemies(gameplay *scene);
+    enemies(gameplayroom1 *scene);
 
     //function to change between enemy number
 
 
 
     //position enemy1
-    Vector2 positionStart_enemy1 = {14 * 32, 32 * 10};
-    Vector2 position = {14 * 32, 32 * 10};
+    Vector2 position = {11 * 32, 32 * 5}; //room1 map
+    //Vector2 position = {14 * 32, 32 * 10}; //old map
     float size = 16;
 
     //Textures
@@ -90,10 +90,10 @@ class enemy1: public enemies {
             enemyTypeNormal = true;
 
             //movement
-            stopleft = 10 * 32 - 16;
-            stopdown = 12 * 32 + 16;
-            stopright = 14 * 32 - 16;
-            stopup = 10 * 32 + 16;
+            stopleft = 5* 32;
+            stopdown = 10 * 32 + 16;
+            stopright = 11 * 32 - 16;
+            stopup = 6 * 32 + 16;
             //enemies::getEnemyData(); //endlosschleife?
         }
     };
@@ -108,10 +108,10 @@ public:
         enemyTypeRanged = true;
 
         //movement
-        stopleft = 20 * 32 - 16;
+        /*stopleft = 20 * 32 - 16;
         stopdown = 24 * 32 + 16;
         stopright = 26 * 32 - 16;
-        stopup = 28 * 32 + 16;
+        stopup = 28 * 32 + 16;*/
         //enemies::getEnemyData(); //endlosschleife?
     }
 };

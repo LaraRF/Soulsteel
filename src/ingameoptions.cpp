@@ -4,7 +4,7 @@
 
 #include "ingameoptions.h"
 #include "raylib.h"
-#include "gameplay.h"
+#include "gameplayroom1.h"
 
 void ingameoptions::update() {
 //allows navigation through the menu by using WASD keys
@@ -120,13 +120,13 @@ scene *ingameoptions::evaluateSceneChange() {
                 //difficultylevel =exploration;
                 break;
             case 8:
-                return new gameplay();
+                return new gameplayroom1();
                 break;
             default:
                 break;
         }
     } else if (IsKeyPressed(KEY_O)) {
-        return new gameplay();
+        return new gameplayroom1();
     } else {
         return this;
     }

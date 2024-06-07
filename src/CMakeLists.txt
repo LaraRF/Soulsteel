@@ -31,6 +31,16 @@ add_executable(${PROJECT_NAME} main.cpp
         enemies.cpp
         enemies.h
         enemymodus.h
+        gameplayroom1.cpp
+        gameplayroom1.h
+        gameplayroom2.cpp
+        gameplayroom2.h
+        gameplayroom3.cpp
+        gameplayroom3.h
+        gameplayroom4.cpp
+        gameplayroom4.h
+        gameplayroom5.cpp
+        gameplayroom5.h
 )
 
 # Add config.h.in file

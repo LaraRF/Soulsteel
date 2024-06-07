@@ -4,7 +4,7 @@
 #include "pausescreen.h"
 #include <iostream>
 #include "raylib.h"
-#include "gameplay.h"
+#include "gameplayroom1.h"
 
 void pausescreen::update() {
 
@@ -12,7 +12,7 @@ void pausescreen::update() {
 
 scene *pausescreen::evaluateSceneChange() {
     if (IsKeyPressed(KEY_P)) {
-        return new gameplay();
+        return new gameplayroom1();
     } else {
         return this;
     }
