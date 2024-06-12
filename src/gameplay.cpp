@@ -23,39 +23,51 @@ void gameplay::update() {
             if(themaincharacter->position.x >=(24*32+16)){
                 room++;
                 reloadRoom();
-                themaincharacter->position.x=64;
+                themaincharacter->position.x=16;
             }
             break;
         case 2:
-            //themaincharacter->position.x=64;
             if(themaincharacter->position.y<=16){
                 room++;
+                reloadRoom();
+                themaincharacter->position.y=14*32+16;
+            }
+            if(themaincharacter->position.x <=(10)){
+                room--;
+                reloadRoom();
+                themaincharacter->position.x=24*32+16;
+            }
+            break;
+        case 3:
+            if(themaincharacter->position.x<=16){
+                room++;
+                reloadRoom();
+                themaincharacter->position.x=24*32+16;
+            }
+            if(themaincharacter->position.y >=(14*32+20)){
+                room--;
                 reloadRoom();
                 themaincharacter->position.y=16;
             }
-
-            //if(maincharacter->position.x>=16)
-            break;
-        case 3:
-            //
-            if(themaincharacter->position.x>=16){
-                room++;
-                reloadRoom();
-
-            }
-
             break;
         case 4:
-            //themaincharacter->position.x=16;
             if(themaincharacter->position.y<=16){
                 room++;
                 reloadRoom();
+                themaincharacter->position.y=14*32+16;
             }
-
+            if(themaincharacter->position.x >=(24*32+30)){
+                room--;
+                reloadRoom();
+                themaincharacter->position.x=16;
+            }
             break;
         case 5:
-            //themaincharacter->position.y=16;
-            //reloadRoom();
+            if(themaincharacter->position.y >=(14*32+25)){
+                room--;
+                reloadRoom();
+                themaincharacter->position.y=16;
+            }
             break;
     }
 
@@ -152,8 +164,8 @@ void gameplay::reloadRoom() {
     tson::Tileson tileson;
     tiles.clear();
     switch (room) {
-        case 1: {
-            //do{
+        case 1:
+        {
             auto map = tileson.parse("assets/graphics/tilesets/room1test.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
@@ -168,12 +180,7 @@ void gameplay::reloadRoom() {
             }
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
-            //}while(maincharacter->position.x >=(24*32+16));
-            /*if(themaincharacter->position.x >= (24 * 32 + 16)){
-                room++;
-            }*/
-        }
-
+            }
             break;
         case 2:
         {
@@ -191,11 +198,7 @@ void gameplay::reloadRoom() {
             }
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
-        }
-            /*themaincharacter->position.x=16;
-            if(themaincharacter->position.y <= 16){
-                room++;
-            }*/
+            }
             break;
         case 3:
         {
@@ -214,10 +217,6 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
         }
-            /*themaincharacter->position.y=16;
-            if(themaincharacter->position.x >= 16){
-                room++;
-            }*/
             break;
         case 4:
         {
@@ -236,10 +235,6 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
         }
-            /*themaincharacter->position.x=16;
-            if(themaincharacter->position.y <= 16){
-                room++;
-            }*/
             break;
         case 5:
         {
@@ -258,7 +253,6 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
         }
-            //themaincharacter->position.y=16;
             break;
     }
 }
