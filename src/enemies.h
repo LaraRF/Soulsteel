@@ -5,14 +5,14 @@
 #ifndef RAYLIBSTARTER_ENEMIES_H
 #define RAYLIBSTARTER_ENEMIES_H
 
-#include "gameplayroom1.h"
+#include "gameplay.h"
 #include "raylib.h"
 #include "scene.h"
 #include "raymath.h"
 #include "enemymodus.h"
 #include <iostream>
 
-class gameplayroom1;
+class gameplay;
 
 class enemies {
 protected:
@@ -41,14 +41,14 @@ public:
 
     //movement
     float stepsize = 1.0f;
-    gameplayroom1 *_scene;
+    gameplay *_scene;
 
     //enums
     direction direction = left;
     controltype controltype = path;
 
     //enemy map interaction > same as in maincharacter.h?
-    enemies(gameplayroom1 *scene);
+    enemies(gameplay *scene);
 
     //function to change between enemy number
 

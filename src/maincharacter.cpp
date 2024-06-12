@@ -8,6 +8,7 @@
 
 void maincharacter::update() {
 
+
     //souldash
 
     if (IsKeyPressed(KEY_I)) {
@@ -96,6 +97,8 @@ void maincharacter::update() {
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
     }
+
+
 }
 
 void maincharacter::draw() {
@@ -103,8 +106,8 @@ void maincharacter::draw() {
     //draws soul or robot, depending on which is chosen
     switch (currentmode) {
         case soul:
-            //DrawCircle(position.x, position.y, size,PINK);
-            DrawTexture(characterSoulTexture, position.x, position.y, WHITE);
+            DrawCircle(position.x, position.y, size,PINK);
+            DrawTexture(characterSoulTexture, position.x-16, position.y-24, WHITE);
             if (souldashactivated) {
                 DrawText("Souldash activated", 10, 10, 10, WHITE);
             } else if (!souldashactivated) {
@@ -119,6 +122,6 @@ void maincharacter::draw() {
     }
 }
 
-maincharacter::maincharacter(gameplayroom1 *scene) : _scene(scene) {
+maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
 
 }

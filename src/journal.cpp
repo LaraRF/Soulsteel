@@ -3,7 +3,7 @@
 //
 #include "journal.h"
 #include "raylib.h"
-#include "gameplayroom1.h"
+#include "gameplay.h"
 
 void journal::update() {
     //navigating the journal by using arrow keys
@@ -26,7 +26,7 @@ void journal::update() {
 
 scene *journal::evaluateSceneChange() {
     if (IsKeyPressed(KEY_J)) {
-        return new gameplayroom1();
+        return new gameplay();
     } else if (IsKeyPressed(KEY_ENTER)) {
         switch (cursor) {
             case 0:
@@ -36,7 +36,7 @@ scene *journal::evaluateSceneChange() {
                 //no journal content yet
                 break;
             case 2:
-                return new gameplayroom1();
+                return new gameplay();
         }
     } else {
         return this;

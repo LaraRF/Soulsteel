@@ -6,7 +6,7 @@
 #include "config.h"
 #include "mainmenu.h"
 #include "optionen.h"
-#include "gameplayroom1.h"
+#include "gameplay.h"
 #include "pausescreen.h"
 #include "journal.h"
 #include "maincharacter.h"

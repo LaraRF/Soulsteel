@@ -3,7 +3,7 @@
 //
 
 #include "enemies.h"
-#include "gameplayroom1.h"
+#include "gameplay.h"
 
 
 
@@ -161,7 +161,7 @@ void enemies::draw() {
 
 }
 
-enemies::enemies(gameplayroom1 *scene): _scene(scene) {
+enemies::enemies(gameplay *scene): _scene(scene) {
 
 }
 

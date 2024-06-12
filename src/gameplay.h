@@ -35,11 +35,13 @@ class enemies;
 
         //attributes necessary for using the map
         std::vector<int> tiles;
-        int rows;
-        int cols;
+        //int rows;
+        //int cols;
         gameplay();
         bool touchesWall(Vector2 pos, float size);
         bool touchesWall(Vector2 pos);
+        //bool touchesNextDoor(Vector2 pos, float size);
+        //int getTouchedNextDoor(Vector2 position, float radius);
 
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);
@@ -50,8 +52,12 @@ class enemies;
         int mapWidth = 25;
         int mapHeight = 15;
 
-        maincharacter *maincharacter;
+        maincharacter *themaincharacter;
         enemies *enemies;
+
+        int room=1;
+
+        void reloadRoom();
     };
 
 

@@ -14,8 +14,50 @@
 
 
 void gameplay::update() {
-    maincharacter->update();
+    themaincharacter->update();
     enemies->update();
+
+
+    switch(room){
+        case 1:
+            if(themaincharacter->position.x >=(24*32+16)){
+                room++;
+                reloadRoom();
+                themaincharacter->position.x=64;
+            }
+            break;
+        case 2:
+            //themaincharacter->position.x=64;
+            if(themaincharacter->position.y<=16){
+                room++;
+                reloadRoom();
+                themaincharacter->position.y=16;
+            }
+
+            //if(maincharacter->position.x>=16)
+            break;
+        case 3:
+            //
+            if(themaincharacter->position.x>=16){
+                room++;
+                reloadRoom();
+
+            }
+
+            break;
+        case 4:
+            //themaincharacter->position.x=16;
+            if(themaincharacter->position.y<=16){
+                room++;
+                reloadRoom();
+            }
+
+            break;
+        case 5:
+            //themaincharacter->position.y=16;
+            //reloadRoom();
+            break;
+    }
 
 }
 
@@ -40,9 +82,9 @@ void gameplay::draw() {
     int tilesetCols = 1;
     int tileSize = 32;
 
-    for (int y = 0; y < cols; y++) {
-        for (int x = 0; x < rows; x++) {
-            int data = tiles[y * rows + x];
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            int data = tiles[y * mapWidth + x];
             if (data < 0) continue;
             Rectangle src = {(float) (data % tilesetCols * tileSize), (float) (data / tilesetCols * tileSize),
                              (float) (tileSize), (float) (tileSize)};
@@ -52,7 +94,9 @@ void gameplay::draw() {
         }
     }
 
-    maincharacter->draw();
+
+
+    themaincharacter->draw();
     enemies->draw();
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
@@ -78,38 +122,146 @@ void gameplay::draw() {
         default:
             break;
     }*/
+    if (IsKeyDown(KEY_H)){
+        this->drawDebug();
+    }
 }
 
 
 void gameplay::drawDebug() {
-
+    for (int y = 0; y < mapHeight; y++){
+        for (int x = 0; x < mapWidth; x++){
+            if (getTileAt(x * 32.0,y * 32.0) == 1){
+                DrawRectangleLines(x * 32, y * 32, 32, 32, RED);
+            }
+        }
+    }
 }
 
 //gets the data from the map needed to draw it
 gameplay::gameplay() {
     tson::Tileson tileson;
-    auto map = tileson.parse("assets/graphics/tilesets/room1test.tmj");
-    if (map->getStatus() != tson::ParseStatus::OK) {
-        std::cout << map->getStatusMessage();
-    }
-    auto layer = map->getLayer("Kachelebene 1");
+    themaincharacter = new maincharacter(this);
+    enemies = new class enemies(this);
 
-    for (int y = 0; y < layer->getSize().y; y++) {
-        for (int x = 0; x < layer->getSize().x; x++) {
-            tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-            tiles.back()--;
-        }
-    }
-    rows = layer->getSize().x;
-    cols = layer->getSize().y;
-
-    maincharacter=new class maincharacter(reinterpret_cast<gameplayroom1 *>(this));
-    enemies =new class enemies(reinterpret_cast<gameplayroom1 *>(this));
-
-
+    reloadRoom();
 
 }
 
+void gameplay::reloadRoom() {
+    tson::Tileson tileson;
+    tiles.clear();
+    switch (room) {
+        case 1: {
+            //do{
+            auto map = tileson.parse("assets/graphics/tilesets/room1test.tmj");
+            if (map->getStatus() != tson::ParseStatus::OK) {
+                std::cout << map->getStatusMessage();
+            }
+            auto layer = map->getLayer("Kachelebene 1");
+
+            for (int y = 0; y < layer->getSize().y; y++) {
+                for (int x = 0; x < layer->getSize().x; x++) {
+                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+                    tiles.back()--;
+                }
+            }
+            mapWidth = layer->getSize().x;
+            mapHeight = layer->getSize().y;
+            //}while(maincharacter->position.x >=(24*32+16));
+            /*if(themaincharacter->position.x >= (24 * 32 + 16)){
+                room++;
+            }*/
+        }
+
+            break;
+        case 2:
+        {
+            auto map = tileson.parse("assets/graphics/tilesets/room2test.tmj");
+            if (map->getStatus() != tson::ParseStatus::OK) {
+                std::cout << map->getStatusMessage();
+            }
+            auto layer = map->getLayer("Kachelebene 1");
+
+            for (int y = 0; y < layer->getSize().y; y++) {
+                for (int x = 0; x < layer->getSize().x; x++) {
+                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+                    tiles.back()--;
+                }
+            }
+            mapWidth = layer->getSize().x;
+            mapHeight = layer->getSize().y;
+        }
+            /*themaincharacter->position.x=16;
+            if(themaincharacter->position.y <= 16){
+                room++;
+            }*/
+            break;
+        case 3:
+        {
+            auto map = tileson.parse("assets/graphics/tilesets/room3test.tmj");
+            if (map->getStatus() != tson::ParseStatus::OK) {
+                std::cout << map->getStatusMessage();
+            }
+            auto layer = map->getLayer("Kachelebene 1");
+
+            for (int y = 0; y < layer->getSize().y; y++) {
+                for (int x = 0; x < layer->getSize().x; x++) {
+                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+                    tiles.back()--;
+                }
+            }
+            mapWidth = layer->getSize().x;
+            mapHeight = layer->getSize().y;
+        }
+            /*themaincharacter->position.y=16;
+            if(themaincharacter->position.x >= 16){
+                room++;
+            }*/
+            break;
+        case 4:
+        {
+            auto map = tileson.parse("assets/graphics/tilesets/room4test.tmj");
+            if (map->getStatus() != tson::ParseStatus::OK) {
+                std::cout << map->getStatusMessage();
+            }
+            auto layer = map->getLayer("Kachelebene 1");
+
+            for (int y = 0; y < layer->getSize().y; y++) {
+                for (int x = 0; x < layer->getSize().x; x++) {
+                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+                    tiles.back()--;
+                }
+            }
+            mapWidth = layer->getSize().x;
+            mapHeight = layer->getSize().y;
+        }
+            /*themaincharacter->position.x=16;
+            if(themaincharacter->position.y <= 16){
+                room++;
+            }*/
+            break;
+        case 5:
+        {
+            auto map = tileson.parse("assets/graphics/tilesets/room5test.tmj");
+            if (map->getStatus() != tson::ParseStatus::OK) {
+                std::cout << map->getStatusMessage();
+            }
+            auto layer = map->getLayer("Kachelebene 1");
+
+            for (int y = 0; y < layer->getSize().y; y++) {
+                for (int x = 0; x < layer->getSize().x; x++) {
+                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+                    tiles.back()--;
+                }
+            }
+            mapWidth = layer->getSize().x;
+            mapHeight = layer->getSize().y;
+        }
+            //themaincharacter->position.y=16;
+            break;
+    }
+}
 
 int gameplay::getTileAt(float x, float y) {
     //catch out of bounds
@@ -124,7 +276,7 @@ int gameplay::getTileAt(float x, float y) {
 bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 0) {
+            if (getTileAt(x * 32, y * 32) == 1) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
@@ -134,6 +286,19 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
     }
     return false;
 }
+/*bool gameplay::touchesNextDoor(Vector2 pos, float size) {
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if (getTileAt(x * 32, y * 32) == 3) {
+                if (CheckCollisionCircleRec(pos, size,
+                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}*/
 
 Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     //check all walls
@@ -143,7 +308,7 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     Rectangle closestWall{};
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) ==1) {
+            if (getTileAt(x * 32, y * 32) == 1) {
                 Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
                                                       Vector2{wall.x + wall.width, wall.y + wall.height});
@@ -157,3 +322,5 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     }
     return closestWall;
 }
+
+
