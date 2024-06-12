@@ -110,7 +110,8 @@ void gameplay::draw() {
 
 
     themaincharacter->draw();
-    if(room==1 && !hasbeeninroom1before){enemies->draw();}
+    //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
+    if(room==1){enemies->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
 
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
