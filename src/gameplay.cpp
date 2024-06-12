@@ -34,6 +34,7 @@ void gameplay::update() {
             }
             if(themaincharacter->position.x <=(10)){
                 room--;
+                hasbeeninroom1before =true;
                 reloadRoom();
                 themaincharacter->position.x=24*32+16;
             }
@@ -109,7 +110,8 @@ void gameplay::draw() {
 
 
     themaincharacter->draw();
-    enemies->draw();
+    if(room==1 && !hasbeeninroom1before){enemies->draw();}
+
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);

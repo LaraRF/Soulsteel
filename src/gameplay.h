@@ -56,6 +56,7 @@ class enemies;
         enemies *enemies;
 
         int room=1;
+        bool hasbeeninroom1before =false;
 
         void reloadRoom();
     };
