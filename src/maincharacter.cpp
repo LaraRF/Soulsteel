@@ -116,7 +116,7 @@ void maincharacter::draw() {
             break;
         case robot:
             //DrawCircle(position.x, position.y, size,GRAY);
-            DrawTexture(characterRobotTexture, position.x, position.y, WHITE);
+            DrawTexture(characterRobotTexture, position.x-16, position.y-24, WHITE);
             break;
         default: std::cout << "help";
     }
