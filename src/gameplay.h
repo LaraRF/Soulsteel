@@ -58,6 +58,33 @@ class enemies;
         int room=1;
         bool hasbeeninroom1before =false;
 
+        //doors
+        int doorfromroom1to2=32;
+        int startposroom1to2=14*32+16;
+        int doorfromroom2to1=14*32+20;
+        int startposroom2to1=2*32+16;
+        int doorfromroom2to3=2*32;
+        int startposroom2to3=14*32+16;
+        int doorfromroom3to2=14*32+20;
+        int startposroom3to2=2*32+16;
+        int doorfromroom2to4=24*32+16;
+        int startposroom2to4=16;
+        int doorfromroom4to2=16;
+        int startposroom4to2=24*32+16;
+        int doorfromroom4to5=16;
+        int startposroom4to5=14*32+16;
+        int doorfromroom5to4=14*32+20;
+        int startposroom5to4=20;
+        int doorfromroom5to6=2*32;
+        int startposroom5to6=14*32+16;
+        int doorfromroom6to5=14*32+20;
+        int startposroom6to5=2*32+16;
+
+
+
+
+
+
         void reloadRoom();
     };
 

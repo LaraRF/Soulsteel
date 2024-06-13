@@ -20,54 +20,66 @@ void gameplay::update() {
 
     switch(room){
         case 1:
-            if(themaincharacter->position.x >=(24*32+16)){
-                room++;
+            if(themaincharacter->position.y <=(doorfromroom1to2)){
+                room=2;
                 reloadRoom();
-                themaincharacter->position.x=16;
+                themaincharacter->position.y=startposroom1to2;
             }
             break;
         case 2:
-            if(themaincharacter->position.y<=16){
-                room++;
+            if(themaincharacter->position.y<=doorfromroom2to3){
+                room=3;
                 reloadRoom();
-                themaincharacter->position.y=14*32+16;
+                themaincharacter->position.y=startposroom2to3;
             }
-            if(themaincharacter->position.x <=(10)){
-                room--;
+            if(themaincharacter->position.x>=doorfromroom2to4){
+                room=4;
+                reloadRoom();
+                themaincharacter->position.x=startposroom2to4;
+            }
+            if(themaincharacter->position.y >=(doorfromroom2to1)){
+                room=1;
                 hasbeeninroom1before =true;
                 reloadRoom();
-                themaincharacter->position.x=24*32+16;
+                themaincharacter->position.y=startposroom2to1;
             }
             break;
         case 3:
-            if(themaincharacter->position.x<=16){
-                room++;
+            if(themaincharacter->position.y >=(doorfromroom3to2)){
+                room=2;
                 reloadRoom();
-                themaincharacter->position.x=24*32+16;
-            }
-            if(themaincharacter->position.y >=(14*32+20)){
-                room--;
-                reloadRoom();
-                themaincharacter->position.y=16;
+                themaincharacter->position.y=startposroom3to2;
             }
             break;
         case 4:
-            if(themaincharacter->position.y<=16){
-                room++;
+            if(themaincharacter->position.y<=doorfromroom4to5){
+                room=5;
                 reloadRoom();
-                themaincharacter->position.y=14*32+16;
+                themaincharacter->position.y=startposroom4to5;
             }
-            if(themaincharacter->position.x >=(24*32+30)){
-                room--;
+            if(themaincharacter->position.x <=(doorfromroom4to2)){
+                room=2;
                 reloadRoom();
-                themaincharacter->position.x=16;
+                themaincharacter->position.x=startposroom4to2;
             }
             break;
         case 5:
-            if(themaincharacter->position.y >=(14*32+25)){
-                room--;
+            if(themaincharacter->position.y >=(doorfromroom5to4)){
+                room=4;
                 reloadRoom();
-                themaincharacter->position.y=16;
+                themaincharacter->position.y =startposroom5to4;
+            }
+            if(themaincharacter->position.y <=(doorfromroom5to6)){
+                room=6;
+                reloadRoom();
+                themaincharacter->position.y=startposroom5to6;
+            }
+            break;
+        case 6:
+            if(themaincharacter->position.y >=(doorfromroom6to5)){
+                room=5;
+                reloadRoom();
+                themaincharacter->position.y=startposroom6to5;
             }
             break;
     }
@@ -187,7 +199,7 @@ void gameplay::reloadRoom() {
             break;
         case 2:
         {
-            auto map = tileson.parse("assets/graphics/tilesets/room2test.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room2test_greyboxing1.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -205,7 +217,7 @@ void gameplay::reloadRoom() {
             break;
         case 3:
         {
-            auto map = tileson.parse("assets/graphics/tilesets/room3test.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room3test_greyboxing1.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -240,6 +252,24 @@ void gameplay::reloadRoom() {
         }
             break;
         case 5:
+        {
+            auto map = tileson.parse("assets/graphics/tilesets/room5test_greyboxing1.tmj");
+            if (map->getStatus() != tson::ParseStatus::OK) {
+                std::cout << map->getStatusMessage();
+            }
+            auto layer = map->getLayer("Kachelebene 1");
+
+            for (int y = 0; y < layer->getSize().y; y++) {
+                for (int x = 0; x < layer->getSize().x; x++) {
+                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+                    tiles.back()--;
+                }
+            }
+            mapWidth = layer->getSize().x;
+            mapHeight = layer->getSize().y;
+        }
+            break;
+        case 6:
         {
             auto map = tileson.parse("assets/graphics/tilesets/room5test.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
