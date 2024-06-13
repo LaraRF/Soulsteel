@@ -169,7 +169,7 @@ void gameplay::reloadRoom() {
     switch (room) {
         case 1:
         {
-            auto map = tileson.parse("assets/graphics/tilesets/room1test.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room1test_greyboxing1.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -273,7 +273,7 @@ int gameplay::getTileAt(float x, float y) {
 bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 1) {
+            if ((getTileAt(x * 32, y * 32) == 1)) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
@@ -318,6 +318,43 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
         }
     }
     return closestWall;
+}
+
+bool gameplay::touchesBars(Vector2 pos, float size) {
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if ((getTileAt(x * 32, y * 32) == 10)) {
+                if (CheckCollisionCircleRec(pos, size,
+                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
+    //check all walls
+    //on contact, note distance to wall
+    //return wall with shortest distance
+    float shortestDistance = 1000000;
+    Rectangle closestBar{};
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if (getTileAt(x * 32, y * 32) == 10) {
+                Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
+                                                      Vector2{bars.x + bars.width, bars.y + bars.height});
+                float distance = Vector2Distance(position, wallTouchPoint);
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    closestBar = bars;
+                }
+            }
+        }
+    }
+    return closestBar;
 }
 
 

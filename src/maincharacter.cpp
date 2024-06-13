@@ -98,7 +98,21 @@ void maincharacter::update() {
         position = Vector2Add(position, pushForce);
     }
 
-
+    if(currentmode != soul){
+        for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
+            Rectangle touchedBars = _scene->getTouchedBars(position, size);
+            Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
+                                              {touchedBars.x + touchedBars.width, touchedBars.y + touchedBars.height});
+            Vector2 pushForce = Vector2Subtract(position, touchPoint);
+            float overlapDistance = size - Vector2Length(pushForce);
+            if (overlapDistance <= 0) {
+                break;
+            }
+            pushForce = Vector2Normalize(pushForce);
+            pushForce = Vector2Scale(pushForce, overlapDistance);
+            position = Vector2Add(position, pushForce);
+        }
+    }
 }
 
 void maincharacter::draw() {

@@ -30,7 +30,7 @@ class enemies;
         //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
 
         //loads the textures on the map (Kachelsatz)
-        Texture2D tilesetgrass = assestmanagergraphics::getTexture("tilesets/grassesfour");
+        Texture2D tilesetgrass = assestmanagergraphics::getTexture("tilesets/greyboxing1");
 
 
         //attributes necessary for using the map
@@ -40,8 +40,8 @@ class enemies;
         gameplay();
         bool touchesWall(Vector2 pos, float size);
         bool touchesWall(Vector2 pos);
-        //bool touchesNextDoor(Vector2 pos, float size);
-        //int getTouchedNextDoor(Vector2 position, float radius);
+        bool touchesBars(Vector2 pos, float size);
+        Rectangle getTouchedBars(Vector2 position, float radius);
 
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);

@@ -39,7 +39,7 @@ public:
 
     //Character map interaction stuff
     maincharacter(gameplay *scene);
-    Vector2 position = {124, 32 * 7};
+    Vector2 position = {12*32, 8*32};
     float size = 12;
 
     maincharactermodus currentmode=soul;
