@@ -2,36 +2,36 @@
 // Created by lrfri on 04.06.2024.
 //
 
-#include "enemies.h"
+#include "Enemy.h"
 #include "gameplay.h"
 
 
 
 //timer to have the enemies pause between steps instead of running nonstop
 //(re-)start a timer
-void enemies::StartTimer(Timer *timer, float pausetime) {
+void Enemy::StartTimer(Timer *timer, float pausetime) {
     if (timer != nullptr) { //timer has to be more than 0
         timer->Pausetime = pausetime;
     }
 }
 
-void enemies::UpdateTimer(Timer *timer) {
+void Enemy::UpdateTimer(Timer *timer) {
     if (timer != nullptr && timer->Pausetime > 0) {
         timer->Pausetime -= GetFrameTime(); //subtracts current frame from the timer (if timer isn't already at 0)
     }
 }
 
-bool enemies::TimerDone(Timer *timer) {
+bool Enemy::TimerDone(Timer *timer) {
     if (timer != nullptr) {
         return timer->Pausetime <= 0;//returns true when the timer is done
     }else {return false;}
 }
 
-void enemies::getEnemyData() {
+void Enemy::getEnemyData() {
 
     if (enemyTypeNormal = true) {
 
-        enemy1*getEnemyData();
+        Enemy1*getEnemyData();
     }
    // else if (enemyTypeRanged = true) {
     //    enemy2*getEnemyData();
@@ -46,7 +46,7 @@ void enemies::getEnemyData() {
 }
 
 
-void enemies::update() {
+void Enemy::update() {
 
     /* Timer += Timer->GetTimeElapsed();
      int Random = (rand() % 4);
@@ -152,7 +152,7 @@ void enemies::update() {
     }
 }
 
-void enemies::draw() {
+void Enemy::draw() {
 
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
     //DrawCircle(position.x, position.y, size, RED);
@@ -161,9 +161,11 @@ void enemies::draw() {
 
 }
 
-enemies::enemies(gameplay *scene): _scene(scene) {
+Enemy::Enemy(gameplay *scene) {
 
 }
 
 
+Enemy1::Enemy1(gameplay *scene) : Enemy(scene) {
 
+}

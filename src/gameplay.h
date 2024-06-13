@@ -9,9 +9,11 @@
 #include "raylib.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
+#include "Enemy.h"
 
 class maincharacter;
-class enemies;
+class Enemy;
+class Enemy1;
 
     class gameplay:public scene {
     public:
@@ -53,7 +55,7 @@ class enemies;
         int mapHeight = 15;
 
         maincharacter *themaincharacter;
-        enemies *enemies;
+        Enemy1 *enemy1;
 
         int room=1;
         bool hasbeeninroom1before =false;

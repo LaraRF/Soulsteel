@@ -10,12 +10,12 @@
 #include "ingameoptions.h"
 #include "maincharacter.h"
 #include "maincharactermodus.h"
-#include "enemies.h"
+#include "Enemy.h"
 
 
 void gameplay::update() {
     themaincharacter->update();
-    enemies->update();
+    //Enemy1->update();
 
 
     switch(room){
@@ -111,7 +111,7 @@ void gameplay::draw() {
 
     themaincharacter->draw();
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
-    if(room==1){enemies->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
+    if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
 
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
@@ -157,7 +157,7 @@ void gameplay::drawDebug() {
 gameplay::gameplay() {
     tson::Tileson tileson;
     themaincharacter = new maincharacter(this);
-    enemies = new class enemies(this);
+    enemy1 = new Enemy1(this);
 
     reloadRoom();
 

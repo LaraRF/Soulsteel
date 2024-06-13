@@ -28,8 +28,8 @@ add_executable(${PROJECT_NAME} main.cpp
         assestmanagergraphics.h
         scene.cpp
         scene.h
-        enemies.cpp
-        enemies.h
+        Enemy.cpp
+        Enemy.h
         enemymodus.h
         gameplayroom1.h
 )

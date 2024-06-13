@@ -2,8 +2,8 @@
 // Created by lrfri on 04.06.2024.
 //
 
-#ifndef RAYLIBSTARTER_ENEMIES_H
-#define RAYLIBSTARTER_ENEMIES_H
+#ifndef RAYLIBSTARTER_ENEMY_H
+#define RAYLIBSTARTER_ENEMY_H
 
 #include "gameplay.h"
 #include "raylib.h"
@@ -14,7 +14,7 @@
 
 class gameplay;
 
-class enemies {
+class Enemy {
 protected:
     //general enemy info
     std::string enemyName;
@@ -48,7 +48,7 @@ public:
     controltype controltype = path;
 
     //enemy map interaction > same as in maincharacter.h?
-    enemies(gameplay *scene);
+    Enemy(gameplay *scene);
 
     //function to change between enemy number
 
@@ -80,7 +80,7 @@ public:
 };
 
 // child classes
-class enemy1: public enemies {
+class Enemy1: public Enemy {
     public:
         void getEnemyData(){
             //general enemy info            maybe enum for enemy type (normal, ranged, weaponized)???
@@ -96,9 +96,10 @@ class enemy1: public enemies {
             stopup = 6 * 32 + 16;
             //enemies::getEnemyData(); //endlosschleife?
         }
+        Enemy1(gameplay *scene);
     };
 
-class enemy2: public enemies {
+class Enemy2: public Enemy {
 public:
     void getEnemyData(){
         //general enemy info            maybe enum for enemy type (normal, ranged, weaponized)???
@@ -116,4 +117,4 @@ public:
     }
 };
 
-#endif //RAYLIBSTARTER_ENEMIES_H
+#endif //RAYLIBSTARTER_ENEMY_H
