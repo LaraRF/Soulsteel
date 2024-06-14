@@ -64,19 +64,19 @@ void gameplay::update() {
             }
             break;
         case 5:
-            if(themaincharacter->position.y >=(doorfromroom5to4)){
-                room=4;
-                reloadRoom();
-                themaincharacter->position.y =startposroom5to4;
-            }
-            if(themaincharacter->position.y <=(doorfromroom5to6)){
+            if(themaincharacter->position.y <=doorfromroom5to6){
                 room=6;
                 reloadRoom();
                 themaincharacter->position.y=startposroom5to6;
             }
+            if(themaincharacter->position.y >=doorfromroom5to4){
+                room=4;
+                reloadRoom();
+                themaincharacter->position.y =startposroom5to4;
+            }
             break;
         case 6:
-            if(themaincharacter->position.y >=(doorfromroom6to5)){
+            if(themaincharacter->position.y >=doorfromroom6to5){
                 room=5;
                 reloadRoom();
                 themaincharacter->position.y=startposroom6to5;
