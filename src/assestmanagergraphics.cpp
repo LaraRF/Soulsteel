@@ -47,6 +47,15 @@ void assestmanagergraphics::init() {
     //enemies
     m_textures["characters/enemies/enemy_1"] = LoadTexture("assets/graphics/characters/enemies/enemy_1.png");
     m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
+    //robot functions
+    //bombs
+    m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
+    m_textures["item/bomb_activated"] = LoadTexture("assets/items/bomb_abouttoexplode.png");
+    m_textures["item/bomb_exploded"] = LoadTexture("assets/items/bomb_exploded.png");
+    //soul functions
+    //soul dust
+    m_textures["item/souldust"] = LoadTexture("assets/items/souldust.png");
+
 
     for (auto &texture: m_textures) {
         if (!IsTextureReady(texture.second)) {

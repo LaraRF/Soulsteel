@@ -43,6 +43,28 @@ public:
     float size = 12;
 
     maincharactermodus currentmode=soul;
+
+    //looking direction
+    enum lookingdirection{
+        north, south, east, west
+    };
+    lookingdirection lookingdirection =south;
+
+    //bomb throwing
+    Texture2D bomb = assestmanagergraphics::getTexture("item/bomb");
+    Texture2D bomb_activated = assestmanagergraphics::getTexture("item/bomb_activated");
+    Texture2D bomb_exploded = assestmanagergraphics::getTexture("item/bomb_exploded");
+    bool throwbomb =false;
+    int throwingposx =0;
+    int throwingposy=0;
+    bool bombhasbeenplaced =false;
+
+    //souldust
+    Texture2D souldust = assestmanagergraphics::getTexture("item/souldust");
+    bool souldustactivated1 =false;
+    bool souldustactivated2 =false;
+
+
 };
 
 
