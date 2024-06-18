@@ -10,12 +10,15 @@
 #include "ingameoptions.h"
 #include "maincharacter.h"
 #include "maincharactermodus.h"
-#include "Enemy.h"
+#include "ENEMIES/Enemy.h"
+#include "ENEMIES/Enemy1.h"
+#include "ENEMIES/Enemy2.h"
 
 
 void gameplay::update() {
     themaincharacter->update();
-    //Enemy1->update();
+    enemy1->update();
+    enemy2->update();
 
 
     switch(room){
@@ -158,6 +161,7 @@ gameplay::gameplay() {
     tson::Tileson tileson;
     themaincharacter = new maincharacter(this);
     enemy1 = new Enemy1(this);
+    enemy2 = new Enemy2(this);
 
     reloadRoom();
 
