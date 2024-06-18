@@ -28,10 +28,14 @@ add_executable(${PROJECT_NAME} main.cpp
         assestmanagergraphics.h
         scene.cpp
         scene.h
-        Enemy.cpp
-        Enemy.h
+        ENEMIES/Enemy.cpp
+        ENEMIES/Enemy.h
         enemymodus.h
         gameplayroom1.h
+        ENEMIES/Enemy1.cpp
+        ENEMIES/Enemy1.h
+        ENEMIES/Enemy2.cpp
+        ENEMIES/Enemy2.h
 )
 
 # Add config.h.in file

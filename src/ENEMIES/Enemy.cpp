@@ -3,8 +3,8 @@
 //
 
 #include "Enemy.h"
-#include "gameplay.h"
-
+#include "../gameplay.h"
+#include "Enemy1.h"
 
 
 //timer to have the enemies pause between steps instead of running nonstop
@@ -27,15 +27,23 @@ bool Enemy::TimerDone(Timer *timer) {
     }else {return false;}
 }
 
-void Enemy::getEnemyData() {
 
-    if (enemyTypeNormal = true) {
 
-        Enemy1*getEnemyData();
+
+
+    /*if (enemyTypeMelee*Enemy1 = true) {
+
+        //Enemy1 e1(enemyName, enemyHP, enemyDamage, enemyTypeMelee, enemyTypeRanged, enemyTypeArmed);
+        Enemy1*getEnemy1Data;
     }
-   // else if (enemyTypeRanged = true) {
-    //    enemy2*getEnemyData();
+    if (enemyTypeRanged*Enemy2 = true) {
 
+        Enemy2 e2(enemyName, enemyHP, enemyDamage, enemyTypeMelee, enemyTypeRanged, enemyTypeArmed);
+    }
+    if (enemyTypeArmed = true) {
+
+        //Enemy3*getEnemyData();
+    }*/
 
     //if (enemyTypeX = true) {
 
@@ -43,7 +51,7 @@ void Enemy::getEnemyData() {
     //enemy1::getEnemyData(); ich möchte auf die Daten von enemy1 zugreifen
     //wenn enemy 1 dann enemy.getEnemydata
 
-}
+
 
 
 void Enemy::update() {
@@ -119,7 +127,7 @@ void Enemy::update() {
     }
     //end movement code
 
-    for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
+/*    for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
         Rectangle touchedWall = _scene->getTouchedWall(position, size);
         Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
                                           {touchedWall.x + touchedWall.width,
@@ -131,7 +139,7 @@ void Enemy::update() {
         }
         pushForce = Vector2Normalize(pushForce);
         pushForce = Vector2Scale(pushForce, overlapDistance);
-        position = Vector2Add(position, pushForce);
+        position = Vector2Add(position, pushForce);*/
 
         if(controltype==random) {
             switch (direction) {
@@ -150,15 +158,15 @@ void Enemy::update() {
             }
         }
     }
-}
+//}
+
+
+
+
 
 void Enemy::draw() {
 
-    DrawTexture(enemyTexture1, position.x, position.y, WHITE);
-    //DrawCircle(position.x, position.y, size, RED);
-    DrawTexture(enemyTexture2, position.x-50, position.y,WHITE);
-
-
+    //Enemy1::enemy1_Data("Enemy1", 0.0f, 0.0f);
 }
 
 Enemy::Enemy(gameplay *scene) {
@@ -166,6 +174,4 @@ Enemy::Enemy(gameplay *scene) {
 }
 
 
-Enemy1::Enemy1(gameplay *scene) : Enemy(scene) {
 
-}

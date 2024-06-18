@@ -14,6 +14,7 @@
 #include "ingameoptions.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
+#include "ENEMIES/Enemy.h"
 
 int main() {
     // Raylib initialization
