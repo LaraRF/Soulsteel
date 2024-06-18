@@ -33,32 +33,44 @@ void maincharacter::update() {
                 case 0:
                     if (IsKeyDown(KEY_S)) {
                         position.y = position.y + stepsize;
+                        lookingdirection =south;
                     }
                     if (IsKeyDown(KEY_W)) {
                         position.y = position.y - stepsize;
+                        lookingdirection=north;
                     }
                     if (IsKeyDown(KEY_A)) {
                         position.x = position.x - stepsize;
+                        lookingdirection=west;
                     }
                     if (IsKeyDown(KEY_D)) {
                         position.x = position.x + stepsize;
+                        lookingdirection=east;
                     }
                     break;
                 case 1:
                     if (IsKeyDown(KEY_S)) {
                         position.y = position.y + (stepsize + stepzisesouldash);
+                        lookingdirection=south;
                     }
                     if (IsKeyDown(KEY_W)) {
                         position.y = position.y - (stepsize + stepzisesouldash);
+                        lookingdirection=north;
                     }
                     if (IsKeyDown(KEY_A)) {
                         position.x = position.x - (stepsize + stepzisesouldash);
+                        lookingdirection=west;
                     }
                     if (IsKeyDown(KEY_D)) {
                         position.x = position.x + (stepsize + stepzisesouldash);
+                        lookingdirection=east;
                     }
             }
             //end of movement code
+            //soul dust
+
+            //end of soul dust code
+
             //space for more soul functions
             break;
         case robot:
@@ -70,16 +82,33 @@ void maincharacter::update() {
             //movement
             if (IsKeyDown(KEY_S)) {
                 position.y = position.y + stepsize;
+                lookingdirection=south;
             }
             if (IsKeyDown(KEY_W)) {
                 position.y = position.y - stepsize;
+                lookingdirection=north;
             }
             if (IsKeyDown(KEY_A)) {
                 position.x = position.x - stepsize;
+                lookingdirection=west;
             }
             if (IsKeyDown(KEY_D)) {
                 position.x = position.x + stepsize;
+                lookingdirection=east;
             }//end movement code
+
+            //bomb throwing
+            /*if(IsKeyPressed(KEY_B)){
+                if(!bombhasbeenplaced){
+                throwbomb=true;
+                throwingposx=position.x;
+                throwingposy=position.y;
+                }
+                if(bombhasbeenplaced){
+
+                }
+            }*/
+
             //space for more robot function
             break;
     }
@@ -98,7 +127,21 @@ void maincharacter::update() {
         position = Vector2Add(position, pushForce);
     }
 
-
+    if(currentmode != soul){
+        for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
+            Rectangle touchedBars = _scene->getTouchedBars(position, size);
+            Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
+                                              {touchedBars.x + touchedBars.width, touchedBars.y + touchedBars.height});
+            Vector2 pushForce = Vector2Subtract(position, touchPoint);
+            float overlapDistance = size - Vector2Length(pushForce);
+            if (overlapDistance <= 0) {
+                break;
+            }
+            pushForce = Vector2Normalize(pushForce);
+            pushForce = Vector2Scale(pushForce, overlapDistance);
+            position = Vector2Add(position, pushForce);
+        }
+    }
 }
 
 void maincharacter::draw() {
@@ -120,6 +163,27 @@ void maincharacter::draw() {
             break;
         default: std::cout << "help";
     }
+
+    /*if(throwbomb){
+        switch (lookingdirection) {
+            case north:
+                DrawTexture(bomb, throwingposx, throwingposy-32, WHITE);
+                bombhasbeenplaced=true;
+                break;
+            case east:
+                DrawTexture(bomb, throwingposx+32, throwingposy, WHITE);
+                bombhasbeenplaced=true;
+                break;
+            case south:
+                DrawTexture(bomb, throwingposx, throwingposy+32, WHITE);
+                bombhasbeenplaced=true;
+                break;
+            case west:
+                DrawTexture(bomb, throwingposx-32, throwingposy, WHITE);
+                bombhasbeenplaced=true;
+                break;
+        }
+    }*/
 }
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {

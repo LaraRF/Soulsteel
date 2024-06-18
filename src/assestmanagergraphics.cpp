@@ -27,6 +27,7 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/flag_ENG_2"] = LoadTexture("assets/graphics/userinterface/flag_ENG_2.png");
     m_textures["userinterface/grasses"] = LoadTexture("assets/graphics/userinterface/grasses.png");
     m_textures["tilesets/grassesfour"] = LoadTexture("assets/graphics/tilesets/grassesfour.png");
+    m_textures["tilesets/greyboxing1"] = LoadTexture("assets/graphics/tilesets/tileset_greyboxing_room1.png");
     m_textures["userinterface/heart"] = LoadTexture("assets/graphics/userinterface/heart.png");
     m_textures["userinterface/heart_smaller"] = LoadTexture("assets/graphics/userinterface/heart_smaller.png");
     m_textures["userinterface/journal_background"] = LoadTexture("assets/graphics/userinterface/journal_background.png");
@@ -46,6 +47,15 @@ void assestmanagergraphics::init() {
     //enemies
     m_textures["characters/enemies/enemy_1"] = LoadTexture("assets/graphics/characters/enemies/enemy_1.png");
     m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
+    //robot functions
+    //bombs
+    m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
+    m_textures["item/bomb_activated"] = LoadTexture("assets/items/bomb_abouttoexplode.png");
+    m_textures["item/bomb_exploded"] = LoadTexture("assets/items/bomb_exploded.png");
+    //soul functions
+    //soul dust
+    m_textures["item/souldust"] = LoadTexture("assets/items/souldust.png");
+
 
     for (auto &texture: m_textures) {
         if (!IsTextureReady(texture.second)) {
