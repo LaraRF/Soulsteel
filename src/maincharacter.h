@@ -17,8 +17,8 @@ class gameplay;
 
 class maincharacter {
 private:
-    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Soul_front");
-    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Robot_front");
+    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
+    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
 
 public:
     void update();
