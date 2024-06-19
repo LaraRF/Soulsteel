@@ -10,9 +10,12 @@
 #include "assestmanagergraphics.h"
 #include "scene.h"
 #include "ENEMIES/Enemy.h"
+#include "GAME OBJECTS/gameobjects.h"
 
 
 class maincharacter;
+class gameobjects;
+class robot;
 class Enemy;
 class Enemy1;
 class Enemy2;
@@ -59,6 +62,7 @@ class Enemy2;
 
         maincharacter *themaincharacter;
         std::vector<Enemy*> enemies;
+        std::vector<gameobjects*> gameobjects;
 
         int room=1;
         bool hasbeeninroom1before =false;
