@@ -42,7 +42,7 @@ public:
     Vector2 position = {12*32, 8*32};
     float size = 12;
 
-    maincharactermodus currentmode=soul;
+    maincharactermodus currentmode=soulmodus;
 
     //looking direction
     enum lookingdirection{

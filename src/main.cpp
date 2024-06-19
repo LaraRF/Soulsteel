@@ -37,7 +37,7 @@ int main() {
     //set enums to the state they have when starting the game
 
 
-    maincharactermodus modus =soul;
+    maincharactermodus modus =soulmodus;
 
 
 

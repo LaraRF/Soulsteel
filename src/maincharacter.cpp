@@ -22,10 +22,10 @@ void maincharacter::update() {
 
     //allows you to switch between soul and robot functions
     switch (currentmode) {
-        case soul:
+        case soulmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmode = robot;
+                currentmode = robotmodus;
             }
 
             //movement
@@ -73,10 +73,10 @@ void maincharacter::update() {
 
             //space for more soul functions
             break;
-        case robot:
+        case robotmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmode = soul;
+                currentmode = soulmodus;
             }
 
             //movement
@@ -127,7 +127,7 @@ void maincharacter::update() {
         position = Vector2Add(position, pushForce);
     }
 
-    if(currentmode != soul){
+    if(currentmode != soulmodus){
         for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
             Rectangle touchedBars = _scene->getTouchedBars(position, size);
             Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
@@ -148,7 +148,7 @@ void maincharacter::draw() {
 
     //draws soul or robot, depending on which is chosen
     switch (currentmode) {
-        case soul:
+        case soulmodus:
             DrawCircle(position.x, position.y, size,PINK);
             DrawTexture(characterSoulTexture, position.x-16, position.y-24, WHITE);
             if (souldashactivated) {
@@ -157,33 +157,12 @@ void maincharacter::draw() {
                 DrawText("Souldash deactivated", 10, 10, 10, WHITE);
             }
             break;
-        case robot:
+        case robotmodus:
             //DrawCircle(position.x, position.y, size,GRAY);
-            DrawTexture(characterRobotTexture, position.x-16, position.y-24, WHITE);
+            //DrawTexture(characterRobotTexture, position.x-16, position.y-24, WHITE);
             break;
         default: std::cout << "help";
     }
-
-    /*if(throwbomb){
-        switch (lookingdirection) {
-            case north:
-                DrawTexture(bomb, throwingposx, throwingposy-32, WHITE);
-                bombhasbeenplaced=true;
-                break;
-            case east:
-                DrawTexture(bomb, throwingposx+32, throwingposy, WHITE);
-                bombhasbeenplaced=true;
-                break;
-            case south:
-                DrawTexture(bomb, throwingposx, throwingposy+32, WHITE);
-                bombhasbeenplaced=true;
-                break;
-            case west:
-                DrawTexture(bomb, throwingposx-32, throwingposy, WHITE);
-                bombhasbeenplaced=true;
-                break;
-        }
-    }*/
 }
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
