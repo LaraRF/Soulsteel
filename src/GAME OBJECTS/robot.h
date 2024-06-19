@@ -7,6 +7,7 @@
 
 #include "gameobjects.h"
 #include "../assestmanagergraphics.h"
+#include "../maincharactermodus.h"
 
 class robot:public gameobjects {
 private:
@@ -16,9 +17,20 @@ public:
     void update() override;
     void draw() override;
 
+    maincharactermodus currentmode =soulmodus;
+
     robot(gameplay*scene){
         size=12;
     };
+
+    float stepsize=4;
+
+    //looking direction
+    enum lookingdirection{
+        north, south, east, west
+    };
+    lookingdirection lookingdirection =south;
+
     ~robot();
 };
 

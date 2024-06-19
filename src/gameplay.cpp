@@ -150,19 +150,7 @@ void gameplay::draw() {
     DrawTexture(heart, 50, 20, WHITE);
     DrawTexture(heart, 90, 20, WHITE);
 
-    //DrawTexture(modeRobo, 800, 40, WHITE);
-    //DrawTexture(modeSoul, 880, 40, WHITE);
 
-    /*switch (languagestates) {
-        case german:
-            DrawText("Modus:", 840, 10, 20, BLACK);
-            break;
-        case english:
-            DrawText("Mode:", 840, 10, 20, BLACK);
-            break;
-        default:
-            break;
-    }*/
     if (IsKeyDown(KEY_H)){
         this->drawDebug();
     }
@@ -184,6 +172,8 @@ gameplay::gameplay() {
     tson::Tileson tileson;
     themaincharacter = new maincharacter(this);
 
+    gameobjects.push_back(new robot(this));
+    gameobjects.back()->position = {11*32, 5*32};
 
     reloadRoom();
 
@@ -211,8 +201,7 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
             }
-            gameobjects.push_back(new robot(this));
-            gameobjects.back()->position = {11*32, 5*32};
+
             break;
         case 2:
         {
