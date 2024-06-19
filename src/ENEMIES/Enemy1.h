@@ -11,27 +11,15 @@ class Enemy1: public Enemy{
 public:
 Enemy1(gameplay *scene) {
 
-    //enemyName = "enemyNameSample";
     enemyHP = 0.0f;
     enemyDamage = 0.0f;
     enemyTypeMelee = true;
-    //enemyTypeRanged = false;
-    //enemyTypeArmed = false;
-    //movement
-
-
 }
 
     void getEnemyData() override;
-
-        /*/movement
-        stopleft = 5* 32;
-        stopdown = 10 * 32 + 16;
-        stopright = 11 * 32 - 16;
-        stopup = 6 * 32 + 16;
-        //enemies::getEnemyData(); //endlosschleife?*/
-
-
+    void getEnemyPosition() override;
+    void draw() override;
+    ~Enemy1();
 };
 
 

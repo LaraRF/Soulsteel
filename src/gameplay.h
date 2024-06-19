@@ -58,8 +58,8 @@ class Enemy2;
         int mapHeight = 15;
 
         maincharacter *themaincharacter;
-        Enemy1 *enemy1;
-        Enemy2 *enemy2;
+        Enemy *enemy1;
+        Enemy *enemy2;
 
         int room=1;
         bool hasbeeninroom1before =false;
@@ -92,6 +92,8 @@ class Enemy2;
 
 
         void reloadRoom();
+
+        bool touchesNextDoor(Vector2 pos, float size);
     };
 
 

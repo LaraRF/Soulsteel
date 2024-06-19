@@ -22,35 +22,21 @@ protected:
     bool enemyTypeMelee;
     bool enemyTypeRanged;
     bool enemyTypeArmed;
-    //movement
     float stopleft;
     float stopdown;
     float stopright;
     float stopup;
-//protected:
 
 public:
     Enemy() {
-
-
-
     }
 
-    virtual void getEnemyData()  {
+    virtual void getEnemyData();
 
-    }
-
-
+    virtual void getEnemyPosition() ;
 
 
-       //movement
-
-
-
-
-
-
-    void draw(); //method to draw enemy texture in base class
+    virtual void draw() = 0;
     void update();
 
 
@@ -66,8 +52,6 @@ public:
     Enemy(gameplay *scene);
 
     //function to change between enemy number
-
-
 
     //position enemy1
     Vector2 position = {11 * 32, 32 * 5}; //room1 map

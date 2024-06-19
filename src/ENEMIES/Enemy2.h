@@ -12,11 +12,13 @@ public:
 
         enemyHP = 0.0f;
         enemyDamage = 0.0f;
-        enemyTypeMelee = true;
+        enemyTypeRanged = true;
     }
 
     void getEnemyData() override;
-
+    void getEnemyPosition() override;
+    void draw() override;
+    ~Enemy2();
 };
 
 

@@ -27,33 +27,6 @@ bool Enemy::TimerDone(Timer *timer) {
     }else {return false;}
 }
 
-
-
-
-
-    /*if (enemyTypeMelee*Enemy1 = true) {
-
-        //Enemy1 e1(enemyName, enemyHP, enemyDamage, enemyTypeMelee, enemyTypeRanged, enemyTypeArmed);
-        Enemy1*getEnemy1Data;
-    }
-    if (enemyTypeRanged*Enemy2 = true) {
-
-        Enemy2 e2(enemyName, enemyHP, enemyDamage, enemyTypeMelee, enemyTypeRanged, enemyTypeArmed);
-    }
-    if (enemyTypeArmed = true) {
-
-        //Enemy3*getEnemyData();
-    }*/
-
-    //if (enemyTypeX = true) {
-
-
-    //enemy1::getEnemyData(); ich möchte auf die Daten von enemy1 zugreifen
-    //wenn enemy 1 dann enemy.getEnemydata
-
-
-
-
 void Enemy::update() {
 
     /* Timer += Timer->GetTimeElapsed();
@@ -161,17 +134,15 @@ void Enemy::update() {
 //}
 
 
-
-
-
-void Enemy::draw() {
-
-    //Enemy1::enemy1_Data("Enemy1", 0.0f, 0.0f);
-}
-
 Enemy::Enemy(gameplay *scene) {
 
 }
 
 
+void Enemy::getEnemyData() {
 
+}
+
+void Enemy::getEnemyPosition() {
+
+}

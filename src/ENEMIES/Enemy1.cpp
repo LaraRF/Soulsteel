@@ -9,13 +9,21 @@ void Enemy1::getEnemyData() {
     Enemy1(nullptr);
 }
 
-/*enemyName = "EnemyNameHere";
-enemyHP = 2.0f;
-enemyDamage = 0.5f;
-enemyTypeMelee = true;
-enemyTypeRanged = false;
-enemyTypeArmed = false;*/
+void Enemy1::getEnemyPosition() {
+    stopleft = 14.0f * 32.0f + 16.0f;
+    stopdown = 10 * 32 + 16;
+    stopright = 11 * 32 - 16;
+    stopup = 6 * 32 + 16;
 
-//Enemy1::Enemy1(gameplay *scene) : Enemy1(scene) {
+    //Enemy::getEnemyPosition(stopleft, stopdown, stopright, stopup);
+}
+void Enemy1::draw() {
+    DrawTexture(enemyTexture1, position.x, position.y, WHITE);
+}
+
+Enemy1::~Enemy1() {
+
+}
+
 
 

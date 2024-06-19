@@ -126,7 +126,7 @@ void gameplay::draw() {
 
     themaincharacter->draw();
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
-    if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
+    if(room==2){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
 
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
@@ -317,7 +317,7 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
     }
     return false;
 }
-/*bool gameplay::touchesNextDoor(Vector2 pos, float size) {
+bool gameplay::touchesNextDoor(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             if (getTileAt(x * 32, y * 32) == 3) {
@@ -329,7 +329,7 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
         }
     }
     return false;
-}*/
+}
 
 Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     //check all walls
