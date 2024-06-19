@@ -36,6 +36,8 @@ add_executable(${PROJECT_NAME} main.cpp
         ENEMIES/Enemy1.h
         ENEMIES/Enemy2.cpp
         ENEMIES/Enemy2.h
+        "GAME OBJECTS/gameobjects.h"
+        "GAME OBJECTS/gameobjects.cpp"
 )
 
 # Add config.h.in file
