@@ -172,8 +172,7 @@ gameplay::gameplay() {
     tson::Tileson tileson;
     themaincharacter = new maincharacter(this);
 
-    gameobjects.push_back(new robot(this));
-    gameobjects.back()->position = {11*32, 5*32};
+    gameobjects.push_back(new robot(this, {11*32, 5*32}));
 
     reloadRoom();
 

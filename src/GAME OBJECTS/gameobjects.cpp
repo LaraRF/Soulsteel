@@ -12,7 +12,7 @@ void gameobjects::draw() {
 
 }
 
-gameobjects::gameobjects(gameplay *scene) {
+gameobjects::gameobjects(gameplay *scene, Vector2 position) {
 
 }
 
