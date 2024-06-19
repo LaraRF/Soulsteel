@@ -17,9 +17,9 @@
 
 void gameplay::update() {
     themaincharacter->update();
-    enemy1->update();
-    enemy2->update();
-
+    for (int i = 0; i < enemies.size(); i++){
+        enemies[i]->update();
+    }
 
     switch(room){
         case 1:
@@ -126,8 +126,10 @@ void gameplay::draw() {
 
     themaincharacter->draw();
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
-    if(room==2){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
-
+    //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
+   for (int i = 0; i < enemies.size(); i++){
+       enemies[i]->draw();
+   }
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
@@ -172,8 +174,7 @@ void gameplay::drawDebug() {
 gameplay::gameplay() {
     tson::Tileson tileson;
     themaincharacter = new maincharacter(this);
-    enemy1 = new Enemy1(this);
-    enemy2 = new Enemy2(this);
+
 
     reloadRoom();
 
@@ -182,6 +183,7 @@ gameplay::gameplay() {
 void gameplay::reloadRoom() {
     tson::Tileson tileson;
     tiles.clear();
+    enemies.clear();
     switch (room) {
         case 1:
         {
@@ -200,6 +202,8 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
             }
+
+
             break;
         case 2:
         {
@@ -218,6 +222,8 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
             }
+            enemies.push_back(new Enemy1(this));
+            enemies.back()->position = {11*32, 5*32};
             break;
         case 3:
         {

@@ -10,14 +10,15 @@ void Enemy1::getEnemyData() {
 }
 
 void Enemy1::getEnemyPosition() {
-    stopleft = 14.0f * 32.0f + 16.0f;
+    //Vector2 position = {11 * 32, 32 * 5};
+    stopleft = 12.0f * 32.0f + 16.0f;
     stopdown = 10 * 32 + 16;
     stopright = 11 * 32 - 16;
-    stopup = 6 * 32 + 16;
+    stopup = 6 * 32 - 16;
 
-    //Enemy::getEnemyPosition(stopleft, stopdown, stopright, stopup);
 }
 void Enemy1::draw() {
+
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
 }
 

@@ -58,8 +58,7 @@ class Enemy2;
         int mapHeight = 15;
 
         maincharacter *themaincharacter;
-        Enemy *enemy1;
-        Enemy *enemy2;
+        std::vector<Enemy*> enemies;
 
         int room=1;
         bool hasbeeninroom1before =false;

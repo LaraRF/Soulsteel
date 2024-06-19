@@ -54,7 +54,8 @@ public:
     //function to change between enemy number
 
     //position enemy1
-    Vector2 position = {11 * 32, 32 * 5}; //room1 map
+    Vector2 position;
+    //Vector2 position = {11 * 32, 32 * 5}; //room1 map
     //Vector2 position = {14 * 32, 32 * 10}; //old map
     float size = 16;
 

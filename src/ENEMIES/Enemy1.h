@@ -16,6 +16,7 @@ Enemy1(gameplay *scene) {
     enemyTypeMelee = true;
 }
 
+    Vector2 position;
     void getEnemyData() override;
     void getEnemyPosition() override;
     void draw() override;
