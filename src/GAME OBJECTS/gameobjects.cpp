@@ -3,3 +3,16 @@
 //
 
 #include "gameobjects.h"
+
+void gameobjects::update() {
+
+}
+
+void gameobjects::draw() {
+
+}
+
+gameobjects::gameobjects(gameplay *scene) {
+
+}
+

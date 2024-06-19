@@ -9,5 +9,7 @@ void robot::update() {
 }
 
 void robot::draw() {
-
+    DrawTexture(characterRobotTexture, position.x, position.y, WHITE);
 }
+
+robot::~robot() {}

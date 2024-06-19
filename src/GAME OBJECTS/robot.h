@@ -8,7 +8,6 @@
 #include "gameobjects.h"
 #include "../assestmanagergraphics.h"
 
-
 class robot:public gameobjects {
 private:
     Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
@@ -17,7 +16,10 @@ public:
     void update() override;
     void draw() override;
 
-    robot();
+    robot(gameplay*scene){
+        size=12;
+    };
+    ~robot();
 };
 
 
