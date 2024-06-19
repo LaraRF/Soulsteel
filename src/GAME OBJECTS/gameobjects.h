@@ -21,7 +21,7 @@ public:
     virtual void draw()=0;
 
     gameplay *_scene;
-    gameobjects();
+    gameobjects(){};
     gameobjects(gameplay*scene);
     Vector2 position;
 };

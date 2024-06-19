@@ -13,13 +13,19 @@
 #include "ENEMIES/Enemy.h"
 #include "ENEMIES/Enemy1.h"
 #include "ENEMIES/Enemy2.h"
-
+#include "GAME OBJECTS/gameobjects.h"
+#include "GAME OBJECTS/robot.h"
 
 void gameplay::update() {
     themaincharacter->update();
     for (int i = 0; i < enemies.size(); i++){
         enemies[i]->update();
     }
+    for (int i = 0; i < gameobjects.size(); i++){
+        gameobjects[i]->update();
+    }
+
+
 
     switch(room){
         case 1:
@@ -130,6 +136,9 @@ void gameplay::draw() {
    for (int i = 0; i < enemies.size(); i++){
        enemies[i]->draw();
    }
+    for (int i = 0; i < gameobjects.size(); i++){
+        gameobjects[i]->draw();
+    }
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
@@ -202,8 +211,8 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
             }
-
-
+            gameobjects.push_back(new robot(this));
+            gameobjects.back()->position = {11*32, 5*32};
             break;
         case 2:
         {
