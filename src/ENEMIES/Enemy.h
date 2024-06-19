@@ -37,7 +37,7 @@ public:
 
 
     virtual void draw() = 0;
-    void update();
+    virtual void update();
 
 
     //movement
