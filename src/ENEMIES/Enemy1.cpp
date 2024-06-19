@@ -18,7 +18,6 @@ void Enemy1::getEnemyPosition() {
 
 }
 void Enemy1::draw() {
-
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
 }
 

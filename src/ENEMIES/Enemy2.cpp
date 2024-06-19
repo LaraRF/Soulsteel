@@ -9,9 +9,9 @@ void Enemy2::getEnemyData() {
 }
 
 void Enemy2::getEnemyPosition() {
-    stopleft = 16.0f * 32.0f + 16.0f;
-    stopdown = 12 * 32 + 16;
-    stopright = 14 * 32 - 16;
+    stopleft = 2.0f * 32.0f + 16.0f;
+    stopdown = 4 * 32 + 16;
+    stopright = 6 * 32 - 16;
     stopup = 8 * 32 + 16;
 
 }

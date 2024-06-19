@@ -11,8 +11,8 @@ class Enemy1: public Enemy{
 public:
 Enemy1(gameplay *scene) {
 
-    enemyHP = 0.0f;
-    enemyDamage = 0.0f;
+    enemyHP = 1.0f;
+    enemyDamage = 0.5f;
     enemyTypeMelee = true;
 }
 

@@ -10,11 +10,12 @@ class Enemy2: public Enemy {
 public:
     Enemy2(gameplay *scene) {
 
-        enemyHP = 0.0f;
-        enemyDamage = 0.0f;
+        enemyHP = 1.0f;
+        enemyDamage = 0.5f;
         enemyTypeRanged = true;
     }
 
+    Vector2 position;
     void getEnemyData() override;
     void getEnemyPosition() override;
     void draw() override;
