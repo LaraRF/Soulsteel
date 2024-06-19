@@ -4,3 +4,12 @@
 
 #include "robot.h"
 
+void robot::update() {
+
+}
+
+void robot::draw() {
+
+}
+
+
