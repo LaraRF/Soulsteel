@@ -13,9 +13,13 @@ public:
         enemyHP = 1.0f;
         enemyDamage = 0.5f;
         enemyTypeRanged = true;
+        stopleft = 6.0f * 32.0f - 16.0f;
+        stopdown = 8 * 32 + 16;
+        stopright = 8 * 32 - 16;
+        stopup = 6 * 32 + 16;
     }
 
-    Vector2 position = {11*32, 6*32};
+    Vector2 position = {20*32, 3*32};
     void getEnemyData() override;
     void getEnemyPosition() override;
     void draw() override;
