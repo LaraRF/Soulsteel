@@ -100,7 +100,7 @@ void Enemy::update() {
     }
     //end movement code
 
-/*    for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
+    for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
         Rectangle touchedWall = _scene->getTouchedWall(position, size);
         Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
                                           {touchedWall.x + touchedWall.width,
@@ -112,7 +112,7 @@ void Enemy::update() {
         }
         pushForce = Vector2Normalize(pushForce);
         pushForce = Vector2Scale(pushForce, overlapDistance);
-        position = Vector2Add(position, pushForce);*/
+        position = Vector2Add(position, pushForce);
 
         if(controltype==random) {
             switch (direction) {
@@ -131,10 +131,10 @@ void Enemy::update() {
             }
         }
     }
-//}
+}
 
 
-Enemy::Enemy(gameplay *scene) {
+Enemy::Enemy(gameplay *scene, Vector2 position) {
 
 }
 

@@ -32,12 +32,9 @@ public:
     }
 
     virtual void getEnemyData();
-
-    virtual void getEnemyPosition() ;
-
-
+    virtual void getEnemyPosition();
     virtual void draw() = 0;
-    virtual void update();
+    virtual void update() = 0;
 
 
     //movement
@@ -49,7 +46,7 @@ public:
     controltype controltype = path;
 
     //enemy map interaction > same as in maincharacter.h?
-    Enemy(gameplay *scene);
+    Enemy(gameplay *scene, Vector2 position);
 
     //function to change between enemy number
 

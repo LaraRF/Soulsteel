@@ -5,7 +5,7 @@
 #include "Enemy2.h"
 
 void Enemy2::getEnemyData() {
-    Enemy2(nullptr);
+    Enemy2(nullptr, {position.x, position.y});
 }
 
 void Enemy2::getEnemyPosition() {
@@ -15,10 +15,14 @@ void Enemy2::getEnemyPosition() {
     stopup = 8 * 32 + 16;
 
 }
+void Enemy2::update() {
+
+}
 void Enemy2::draw() {
     DrawTexture(enemyTexture2, position.x, position.y, WHITE);
 }
 
 Enemy2::~Enemy2() {
 
-}
+
+    }

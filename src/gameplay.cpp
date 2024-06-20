@@ -219,8 +219,9 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
             }
-            enemies.push_back(new Enemy1(this));
-            enemies.back()->position = {11*32, 5*32};
+            enemies.push_back(new Enemy1(this, {11*32, 5*32}));
+            enemies.push_back(new Enemy2(this, {9*32, 3*32}));
+            //enemies.push_back(new Enemy2(this, {Enemy2(position.x, po) , 3*32}));
             break;
         case 3:
         {

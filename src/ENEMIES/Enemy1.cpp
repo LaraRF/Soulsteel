@@ -6,7 +6,7 @@
 
 
 void Enemy1::getEnemyData() {
-    Enemy1(nullptr);
+    Enemy1(nullptr,{position.x, position.y});
 }
 
 void Enemy1::getEnemyPosition() {
@@ -20,6 +20,9 @@ void Enemy1::getEnemyPosition() {
 void Enemy1::draw() {
     DrawTexture(enemyTexture1, position.x, position.y, WHITE);
 }
+void Enemy1::update() {
+
+    }
 
 Enemy1::~Enemy1() {
 
