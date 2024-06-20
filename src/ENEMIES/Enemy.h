@@ -26,6 +26,10 @@ protected:
     float stopdown;
     float stopright;
     float stopup;
+    float positionEnemyUp;
+    float positionEnemyLeft;
+    float PositionEnemyDown;
+    float PositionEnemyRight;
 
 public:
     Enemy() {

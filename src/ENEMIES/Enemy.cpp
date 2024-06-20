@@ -33,7 +33,7 @@ void Enemy::update() {
      int Random = (rand() % 4);
      if (Timer >= 2.0f)*/
 
-    //movement with timer for the current enemy
+    /*movement with timer for the current enemy
     if(controltype==path||controltype==random) {
         switch (direction) {
             case left:
@@ -130,7 +130,7 @@ void Enemy::update() {
                     break;
             }
         }
-    }
+    }*/
 }
 
 

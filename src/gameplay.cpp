@@ -221,7 +221,8 @@ void gameplay::reloadRoom() {
             }
             enemies.push_back(new Enemy1(this, {11*32, 5*32}));
             enemies.push_back(new Enemy2(this, {9*32, 3*32}));
-            //enemies.push_back(new Enemy2(this, {Enemy2(position.x, po) , 3*32}));
+            //enemies.push_back(new Enemy2(this, {Enemy2(Vector2::x, Vector2::y)2}));
+            enemies.push_back(new Enemy2(this, {5*32, 3*32}));
             break;
         case 3:
         {

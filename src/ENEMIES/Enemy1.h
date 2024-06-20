@@ -14,6 +14,11 @@ Enemy1(gameplay *scene, Vector2 position) {
     enemyHP = 1.0f;
     enemyDamage = 0.5f;
     enemyTypeMelee = true;
+    positionEnemyLeft = 12.0f * 32.0f + 16.0f;
+    PositionEnemyDown = 10 * 32 - 16;
+    PositionEnemyRight = 11 * 32 - 16;
+    positionEnemyUp= 6 * 32 + 16;
+
 
 }
 
