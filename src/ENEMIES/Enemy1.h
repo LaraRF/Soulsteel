@@ -9,7 +9,7 @@
 
 class Enemy1: public Enemy{
 public:
-Enemy1(gameplay *scene, Vector2 position) {
+Enemy1(gameplay *scene) {
 
     enemyHP = 1.0f;
     enemyDamage = 0.5f;
@@ -26,6 +26,7 @@ Enemy1(gameplay *scene, Vector2 position) {
 }
 
     Vector2 position = {6*32, 6*32};
+
     void getEnemyData() override;
     void getEnemyPosition() override;
     void draw() override;

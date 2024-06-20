@@ -5,7 +5,7 @@
 #include "Enemy2.h"
 
 void Enemy2::getEnemyData() {
-    Enemy2(nullptr, {position.x, position.y});
+    Enemy2(nullptr);
 }
 
 void Enemy2::getEnemyPosition() {
@@ -28,13 +28,13 @@ void Enemy2::update() {
                 StartTimer(&enemytimer, enemypause);
                 UpdateTimer(&enemytimer);
                 if (TimerDone(&enemytimer)) {
-                    while (position.x >= stopleft) {
+                    while (position.x >= stopPointLeft) {
                         position.x = position.x - stepsize;
                         StartTimer(&enemytimer, enemypause);
                         UpdateTimer(&enemytimer);
                     }
                 }
-                if (position.x == stopleft) {
+                if (position.x == stopPointLeft) {
                     direction = down;
                 }
                 break;

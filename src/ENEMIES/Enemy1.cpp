@@ -6,7 +6,7 @@
 
 
 void Enemy1::getEnemyData() {
-    Enemy1(nullptr,{position.x, position.y});
+    Enemy1(nullptr);
 }
 
 void Enemy1::getEnemyPosition() {

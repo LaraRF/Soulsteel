@@ -183,8 +183,7 @@ void gameplay::reloadRoom() {
     tiles.clear();
     enemies.clear();
     switch (room) {
-        case 1:
-        {
+        case 1: {
             auto map = tileson.parse("assets/graphics/tilesets/room1test_greyboxing1.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
@@ -199,11 +198,10 @@ void gameplay::reloadRoom() {
             }
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
-            }
+        }
 
             break;
-        case 2:
-        {
+        case 2: {
             auto map = tileson.parse("assets/graphics/tilesets/room2test_greyboxing1.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
@@ -218,12 +216,26 @@ void gameplay::reloadRoom() {
             }
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
-            }
-            enemies.push_back(new Enemy1(this, {16*32, 6*32}));
+
+            Enemy1 *newEnemyR1_A = new Enemy1(this);
+            newEnemyR1_A->position = {10 * 32, 10 * 32};
+            enemies.push_back(newEnemyR1_A);
+            Enemy2 *newEnemyR1_B = new Enemy2(this);
+            newEnemyR1_B->position = {6 * 32, 6 * 32};
+            enemies.push_back(newEnemyR1_B);
+            Enemy2 *newEnemyR1_C = new Enemy2(this);
+            newEnemyR1_C->position = {8 * 32, 8 * 32};
+            newEnemyR1_C->stopPointLeft = {4 * 32 + 16};
+            enemies.push_back(newEnemyR1_C);
+
+
+        }
+            /*enemies.push_back(new Enemy1(this, {16*32, 6*32}));
             enemies.push_back(new Enemy2(this, {10*32, 3*32}));
             //enemies.push_back(new Enemy2(this, {Enemy2(Vector2::x, Vector2::y)2}));
-            enemies.push_back(new Enemy2(this, {10*32, 10*32}));
+            enemies.push_back(new Enemy2(this, {10*32, 10*32}));*/
             break;
+
         case 3:
         {
             auto map = tileson.parse("assets/graphics/tilesets/room3test_greyboxing1.tmj");

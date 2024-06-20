@@ -50,7 +50,7 @@ public:
     controltype controltype = path;
 
     //enemy map interaction > same as in maincharacter.h?
-    Enemy(gameplay *scene, Vector2 position);
+    Enemy(gameplay *scene);
 
     //function to change between enemy number
 
