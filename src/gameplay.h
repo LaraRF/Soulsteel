@@ -101,6 +101,16 @@ class Enemy2;
         bool robotswitched5to4 =false;
         bool robotswitched5to6 =false;
         bool robotswitched6to5 =false;
+        bool maincharacterswitched1to2 =false;
+        bool maincharacterswitched2to1 =false;
+        bool maincharacterswitched2to3 =false;
+        bool maincharacterswitched3to2 =false;
+        bool maincharacterswitched2to4 =false;
+        bool maincharacterswitched4to2 =false;
+        bool maincharacterswitched4to5 =false;
+        bool maincharacterswitched5to4 =false;
+        bool maincharacterswitched5to6 =false;
+        bool maincharacterswitched6to5 =false;
 
 
 

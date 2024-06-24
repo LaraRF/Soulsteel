@@ -61,6 +61,7 @@ void gameplay::update() {
                 room = 2;
                 reloadRoom();
                 themaincharacter->position.y = startposroom1to2;
+                maincharacterswitched1to2=true;
             }
             break;
         case 2:
@@ -73,6 +74,7 @@ void gameplay::update() {
                 room = 3;
                 reloadRoom();
                 themaincharacter->position.y = startposroom2to3;
+                maincharacterswitched2to3=true;
             } else if (therobot->position.x >= doorfromroom2to4) {
                 room = 4;
                 reloadRoom();
@@ -82,6 +84,7 @@ void gameplay::update() {
                 room = 4;
                 reloadRoom();
                 themaincharacter->position.x = startposroom2to4;
+                maincharacterswitched2to4=true;
             } else if (therobot->position.y >= (doorfromroom2to1)) {
                 room = 1;
                 hasbeeninroom1before = true;
@@ -93,6 +96,7 @@ void gameplay::update() {
                 hasbeeninroom1before = true;
                 reloadRoom();
                 themaincharacter->position.y = startposroom2to1;
+                maincharacterswitched2to1=true;
             }
             break;
         case 3:
@@ -105,6 +109,7 @@ void gameplay::update() {
                 room = 2;
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
+                maincharacterswitched3to2=true;
             }
             break;
         case 4:
@@ -117,6 +122,7 @@ void gameplay::update() {
                 room = 5;
                 reloadRoom();
                 themaincharacter->position.y = startposroom4to5;
+                maincharacterswitched4to5=true;
             } else if (therobot->position.x <= (doorfromroom4to2)) {
                 room = 2;
                 reloadRoom();
@@ -126,6 +132,7 @@ void gameplay::update() {
                 room = 2;
                 reloadRoom();
                 themaincharacter->position.x = startposroom4to2;
+                maincharacterswitched4to2=true;
             }
             break;
         case 5:
@@ -138,6 +145,7 @@ void gameplay::update() {
                     room = 6;
                     reloadRoom();
                     themaincharacter->position.y = startposroom5to6;
+                    maincharacterswitched5to6=true;
             } else if (therobot->position.y >= doorfromroom5to4) {
                 room = 4;
                 reloadRoom();
@@ -147,6 +155,7 @@ void gameplay::update() {
                 room = 4;
                 reloadRoom();
                 themaincharacter->position.y = startposroom5to4;
+                maincharacterswitched5to4=true;
             }
             break;
         case 6:
@@ -159,6 +168,7 @@ void gameplay::update() {
                 room = 5;
                 reloadRoom();
                 themaincharacter->position.y = startposroom6to5;
+                maincharacterswitched6to5=true;
             }
             break;
     }
@@ -199,22 +209,42 @@ void gameplay::draw() {
 
 
     themaincharacter->draw();
-
-    switch (room) {
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        case 5:
-            break;
-        case 6:
-            break;
-    }
     therobot->draw();
+/*
+        if(room==1){
+            do{
+                therobot->draw();
+            }while(!maincharacterswitched1to2||!robotswitched1to2);
+            if(robotswitched2to1){
+                therobot->draw();
+            }
+        }
+        if(room==2) {
+            if (robotswitched1to2 || robotswitched3to2 || robotswitched4to2) {
+                therobot->draw();
+            }
+        }
+        if(room==3) {
+            if (robotswitched2to3) {
+                therobot->draw();
+            }
+        }
+        if(room==4) {
+            if (robotswitched2to4 || robotswitched5to4) {
+                therobot->draw();
+            }
+        }
+        if(room==5) {
+            if (robotswitched4to5 || robotswitched6to5) {
+                therobot->draw();
+            }
+        }
+        if(room==6) {
+            if (robotswitched5to6) {
+                therobot->draw();
+            }
+        }
+*/
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
     //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
     for (int i = 0; i < enemies.size(); i++) {
