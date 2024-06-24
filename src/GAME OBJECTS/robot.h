@@ -30,7 +30,7 @@ public:
     lookingdirection lookingdirection =south;
 
     Vector2 position={11*32, 5*32};
-    robot(gameplay*scene, Vector2 position){
+    robot(gameplay*scene){
         size=12;
     };
 

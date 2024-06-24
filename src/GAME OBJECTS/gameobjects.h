@@ -22,7 +22,7 @@ public:
 
     gameplay *_scene;
     gameobjects(){};
-    gameobjects(gameplay*scene, Vector2 position);
+    gameobjects(gameplay*scene);
     Vector2 position;
 };
 
