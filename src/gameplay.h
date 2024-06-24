@@ -11,6 +11,7 @@
 #include "scene.h"
 #include "ENEMIES/Enemy.h"
 #include "GAME OBJECTS/gameobjects.h"
+#include "maincharactermodus.h"
 
 
 class maincharacter;
@@ -63,6 +64,7 @@ class Enemy2;
         maincharacter *themaincharacter;
         std::vector<Enemy*> enemies;
         std::vector<gameobjects*> gameobjects;
+        robot *therobot;
 
         int room=1;
         bool hasbeeninroom1before =false;
@@ -89,9 +91,20 @@ class Enemy2;
         int doorfromroom6to5=14*32+20;
         int startposroom6to5=2*32+16;
 
+        bool robotswitched1to2 =false;
+        bool robotswitched2to1 =false;
+        bool robotswitched2to3 =false;
+        bool robotswitched3to2 =false;
+        bool robotswitched2to4 =false;
+        bool robotswitched4to2 =false;
+        bool robotswitched4to5 =false;
+        bool robotswitched5to4 =false;
+        bool robotswitched5to6 =false;
+        bool robotswitched6to5 =false;
 
 
 
+        maincharactermodus currentmodus =soulmodus;
 
 
         void reloadRoom();
