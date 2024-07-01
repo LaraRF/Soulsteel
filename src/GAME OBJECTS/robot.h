@@ -11,14 +11,13 @@
 
 class robot:public gameobjects {
 private:
-    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
-
+    //Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
+    Texture2D robotFront = assestmanagergraphics::getTexture("characters/robot/Robot_front");
 public:
     void update() override;
     void draw() override;
 
-    maincharactermodus currentmode =soulmodus;
-
+    void deleteRobot();
 
 
     float stepsize=4;
@@ -33,6 +32,9 @@ public:
     robot(gameplay*scene){
         size=12;
     };
+    maincharactermodus currentmodus =soulmodus;
+
+    gameplay* _scene;
 
     ~robot();
 };

@@ -7,19 +7,19 @@
 
 void robot::update() {
 
-    switch (currentmode) {
+    switch (currentmodus) {
         case soulmodus:
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmode = robotmodus;
+                currentmodus = robotmodus;
             }
             break;
         case robotmodus:
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmode = soulmodus;
+                currentmodus = soulmodus;
             }
             break;
     }
-
+/*
     if (currentmode == robotmodus) {
         if (IsKeyDown(KEY_S)) {
             position.y = position.y + stepsize;
@@ -39,17 +39,36 @@ void robot::update() {
         }//end movement code
     }
 
+    /*for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
+        Rectangle touchedWall = _scene->getTouchedWall(position, size);
+        Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
+                                          {touchedWall.x + touchedWall.width, touchedWall.y + touchedWall.height});
+        Vector2 pushForce = Vector2Subtract(position, touchPoint);
+        float overlapDistance = size - Vector2Length(pushForce);
+        if (overlapDistance <= 0) {
+            break;
+        }
+        pushForce = Vector2Normalize(pushForce);
+        pushForce = Vector2Scale(pushForce, overlapDistance);
+        position = Vector2Add(position, pushForce);
+    }*/
+
 }
 
 void robot::draw() {
-    if (currentmode == robotmodus) {
-        DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
-        DrawCircle(position.x, position.y, size, GRAY);
+    if (currentmodus == robotmodus) {
+        //DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
+        //DrawCircle(position.x, position.y, size, GRAY);
     }
-    if (currentmode == soulmodus) {
-        DrawCircle(position.x, position.y, size, BLACK);
+    if (currentmodus == soulmodus) {
+        //DrawCircle(position.x, position.y, size, BLACK);
+        DrawTexture(robotFront, position.x, position.y, WHITE);
     }
 
 }
 
 robot::~robot() {}
+
+void robot::deleteRobot() {
+    UnloadTexture(robotFront);
+}

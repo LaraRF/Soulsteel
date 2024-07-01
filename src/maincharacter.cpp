@@ -20,82 +20,66 @@ void maincharacter::update() {
         souldashactivated = false;
     }
 
+    if(position.x >=0 && position.y >=0) {
+        if (souldashactivated && currentmodus == soulmodus) {
+            if (IsKeyDown(KEY_S)) {
+                position.y = position.y + (stepsize + stepzisesouldash);
+                lookingdirection = south;
+            }
+            if (IsKeyDown(KEY_W)) {
+                position.y = position.y - (stepsize + stepzisesouldash);
+                lookingdirection = north;
+            }
+            if (IsKeyDown(KEY_A)) {
+                position.x = position.x - (stepsize + stepzisesouldash);
+                lookingdirection = west;
+            }
+            if (IsKeyDown(KEY_D)) {
+                position.x = position.x + (stepsize + stepzisesouldash);
+                lookingdirection = east;
+            }
+
+        } else if (!souldashactivated) {
+            if (IsKeyDown(KEY_S)) {
+                position.y = position.y + stepsize;
+                lookingdirection = south;
+            }
+            if (IsKeyDown(KEY_W)) {
+                position.y = position.y - stepsize;
+                lookingdirection = north;
+            }
+            if (IsKeyDown(KEY_A)) {
+                position.x = position.x - stepsize;
+                lookingdirection = west;
+            }
+            if (IsKeyDown(KEY_D)) {
+                position.x = position.x + stepsize;
+                lookingdirection = east;
+            }
+
+        }
+    }
+
     //allows you to switch between soul and robot functions
-    switch (currentmode) {
+    switch (currentmodus) {
         case soulmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmode = robotmodus;
+                currentmodus = robotmodus;
             }
-
-            //movement
-            switch (souldashactivated) {
-                case 0:
-                    if (IsKeyDown(KEY_S)) {
-                        position.y = position.y + stepsize;
-                        lookingdirection =south;
-                    }
-                    if (IsKeyDown(KEY_W)) {
-                        position.y = position.y - stepsize;
-                        lookingdirection=north;
-                    }
-                    if (IsKeyDown(KEY_A)) {
-                        position.x = position.x - stepsize;
-                        lookingdirection=west;
-                    }
-                    if (IsKeyDown(KEY_D)) {
-                        position.x = position.x + stepsize;
-                        lookingdirection=east;
-                    }
-                    break;
-                case 1:
-                    if (IsKeyDown(KEY_S)) {
-                        position.y = position.y + (stepsize + stepzisesouldash);
-                        lookingdirection=south;
-                    }
-                    if (IsKeyDown(KEY_W)) {
-                        position.y = position.y - (stepsize + stepzisesouldash);
-                        lookingdirection=north;
-                    }
-                    if (IsKeyDown(KEY_A)) {
-                        position.x = position.x - (stepsize + stepzisesouldash);
-                        lookingdirection=west;
-                    }
-                    if (IsKeyDown(KEY_D)) {
-                        position.x = position.x + (stepsize + stepzisesouldash);
-                        lookingdirection=east;
-                    }
-            }
-            //end of movement code
+            break;
             //soul dust
 
             //end of soul dust code
 
             //space for more soul functions
-            break;
+
         case robotmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmode = soulmodus;
+                currentmodus = soulmodus;
             }
 
-            //movement
-            if (IsKeyDown(KEY_S)) {
-                position.y = position.y + stepsize;
-                lookingdirection=south;
-            }
-            if (IsKeyDown(KEY_W)) {
-                position.y = position.y - stepsize;
-                lookingdirection=north;
-            }
-            if (IsKeyDown(KEY_A)) {
-                position.x = position.x - stepsize;
-                lookingdirection=west;
-            }
-            if (IsKeyDown(KEY_D)) {
-                position.x = position.x + stepsize;
-                lookingdirection=east;
-            }//end movement code
 
             //bomb throwing
             /*if(IsKeyPressed(KEY_B)){
@@ -127,7 +111,7 @@ void maincharacter::update() {
         position = Vector2Add(position, pushForce);
     }
 
-    if(currentmode != soulmodus){
+    if(currentmodus != soulmodus){
         for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
             Rectangle touchedBars = _scene->getTouchedBars(position, size);
             Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
@@ -147,7 +131,7 @@ void maincharacter::update() {
 void maincharacter::draw() {
 
     //draws soul or robot, depending on which is chosen
-    switch (currentmode) {
+    switch (currentmodus) {
         case soulmodus:
             DrawCircle(position.x, position.y, size,PINK);
             DrawTexture(characterSoulTexture, position.x-16, position.y-24, WHITE);
@@ -159,7 +143,7 @@ void maincharacter::draw() {
             break;
         case robotmodus:
             //DrawCircle(position.x, position.y, size,GRAY);
-            //DrawTexture(characterRobotTexture, position.x-16, position.y-24, WHITE);
+            DrawTexture(characterRobotTexture, position.x-16, position.y-32, WHITE);
             break;
         default: std::cout << "help";
     }

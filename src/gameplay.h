@@ -47,6 +47,17 @@ class Enemy2;
         //int rows;
         //int cols;
         gameplay();
+        maincharactermodus currentmodus = soulmodus;
+
+        //enum characterchange {soulleavesrobot, soulentersrobot};
+        //characterchange characterchange =soulleavesrobot;
+        bool soulleavesrobot=false;
+        bool soulentersrobot=false;
+        bool soulhasntchangedformsyet=true;
+        //int soulleavesrobot=1;
+        //int soulentersrobot=1;
+
+
         bool touchesWall(Vector2 pos, float size);
         bool touchesWall(Vector2 pos);
         bool touchesBars(Vector2 pos, float size);
@@ -64,7 +75,7 @@ class Enemy2;
         maincharacter *themaincharacter;
         std::vector<Enemy*> enemies;
         std::vector<gameobjects*> gameobjects;
-        robot *therobot;
+        //robot *therobot;
 
         int room=1;
         bool hasbeeninroom1before =false;
@@ -111,10 +122,6 @@ class Enemy2;
         bool maincharacterswitched5to4 =false;
         bool maincharacterswitched5to6 =false;
         bool maincharacterswitched6to5 =false;
-
-
-
-        maincharactermodus currentmodus =soulmodus;
 
 
         void reloadRoom();
