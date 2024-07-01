@@ -62,7 +62,7 @@ void robot::draw() {
     }
     if (currentmodus == soulmodus) {
         //DrawCircle(position.x, position.y, size, BLACK);
-        DrawTexture(robotFront, position.x, position.y, WHITE);
+        DrawTexture(robotFront, position.x-20, position.y-15, WHITE);
     }
 
 }
