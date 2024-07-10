@@ -47,6 +47,10 @@ add_executable(${PROJECT_NAME} main.cpp
         HealthManager.cpp
         HealthManager.h
         Enums.h
+        Utils.cpp
+        Utils.h
+        Wall.cpp
+        Wall.h
 )
 
 # Add config.h.in file
