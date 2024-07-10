@@ -14,15 +14,22 @@
 #include "maincharactermodus.h"
 
 
+
 class maincharacter;
 class gameobjects;
 class robot;
 class Enemy;
 class Enemy1;
 class Enemy2;
+class Enemy3;
 
 
-    class gameplay:public scene {
+    class gameplay : public scene {
+    private:
+        //std::vector<Enemy*> enemies;
+        void clearEnemies();
+        bool isAlive;
+
     public:
 
         void update() override;
@@ -120,6 +127,8 @@ class Enemy2;
         void reloadRoom();
 
         bool touchesNextDoor(Vector2 pos, float size);
+    protected:
+        std::vector<int>enemyID;
     };
 
 

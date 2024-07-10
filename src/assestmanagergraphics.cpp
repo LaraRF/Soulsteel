@@ -47,6 +47,7 @@ void assestmanagergraphics::init() {
     //enemies
     m_textures["characters/enemies/enemy_1"] = LoadTexture("assets/graphics/characters/enemies/enemy_1.png");
     m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
+    m_textures["characters/enemies/enemy_3"] = LoadTexture("assets/graphics/characters/enemies/enemy_3.png");
     //robot functions
     //bombs
     m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");

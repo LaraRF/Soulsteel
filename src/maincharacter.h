@@ -12,6 +12,7 @@
 #include <iostream>
 #include "assestmanagergraphics.h"
 #include "gameplay.h"
+#include "HealthManager.h"
 
 class gameplay;
 
