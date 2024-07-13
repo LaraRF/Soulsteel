@@ -11,8 +11,8 @@
 #include "raymath.h"
 #include "../enemymodus.h"
 #include <iostream>
-#include "../HealthManager.h"
 #include "../Enums.h"
+#include "../Utils.h"
 
 enum ControlType {
     Path,
@@ -26,11 +26,12 @@ enum ControlRandom {
 };
 
 class gameplay;
+class Wall;
 
 class Enemy{
 
 public:
-    Enemy(float hp, int damage, bool melee, bool ranged, bool armed,
+    Enemy(gameplay*scene,int hp, int damage, bool melee, bool ranged, bool armed,
           float left, float down, float right, float up);
 
     //position
@@ -47,8 +48,8 @@ public:
 
     void calculatePathAsRectangle();
 
-    int getCurrentHealth();
-    int calculateDamage();
+    int getHealth(const Enemy& enemy);
+    void calculateDamage(Enemy& enemy, int damage);
 
     ControlType controltype;
 
@@ -64,6 +65,11 @@ public:
     virtual ~Enemy() = default; //virtual destructor for proper cleanup
 
     std::vector<Vector2> path; // stores the path the enemy will follow
+//Collision check
+    bool checkCollision(const Wall &wall);
+
+    Rectangle getCollisionRectangle() const;
+
 
 protected:
     int enemyHP{};
@@ -81,13 +87,14 @@ protected:
     ControlRandom controlrandom;
     Vector2 position{}; //current position of enemy
     float stepsize = 2;
-
+    float size = 12;
     int currentPathIndex = 0;
 
     //methods for movement: path or random
     virtual void moveOnPath();
     virtual void moveRandomly();
     //health and damage
+
 
 };
 

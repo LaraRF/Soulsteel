@@ -44,8 +44,6 @@ add_executable(${PROJECT_NAME} main.cpp
         "GAME OBJECTS/robot.h"
         ENEMIES/Enemy3.cpp
         ENEMIES/Enemy3.h
-        HealthManager.cpp
-        HealthManager.h
         Enums.h
         Utils.cpp
         Utils.h

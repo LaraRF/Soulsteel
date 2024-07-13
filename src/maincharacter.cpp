@@ -6,6 +6,9 @@
 #include "scene.h"
 
 
+
+
+
 void maincharacter::update() {
 
 
@@ -112,7 +115,7 @@ void maincharacter::update() {
             //space for more robot function
             break;
     }
-
+//COLLISION WALL
     for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
         Rectangle touchedWall = _scene->getTouchedWall(position, size);
         Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
@@ -126,6 +129,30 @@ void maincharacter::update() {
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
     }
+//COLISSION WITH ENEMY
+
+    const std::vector<Enemy*>& enemies = _scene->getEnemies();
+
+    for (int i = 0; i < enemies.size(); i++) {
+        if (Collision::checkCollision(*this, *enemies[i])) {
+            Rectangle enemyRect = enemies[i]->getCollisionRectangle();
+            for (int j = 0; j < 4; j++) {
+                Vector2 touchPoint = Vector2Clamp(position, {enemyRect.x, enemyRect.y},
+                                                  {enemyRect.x + enemyRect.width, enemyRect.y + enemyRect.height});
+                Vector2 pushForce = Vector2Subtract(position, touchPoint);
+                float overlapDistance = size - Vector2Length(pushForce);
+                if (overlapDistance <= 0) {
+                    break;
+                }
+                pushForce = Vector2Normalize(pushForce);
+                pushForce = Vector2Scale(pushForce, overlapDistance);
+                position = Vector2Add(position, pushForce);
+            }
+        }
+    }
+
+
+
 
     if(currentmode != soulmodus){
         for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
@@ -167,4 +194,19 @@ void maincharacter::draw() {
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
 
+}
+
+Rectangle maincharacter::getCollisionRectangle() const {
+    return Rectangle{position.x - size / 2, position.y - size / 2, size, size};
+}
+
+int getHealth(const maincharacter &maincharacter) {
+    return maincharacter.health;
+}
+
+void calculateDamage(maincharacter &maincharacter, int damage) {
+    maincharacter.health -= damage;
+    if (maincharacter.health < 0) {
+        maincharacter.health = 0;
+    }
 }

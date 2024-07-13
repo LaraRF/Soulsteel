@@ -1,15 +1,27 @@
 //
-// Created by sadeh on 10.07.2024.
+// Created by sadeh on 11.07.2024.
 //
 
 #ifndef RAYLIBSTARTER_UTILS_H
 #define RAYLIBSTARTER_UTILS_H
 
-#include "maincharacter.h"
-#include "ENEMIES/Enemy.h"
 #include "Wall.h"
+#include "ENEMIES/Enemy.h"
+#include "maincharacter.h"
 
-bool checkCollision(const maincharacter& maincharacter, const Enemy& enemy);
-bool checkCollision(const maincharacter& maincharacter, const Wall& wall);
+
+    class maincharacter;
+    class Enemy;
+
+namespace Collision{
+
+    // Collision detection functions
+    bool checkCollision(const maincharacter& maincharacter, const Enemy& enemy);
+    bool checkCollision(const maincharacter& maincharacter, const Wall& wall);
+    bool checkCollision(const Enemy& enemy, const Wall& wall);
+
+
+};
+
 
 #endif //RAYLIBSTARTER_UTILS_H

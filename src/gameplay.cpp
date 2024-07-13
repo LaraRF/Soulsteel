@@ -16,6 +16,9 @@
 #include "ENEMIES/Enemy3.h"
 #include "GAME OBJECTS/gameobjects.h"
 #include "GAME OBJECTS/robot.h"
+#include "maincharactermodus.h"
+#include "maincharacter.h"
+#include "Wall.h"
 
 void gameplay::update() {
 
@@ -359,7 +362,7 @@ void gameplay::drawDebug() {
 //gets the data from the map needed to draw it
 gameplay::gameplay() {
     tson::Tileson tileson;
-    themaincharacter = new maincharacter(this);
+    themaincharacter = new class maincharacter(this);
     therobot = new robot(this);
     //gameobjects.push_back(new robot(this));
     /*robot *therobot = new robot(this);
@@ -653,6 +656,9 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
     }
     return closestBar;
 
+}
+const std::vector<Enemy*>& gameplay::getEnemies() const{
+    return enemies;
 }
 
 void gameplay::clearEnemies() {

@@ -6,7 +6,7 @@
 #include <iostream>
 
 Enemy1::Enemy1(gameplay *scene)
-        : Enemy(1, 1, true, false, false,
+        : Enemy(scene,1, 1, true, false, false,
                 12 * 32 + 16, 10 * 32 - 16, 11 * 32 - 16, 6 * 32 + 16) {}
 
 void Enemy1::draw() {
