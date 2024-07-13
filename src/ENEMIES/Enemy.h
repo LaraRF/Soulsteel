@@ -65,7 +65,8 @@ public:
     virtual ~Enemy() = default; //virtual destructor for proper cleanup
 
     std::vector<Vector2> path; // stores the path the enemy will follow
-//Collision check
+
+    //Collision check
     bool checkCollision(const Wall &wall);
 
     Rectangle getCollisionRectangle() const;
@@ -93,8 +94,6 @@ protected:
     //methods for movement: path or random
     virtual void moveOnPath();
     virtual void moveRandomly();
-    //health and damage
-
 
 };
 

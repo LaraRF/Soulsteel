@@ -438,7 +438,7 @@ void gameplay::reloadRoom() {
             }
 
             if (std::find(enemyID.begin(), enemyID.end(), 202) == enemyID.end()) {
-                
+
                 Enemy2 *enemy2 = new Enemy2(this);
                 enemy2->controltype = Random;
                 enemy2->id = 202;

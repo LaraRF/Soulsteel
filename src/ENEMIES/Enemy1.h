@@ -15,10 +15,6 @@ public:
 
     ~Enemy1();
 
-private:
-    //Vector2 position;
-    //gameplay *_scene;
-
 };
 
 
