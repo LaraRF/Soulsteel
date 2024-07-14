@@ -13,10 +13,15 @@
 #include "ENEMIES/Enemy.h"
 #include "ENEMIES/Enemy1.h"
 #include "ENEMIES/Enemy2.h"
+#include "ENEMIES/Enemy3.h"
 #include "GAME OBJECTS/gameobjects.h"
 #include "GAME OBJECTS/robot.h"
+#include "maincharactermodus.h"
+#include "maincharacter.h"
+#include "Wall.h"
 
 void gameplay::update() {
+
     themaincharacter->update();
     //therobot->update();
 
@@ -27,7 +32,6 @@ void gameplay::update() {
     for (int i = 0; i < gameobjects.size(); i++) {
         gameobjects[i]->update();
     }
-
 
     switch (currentmodus) {
         case soulmodus:
@@ -44,8 +48,71 @@ void gameplay::update() {
                 soulleavesrobot=true;
                 soulentersrobot=false;
             }
+    switch (room) {
+        case 1:
+            if (themaincharacter->position.y <= (doorfromroom1to2)) {
+                room = 2;
+                reloadRoom();
+                themaincharacter->position.y = startposroom1to2;
+            }
             break;
-    }
+        case 2:
+            if (themaincharacter->position.y <= doorfromroom2to3) {
+                room = 3;
+                reloadRoom();
+                themaincharacter->position.y = startposroom2to3;
+            }
+            if (themaincharacter->position.x >= doorfromroom2to4) {
+                room = 4;
+                reloadRoom();
+                themaincharacter->position.x = startposroom2to4;
+            }
+            if (themaincharacter->position.y >= (doorfromroom2to1)) {
+                room = 1;
+                hasbeeninroom1before = true;
+                reloadRoom();
+                themaincharacter->position.y = startposroom2to1;
+            }
+            break;
+        case 3:
+            if (themaincharacter->position.y >= (doorfromroom3to2)) {
+                room = 2;
+                reloadRoom();
+                themaincharacter->position.y = startposroom3to2;
+            }
+            break;
+        case 4:
+            if (themaincharacter->position.y <= doorfromroom4to5) {
+                room = 5;
+                reloadRoom();
+                themaincharacter->position.y = startposroom4to5;
+            }
+            if (themaincharacter->position.x <= (doorfromroom4to2)) {
+                room = 2;
+                reloadRoom();
+                themaincharacter->position.x = startposroom4to2;
+            }
+            break;
+        case 5:
+            if (themaincharacter->position.y <= doorfromroom5to6) {
+                room = 6;
+                reloadRoom();
+                themaincharacter->position.y = startposroom5to6;
+            }
+            if (themaincharacter->position.y >= doorfromroom5to4) {
+                room = 4;
+                reloadRoom();
+                themaincharacter->position.y = startposroom5to4;
+            }
+            break;
+        case 6:
+            if (themaincharacter->position.y >= doorfromroom6to5) {
+                room = 5;
+                reloadRoom();
+                themaincharacter->position.y = startposroom6to5;
+            }
+            break;
+    }*/
 
 
     switch (room) {
@@ -59,7 +126,7 @@ void gameplay::update() {
                 room = 2;
                 reloadRoom();
                 themaincharacter->position.y = startposroom1to2;
-                maincharacterswitched1to2=true;
+                maincharacterswitched1to2 = true;
             }
             break;
         case 2:
@@ -72,7 +139,7 @@ void gameplay::update() {
                 room = 3;
                 reloadRoom();
                 themaincharacter->position.y = startposroom2to3;
-                maincharacterswitched2to3=true;
+                maincharacterswitched2to3 = true;
             }/* else if (therobot->position.x >= doorfromroom2to4) {
                 room = 4;
                 reloadRoom();
@@ -82,8 +149,8 @@ void gameplay::update() {
                 room = 4;
                 reloadRoom();
                 themaincharacter->position.x = startposroom2to4;
-                maincharacterswitched2to4=true;
-            } /*else if (therobot->position.y >= (doorfromroom2to1)) {
+                maincharacterswitched2to4 = true;
+            }/* else if (therobot->position.y >= (doorfromroom2to1)) {
                 room = 1;
                 hasbeeninroom1before = true;
                 reloadRoom();
@@ -94,7 +161,7 @@ void gameplay::update() {
                 hasbeeninroom1before = true;
                 reloadRoom();
                 themaincharacter->position.y = startposroom2to1;
-                maincharacterswitched2to1=true;
+                maincharacterswitched2to1 = true;
             }
             break;
         case 3:
@@ -107,7 +174,7 @@ void gameplay::update() {
                 room = 2;
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
-                maincharacterswitched3to2=true;
+                maincharacterswitched3to2 = true;
             }
             break;
         case 4:
@@ -130,7 +197,7 @@ void gameplay::update() {
                 room = 2;
                 reloadRoom();
                 themaincharacter->position.x = startposroom4to2;
-                maincharacterswitched4to2=true;
+                maincharacterswitched4to2 = true;
             }
             break;
         case 5:
@@ -153,7 +220,7 @@ void gameplay::update() {
                 room = 4;
                 reloadRoom();
                 themaincharacter->position.y = startposroom5to4;
-                maincharacterswitched5to4=true;
+                maincharacterswitched5to4 = true;
             }
             break;
         case 6:
@@ -166,7 +233,7 @@ void gameplay::update() {
                 room = 5;
                 reloadRoom();
                 themaincharacter->position.y = startposroom6to5;
-                maincharacterswitched6to5=true;
+                maincharacterswitched6to5 = true;
             }
             break;
     }
@@ -181,9 +248,8 @@ scene *gameplay::evaluateSceneChange() {
         return new journal();
     } else if (IsKeyPressed(KEY_O)) {
         return new ingameoptions();
-    } else {
-        return this;
     }
+    return this;
 }
 
 
@@ -204,8 +270,12 @@ void gameplay::draw() {
 //hier kann man "static_cast<float>" durch (float) ersetzen -> ist C, aber geht hier auch
             DrawTexturePro(tilesetgrass, src, dest, {}, 0, WHITE);
         }
-    }
 
+        for (Enemy *enemy: enemies) {
+            enemy->draw();
+        }
+
+    }
 
     themaincharacter->draw();
     //therobot->draw();
@@ -246,9 +316,11 @@ void gameplay::draw() {
 */
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
     //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
-    for (int i = 0; i < enemies.size(); i++) {
-        enemies[i]->draw();
-    }
+
+    /*for (int i = 0; i < enemies.size(); i++){
+        enemies[i]->draw();}*/
+
+
     for (int i = 0; i < gameobjects.size(); i++) {
         gameobjects[i]->draw();
     }
@@ -298,20 +370,20 @@ void gameplay::drawDebug() {
 //gets the data from the map needed to draw it
 gameplay::gameplay() {
     tson::Tileson tileson;
-    themaincharacter = new maincharacter(this);
-    //therobot = new robot(this);
+    themaincharacter = new class maincharacter(this);
+    therobot = new robot(this);
     //gameobjects.push_back(new robot(this));
-
+    //gameobjects.push_back(new robot(this, {11 * 32, 5 * 32}));
 
 
     reloadRoom();
-
 }
 
 void gameplay::reloadRoom() {
     tson::Tileson tileson;
     tiles.clear();
     enemies.clear();
+
     switch (room) {
         case 1: {
             auto map = tileson.parse("assets/graphics/tilesets/room1test_greyboxing1.tmj");
@@ -347,23 +419,83 @@ void gameplay::reloadRoom() {
             mapWidth = layer->getSize().x;
             mapHeight = layer->getSize().y;
 
-            Enemy1 *newEnemyR1_A = new Enemy1(this);
-            newEnemyR1_A->position = {10 * 32, 10 * 32};
-            enemies.push_back(newEnemyR1_A);
-            Enemy2 *newEnemyR1_B = new Enemy2(this);
-            newEnemyR1_B->position = {6 * 32, 6 * 32};
-            enemies.push_back(newEnemyR1_B);
-            Enemy2 *newEnemyR1_C = new Enemy2(this);
-            newEnemyR1_C->position = {8 * 32, 8 * 32};
-            newEnemyR1_C->stopPointLeft = {4 * 32 + 16};
-            enemies.push_back(newEnemyR1_C);
+
+            //custom enemies
+            if (std::find(enemyID.begin(), enemyID.end(), 201) == enemyID.end()) {
+
+
+                Enemy1 *enemy1 = new Enemy1(this);
+                enemy1->controltype = Path;
+                enemy1->id = 201;
+                enemy1->stopleft = 5 * 32; //creates new stop points for Enemy1 instance enemy1
+                enemy1->stopdown = 4 * 32;
+                enemy1->stopright = 6 * 32;
+                enemy1->stopup = 3 * 32;
+                enemy1->calculatePathAsRectangle();
+                enemies.push_back(enemy1);
+
+                if (enemy1->health == 0) {
+                    enemyID.push_back(enemy1->id);
+                }
+            }
+
+            if (std::find(enemyID.begin(), enemyID.end(), 202) == enemyID.end()) {
+
+                Enemy2 *enemy2 = new Enemy2(this);
+                enemy2->controltype = Random;
+                enemy2->id = 202;
+                enemies.push_back(enemy2);
+
+                if (enemy2->health == 0) {
+                    enemyID.push_back(enemy2->id);
+                }
+            }
+
+            if (std::find(enemyID.begin(), enemyID.end(), 203) == enemyID.end()) {
+
+                Enemy3 *enemy3 = new Enemy3(this);
+                enemy3->controltype = Path;
+                enemy3->id = 203;
+                enemies.push_back(enemy3);
+
+                float polygons = 180;
+                for (int i = 0; i < polygons; i++) {
+                    float angle = (float) i * PI * 2 / polygons;    //walks in circle
+                    enemy3->path.push_back({cos(angle) * 64 + 12 * 32, sin(angle) * 64 + 7 * 32});
+                }
+
+                if (enemy3->health == 0) {
+                    enemyID.push_back(enemy3->id);
+                }
+            }
+
+
+
+
+            //creates enemies for room 2
+            /*enemies.push_back((new Enemy1(this)));
+                    //creates enemies with diffrent stop points
+
+
+            enemies.push_back((new Enemy2(this)));
+            enemies.push_back((new Enemy3(this)));
+
+
+
+            gameplay scene; //implements gameplay instance
+
+            Enemy1 enemy1(&scene); //creates Enemy1 instance
+            enemy1.controltype = Path; // sets control type
+
+            Enemy2 enemy2(&scene);
+            enemy2.controltype = Random;
+
+            Enemy3 enemy3(&scene);
+            enemy3.controltype = Path;*/
+
 
 
         }
-            /*enemies.push_back(new Enemy1(this, {16*32, 6*32}));
-            enemies.push_back(new Enemy2(this, {10*32, 3*32}));
-            //enemies.push_back(new Enemy2(this, {Enemy2(Vector2::x, Vector2::y)2}));
-            enemies.push_back(new Enemy2(this, {10*32, 10*32}));*/
             break;
 
         case 3: {
@@ -533,6 +665,18 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
         }
     }
     return closestBar;
+
+}
+
+const std::vector<Enemy *> &gameplay::getEnemies() const {
+    return enemies;
+}
+
+void gameplay::clearEnemies() {
+    for (Enemy *enemy: enemies) {
+        delete enemy;
+    }
+    enemies.clear();
 }
 
 

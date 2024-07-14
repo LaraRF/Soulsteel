@@ -12,20 +12,26 @@
 #include <iostream>
 #include "assestmanagergraphics.h"
 #include "gameplay.h"
+#include "Utils.h"
+#include "ENEMIES/Enemy.h"
 
 class gameplay;
 
 class maincharacter {
-private:
-    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
-    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
 
 public:
     void update();
     void draw();
 
+
     //maincharacter();
     //lets the character start in the middle of the screen (almost, to match the tiles)
+
+    //health & Damage
+    int health;
+    int getHealth(const maincharacter& maincharacter);
+    void calculateDamage(maincharacter& maincharacter, int damage);
+
 
     //movement
     bool souldashactivated =false;
@@ -51,6 +57,9 @@ public:
     };
     lookingdirection lookingdirection =south;
 
+    //Collision
+    Rectangle getCollisionRectangle() const;
+
     //bomb throwing
     Texture2D bomb = assestmanagergraphics::getTexture("item/bomb");
     Texture2D bomb_activated = assestmanagergraphics::getTexture("item/bomb_activated");
@@ -65,6 +74,12 @@ public:
     bool souldustactivated1 =false;
     bool souldustactivated2 =false;
 
+protected:
+    bool checkCollision(const Wall& wall);
+
+private:
+    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
+    Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
 
 };
 

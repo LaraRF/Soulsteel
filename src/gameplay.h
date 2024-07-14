@@ -12,6 +12,9 @@
 #include "ENEMIES/Enemy.h"
 #include "GAME OBJECTS/gameobjects.h"
 #include "maincharactermodus.h"
+#include "maincharacter.h"
+#include "Wall.h"
+
 
 
 class maincharacter;
@@ -20,9 +23,15 @@ class robot;
 class Enemy;
 class Enemy1;
 class Enemy2;
+class Enemy3;
 
 
-    class gameplay:public scene {
+    class gameplay : public scene {
+    private:
+        //std::vector<Enemy*> enemies;
+        void clearEnemies();
+        bool isAlive;
+
     public:
 
         void update() override;
@@ -32,6 +41,11 @@ class Enemy2;
         void draw() override;
 
         void drawDebug() override;
+
+        //Collision Vector
+        //bool touchesWall(Vector2 position, float size) const;
+        //Rectangle getTouchedWall(Vector2 position, float size) const;
+
 
         //loads the necessary textures
         Texture2D heart = assestmanagergraphics::getTexture("userinterface/heart_smaller");
@@ -59,14 +73,15 @@ class Enemy2;
 
 
         bool touchesWall(Vector2 pos, float size);
-        bool touchesWall(Vector2 pos);
-        bool touchesBars(Vector2 pos, float size);
-        Rectangle getTouchedBars(Vector2 position, float radius);
 
+        bool touchesBars(Vector2 pos, float size);
+        Rectangle getTouchedBars(Vector2 position, float size); //radius replaced with size
+        Rectangle getTouchedWall(Vector2 position, float size);
+        const std::vector<Enemy*>& getEnemies() const;
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);
         int getTileAt(float x, float y);
-        Rectangle getTouchedWall(Vector2 position, float radius);
+
 
         //std::vector<int> tileMap;
         int mapWidth = 25;
@@ -75,7 +90,10 @@ class Enemy2;
         maincharacter *themaincharacter;
         std::vector<Enemy*> enemies;
         std::vector<gameobjects*> gameobjects;
-        //robot *therobot;
+
+        std::vector<Wall*> walls;
+        maincharacter* maincharacter;
+        robot *therobot;
 
         int room=1;
         bool hasbeeninroom1before =false;
@@ -127,6 +145,9 @@ class Enemy2;
         void reloadRoom();
 
         bool touchesNextDoor(Vector2 pos, float size);
+    protected:
+        std::vector<int>enemyID;
+
     };
 
 

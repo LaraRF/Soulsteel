@@ -11,73 +11,90 @@
 #include "raymath.h"
 #include "../enemymodus.h"
 #include <iostream>
+#include "../Enums.h"
+#include "../Utils.h"
+
+enum ControlType {
+    Path,
+    Random
+};
+
+enum ControlRandom {
+    RandomStart,
+    RandomWalk,
+    RandomStop,
+};
 
 class gameplay;
+class Wall;
 
-class Enemy {
-protected:
-    std::string enemyName;
-    float enemyHP;
-    float enemyDamage;
-    bool enemyTypeMelee;
-    bool enemyTypeRanged;
-    bool enemyTypeArmed;
+class Enemy{
+
+public:
+    Enemy(gameplay*scene,int hp, int damage, bool melee, bool ranged, bool armed,
+          float left, float down, float right, float up);
+
+    //position
     float stopleft;
     float stopdown;
     float stopright;
     float stopup;
-    float positionEnemyUp;
-    float positionEnemyLeft;
-    float PositionEnemyDown;
-    float PositionEnemyRight;
 
-public:
-    Enemy() {
-    }
+    int id = 0;
+    int health;
 
-    virtual void getEnemyData();
-    virtual void getEnemyPosition();
+    virtual void update();
     virtual void draw() = 0;
-    virtual void update() = 0;
 
+    void calculatePathAsRectangle();
 
-    //movement
-    float stepsize = 1.0f;
+    int getHealth(const Enemy& enemy);
+    void calculateDamage(Enemy& enemy, int damage);
+
+    ControlType controltype;
+
     gameplay *_scene;
 
-    //enums
-    direction direction = left;
-    controltype controltype = path;
-
-    //enemy map interaction > same as in maincharacter.h?
     Enemy(gameplay *scene);
-
-    //function to change between enemy number
-
-    //position enemy1
-    Vector2 position;
-    //Vector2 position = {11 * 32, 32 * 5}; //room1 map
-    //Vector2 position = {14 * 32, 32 * 10}; //old map
-    float size = 16;
 
     //Textures
     Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
     Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
+    Texture2D enemyTexture3 = assestmanagergraphics::getTexture("characters/enemies/enemy_3");
 
-    //Timer stuff
-    struct Timer {
-        float Pausetime = 2.0f;
-    };
+    virtual ~Enemy() = default; //virtual destructor for proper cleanup
 
-    static void StartTimer(Timer *timer, float pausetime);
+    std::vector<Vector2> path; // stores the path the enemy will follow
 
-    static void UpdateTimer(Timer *timer);
+    //Collision check
+    bool checkCollision(const Wall &wall);
 
-    static bool TimerDone(Timer *timer);
+    Rectangle getCollisionRectangle() const;
 
-    float enemypause = 2.0f;
-    Timer enemytimer = {0};
-    //enemies *enemy1;
+
+protected:
+    int enemyHP{};
+    int enemyDamage{};
+    bool enemyTypeMelee{};
+    bool enemyTypeRanged{};
+    bool enemyTypeArmed{};
+
+    //health
+    int maxHealth{};
+    int damage{};
+
+    // position and direction
+    Direction direction{};
+    ControlRandom controlrandom;
+    Vector2 position{}; //current position of enemy
+    float stepsize = 2;
+    float size = 12;
+    int currentPathIndex = 0;
+
+    //methods for movement: path or random
+    virtual void moveOnPath();
+    virtual void moveRandomly();
+
 };
 
 
