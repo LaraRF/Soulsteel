@@ -368,7 +368,7 @@ void gameplay::reloadRoom() {
                 enemy1->stopleft = 5 * 32; //creates new stop points for Enemy1 instance enemy1
                 enemy1->stopdown = 4 * 32;
                 enemy1->stopright = 6 * 32;
-                enemy1->stopup = 3 * 32;
+                enemy1->stopup = 3 * 32 + 16;
                 enemy1->calculatePathAsRectangle();
                 enemies.push_back(enemy1);
 
