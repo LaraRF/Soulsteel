@@ -39,6 +39,7 @@ public:
     float stopdown;
     float stopright;
     float stopup;
+    Vector2 position{}; //current position of enemy
 
     int id = 0;
     int health;
@@ -86,7 +87,7 @@ protected:
     // position and direction
     Direction direction{};
     ControlRandom controlrandom;
-    Vector2 position{}; //current position of enemy
+
     float stepsize = 2;
     float size = 12;
     int currentPathIndex = 0;

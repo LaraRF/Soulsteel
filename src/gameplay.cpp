@@ -365,9 +365,11 @@ void gameplay::reloadRoom() {
                 Enemy1 *enemy1 = new Enemy1(this);
                 enemy1->controltype = Path;
                 enemy1->id = 201;
+                enemy1->position.x = 5 * 32;
+                enemy1->position.y = 4 * 32;
                 enemy1->stopleft = 5 * 32; //creates new stop points for Enemy1 instance enemy1
                 enemy1->stopdown = 4 * 32;
-                enemy1->stopright = 6 * 32;
+                enemy1->stopright = 10 * 32;
                 enemy1->stopup = 3 * 32 + 16;
                 enemy1->calculatePathAsRectangle();
                 enemies.push_back(enemy1);
@@ -382,6 +384,12 @@ void gameplay::reloadRoom() {
                 Enemy2 *enemy2 = new Enemy2(this);
                 enemy2->controltype = Random;
                 enemy2->id = 202;
+                enemy2->position.x = 11 * 32;
+                enemy2->position.y = 7 * 32;
+                enemy2->stopleft = 11 * 32; //creates new stop points for Enemy1 instance enemy1
+                enemy2->stopdown = 6 * 32;
+                enemy2->stopright = 8 * 32;
+                enemy2->stopup =  3 * 32 + 16;
                 enemies.push_back(enemy2);
 
                 if (enemy2->health == 0) {
@@ -394,7 +402,10 @@ void gameplay::reloadRoom() {
                 Enemy3 *enemy3 = new Enemy3(this);
                 enemy3->controltype = Path;
                 enemy3->id = 203;
+                enemy3->position.x = 12 * 32;
+                enemy3->position.y = 9 * 32;
                 enemies.push_back(enemy3);
+
 
                 float polygons = 180;
                 for (int i = 0; i < polygons; i++) {
