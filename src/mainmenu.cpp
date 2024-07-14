@@ -7,26 +7,26 @@
 
 
 void mainmenu::update() {
-    if(IsKeyPressed(KEY_D)|| IsKeyPressed(KEY_RIGHT)){
-        if(cursor == 2){
+    if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
+        if (cursor == 2) {
             cursor = 2; //makes it, so you can't go "more to the right" than last box
-        }else{
+        } else {
             cursor++;
         }
     }
 
-    if(IsKeyPressed(KEY_A)|| IsKeyPressed(KEY_LEFT)){
-        if(cursor == 0){
+    if (IsKeyPressed(KEY_A) || IsKeyPressed(KEY_LEFT)) {
+        if (cursor == 0) {
             cursor = 0; //same here, but for other side of screen
-        }else{
+        } else {
             cursor--;
         }
     }
 }
 
 scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
-    if(IsKeyPressed(KEY_ENTER)) {
-        switch(cursor){
+    if (IsKeyPressed(KEY_ENTER)) {
+        switch (cursor) {
             case 0:
                 return new gameplay();
                 break;
@@ -36,16 +36,16 @@ scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
             case 2:
                 CloseWindow();
         }
-    }else{
-        return this;}//return this = bleib bei dieser Szene (pointer auf sich selbst)
-
+    } else {
+        return this;
+    }//return this = stay on this screen (points to itself)
 }
 
 void mainmenu::draw() {
     DrawTexture(title, -65, 50, WHITE);
 
 
-    switch(cursor){ //shows which box is selected by giving it a white outline
+    switch (cursor) { //shows which box is selected by giving it a white outline
         case 0:
             DrawRectangleRec(hitbox_play_marked, WHITE);
             break;

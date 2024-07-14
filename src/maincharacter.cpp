@@ -6,9 +6,6 @@
 #include "scene.h"
 
 
-
-
-
 void maincharacter::update() {
 
 
