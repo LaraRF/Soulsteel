@@ -37,205 +37,143 @@ void gameplay::update() {
         case soulmodus:
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = robotmodus;
-                soulhasntchangedformsyet=false;
-                soulleavesrobot=false;
-                soulentersrobot=true;
+                soulhasntchangedformsyet = false;
+                soulleavesrobot = false;
+                soulentersrobot = true;
+            }
+            switch (room) {
+                case 1:
+                    if (themaincharacter->position.y <= (doorfromroom1to2)) {
+                        room = 2;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom1to2;
+                    }
+                    break;
+                case 2:
+                    if (themaincharacter->position.y <= doorfromroom2to3) {
+                        room = 3;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom2to3;
+                    }
+                    if (themaincharacter->position.x >= doorfromroom2to4) {
+                        room = 4;
+                        reloadRoom();
+                        themaincharacter->position.x = startposroom2to4;
+                    }
+                    if (themaincharacter->position.y >= (doorfromroom2to1)) {
+                        room = 1;
+                        hasbeeninroom1before = true;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom2to1;
+                    }
+                    break;
+                case 3:
+                    if (themaincharacter->position.y >= (doorfromroom3to2)) {
+                        room = 2;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom3to2;
+                    }
+                    break;
+                case 4:
+                    if (themaincharacter->position.y <= doorfromroom4to5) {
+                        room = 5;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom4to5;
+                    }
+                    if (themaincharacter->position.x <= (doorfromroom4to2)) {
+                        room = 2;
+                        reloadRoom();
+                        themaincharacter->position.x = startposroom4to2;
+                    }
+                    break;
+                case 5:
+                    if (themaincharacter->position.y <= doorfromroom5to6) {
+                        room = 6;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom5to6;
+                    }
+                    if (themaincharacter->position.y >= doorfromroom5to4) {
+                        room = 4;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom5to4;
+                    }
+                    break;
+                case 6:
+                    if (themaincharacter->position.y >= doorfromroom6to5) {
+                        room = 5;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom6to5;
+                    }
+                    break;
             }
             break;
         case robotmodus:
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = soulmodus;
-                soulleavesrobot=true;
-                soulentersrobot=false;
+                soulleavesrobot = true;
+                soulentersrobot = false;
             }
-    switch (room) {
-        case 1:
-            if (themaincharacter->position.y <= (doorfromroom1to2)) {
-                room = 2;
-                reloadRoom();
-                themaincharacter->position.y = startposroom1to2;
+            switch (room) {
+                case 1:
+                    if (themaincharacter->position.y <= (doorfromroom1to2)) {
+                        room = 2;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom1to2;
+                    }
+                    break;
+                case 2:
+                    if (themaincharacter->position.y <= doorfromroom2to3) {
+                        room = 3;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom2to3;
+                    } else if (themaincharacter->position.x >= doorfromroom2to4) {
+                        room = 4;
+                        reloadRoom();
+                        themaincharacter->position.x = startposroom2to4;
+                    }else if (themaincharacter->position.y >= (doorfromroom2to1)) {
+                        room = 1;
+                        hasbeeninroom1before = true;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom2to1;
+                    }
+                    break;
+                case 3:
+                    if (themaincharacter->position.y >= (doorfromroom3to2)) {
+                        room = 2;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom3to2;
+                    }
+                    break;
+                case 4:
+                    if (themaincharacter->position.y <= doorfromroom4to5) {
+                        room = 5;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom4to5;
+                    } else if (themaincharacter->position.x <= (doorfromroom4to2)) {
+                        room = 2;
+                        reloadRoom();
+                        themaincharacter->position.x = startposroom4to2;
+                    }
+                    break;
+                case 5:
+                    if (themaincharacter->position.y <= doorfromroom5to6) {
+                        room = 6;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom5to6;
+                    } else if (themaincharacter->position.y >= doorfromroom5to4) {
+                        room = 4;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom5to4;
+                    }
+                    break;
+                case 6:
+                    if (themaincharacter->position.y >= doorfromroom6to5) {
+                        room = 5;
+                        reloadRoom();
+                        themaincharacter->position.y = startposroom6to5;
+                    }
+                    break;
             }
-            break;
-        case 2:
-            if (themaincharacter->position.y <= doorfromroom2to3) {
-                room = 3;
-                reloadRoom();
-                themaincharacter->position.y = startposroom2to3;
-            }
-            if (themaincharacter->position.x >= doorfromroom2to4) {
-                room = 4;
-                reloadRoom();
-                themaincharacter->position.x = startposroom2to4;
-            }
-            if (themaincharacter->position.y >= (doorfromroom2to1)) {
-                room = 1;
-                hasbeeninroom1before = true;
-                reloadRoom();
-                themaincharacter->position.y = startposroom2to1;
-            }
-            break;
-        case 3:
-            if (themaincharacter->position.y >= (doorfromroom3to2)) {
-                room = 2;
-                reloadRoom();
-                themaincharacter->position.y = startposroom3to2;
-            }
-            break;
-        case 4:
-            if (themaincharacter->position.y <= doorfromroom4to5) {
-                room = 5;
-                reloadRoom();
-                themaincharacter->position.y = startposroom4to5;
-            }
-            if (themaincharacter->position.x <= (doorfromroom4to2)) {
-                room = 2;
-                reloadRoom();
-                themaincharacter->position.x = startposroom4to2;
-            }
-            break;
-        case 5:
-            if (themaincharacter->position.y <= doorfromroom5to6) {
-                room = 6;
-                reloadRoom();
-                themaincharacter->position.y = startposroom5to6;
-            }
-            if (themaincharacter->position.y >= doorfromroom5to4) {
-                room = 4;
-                reloadRoom();
-                themaincharacter->position.y = startposroom5to4;
-            }
-            break;
-        case 6:
-            if (themaincharacter->position.y >= doorfromroom6to5) {
-                room = 5;
-                reloadRoom();
-                themaincharacter->position.y = startposroom6to5;
-            }
-            break;
-    }*/
-
-
-    switch (room) {
-        case 1:
-            /*if (therobot->position.y <= (doorfromroom1to2)) {
-                room = 2;
-                reloadRoom();
-                therobot->position.y = startposroom1to2;
-                robotswitched1to2 = true;
-            } else */if (themaincharacter->position.y <= (doorfromroom1to2)) {
-                room = 2;
-                reloadRoom();
-                themaincharacter->position.y = startposroom1to2;
-                maincharacterswitched1to2 = true;
-            }
-            break;
-        case 2:
-            /*if (therobot->position.y <= doorfromroom2to3) {
-                room = 3;
-                reloadRoom();
-                therobot->position.y = startposroom2to3;
-                robotswitched2to3 = true;
-            } else*/ if (themaincharacter->position.y <= doorfromroom2to3) {
-                room = 3;
-                reloadRoom();
-                themaincharacter->position.y = startposroom2to3;
-                maincharacterswitched2to3 = true;
-            }/* else if (therobot->position.x >= doorfromroom2to4) {
-                room = 4;
-                reloadRoom();
-                robotswitched2to4 = true;
-                therobot->position.x = startposroom2to4;
-            }*/ else if (themaincharacter->position.x >= doorfromroom2to4) {
-                room = 4;
-                reloadRoom();
-                themaincharacter->position.x = startposroom2to4;
-                maincharacterswitched2to4 = true;
-            }/* else if (therobot->position.y >= (doorfromroom2to1)) {
-                room = 1;
-                hasbeeninroom1before = true;
-                reloadRoom();
-                robotswitched2to1 = true;
-                therobot->position.y = startposroom2to1;
-            }*/ else if (themaincharacter->position.y >= (doorfromroom2to1)) {
-                room = 1;
-                hasbeeninroom1before = true;
-                reloadRoom();
-                themaincharacter->position.y = startposroom2to1;
-                maincharacterswitched2to1 = true;
-            }
-            break;
-        case 3:
-            /*if (therobot->position.y >= doorfromroom3to2) {
-                room = 2;
-                reloadRoom();
-                robotswitched3to2 = true;
-                therobot->position.y = startposroom3to2;
-            } else */if (themaincharacter->position.y >= (doorfromroom3to2)) {
-                room = 2;
-                reloadRoom();
-                themaincharacter->position.y = startposroom3to2;
-                maincharacterswitched3to2 = true;
-            }
-            break;
-        case 4:
-            /*if (therobot->position.y <= doorfromroom4to5) {
-                room = 5;
-                reloadRoom();
-                robotswitched4to5 = true;
-                therobot->position.y = startposroom4to5;
-            } else*/ if (themaincharacter->position.y <= doorfromroom4to5) {
-                room = 5;
-                reloadRoom();
-                themaincharacter->position.y = startposroom4to5;
-                maincharacterswitched4to5=true;
-            } /*else if (therobot->position.x <= (doorfromroom4to2)) {
-                room = 2;
-                reloadRoom();
-                therobot->position.x = startposroom4to2;
-                robotswitched4to2 = true;
-            } */else if (themaincharacter->position.x <= (doorfromroom4to2)) {
-                room = 2;
-                reloadRoom();
-                themaincharacter->position.x = startposroom4to2;
-                maincharacterswitched4to2 = true;
-            }
-            break;
-        case 5:
-            /*if (therobot->position.y <= doorfromroom5to6) {
-                room = 6;
-                reloadRoom();
-                robotswitched5to6 = true;
-                therobot->position.y = startposroom5to6;
-            } else */if (themaincharacter->position.y <= doorfromroom5to6) {
-                    room = 6;
-                    reloadRoom();
-                    themaincharacter->position.y = startposroom5to6;
-                    maincharacterswitched5to6=true;
-            } /*else if (therobot->position.y >= doorfromroom5to4) {
-                room = 4;
-                reloadRoom();
-                robotswitched5to4 = true;
-                therobot->position.y = startposroom5to4;
-            } */else if (themaincharacter->position.y >= doorfromroom5to4) {
-                room = 4;
-                reloadRoom();
-                themaincharacter->position.y = startposroom5to4;
-                maincharacterswitched5to4 = true;
-            }
-            break;
-        case 6:
-            /*if (therobot->position.y >= doorfromroom6to5) {
-                room = 5;
-                reloadRoom();
-                robotswitched6to5 = true;
-                therobot->position.y = startposroom6to5;
-            } else*/ if (themaincharacter->position.y >= doorfromroom6to5) {
-                room = 5;
-                reloadRoom();
-                themaincharacter->position.y = startposroom6to5;
-                maincharacterswitched6to5 = true;
-            }
-            break;
     }
 }
 
