@@ -136,7 +136,7 @@ void Enemy::moveRandomly() {
 }/*/
 }
 
-bool Enemy::checkCollision(const Wall &wall) { //Oli-> sieht so hübscher aus wie in Utils
+bool Enemy::checkCollision(const Wall &wall) { //Oli-> looks prettier than in Utils
     return Collision::checkCollision(*this, wall);
 }
 
