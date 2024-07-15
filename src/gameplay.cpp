@@ -384,8 +384,8 @@ void gameplay::reloadRoom() {
                 Enemy2 *enemy2 = new Enemy2(this);
                 enemy2->controltype = Random;
                 enemy2->id = 202;
-                enemy2->position.x = 11 * 32;
-                enemy2->position.y = 7 * 32;
+                enemy2->position.x = 22 * 32+16;
+                enemy2->position.y = 8 * 32;
                 enemy2->stopleft = 11 * 32; //creates new stop points for Enemy1 instance enemy1
                 enemy2->stopdown = 6 * 32;
                 enemy2->stopright = 8 * 32;
