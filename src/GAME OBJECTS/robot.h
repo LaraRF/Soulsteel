@@ -17,7 +17,6 @@ public:
     void update();
     void draw();
 
-    void deleteRobot();
 
     float size=12;
     float stepsize=4;
@@ -30,7 +29,7 @@ public:
 
     Vector2 position={11*32, 5*32};
     robot(gameplay*scene);
-    maincharactermodus currentmodus =soulmodus;
+
 
     gameplay* _scene;
 

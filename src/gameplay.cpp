@@ -234,8 +234,14 @@ void gameplay::draw() {
         }
 
     }
-
-    themaincharacter->draw();
+    switch(currentmodus){
+        case soulmodus:
+            themaincharacter->drawsoul();
+            break;
+        case robotmodus:
+            themaincharacter->drawrobot();
+            break;
+    }
 
         if(room==1){
             if(robotisinroom==1){

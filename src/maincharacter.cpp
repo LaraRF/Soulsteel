@@ -20,7 +20,7 @@ void maincharacter::update() {
         souldashactivated = false;
     }
 
-    if(position.x >=0 && position.y >=0) {
+    if (position.x >= 0 && position.y >= 0) {
         if (souldashactivated && currentmodus == soulmodus) {
             if (IsKeyDown(KEY_S)) {
                 position.y = position.y + (stepsize + stepzisesouldash);
@@ -61,6 +61,7 @@ void maincharacter::update() {
     }
 
     //allows you to switch between soul and robot functions
+
     switch (currentmodus) {
         case soulmodus:
             //switch mode
@@ -112,7 +113,7 @@ void maincharacter::update() {
     }
 //COLISSION WITH ENEMY
 
-    const std::vector<Enemy*>& enemies = _scene->getEnemies();
+    const std::vector<Enemy *> &enemies = _scene->getEnemies();
 
     for (int i = 0; i < enemies.size(); i++) {
         if (Collision::checkCollision(*this, *enemies[i])) {
@@ -133,9 +134,7 @@ void maincharacter::update() {
     }
 
 
-
-
-    if(currentmodus != soulmodus){
+    if (currentmodus != soulmodus) {
         for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
             Rectangle touchedBars = _scene->getTouchedBars(position, size);
             Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
@@ -152,25 +151,25 @@ void maincharacter::update() {
     }
 }
 
-void maincharacter::draw() {
+void maincharacter::drawsoul() {
 
-    //draws soul or robot, depending on which is chosen
-    switch (currentmodus) {
-        case soulmodus:
-            DrawCircle(position.x, position.y, size,PINK);
-            DrawTexture(characterSoulTexture, position.x-16, position.y-24, WHITE);
-            if (souldashactivated) {
-                DrawText("Souldash activated", 10, 10, 10, WHITE);
-            } else if (!souldashactivated) {
-                DrawText("Souldash deactivated", 10, 10, 10, WHITE);
-            }
-            break;
-        case robotmodus:
-            //DrawCircle(position.x, position.y, size,GRAY);
-            DrawTexture(characterRobotTexture, position.x-16, position.y-32, WHITE);
-            break;
-        default: std::cout << "help";
+
+    DrawCircle(position.x, position.y, size, PINK);
+    DrawTexture(characterSoulTexture, position.x - 16, position.y - 24, WHITE);
+    if (souldashactivated) {
+        DrawText("Souldash activated", 10, 10, 10, WHITE);
+    } else if (!souldashactivated) {
+        DrawText("Souldash deactivated", 10, 10, 10, WHITE);
     }
+
+}
+
+
+void maincharacter::drawrobot() {
+
+    //DrawCircle(position.x, position.y, size,GRAY);
+    DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
+
 }
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {

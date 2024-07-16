@@ -63,13 +63,11 @@ class Enemy3;
         gameplay();
         maincharactermodus currentmodus = soulmodus;
 
-        //enum characterchange {soulleavesrobot, soulentersrobot};
-        //characterchange characterchange =soulleavesrobot;
         bool soulleavesrobot=false;
         bool soulentersrobot=false;
         bool soulhasntchangedformsyet=true;
-        //int soulleavesrobot=1;
-        //int soulentersrobot=1;
+
+        int collisionradius =32;
 
 
         bool touchesWall(Vector2 pos, float size);
