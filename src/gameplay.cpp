@@ -194,35 +194,8 @@ void gameplay::draw() {
             break;
     }
 
-    if (room == 1) {
-        if (robotisinroom == 1) {
-            therobot->draw();
-        }
-    }
-    if (room == 2) {
-        if (robotisinroom == 2) {
-            therobot->draw();
-        }
-    }
-    if (room == 3) {
-        if (robotisinroom == 3) {
-            therobot->draw();
-        }
-    }
-    if (room == 4) {
-        if (robotisinroom == 4) {
-            therobot->draw();
-        }
-    }
-    if (room == 5) {
-        if (robotisinroom == 5) {
-            therobot->draw();
-        }
-    }
-    if (room == 6) {
-        if (robotisinroom == 6) {
-            therobot->draw();
-        }
+    if(robotisinroom==room&&currentmodus==soulmodus){
+        therobot->draw();
     }
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
     //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
@@ -331,10 +304,10 @@ void gameplay::reloadRoom() {
                 enemy1->id = 201;
                 enemy1->position.x = 5 * 32;
                 enemy1->position.y = 4 * 32;
-                enemy1->stopleft = 5 * 32; //creates new stop points for Enemy1 instance enemy1
-                enemy1->stopdown = 4 * 32;
-                enemy1->stopright = 10 * 32;
-                enemy1->stopup = 3 * 32 + 16;
+                enemy1->stopleft = 9 * 32; //creates new stop points for Enemy1 instance enemy1
+                enemy1->stopdown = 9 * 32;
+                enemy1->stopright = 12 * 32;
+                enemy1->stopup = 6 * 32 + 16;
                 enemy1->calculatePathAsRectangle();
                 enemies.push_back(enemy1);
 
