@@ -30,6 +30,7 @@ void gameplay::update() {
         gameobjects[i]->update();
     }
 
+    //switch between soul in soul-mode and soul in robot-mode
     if (IsKeyPressed(KEY_SPACE)) {
         switch (currentmodus) {
             case soulmodus:
@@ -48,6 +49,7 @@ void gameplay::update() {
         }
     }
 
+    //enables room-switch and checks which version of the character is the one leaving the room
     switch (room) {
         case 1:
             if (themaincharacter->position.y <= (doorfromroom1to2)) {
@@ -179,7 +181,7 @@ void gameplay::draw() {
             Rectangle src = {(float) (data % tilesetCols * tileSize), (float) (data / tilesetCols * tileSize),
                              (float) (tileSize), (float) (tileSize)};
             Rectangle dest = {(float) (x * tileSize), (float) (y * tileSize), (float) (tileSize), (float) (tileSize)};
-//hier kann man "static_cast<float>" durch (float) ersetzen -> ist C, aber geht hier auch
+            //hier kann man "static_cast<float>" durch (float) ersetzen -> ist C, aber geht hier auch
             DrawTexturePro(tilesetgrass, src, dest, {}, 0, WHITE);
         }
 
@@ -188,6 +190,7 @@ void gameplay::draw() {
         }
 
     }
+    //draws the character (in the correct form)
     switch (currentmodus) {
         case soulmodus:
             themaincharacter->drawsoul();
@@ -197,33 +200,25 @@ void gameplay::draw() {
             break;
     }
 
+    //only shows inactive robot when soul is in soul mode, also enables soul to leave robot behind and go to other rooms alone
     if(robotisinroom==room&&currentmodus==soulmodus){
         therobot->draw();
     }
-    //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
-    //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
-
-    /*for (int i = 0; i < enemies.size(); i++){
-        enemies[i]->draw();}*/
-
 
     for (int i = 0; i < gameobjects.size(); i++) {
         gameobjects[i]->draw();
     }
 
+    //updates the position of the inactive robot to the position where the soul leaves the robot
+    //also shows inactive robot at the start of the game
     if (soulleavesrobot || soulhasntchangedformsyet) {
         therobot->position = {themaincharacter->position.x, themaincharacter->position.y};
         soulleavesrobot = false;
         soulhasntchangedformsyet = false;
     }
 
-
-    DrawText("Press O to go to options.", 10, 400, 10, WHITE);
-    DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
-    DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
-    DrawText("Press J to open the journal.", 10, 460, 10, WHITE);
-
-
+    drawtextonscreen();
+    
     DrawTexture(heart, 10, 20, WHITE);
     DrawTexture(heart, 50, 20, WHITE);
     DrawTexture(heart, 90, 20, WHITE);
@@ -234,8 +229,14 @@ void gameplay::draw() {
     }
 }
 
+void gameplay::drawtextonscreen() {
+    DrawText("Press O to go to options.", 10, 400, 10, WHITE);
+    DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
+    DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
+    DrawText("Press J to open the journal.", 10, 460, 10, WHITE);
+}
 
-void gameplay::drawDebug() {
+void gameplay::drawDebug() { //draws red outlines around the wall tiles for example to help detect collision problems
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             if (getTileAt(x * 32.0, y * 32.0) == 1) {
@@ -250,10 +251,6 @@ gameplay::gameplay() {
     tson::Tileson tileson;
     themaincharacter = new class maincharacter(this);
     therobot = new robot(this);
-    //gameobjects.push_back(new robot(this));
-    //gameobjects.push_back(new robot(this, {11 * 32, 5 * 32}));
-
-
     reloadRoom();
 }
 

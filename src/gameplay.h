@@ -39,6 +39,7 @@ class Enemy3;
         scene *evaluateSceneChange() override;
 
         void draw() override;
+        void drawtextonscreen();
 
         void drawDebug() override;
 
@@ -82,6 +83,7 @@ class Enemy3;
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);
         int getTileAt(float x, float y);
+
 
 
         //std::vector<int> tileMap;
