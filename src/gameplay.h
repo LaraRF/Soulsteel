@@ -67,10 +67,13 @@ class Enemy3;
         bool soulentersrobot=false;
         bool soulhasntchangedformsyet=true;
 
-        int collisionradius =32;
 
 
         bool touchesWall(Vector2 pos, float size);
+
+        bool soulcantakeover();
+        int takeoverradius =40;
+
 
         bool touchesBars(Vector2 pos, float size);
         Rectangle getTouchedBars(Vector2 position, float size); //radius replaced with size
