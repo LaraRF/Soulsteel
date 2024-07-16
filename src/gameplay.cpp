@@ -30,167 +30,118 @@ void gameplay::update() {
         gameobjects[i]->update();
     }
 
-    switch (currentmodus) {
-        case soulmodus:
-            if (IsKeyPressed(KEY_SPACE)) {
-                currentmodus = robotmodus;
-                soulhasntchangedformsyet = false;
-                soulleavesrobot = false;
-                soulentersrobot = true;
-            }
-            switch (room) {
-                case 1:
-                    if (themaincharacter->position.y <= (doorfromroom1to2)) {
-                        room = 2;
-                        soulisinroom=2;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom1to2;
-                    }
-                    break;
-                case 2:
-                    if (themaincharacter->position.y <= doorfromroom2to3) {
-                        room = 3;
-                        soulisinroom=3;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom2to3;
-                    }
-                    if (themaincharacter->position.x >= doorfromroom2to4) {
-                        room = 4;
-                        soulisinroom=4;
-                        reloadRoom();
-                        themaincharacter->position.x = startposroom2to4;
-                    }
-                    if (themaincharacter->position.y >= (doorfromroom2to1)) {
-                        room = 1;
-                        soulisinroom=1;
-                        hasbeeninroom1before = true;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom2to1;
-                    }
-                    break;
-                case 3:
-                    if (themaincharacter->position.y >= (doorfromroom3to2)) {
-                        room = 2;
-                        soulisinroom=2;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom3to2;
-                    }
-                    break;
-                case 4:
-                    if (themaincharacter->position.y <= doorfromroom4to5) {
-                        room = 5;
-                        soulisinroom=5;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom4to5;
-                    }
-                    if (themaincharacter->position.x <= (doorfromroom4to2)) {
-                        room = 2;
-                        soulisinroom=2;
-                        reloadRoom();
-                        themaincharacter->position.x = startposroom4to2;
-                    }
-                    break;
-                case 5:
-                    if (themaincharacter->position.y <= doorfromroom5to6) {
-                        room = 6;
-                        soulisinroom=6;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom5to6;
-                    }
-                    if (themaincharacter->position.y >= doorfromroom5to4) {
-                        room = 4;
-                        soulisinroom=4;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom5to4;
-                    }
-                    break;
-                case 6:
-                    if (themaincharacter->position.y >= doorfromroom6to5) {
-                        room = 5;
-                        soulisinroom=5;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom6to5;
-                    }
-                    break;
-            }
-            break;
-        case robotmodus:
-            if (IsKeyPressed(KEY_SPACE)) {
+    if (IsKeyPressed(KEY_SPACE)) {
+        switch (currentmodus) {
+            case soulmodus:
+                if (soulcantakeover()) {
+                    currentmodus = robotmodus;
+                    soulhasntchangedformsyet = false;
+                    soulleavesrobot = false;
+                    soulentersrobot = true;
+                }
+                break;
+            case robotmodus:
                 currentmodus = soulmodus;
                 soulleavesrobot = true;
                 soulentersrobot = false;
+                break;
+        }
+    }
+
+    switch (room) {
+        case 1:
+            if (themaincharacter->position.y <= (doorfromroom1to2)) {
+                room = 2;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 2;
+                } else { robotisinroom = 2; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom1to2;
             }
-            switch (room) {
-                case 1:
-                    if (themaincharacter->position.y <= (doorfromroom1to2)) {
-                        room = 2;
-                        robotisinroom=2;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom1to2;
-                    }
-                    break;
-                case 2:
-                    if (themaincharacter->position.y <= doorfromroom2to3) {
-                        room = 3;
-                        robotisinroom=3;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom2to3;
-                    } else if (themaincharacter->position.x >= doorfromroom2to4) {
-                        room = 4;
-                        robotisinroom=4;
-                        reloadRoom();
-                        themaincharacter->position.x = startposroom2to4;
-                    }else if (themaincharacter->position.y >= (doorfromroom2to1)) {
-                        room = 1;
-                        robotisinroom=1;
-                        hasbeeninroom1before = true;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom2to1;
-                    }
-                    break;
-                case 3:
-                    if (themaincharacter->position.y >= (doorfromroom3to2)) {
-                        room = 2;
-                        robotisinroom=2;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom3to2;
-                    }
-                    break;
-                case 4:
-                    if (themaincharacter->position.y <= doorfromroom4to5) {
-                        room = 5;
-                        robotisinroom=5;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom4to5;
-                    } else if (themaincharacter->position.x <= (doorfromroom4to2)) {
-                        room = 2;
-                        robotisinroom=2;
-                        reloadRoom();
-                        themaincharacter->position.x = startposroom4to2;
-                    }
-                    break;
-                case 5:
-                    if (themaincharacter->position.y <= doorfromroom5to6) {
-                        room = 6;
-                        robotisinroom=6;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom5to6;
-                    } else if (themaincharacter->position.y >= doorfromroom5to4) {
-                        room = 4;
-                        robotisinroom=4;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom5to4;
-                    }
-                    break;
-                case 6:
-                    if (themaincharacter->position.y >= doorfromroom6to5) {
-                        room = 5;
-                        robotisinroom=5;
-                        reloadRoom();
-                        themaincharacter->position.y = startposroom6to5;
-                    }
-                    break;
+            break;
+        case 2:
+            if (themaincharacter->position.y <= doorfromroom2to3) {
+                room = 3;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 3;
+                } else { robotisinroom = 3; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom2to3;
             }
+            if (themaincharacter->position.x >= doorfromroom2to4) {
+                room = 4;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 4;
+                } else { robotisinroom = 4; }
+                reloadRoom();
+                themaincharacter->position.x = startposroom2to4;
+            }
+            if (themaincharacter->position.y >= (doorfromroom2to1)) {
+                room = 1;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 1;
+                } else { robotisinroom = 1; }
+                hasbeeninroom1before = true;
+                reloadRoom();
+                themaincharacter->position.y = startposroom2to1;
+            }
+            break;
+        case 3:
+            if (themaincharacter->position.y >= (doorfromroom3to2)) {
+                room = 2;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 2;
+                } else { robotisinroom = 2; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom3to2;
+            }
+            break;
+        case 4:
+            if (themaincharacter->position.y <= doorfromroom4to5) {
+                room = 5;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 5;
+                } else { robotisinroom = 5; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom4to5;
+            }
+            if (themaincharacter->position.x <= (doorfromroom4to2)) {
+                room = 2;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 2;
+                } else { robotisinroom = 2; }
+                reloadRoom();
+                themaincharacter->position.x = startposroom4to2;
+            }
+            break;
+        case 5:
+            if (themaincharacter->position.y <= doorfromroom5to6) {
+                room = 6;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 6;
+                } else { robotisinroom = 6; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom5to6;
+            }
+            if (themaincharacter->position.y >= doorfromroom5to4) {
+                room = 4;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 4;
+                } else { robotisinroom = 4; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom5to4;
+            }
+            break;
+        case 6:
+            if (themaincharacter->position.y >= doorfromroom6to5) {
+                room = 5;
+                if (currentmodus == soulmodus) {
+                    soulisinroom = 6;
+                } else { robotisinroom = 6; }
+                reloadRoom();
+                themaincharacter->position.y = startposroom6to5;
+            }
+            break;
     }
 }
 
@@ -237,39 +188,18 @@ void gameplay::draw() {
         }
 
     }
+    switch (currentmodus) {
+        case soulmodus:
+            themaincharacter->drawsoul();
+            break;
+        case robotmodus:
+            themaincharacter->drawrobot();
+            break;
+    }
 
-    themaincharacter->draw();
-
-        if(room==1){
-            if(robotisinroom==1){
-                therobot->draw();
-            }
-        }
-        if(room==2) {
-            if (robotisinroom==2) {
-                therobot->draw();
-            }
-        }
-        if(room==3) {
-            if (robotisinroom==3) {
-                therobot->draw();
-            }
-        }
-        if(room==4) {
-            if (robotisinroom==4) {
-                therobot->draw();
-            }
-        }
-        if(room==5) {
-            if (robotisinroom==5) {
-                therobot->draw();
-            }
-        }
-        if(room==6) {
-            if (robotisinroom==6) {
-                therobot->draw();
-            }
-        }
+    if(robotisinroom==room&&currentmodus==soulmodus){
+        therobot->draw();
+    }
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
     //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
 
@@ -281,12 +211,11 @@ void gameplay::draw() {
         gameobjects[i]->draw();
     }
 
-    if(soulleavesrobot||soulhasntchangedformsyet) {
-            therobot->position = {themaincharacter->position.x, themaincharacter->position.y};
-            soulleavesrobot=false;
-            soulhasntchangedformsyet=false;
-        }
-
+    if (soulleavesrobot || soulhasntchangedformsyet) {
+        therobot->position = {themaincharacter->position.x, themaincharacter->position.y};
+        soulleavesrobot = false;
+        soulhasntchangedformsyet = false;
+    }
 
 
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
@@ -380,10 +309,10 @@ void gameplay::reloadRoom() {
                 enemy1->id = 201;
                 enemy1->position.x = 5 * 32;
                 enemy1->position.y = 4 * 32;
-                enemy1->stopleft = 5 * 32; //creates new stop points for Enemy1 instance enemy1
-                enemy1->stopdown = 4 * 32;
-                enemy1->stopright = 10 * 32;
-                enemy1->stopup = 3 * 32 + 16;
+                enemy1->stopleft = 9 * 32; //creates new stop points for Enemy1 instance enemy1
+                enemy1->stopdown = 9 * 32;
+                enemy1->stopright = 12 * 32;
+                enemy1->stopup = 6 * 32 + 16;
                 enemy1->calculatePathAsRectangle();
                 enemies.push_back(enemy1);
 
@@ -403,12 +332,12 @@ void gameplay::reloadRoom() {
                 Enemy2 *enemy2 = new Enemy2(this);
                 enemy2->controltype = Random;
                 enemy2->id = 202;
-                enemy2->position.x = 22 * 32+16;
+                enemy2->position.x = 22 * 32 + 16;
                 enemy2->position.y = 8 * 32;
                 enemy2->stopleft = 11 * 32; //creates new stop points for Enemy1 instance enemy1
                 enemy2->stopdown = 6 * 32;
                 enemy2->stopright = 8 * 32;
-                enemy2->stopup =  3 * 32 + 16;
+                enemy2->stopup = 3 * 32 + 16;
                 enemies.push_back(enemy2);
 
                 if (enemy2->health == 0) {
@@ -560,6 +489,15 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
         }
     }
     return false;
+}
+
+bool gameplay::soulcantakeover() {
+    if (CheckCollisionPointCircle({themaincharacter->position.x, themaincharacter->position.y},
+                                  {therobot->position.x, therobot->position.y}, takeoverradius)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool gameplay::touchesNextDoor(Vector2 pos, float size) {

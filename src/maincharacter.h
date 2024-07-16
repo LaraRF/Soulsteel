@@ -22,7 +22,8 @@ class maincharacter {
 
 public:
     void update();
-    void draw();
+    void drawrobot();
+    void drawsoul();
 
 
     //maincharacter();

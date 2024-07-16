@@ -63,16 +63,17 @@ class Enemy3;
         gameplay();
         maincharactermodus currentmodus = soulmodus;
 
-        //enum characterchange {soulleavesrobot, soulentersrobot};
-        //characterchange characterchange =soulleavesrobot;
         bool soulleavesrobot=false;
         bool soulentersrobot=false;
         bool soulhasntchangedformsyet=true;
-        //int soulleavesrobot=1;
-        //int soulentersrobot=1;
+
 
 
         bool touchesWall(Vector2 pos, float size);
+
+        bool soulcantakeover();
+        int takeoverradius =40;
+
 
         bool touchesBars(Vector2 pos, float size);
         Rectangle getTouchedBars(Vector2 position, float size); //radius replaced with size
