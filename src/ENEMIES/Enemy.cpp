@@ -8,6 +8,7 @@
 #include "raymath.h"
 #include "../Wall.h"
 
+int Enemy::attackPower = 1;
 
 Enemy::Enemy(gameplay*scene, int hp, int damage, bool melee, bool ranged, bool armed,
              float left, float down, float right, float up)
@@ -145,13 +146,21 @@ Rectangle Enemy::getCollisionRectangle() const{
 }
 
 
-int getHealth(const Enemy &enemy) {
+int Enemy::getHealth(const Enemy &enemy) {
     return enemy.health;
 }
 
-void takeDamage(Enemy &enemy, int damage) {
+void Enemy::takeDamage(Enemy &enemy, int damage) {
     enemy.health -= damage;
     if (enemy.health < 0) {
         enemy.health = 0;
     }
+}
+//attack
+void Enemy::setAttackPower (int damage) {
+    int attackPower = damage;
+}
+
+void Enemy::attack(maincharacter* target) {
+    target->health -= maincharacter::attackPower;
 }

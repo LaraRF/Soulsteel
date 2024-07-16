@@ -129,6 +129,7 @@ class Enemy3;
     protected:
         std::vector<int>enemyID;
 
+        void updateAllenemies();
     };
 
 

@@ -16,6 +16,7 @@
 #include "ENEMIES/Enemy.h"
 
 class gameplay;
+class Enemy;
 
 class maincharacter {
 
@@ -28,9 +29,15 @@ public:
     //lets the character start in the middle of the screen (almost, to match the tiles)
 
     //health & Damage
-    int health;
+    int health = 10;
+    static int attackPower;
+
     int getHealth(const maincharacter& maincharacter);
     void calculateDamage(maincharacter& maincharacter, int damage);
+
+    //attack
+    void setAttackPower(int attack);
+    void attack(Enemy* target);
 
 
     //movement

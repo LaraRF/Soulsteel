@@ -5,6 +5,7 @@
 #include "maincharacter.h"
 #include "scene.h"
 
+int maincharacter::attackPower = 2;
 
 void maincharacter::update() {
 
@@ -181,6 +182,12 @@ Rectangle maincharacter::getCollisionRectangle() const {
     return Rectangle{position.x - size / 2, position.y - size / 2, size, size};
 }
 
+//attack
+void maincharacter::attack(Enemy* target) {
+    target->health -= Enemy::attackPower;
+
+}
+
 int getHealth(const maincharacter &maincharacter) {
     return maincharacter.health;
 }
@@ -190,4 +197,8 @@ void calculateDamage(maincharacter &maincharacter, int damage) {
     if (maincharacter.health < 0) {
         maincharacter.health = 0;
     }
+}
+
+void setAttackPower (int attack)  {
+    int attackPower = attack;
 }

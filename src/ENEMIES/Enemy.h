@@ -42,15 +42,24 @@ public:
     Vector2 position{}; //current position of enemy
 
     int id = 0;
+
+    //health
     int health;
+    int getHealth(const Enemy& enemy);
+    void calculateDamage(Enemy& enemy, int damage);
+
+    //attack
+    static int attackPower;
+    void setAttackPower(int damage);
+    void attack(maincharacter* target);
+
 
     virtual void update();
     virtual void draw() = 0;
 
     void calculatePathAsRectangle();
 
-    int getHealth(const Enemy& enemy);
-    void calculateDamage(Enemy& enemy, int damage);
+
 
     ControlType controltype;
 
@@ -96,6 +105,7 @@ protected:
     virtual void moveOnPath();
     virtual void moveRandomly();
 
+    void takeDamage(Enemy &enemy, int damage);
 };
 
 

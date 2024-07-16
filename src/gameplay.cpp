@@ -25,10 +25,7 @@ void gameplay::update() {
     themaincharacter->update();
     therobot->update();
 
-
-    for (int i = 0; i < enemies.size(); i++) {
-        enemies[i]->update();
-    }
+    updateAllenemies();
     for (int i = 0; i < gameobjects.size(); i++) {
         gameobjects[i]->update();
     }
@@ -194,6 +191,12 @@ void gameplay::update() {
                     }
                     break;
             }
+    }
+}
+
+void gameplay::updateAllenemies() {
+    for (int i = 0; i < enemies.size(); i++) {
+        enemies[i]->update();
     }
 }
 
@@ -366,6 +369,8 @@ void gameplay::reloadRoom() {
             mapHeight = layer->getSize().y;
 
 
+            //attack
+
             //custom enemies
             if (std::find(enemyID.begin(), enemyID.end(), 201) == enemyID.end()) {
 
@@ -381,6 +386,12 @@ void gameplay::reloadRoom() {
                 enemy1->stopup = 3 * 32 + 16;
                 enemy1->calculatePathAsRectangle();
                 enemies.push_back(enemy1);
+
+                //attack
+                enemy1->setAttackPower(1);
+                //themaincharacter.attack(enemy1);
+                //enemy1.attack(themaincharacter); //attack on maincharacter
+                //enemy1->attack(maincharacter);
 
                 if (enemy1->health == 0) {
                     enemyID.push_back(enemy1->id);
@@ -426,6 +437,7 @@ void gameplay::reloadRoom() {
                 }
             }
 
+            //attack character
 
 
 
