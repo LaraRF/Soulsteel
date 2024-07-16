@@ -23,7 +23,7 @@
 void gameplay::update() {
 
     themaincharacter->update();
-    //therobot->update();
+    therobot->update();
 
 
     for (int i = 0; i < enemies.size(); i++) {
@@ -45,6 +45,7 @@ void gameplay::update() {
                 case 1:
                     if (themaincharacter->position.y <= (doorfromroom1to2)) {
                         room = 2;
+                        soulisinroom=2;
                         reloadRoom();
                         themaincharacter->position.y = startposroom1to2;
                     }
@@ -52,16 +53,19 @@ void gameplay::update() {
                 case 2:
                     if (themaincharacter->position.y <= doorfromroom2to3) {
                         room = 3;
+                        soulisinroom=3;
                         reloadRoom();
                         themaincharacter->position.y = startposroom2to3;
                     }
                     if (themaincharacter->position.x >= doorfromroom2to4) {
                         room = 4;
+                        soulisinroom=4;
                         reloadRoom();
                         themaincharacter->position.x = startposroom2to4;
                     }
                     if (themaincharacter->position.y >= (doorfromroom2to1)) {
                         room = 1;
+                        soulisinroom=1;
                         hasbeeninroom1before = true;
                         reloadRoom();
                         themaincharacter->position.y = startposroom2to1;
@@ -70,6 +74,7 @@ void gameplay::update() {
                 case 3:
                     if (themaincharacter->position.y >= (doorfromroom3to2)) {
                         room = 2;
+                        soulisinroom=2;
                         reloadRoom();
                         themaincharacter->position.y = startposroom3to2;
                     }
@@ -77,11 +82,13 @@ void gameplay::update() {
                 case 4:
                     if (themaincharacter->position.y <= doorfromroom4to5) {
                         room = 5;
+                        soulisinroom=5;
                         reloadRoom();
                         themaincharacter->position.y = startposroom4to5;
                     }
                     if (themaincharacter->position.x <= (doorfromroom4to2)) {
                         room = 2;
+                        soulisinroom=2;
                         reloadRoom();
                         themaincharacter->position.x = startposroom4to2;
                     }
@@ -89,11 +96,13 @@ void gameplay::update() {
                 case 5:
                     if (themaincharacter->position.y <= doorfromroom5to6) {
                         room = 6;
+                        soulisinroom=6;
                         reloadRoom();
                         themaincharacter->position.y = startposroom5to6;
                     }
                     if (themaincharacter->position.y >= doorfromroom5to4) {
                         room = 4;
+                        soulisinroom=4;
                         reloadRoom();
                         themaincharacter->position.y = startposroom5to4;
                     }
@@ -101,6 +110,7 @@ void gameplay::update() {
                 case 6:
                     if (themaincharacter->position.y >= doorfromroom6to5) {
                         room = 5;
+                        soulisinroom=5;
                         reloadRoom();
                         themaincharacter->position.y = startposroom6to5;
                     }
@@ -117,6 +127,7 @@ void gameplay::update() {
                 case 1:
                     if (themaincharacter->position.y <= (doorfromroom1to2)) {
                         room = 2;
+                        robotisinroom=2;
                         reloadRoom();
                         themaincharacter->position.y = startposroom1to2;
                     }
@@ -124,14 +135,17 @@ void gameplay::update() {
                 case 2:
                     if (themaincharacter->position.y <= doorfromroom2to3) {
                         room = 3;
+                        robotisinroom=3;
                         reloadRoom();
                         themaincharacter->position.y = startposroom2to3;
                     } else if (themaincharacter->position.x >= doorfromroom2to4) {
                         room = 4;
+                        robotisinroom=4;
                         reloadRoom();
                         themaincharacter->position.x = startposroom2to4;
                     }else if (themaincharacter->position.y >= (doorfromroom2to1)) {
                         room = 1;
+                        robotisinroom=1;
                         hasbeeninroom1before = true;
                         reloadRoom();
                         themaincharacter->position.y = startposroom2to1;
@@ -140,6 +154,7 @@ void gameplay::update() {
                 case 3:
                     if (themaincharacter->position.y >= (doorfromroom3to2)) {
                         room = 2;
+                        robotisinroom=2;
                         reloadRoom();
                         themaincharacter->position.y = startposroom3to2;
                     }
@@ -147,10 +162,12 @@ void gameplay::update() {
                 case 4:
                     if (themaincharacter->position.y <= doorfromroom4to5) {
                         room = 5;
+                        robotisinroom=5;
                         reloadRoom();
                         themaincharacter->position.y = startposroom4to5;
                     } else if (themaincharacter->position.x <= (doorfromroom4to2)) {
                         room = 2;
+                        robotisinroom=2;
                         reloadRoom();
                         themaincharacter->position.x = startposroom4to2;
                     }
@@ -158,10 +175,12 @@ void gameplay::update() {
                 case 5:
                     if (themaincharacter->position.y <= doorfromroom5to6) {
                         room = 6;
+                        robotisinroom=6;
                         reloadRoom();
                         themaincharacter->position.y = startposroom5to6;
                     } else if (themaincharacter->position.y >= doorfromroom5to4) {
                         room = 4;
+                        robotisinroom=4;
                         reloadRoom();
                         themaincharacter->position.y = startposroom5to4;
                     }
@@ -169,6 +188,7 @@ void gameplay::update() {
                 case 6:
                     if (themaincharacter->position.y >= doorfromroom6to5) {
                         room = 5;
+                        robotisinroom=5;
                         reloadRoom();
                         themaincharacter->position.y = startposroom6to5;
                     }
@@ -216,42 +236,37 @@ void gameplay::draw() {
     }
 
     themaincharacter->draw();
-    //therobot->draw();
-/*
+
         if(room==1){
-            do{
-                therobot->draw();
-            }while(!maincharacterswitched1to2||!robotswitched1to2);
-            if(robotswitched2to1){
+            if(robotisinroom==1){
                 therobot->draw();
             }
         }
         if(room==2) {
-            if (robotswitched1to2 || robotswitched3to2 || robotswitched4to2) {
+            if (robotisinroom==2) {
                 therobot->draw();
             }
         }
         if(room==3) {
-            if (robotswitched2to3) {
+            if (robotisinroom==3) {
                 therobot->draw();
             }
         }
         if(room==4) {
-            if (robotswitched2to4 || robotswitched5to4) {
+            if (robotisinroom==4) {
                 therobot->draw();
             }
         }
         if(room==5) {
-            if (robotswitched4to5 || robotswitched6to5) {
+            if (robotisinroom==5) {
                 therobot->draw();
             }
         }
         if(room==6) {
-            if (robotswitched5to6) {
+            if (robotisinroom==6) {
                 therobot->draw();
             }
         }
-*/
     //if(room==1 && !hasbeeninroom1before){enemies->draw();} //drawt die Enemies nur in Level 1 und nur, wenn man zum ersten Mal im Raum ist
     //if(room==1){enemy1->draw();} //drawt die Enemies nur in Level 1, aber die laufen da weiter, wo sie zuletzt waren (spawnen nicht immer am Start-Ort)
 
@@ -264,16 +279,9 @@ void gameplay::draw() {
     }
 
     if(soulleavesrobot||soulhasntchangedformsyet) {
-            robot *therobot = new robot(this);
             therobot->position = {themaincharacter->position.x, themaincharacter->position.y};
-            gameobjects.push_back(therobot);
             soulleavesrobot=false;
             soulhasntchangedformsyet=false;
-
-            if(soulentersrobot){
-               therobot->deleteRobot();
-               delete therobot;
-            }
         }
 
 

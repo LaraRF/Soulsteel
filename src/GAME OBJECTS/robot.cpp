@@ -67,8 +67,13 @@ void robot::draw() {
 
 }
 
-robot::~robot() {}
-
 void robot::deleteRobot() {
     UnloadTexture(robotFront);
 }
+
+robot::robot(gameplay *scene) {
+
+}
+
+robot::~robot() {}
+

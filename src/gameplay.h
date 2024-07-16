@@ -92,7 +92,6 @@ class Enemy3;
         std::vector<gameobjects*> gameobjects;
 
         std::vector<Wall*> walls;
-        maincharacter* maincharacter;
         robot *therobot;
 
         int room=1;
@@ -120,26 +119,8 @@ class Enemy3;
         int doorfromroom6to5=14*32+20;
         int startposroom6to5=2*32+16;
 
-        bool robotswitched1to2 =false;
-        bool robotswitched2to1 =false;
-        bool robotswitched2to3 =false;
-        bool robotswitched3to2 =false;
-        bool robotswitched2to4 =false;
-        bool robotswitched4to2 =false;
-        bool robotswitched4to5 =false;
-        bool robotswitched5to4 =false;
-        bool robotswitched5to6 =false;
-        bool robotswitched6to5 =false;
-        bool soulswitched1to2 =false;
-        bool soulswitched2to1 =false;
-        bool soulswitched2to3 =false;
-        bool soulswitched3to2 =false;
-        bool soulswitched2to4 =false;
-        bool soulswitched4to2 =false;
-        bool soulswitched4to5 =false;
-        bool soulswitched5to4 =false;
-        bool soulswitched5to6 =false;
-        bool soulswitched6to5 =false;
+        int robotisinroom=1;
+        int soulisinroom=1;
 
 
         void reloadRoom();

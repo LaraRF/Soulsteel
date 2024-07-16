@@ -9,17 +9,17 @@
 #include "../assestmanagergraphics.h"
 #include "../maincharactermodus.h"
 
-class robot:public gameobjects {
+class robot {
 private:
     //Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
     Texture2D robotFront = assestmanagergraphics::getTexture("characters/robot/Robot_front");
 public:
-    void update() override;
-    void draw() override;
+    void update();
+    void draw();
 
     void deleteRobot();
 
-
+    float size=12;
     float stepsize=4;
 
     //looking direction
@@ -29,9 +29,7 @@ public:
     lookingdirection lookingdirection =south;
 
     Vector2 position={11*32, 5*32};
-    robot(gameplay*scene){
-        size=12;
-    };
+    robot(gameplay*scene);
     maincharactermodus currentmodus =soulmodus;
 
     gameplay* _scene;
