@@ -43,15 +43,8 @@ class Enemy3;
 
         void drawDebug() override;
 
-        //Collision Vector
-        //bool touchesWall(Vector2 position, float size) const;
-        //Rectangle getTouchedWall(Vector2 position, float size) const;
-
-
         //loads the necessary textures
         Texture2D heart = assestmanagergraphics::getTexture("userinterface/heart_smaller");
-        //Texture2D modeRobo = LoadTexture("assets/graphics/robot_anuki_3.png");
-        //Texture2D modeSoul = LoadTexture("assets/graphics/soul_destiny_3.png");
 
         //loads the textures on the map (Kachelsatz)
         Texture2D tilesetgrass = assestmanagergraphics::getTexture("tilesets/greyboxing1");
@@ -59,46 +52,46 @@ class Enemy3;
 
         //attributes necessary for using the map
         std::vector<int> tiles;
-        //int rows;
-        //int cols;
+        int mapWidth = 25;
+        int mapHeight = 15;
+
         gameplay();
+
         maincharactermodus currentmodus = soulmodus;
 
+        //stuff to handle character switch and when to show inactive robot
         bool soulleavesrobot=false;
         bool soulentersrobot=false;
         bool soulhasntchangedformsyet=true;
-
-
-
-        bool touchesWall(Vector2 pos, float size);
-
         bool soulcantakeover();
         int takeoverradius =40;
 
+        //collision functions
+        int getTileAt(float x, float y);
+        bool touchesWall(Vector2 pos, float size);
 
         bool touchesBars(Vector2 pos, float size);
         Rectangle getTouchedBars(Vector2 position, float size); //radius replaced with size
         Rectangle getTouchedWall(Vector2 position, float size);
-        const std::vector<Enemy*>& getEnemies() const;
+
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);
-        int getTileAt(float x, float y);
+        std::vector<Wall*> walls;
 
-
-
-        //std::vector<int> tileMap;
-        int mapWidth = 25;
-        int mapHeight = 15;
-
+        //lets different entities spawn
+        const std::vector<Enemy*>& getEnemies() const;
         maincharacter *themaincharacter;
         std::vector<Enemy*> enemies;
         std::vector<gameobjects*> gameobjects;
-
-        std::vector<Wall*> walls;
         robot *therobot;
 
+        //room switch things
         int room=1;
+        int robotisinroom=1;
+        int soulisinroom=1;
         bool hasbeeninroom1before =false;
+
+        void reloadRoom();
 
         //doors
         int doorfromroom1to2=32;
@@ -122,20 +115,10 @@ class Enemy3;
         int doorfromroom6to5=14*32+20;
         int startposroom6to5=2*32+16;
 
-        int robotisinroom=1;
-        int soulisinroom=1;
-
-
-        void reloadRoom();
-
-        bool touchesNextDoor(Vector2 pos, float size);
     protected:
         std::vector<int>enemyID;
 
         void updateAllenemies();
     };
-
-
-
 
 #endif //RAYLIBSTARTER_GAMEPLAY_H

@@ -497,20 +497,6 @@ bool gameplay::soulcantakeover() {
     }
 }
 
-bool gameplay::touchesNextDoor(Vector2 pos, float size) {
-    for (int y = 0; y < mapHeight; y++) {
-        for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 3) {
-                if (CheckCollisionCircleRec(pos, size,
-                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
-
 Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     //check all walls
     //on contact, note distance to wall
