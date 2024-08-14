@@ -218,11 +218,7 @@ void gameplay::draw() {
     }
 
     drawtextonscreen();
-    
-    DrawTexture(heart, 10, 20, WHITE);
-    DrawTexture(heart, 50, 20, WHITE);
-    DrawTexture(heart, 90, 20, WHITE);
-
+    drawhealthhearts();
 
     if (IsKeyDown(KEY_H)) {
         this->drawDebug();
@@ -234,6 +230,12 @@ void gameplay::drawtextonscreen() {
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
     DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
     DrawText("Press J to open the journal.", 10, 460, 10, WHITE);
+}
+
+void gameplay::drawhealthhearts() {
+    DrawTexture(heart, 10, 20, WHITE);
+    DrawTexture(heart, 50, 20, WHITE);
+    DrawTexture(heart, 90, 20, WHITE);
 }
 
 void gameplay::drawDebug() { //draws red outlines around the wall tiles for example to help detect collision problems
