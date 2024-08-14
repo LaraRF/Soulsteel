@@ -50,6 +50,10 @@ void gameplay::update() {
     }
 
     //enables room-switch and checks which version of the character is the one leaving the room
+    doRoomSwitch();
+}
+
+void gameplay::doRoomSwitch() {
     switch (room) {
         case 1:
             if (themaincharacter->position.y <= (doorfromroom1to2)) {

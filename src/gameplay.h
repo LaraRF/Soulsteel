@@ -35,12 +35,14 @@ class Enemy3;
     public:
 
         void update() override;
+        void doRoomSwitch();
 
         scene *evaluateSceneChange() override;
 
         void draw() override;
         void drawtextonscreen();
         void drawhealthhearts();
+
 
         void drawDebug() override;
 
