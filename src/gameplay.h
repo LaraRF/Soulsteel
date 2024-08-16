@@ -72,10 +72,11 @@ class Enemy3;
         //collision functions
         int getTileAt(float x, float y);
         bool touchesWall(Vector2 pos, float size);
-
+        bool touchesAbyss(Vector2 pos, float size);
         bool touchesBars(Vector2 pos, float size);
         Rectangle getTouchedBars(Vector2 position, float size); //radius replaced with size
         Rectangle getTouchedWall(Vector2 position, float size);
+        Rectangle getTouchedAbyss(Vector2 position, float size);
 
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);

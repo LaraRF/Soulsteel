@@ -45,6 +45,7 @@ void maincharacter::update() {
     collisionwall();
     collisionenemies();
     collisionbars();
+    collisionabyss();
 }
 
 void maincharacter::maincharacterwalking() {
@@ -110,6 +111,24 @@ void maincharacter::collisionbars() {
             Rectangle touchedBars = _scene->getTouchedBars(position, size);
             Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
                                               {touchedBars.x + touchedBars.width, touchedBars.y + touchedBars.height});
+            Vector2 pushForce = Vector2Subtract(position, touchPoint);
+            float overlapDistance = size - Vector2Length(pushForce);
+            if (overlapDistance <= 0) {
+                break;
+            }
+            pushForce = Vector2Normalize(pushForce);
+            pushForce = Vector2Scale(pushForce, overlapDistance);
+            position = Vector2Add(position, pushForce);
+        }
+    }
+}
+
+void maincharacter::collisionabyss() {
+    if (!souldashactivated) {
+        for (int i = 0; _scene->touchesAbyss(position, size) && i < 4; i++) {
+            Rectangle touchedAbyss = _scene->getTouchedAbyss(position, size);
+            Vector2 touchPoint = Vector2Clamp(position, {touchedAbyss.x, touchedAbyss.y},
+                                              {touchedAbyss.x + touchedAbyss.width, touchedAbyss.y + touchedAbyss.height});
             Vector2 pushForce = Vector2Subtract(position, touchPoint);
             float overlapDistance = size - Vector2Length(pushForce);
             if (overlapDistance <= 0) {

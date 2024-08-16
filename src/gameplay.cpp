@@ -563,6 +563,41 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
     return closestBar;
 
 }
+bool gameplay::touchesAbyss(Vector2 pos, float size) {
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if ((getTileAt(x * 32, y * 32) == 3)) {
+                if (CheckCollisionCircleRec(pos, size,
+                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+Rectangle gameplay::getTouchedAbyss(Vector2 position, float radius) {
+    float shortestDistance = 1000000;
+    Rectangle closestAbyss{};
+    for (int y = 0; y < mapHeight; y++) {
+        for (int x = 0; x < mapWidth; x++) {
+            if (getTileAt(x * 32, y * 32) == 3) {
+                Rectangle abyss{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{abyss.x, abyss.y},
+                                                      Vector2{abyss.x + abyss.width, abyss.y + abyss.height});
+                float distance = Vector2Distance(position, wallTouchPoint);
+                if (distance < shortestDistance) {
+                    shortestDistance = distance;
+                    closestAbyss = abyss;
+                }
+            }
+        }
+    }
+    return closestAbyss;
+
+}
+
 
 const std::vector<Enemy *> &gameplay::getEnemies() const {
     return enemies;
