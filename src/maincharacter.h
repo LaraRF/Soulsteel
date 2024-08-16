@@ -22,9 +22,14 @@ class maincharacter {
 
 public:
     void update();
+    void maincharacterwalking();
     void drawrobot();
     void drawsoul();
     void souldash();
+    void collisionwall();
+    void collisionenemies();
+    void collisionbars();
+    void collisionabyss();
 
     //health & Damage
     int health = 10;

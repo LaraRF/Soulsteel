@@ -9,24 +9,7 @@ int maincharacter::attackPower = 2;
 
 void maincharacter::update() {
 
-
-    if (IsKeyDown(KEY_S)) {
-        position.y = position.y + stepsize;
-        lookingdirection = south;
-    }
-    if (IsKeyDown(KEY_W)) {
-        position.y = position.y - stepsize;
-        lookingdirection = north;
-    }
-    if (IsKeyDown(KEY_A)) {
-        position.x = position.x - stepsize;
-        lookingdirection = west;
-    }
-    if (IsKeyDown(KEY_D)) {
-        position.x = position.x + stepsize;
-        lookingdirection = east;
-    }
-
+    maincharacterwalking();
 
     //allows you to switch between soul and robot functions
     switch (currentmodus) {
@@ -54,21 +37,36 @@ void maincharacter::update() {
 
 
             //bomb throwing
-            /*if(IsKeyPressed(KEY_B)){
-                if(!bombhasbeenplaced){
-                throwbomb=true;
-                throwingposx=position.x;
-                throwingposy=position.y;
-                }
-                if(bombhasbeenplaced){
-
-                }
-            }*/
 
             //space for more robot function
             break;
     }
-//COLLISION WALL
+//collisions
+    collisionwall();
+    collisionenemies();
+    collisionbars();
+}
+
+void maincharacter::maincharacterwalking() {
+    if (IsKeyDown(KEY_S)) {
+        position.y = position.y + stepsize;
+        lookingdirection = south;
+    }
+    if (IsKeyDown(KEY_W)) {
+        position.y = position.y - stepsize;
+        lookingdirection = north;
+    }
+    if (IsKeyDown(KEY_A)) {
+        position.x = position.x - stepsize;
+        lookingdirection = west;
+    }
+    if (IsKeyDown(KEY_D)) {
+        position.x = position.x + stepsize;
+        lookingdirection = east;
+    }
+}
+
+void maincharacter::collisionwall() {
     for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
         Rectangle touchedWall = _scene->getTouchedWall(position, size);
         Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
@@ -82,8 +80,9 @@ void maincharacter::update() {
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
     }
-//COLISSION WITH ENEMY
+}
 
+void maincharacter::collisionenemies() {
     const std::vector<Enemy *> &enemies = _scene->getEnemies();
 
     for (int i = 0; i < enemies.size(); i++) {
@@ -103,8 +102,9 @@ void maincharacter::update() {
             }
         }
     }
+}
 
-
+void maincharacter::collisionbars() {
     if (!souldashactivated) {
         for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
             Rectangle touchedBars = _scene->getTouchedBars(position, size);
@@ -151,7 +151,6 @@ void maincharacter::drawsoul() {
     }*/
 
 }
-
 
 void maincharacter::drawrobot() {
 
