@@ -170,7 +170,6 @@ scene *gameplay::evaluateSceneChange() {
     return this;
 }
 
-
 void gameplay::draw() {
     ClearBackground(GRAY);
 
@@ -192,8 +191,24 @@ void gameplay::draw() {
         for (Enemy *enemy: enemies) {
             enemy->draw();
         }
-
     }
+
+    drawmaincharacter();
+
+
+    for (int i = 0; i < gameobjects.size(); i++) {
+        gameobjects[i]->draw();
+    }
+
+    drawtextonscreen();
+    drawhealthhearts();
+
+    if (IsKeyDown(KEY_H)) {
+        this->drawDebug();
+    }
+}
+
+void gameplay::drawmaincharacter() {
     //draws the character (in the correct form)
     switch (currentmodus) {
         case soulmodus:
@@ -209,23 +224,12 @@ void gameplay::draw() {
         therobot->draw();
     }
 
-    for (int i = 0; i < gameobjects.size(); i++) {
-        gameobjects[i]->draw();
-    }
-
     //updates the position of the inactive robot to the position where the soul leaves the robot
     //also shows inactive robot at the start of the game
     if (soulleavesrobot || soulhasntchangedformsyet) {
         therobot->position = {themaincharacter->position.x, themaincharacter->position.y};
         soulleavesrobot = false;
         soulhasntchangedformsyet = false;
-    }
-
-    drawtextonscreen();
-    drawhealthhearts();
-
-    if (IsKeyDown(KEY_H)) {
-        this->drawDebug();
     }
 }
 
@@ -563,6 +567,7 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
     return closestBar;
 
 }
+
 bool gameplay::touchesAbyss(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
@@ -597,7 +602,6 @@ Rectangle gameplay::getTouchedAbyss(Vector2 position, float radius) {
     return closestAbyss;
 
 }
-
 
 const std::vector<Enemy *> &gameplay::getEnemies() const {
     return enemies;

@@ -42,6 +42,7 @@ class Enemy3;
         void draw() override;
         void drawtextonscreen();
         void drawhealthhearts();
+        void drawmaincharacter();
 
 
         void drawDebug() override;
