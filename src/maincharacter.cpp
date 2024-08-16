@@ -10,72 +10,42 @@ int maincharacter::attackPower = 2;
 void maincharacter::update() {
 
 
-    //souldash
-
-    if (IsKeyPressed(KEY_I)) {
-        souldash++;
+    if (IsKeyDown(KEY_S)) {
+        position.y = position.y + stepsize;
+        lookingdirection = south;
     }
-    if (souldash % 2) {
-        souldashactivated = true;
-    } else {
-        souldashactivated = false;
+    if (IsKeyDown(KEY_W)) {
+        position.y = position.y - stepsize;
+        lookingdirection = north;
+    }
+    if (IsKeyDown(KEY_A)) {
+        position.x = position.x - stepsize;
+        lookingdirection = west;
+    }
+    if (IsKeyDown(KEY_D)) {
+        position.x = position.x + stepsize;
+        lookingdirection = east;
     }
 
-    if (position.x >= 0 && position.y >= 0) {
-        if (souldashactivated && currentmodus == soulmodus) {
-            if (IsKeyDown(KEY_S)) {
-                position.y = position.y + (stepsize + stepzisesouldash);
-                lookingdirection = south;
-            }
-            if (IsKeyDown(KEY_W)) {
-                position.y = position.y - (stepsize + stepzisesouldash);
-                lookingdirection = north;
-            }
-            if (IsKeyDown(KEY_A)) {
-                position.x = position.x - (stepsize + stepzisesouldash);
-                lookingdirection = west;
-            }
-            if (IsKeyDown(KEY_D)) {
-                position.x = position.x + (stepsize + stepzisesouldash);
-                lookingdirection = east;
-            }
-
-        } else if (!souldashactivated) {
-            if (IsKeyDown(KEY_S)) {
-                position.y = position.y + stepsize;
-                lookingdirection = south;
-            }
-            if (IsKeyDown(KEY_W)) {
-                position.y = position.y - stepsize;
-                lookingdirection = north;
-            }
-            if (IsKeyDown(KEY_A)) {
-                position.x = position.x - stepsize;
-                lookingdirection = west;
-            }
-            if (IsKeyDown(KEY_D)) {
-                position.x = position.x + stepsize;
-                lookingdirection = east;
-            }
-
-        }
-    }
 
     //allows you to switch between soul and robot functions
-
     switch (currentmodus) {
         case soulmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = robotmodus;
             }
-            break;
+            //souldash
+            if (IsKeyPressed(KEY_I)) {
+                souldashactivated=true;
+                souldash();
+            }
+            else{
+                souldashactivated=false;
+            }
             //soul dust
 
-            //end of soul dust code
-
-            //space for more soul functions
-
+            break;
         case robotmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
@@ -135,7 +105,7 @@ void maincharacter::update() {
     }
 
 
-    if (currentmodus != soulmodus) {
+    if (!souldashactivated) {
         for (int i = 0; _scene->touchesBars(position, size) && i < 4; i++) {
             Rectangle touchedBars = _scene->getTouchedBars(position, size);
             Vector2 touchPoint = Vector2Clamp(position, {touchedBars.x, touchedBars.y},
@@ -152,16 +122,33 @@ void maincharacter::update() {
     }
 }
 
+void maincharacter::souldash() {
+    switch (lookingdirection) {
+        case north:
+            position.y = position.y - stepsizesouldash;
+            break;
+        case east:
+            position.x = position.x + stepsizesouldash;
+            break;
+        case south:
+            position.y = position.y + stepsizesouldash;
+            break;
+        case west:
+            position.x = position.x - stepsizesouldash;
+            break;
+    }
+}
+
 void maincharacter::drawsoul() {
 
 
     DrawCircle(position.x, position.y, size, PINK);
     DrawTexture(characterSoulTexture, position.x - 16, position.y - 24, WHITE);
-    if (souldashactivated) {
+    /*if (souldashactivated) {
         DrawText("Souldash activated", 10, 10, 10, WHITE);
     } else if (!souldashactivated) {
         DrawText("Souldash deactivated", 10, 10, 10, WHITE);
-    }
+    }*/
 
 }
 
@@ -182,7 +169,7 @@ Rectangle maincharacter::getCollisionRectangle() const {
 }
 
 //attack
-void maincharacter::attack(Enemy* target) {
+void maincharacter::attack(Enemy *target) {
     target->health -= Enemy::attackPower;
 
 }
@@ -198,6 +185,6 @@ void calculateDamage(maincharacter &maincharacter, int damage) {
     }
 }
 
-void setAttackPower (int attack)  {
+void setAttackPower(int attack) {
     int attackPower = attack;
 }

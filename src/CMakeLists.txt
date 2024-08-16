@@ -49,6 +49,8 @@ add_executable(${PROJECT_NAME} main.cpp
         Utils.h
         Wall.cpp
         Wall.h
+        "GAME OBJECTS/boxes.cpp"
+        "GAME OBJECTS/boxes.h"
 )
 
 # Add config.h.in file

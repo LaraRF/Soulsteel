@@ -24,10 +24,7 @@ public:
     void update();
     void drawrobot();
     void drawsoul();
-
-
-    //maincharacter();
-    //lets the character start in the middle of the screen (almost, to match the tiles)
+    void souldash();
 
     //health & Damage
     int health = 10;
@@ -42,10 +39,9 @@ public:
 
 
     //movement
-    bool souldashactivated =false;
-    int souldash=0;
-    float stepsize =4.0f;
-    float stepzisesouldash =11.5;
+    int stepsize =4;
+    int stepsizesouldash =65;
+    bool souldashactivated=false;
     gameplay* _scene;
 
     //sprite animation
@@ -57,8 +53,6 @@ public:
     Vector2 position = {12*32, 8*32};
     float size = 12;
 
-    maincharactermodus currentmode=soulmodus;
-
     //looking direction
     enum lookingdirection{
         north, south, east, west
@@ -69,18 +63,21 @@ public:
     Rectangle getCollisionRectangle() const;
 
     //bomb throwing
+   /*
     Texture2D bomb = assestmanagergraphics::getTexture("item/bomb");
     Texture2D bomb_activated = assestmanagergraphics::getTexture("item/bomb_activated");
     Texture2D bomb_exploded = assestmanagergraphics::getTexture("item/bomb_exploded");
     bool throwbomb =false;
     int throwingposx =0;
     int throwingposy=0;
-    bool bombhasbeenplaced =false;
+    bool bombhasbeenplaced =false;*/
 
     //souldust
+    /*
     Texture2D souldust = assestmanagergraphics::getTexture("item/souldust");
     bool souldustactivated1 =false;
     bool souldustactivated2 =false;
+     */
 
 protected:
     bool checkCollision(const Wall& wall);
