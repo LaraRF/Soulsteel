@@ -22,10 +22,12 @@ class maincharacter {
 
 public:
     void update();
+    void draw();
     void maincharacterwalking();
     void drawrobot();
     void drawsoul();
     void souldash();
+    void souldust();
     void collisionwall();
     void collisionenemies();
     void collisionbars();
@@ -83,6 +85,7 @@ public:
     bool souldustactivated1 =false;
     bool souldustactivated2 =false;
      */
+    bool felldown=false;
 
 protected:
     bool checkCollision(const Wall& wall);
@@ -92,6 +95,7 @@ private:
     Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
     Vector2 lastSafePosition;
     void updateLastSafePosition();
+    bool souldustcanbeused() const;
 };
 
 

@@ -92,119 +92,21 @@ void optionen::update() {
 }
 
 scene *optionen::evaluateSceneChange() {
-    if (IsKeyPressed(KEY_ENTER)) {
-        switch (cursor) {
-            case 0:
-                //control =tastatur
-                break;
-            case 1:
-                //control =controller
-                break;
-            case 2:
-                //sound =less
-                break;
-            case 3:
-                //sound =more
-                break;
-            case 4:
-                //languagestates=german;
-                break;
-            case 5:
-                //languagestates=english;
-                break;
-            case 6:
-                //difficultylevel =guided;
-                break;
-            case 7:
-                //difficultylevel =exploration;
-                break;
-            case 8:
+    if (IsKeyPressed(KEY_M)) {
                 return new mainmenu();
-                break;
-            default:
-                break;
-        }
+
     } else {
         return this;
     }
 }
 
 void optionen::draw() {
-//shows which button is selected by giving it a white outline
-    switch (cursor) {
-        case 0:
-            DrawRectangleRec(hitbox_tastatur_marked, WHITE);
-            break;
-        case 1:
-            DrawRectangleRec(hitbox_controller_marked, WHITE);
-            break;
-        case 2:
-            DrawRectangleRec(hitbox_soundless_marked, WHITE);
-            break;
-        case 3:
-            DrawRectangleRec(hitbox_soundmore_marked, WHITE);
-            break;
-        case 4:
-            DrawRectangleRec(hitbox_flagDE_marked, WHITE);
-            break;
-        case 5:
-            DrawRectangleRec(hitbox_flagENG_marked, WHITE);
-            break;
-        case 6:
-            DrawRectangleRec(hitbox_guided_marked, WHITE);
-            break;
-        case 7:
-            DrawRectangleRec(hitbox_exploration_marked, WHITE);
-            break;
-        case 8:
-            DrawRectangleRec(hitbox_close_marked, WHITE);
-            break;
-        default:
-            break;
-    }
-
-    //draws the buttons
-
-
-    DrawRectangleRec(hitbox_flagDE, GRAY);
-    DrawRectangleRec(hitbox_flagENG, PINK);
-
-
-    DrawRectangleRec(hitbox_close, GRAY);
-
-
-    DrawRectangleRec(hitbox_tastatur, PINK);
-    DrawRectangleRec(hitbox_controller, GRAY);
-
-    //Switch missing and maybe not needed?, because we don't have sound settings yet
-    DrawRectangleRec(hitbox_soundless, GRAY);
-    DrawRectangleRec(hitbox_soundmore, GRAY);
-
-
-    DrawRectangleRec(hitbox_guided, PINK);
-    DrawRectangleRec(hitbox_exploration, GRAY);
-
-
-    //draws the images on the buttons
-    DrawTexture(flagDE, 75, 275, WHITE);
-    DrawTexture(flagENG, 475, 275, WHITE);
-    DrawTexture(closeButton, 680, 360, WHITE);
-    DrawTexture(tastaturbutton, 75, 95, WHITE);
-    DrawTexture(controllerbutton, 475, 95, WHITE);
-    DrawTexture(soundlessbutton, 75, 185, WHITE);
-    DrawTexture(soundmorebutton, 475, 185, WHITE);
-    DrawText("G", 105, 375, 50, BLACK);
-    DrawText("E", 515, 375, 50, BLACK);
-
-    //draws the text depending on the selected language
-
-
-    DrawText("Settings", 170, 23, 50, WHITE);
-    DrawText("Control", 250, 115, 30, WHITE);
-    DrawText("Sound", 250, 195, 30, WHITE);
-    DrawText("Language", 250, 295, 30, WHITE);
-    DrawText("Game mode", 250, 390, 30, WHITE);
-
+DrawText("Controls", 300,40,50,WHITE);
+DrawText("Movement:", 50,120,25,WHITE);
+DrawText("W: Move up\nA: Move left\nS: Move down\nD: Move right", 200,120, 20,WHITE);
+DrawText("Abilities:", 50, 280, 25, WHITE);
+DrawText("I: Soul dash (move through bars and over abyss)\nJ: some robot function\nK: some robot function\nL: Soul Dust (light up fire bowls)", 200, 280, 20,WHITE);
+DrawText("Press M to go back to main menu", 50, 440, 20,WHITE);
 }
 
 void optionen::drawDebug() {

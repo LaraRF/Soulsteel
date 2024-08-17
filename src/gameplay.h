@@ -32,6 +32,9 @@ class Enemy3;
         void clearEnemies();
         bool isAlive;
 
+        std::vector<std::pair<int, int>> activatedFirebowls;
+
+
     public:
 
         void update() override;
@@ -47,12 +50,19 @@ class Enemy3;
 
         void drawDebug() override;
 
+        void activateFirebowl(int x, int y);
+        bool isFirebowlActivated(int x, int y) const;
+        void drawActivatedFirebowls();
+
         //loads the necessary textures
         Texture2D heart = assestmanagergraphics::getTexture("userinterface/heart_smaller");
 
         //loads the textures on the map (Kachelsatz)
         Texture2D tilesetgrass = assestmanagergraphics::getTexture("tilesets/greyboxing1");
 
+        Texture2D activatedFirebowlTexture=assestmanagergraphics::getTexture("item/souldust");
+        bool isAdjacentToFirebowl(Vector2 pos) const;
+        std::pair<int, int> getNearestFirebowlTile(Vector2 pos) const;
 
         //attributes necessary for using the map
         std::vector<int> tiles;
@@ -71,7 +81,7 @@ class Enemy3;
         int takeoverradius =40;
 
         //collision functions
-        int getTileAt(float x, float y);
+        int getTileAt(float x, float y) const;
         bool touchesWall(Vector2 pos, float size);
         bool touchesAbyss(Vector2 pos, float size);
         bool touchesBars(Vector2 pos, float size);
@@ -119,6 +129,12 @@ class Enemy3;
         int startposroom5to6=14*32+16;
         int doorfromroom6to5=14*32+20;
         int startposroom6to5=2*32+16;
+
+        static const int grassID=0;
+        static const int wallID=1;
+        static const int abyssID=3;
+        static const int firebowlID =9;
+        static const int barsID=10;
 
     protected:
         std::vector<int>enemyID;

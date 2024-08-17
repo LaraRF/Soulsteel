@@ -27,6 +27,7 @@ void maincharacter::update() {
                 souldashactivated=false;
             }
             //soul dust
+            souldustcanbeused();
 
             break;
         case robotmodus:
@@ -129,14 +130,16 @@ void maincharacter::collisionabyss() {
         if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
             // Robot or non-dashing soul falls into abyss, soul using dash is fine
             health--; // Lose one heart
+            felldown=true;
             position = lastSafePosition; // Reset position
 
             //falling animation or something here
-            DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
+
         }
     }
     else {
         updateLastSafePosition();
+        felldown=false;
     }
 }
 
@@ -170,9 +173,28 @@ void maincharacter::souldash() {
     position = newPosition;
 }
 
+bool maincharacter::souldustcanbeused() const {
+    return _scene->isAdjacentToFirebowl(position);
+}
+
+void maincharacter::souldust(){
+    if (souldustcanbeused() && IsKeyPressed(KEY_L)) {
+        auto [bowlX, bowlY] = _scene->getNearestFirebowlTile(position);
+        if (bowlX != -1 && bowlY != -1 && !_scene->isFirebowlActivated(bowlX, bowlY)) {
+            _scene->activateFirebowl(bowlX, bowlY);
+        }
+    }
+}
+
 void maincharacter::updateLastSafePosition() {
     if (!_scene->touchesAbyss(position, size)) {
         lastSafePosition = position;
+    }
+}
+
+void maincharacter::draw() {
+    if(felldown){
+        DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
     }
 }
 
@@ -186,6 +208,10 @@ void maincharacter::drawsoul() {
     } else if (!souldashactivated) {
         DrawText("Souldash deactivated", 10, 10, 10, WHITE);
     }*/
+
+    if (souldustcanbeused()) {
+        DrawText("Press L to use Soul Dust", position.x - 50, position.y - 40, 10, YELLOW);
+    }
 
 }
 

@@ -151,6 +151,54 @@ void gameplay::doRoomSwitch() {
     }
 }
 
+bool gameplay::isAdjacentToFirebowl(Vector2 pos) const {
+    int tileX = pos.x / 32;
+    int tileY = pos.y / 32;
+
+    for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+            if (dx == 0 && dy == 0) continue; // Skip the tile the character is on
+            int checkX = tileX + dx;
+            int checkY = tileY + dy;
+            if (getTileAt(checkX * 32, checkY * 32) == firebowlID) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+std::pair<int, int> gameplay::getNearestFirebowlTile(Vector2 pos) const {
+    int tileX = pos.x / 32;
+    int tileY = pos.y / 32;
+
+    for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+            if (dx == 0 && dy == 0) continue;
+            int checkX = tileX + dx;
+            int checkY = tileY + dy;
+            if (getTileAt(checkX * 32, checkY * 32) == firebowlID) {
+                return {checkX, checkY};
+            }
+        }
+    }
+    return {-1, -1}; // Return invalid coordinates if no firebowl is found
+}
+
+void gameplay::activateFirebowl(int x, int y) {
+    activatedFirebowls.push_back({x, y});
+}
+
+bool gameplay::isFirebowlActivated(int x, int y) const {
+    return std::find(activatedFirebowls.begin(), activatedFirebowls.end(), std::make_pair(x, y)) != activatedFirebowls.end();
+}
+
+void gameplay::drawActivatedFirebowls() {
+    for (const auto &bowl: activatedFirebowls) {
+        DrawTexture(activatedFirebowlTexture, bowl.first * 32, bowl.second * 32, WHITE);
+    }
+}
+
 void gameplay::updateAllenemies() {
     for (int i = 0; i < enemies.size(); i++) {
         enemies[i]->update();
@@ -192,7 +240,7 @@ void gameplay::draw() {
             enemy->draw();
         }
     }
-
+    themaincharacter->draw();
     drawmaincharacter();
 
 
@@ -202,6 +250,7 @@ void gameplay::draw() {
 
     drawtextonscreen();
     drawhealthhearts();
+    drawActivatedFirebowls();
 
     if (IsKeyDown(KEY_H)) {
         this->drawDebug();
@@ -474,7 +523,7 @@ void gameplay::reloadRoom() {
     }
 }
 
-int gameplay::getTileAt(float x, float y) {
+int gameplay::getTileAt(float x, float y) const {
     //catch out of bounds
     if (x < 0 || y < 0 || x >= mapWidth * 32 || y >= mapHeight * 32) {
         return 0;
@@ -487,7 +536,7 @@ int gameplay::getTileAt(float x, float y) {
 bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if ((getTileAt(x * 32, y * 32) == 1)) {
+            if ((getTileAt(x * 32, y * 32) == wallID|| getTileAt(x*32,y*32)==firebowlID)) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
@@ -515,7 +564,7 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     Rectangle closestWall{};
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 1) {
+            if (getTileAt(x * 32, y * 32) == wallID|| getTileAt(x*32,y*32)==firebowlID) {
                 Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
                                                       Vector2{wall.x + wall.width, wall.y + wall.height});
@@ -533,7 +582,7 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
 bool gameplay::touchesBars(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if ((getTileAt(x * 32, y * 32) == 10)) {
+            if ((getTileAt(x * 32, y * 32) == barsID)) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
@@ -552,7 +601,7 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
     Rectangle closestBar{};
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 10) {
+            if (getTileAt(x * 32, y * 32) == barsID) {
                 Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
                                                       Vector2{bars.x + bars.width, bars.y + bars.height});
@@ -571,7 +620,7 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
 bool gameplay::touchesAbyss(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if ((getTileAt(x * 32, y * 32) == 3)) {
+            if ((getTileAt(x * 32, y * 32) == abyssID)) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
@@ -587,7 +636,7 @@ Rectangle gameplay::getTouchedAbyss(Vector2 position, float radius) {
     Rectangle closestAbyss{};
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == 3) {
+            if (getTileAt(x * 32, y * 32) == abyssID) {
                 Rectangle abyss{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{abyss.x, abyss.y},
                                                       Vector2{abyss.x + abyss.width, abyss.y + abyss.height});

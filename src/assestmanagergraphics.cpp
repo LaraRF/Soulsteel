@@ -57,7 +57,7 @@ void assestmanagergraphics::init() {
     //soul functions
     //soul dust
     m_textures["item/souldust"] = LoadTexture("assets/items/souldust.png");
-
+    m_textures["ability/souldust_deactivated"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - static - unactivated.png");
 
     for (auto &texture: m_textures) {
         if (!IsTextureReady(texture.second)) {
