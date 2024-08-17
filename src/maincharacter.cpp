@@ -129,7 +129,7 @@ void maincharacter::collisionabyss() {
     if (_scene->touchesAbyss(position, size)) {
         if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
             // Robot or non-dashing soul falls into abyss, soul using dash is fine
-            health--; // Lose one heart
+            //health--; // Lose one heart
             felldown=true;
             position = lastSafePosition; // Reset position
 
