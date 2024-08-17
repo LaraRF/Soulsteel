@@ -46,6 +46,7 @@ void maincharacter::update() {
     collisionenemies();
     collisionbars();
     collisionabyss();
+    updateLastSafePosition();
 }
 
 void maincharacter::maincharacterwalking() {
@@ -124,20 +125,18 @@ void maincharacter::collisionbars() {
 }
 
 void maincharacter::collisionabyss() {
-    if (!souldashactivated) {
-        for (int i = 0; _scene->touchesAbyss(position, size) && i < 4; i++) {
-            Rectangle touchedAbyss = _scene->getTouchedAbyss(position, size);
-            Vector2 touchPoint = Vector2Clamp(position, {touchedAbyss.x, touchedAbyss.y},
-                                              {touchedAbyss.x + touchedAbyss.width, touchedAbyss.y + touchedAbyss.height});
-            Vector2 pushForce = Vector2Subtract(position, touchPoint);
-            float overlapDistance = size - Vector2Length(pushForce);
-            if (overlapDistance <= 0) {
-                break;
-            }
-            pushForce = Vector2Normalize(pushForce);
-            pushForce = Vector2Scale(pushForce, overlapDistance);
-            position = Vector2Add(position, pushForce);
+    if (_scene->touchesAbyss(position, size)) {
+        if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
+            // Robot or non-dashing soul falls into abyss, soul using dash is fine
+            health--; // Lose one heart
+            position = lastSafePosition; // Reset position
+
+            //falling animation or something here
+            DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
         }
+    }
+    else {
+        updateLastSafePosition();
     }
 }
 
@@ -170,6 +169,13 @@ void maincharacter::souldash() {
 
     position = newPosition;
 }
+
+void maincharacter::updateLastSafePosition() {
+    if (!_scene->touchesAbyss(position, size)) {
+        lastSafePosition = position;
+    }
+}
+
 void maincharacter::drawsoul() {
 
 
