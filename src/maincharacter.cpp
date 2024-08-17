@@ -142,22 +142,34 @@ void maincharacter::collisionabyss() {
 }
 
 void maincharacter::souldash() {
+    Vector2 newPosition = position;
     switch (lookingdirection) {
         case north:
-            position.y = position.y - stepsizesouldash;
+            newPosition.y -= stepsizesouldash;
             break;
         case east:
-            position.x = position.x + stepsizesouldash;
+            newPosition.x += stepsizesouldash;
             break;
         case south:
-            position.y = position.y + stepsizesouldash;
+            newPosition.y += stepsizesouldash;
             break;
         case west:
-            position.x = position.x - stepsizesouldash;
+            newPosition.x -= stepsizesouldash;
             break;
     }
-}
 
+    // Check if the new position is valid (not inside a wall)
+    for (int i = 0; i <= stepsizesouldash; i++) {
+        Vector2 checkPosition = Vector2Lerp(position, newPosition, (float)i / stepsizesouldash);
+        if (_scene->touchesWall(checkPosition, size)) {
+            // If we hit a wall, stop at the previous valid position
+            newPosition = Vector2Lerp(position, newPosition, (float)(i-1) / stepsizesouldash);
+            break;
+        }
+    }
+
+    position = newPosition;
+}
 void maincharacter::drawsoul() {
 
 
