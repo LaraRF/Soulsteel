@@ -105,7 +105,7 @@ DrawText("Controls", 300,40,50,WHITE);
 DrawText("Movement:", 50,120,25,WHITE);
 DrawText("W: Move up\nA: Move left\nS: Move down\nD: Move right", 200,120, 20,WHITE);
 DrawText("Abilities:", 50, 280, 25, WHITE);
-DrawText("I: Soul dash (move through bars and over abyss)\nJ: some robot function\nK: some robot function\nL: Soul Dust (light up fire bowls)", 200, 280, 20,WHITE);
+DrawText("I: Soul dash (move through bars and over abyss)\nL: Soul Dust (light up fire bowls)\nK: some robot function\nJ: some robot function", 200, 280, 20,WHITE);
 DrawText("Press M to go back to main menu", 50, 440, 20,WHITE);
 }
 
