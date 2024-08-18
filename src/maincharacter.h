@@ -41,6 +41,12 @@ public:
     static const int FRAME_COUNT = 8;
     static const float FRAME_DURATION;
     static const float DASH_ANIMATION_SPEED;
+    static constexpr float DASH_DISTANCE = 100.0f;  // Adjust this value to change dash distance
+    static constexpr int DASH_FRAME_COUNT = 8;      // Number of frames in dash animation
+    float dashProgress = 0.0f;
+    Vector2 dashStartPosition;
+    Vector2 dashEndPosition;
+
     Rectangle frameRec;
     int currentFrame;
     float frameCounter;
@@ -80,7 +86,7 @@ public:
 
     //movement
     int stepsize =4;
-    int stepsizesouldash =65;
+    int stepsizesouldash =5;
     bool souldashactivated=false;
     gameplay* _scene;
 

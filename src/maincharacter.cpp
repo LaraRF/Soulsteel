@@ -5,7 +5,6 @@
 #include "maincharacter.h"
 #include "scene.h"
 
-
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.05f;
 
@@ -186,24 +185,54 @@ void setAttackPower(int attack) {
 }
 
 void maincharacter::souldash() {
-    currentState = DASH;
-    Vector2 newPosition = position;
-    switch (lookingdirection) {
-        case north:
-            newPosition.y -= stepsizesouldash;
-            break;
-        case east:
-            newPosition.x += stepsizesouldash;
-            break;
-        case south:
-            newPosition.y += stepsizesouldash;
-            break;
-        case west:
-            newPosition.x -= stepsizesouldash;
-            break;
+
+    if (currentState != DASH) {
+        // Start of new dash
+        currentState = DASH;
+        dashProgress = 0.0f;
+        dashStartPosition = position;
+        dashEndPosition = position;
+
+
+        //Vector2 newPosition = position;
+
+        switch (lookingdirection) {
+            case north:
+                dashEndPosition.y -= DASH_DISTANCE;
+                currentDirection = BACK;
+                break;
+            case east:
+                dashEndPosition.x += DASH_DISTANCE;
+                currentDirection = RIGHT;
+                break;
+            case south:
+                dashEndPosition.y += DASH_DISTANCE;
+                currentDirection = FRONT;
+                break;
+            case west:
+                dashEndPosition.x -= DASH_DISTANCE;
+                currentDirection = LEFT;
+                break;
+        }
     }
 
-    // Check if the new position is valid (not inside a wall)
+    dashProgress += DASH_ANIMATION_SPEED;
+    currentFrame = static_cast<int>(dashProgress * DASH_FRAME_COUNT) % DASH_FRAME_COUNT;
+
+    // Calculate new position
+    Vector2 newPosition = Vector2Lerp(dashStartPosition, dashEndPosition, dashProgress);
+
+    //checks wall collision
+    if (!_scene->touchesWall(newPosition, size)){
+        position = newPosition;
+    } else {
+        //stop dash if it hits wall
+        currentState = IDLE;
+        dashProgress = 1.0f; //ensures dah ends
+    }
+
+
+    /* Check if the new position is valid (not inside a wall)
     for (int i = 0; i <= stepsizesouldash; i++) {
         Vector2 checkPosition = Vector2Lerp(position, newPosition, (float)i / stepsizesouldash);
         if (_scene->touchesWall(checkPosition, size)) {
@@ -211,27 +240,31 @@ void maincharacter::souldash() {
             newPosition = Vector2Lerp(position, newPosition, (float)(i-1) / stepsizesouldash);
             break;
         }
-    }
+    }*/
 
-    position = newPosition;
+    //position = newPosition;
     //updateDashAnimation(GetFrameTime());
 
-    //controlls speed of dash animation
+    /*controlls speed of dash animation
     frameCounter += DASH_ANIMATION_SPEED;
     if (frameCounter >= 1.0f) {
         frameCounter = 0.0f;
         currentFrame++;
         if (currentFrame >= FRAME_COUNT) {
             currentFrame = 0;
-            currentState = IDLE;  // End dash after one full animation cycle
+            currentState = IDLE;  // Ends dash after one full animation cycle
         }
-    }
+    }*/
 // Update the frame rectangle for drawing
     Texture2D currentTexture = getCurrentTexture();
-    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
+    float frameWidth = static_cast<float>(currentTexture.width) / DASH_FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
     frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
 
+    // End dash when animation completes
+    if (dashProgress >= 1.0f) {
+        currentState = IDLE;
+    }
 }
 
 bool maincharacter::souldustcanbeused() const {
@@ -259,19 +292,18 @@ void maincharacter::update() {
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = robotmodus;
             }
-            //souldash
-            if (IsKeyPressed(KEY_I)) {
-                souldashactivated=true;
+
+            // soul dash
+            if (IsKeyPressed(KEY_I) && currentState != DASH) {
+                souldashactivated = true;
                 souldash();
-            }else if (currentState == DASH) {
-                souldash();
-            }
-            else {
+            } else if (currentState == DASH) {
+                souldash();  // Continue the dash
+            } else {
                 souldashactivated = false;
             }
             //soul dust
             souldustcanbeused();
-
             break;
         case robotmodus:
             //switch mode
@@ -308,11 +340,11 @@ void maincharacter::update() {
 
     //update animation
     //updateAnimation(GetFrameTime());
-    if (currentState == DASH) {
+    //if (currentState == DASH) {
         // Dash animation is handled in souldash()
-    } else {
+    //} else {
         updateAnimation(GetFrameTime());
-    }
+    //}
 
 }
 
