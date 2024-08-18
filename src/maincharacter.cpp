@@ -96,7 +96,7 @@ void maincharacter::collisionenemies() {
                                                   {enemyRect.x + enemyRect.width, enemyRect.y + enemyRect.height});
                 Vector2 pushForce = Vector2Subtract(position, touchPoint);
                 float overlapDistance = size - Vector2Length(pushForce);
-                if (overlapDistance <= 0) {
+                if (overlapDistance <= 1) {
                     break;
                 }
                 pushForce = Vector2Normalize(pushForce);

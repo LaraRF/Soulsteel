@@ -12,6 +12,7 @@
 
     class maincharacter;
     class Enemy;
+    class Wall;
 
 namespace Collision{
 
