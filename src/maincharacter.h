@@ -45,13 +45,22 @@ public:
     float frameCounter;
 
     //enum for character direction
-    enum Direction {
-        FRONT,
+    enum CharacterState {
+        IDLE,
+        WALKING,
+        DASH,
+        DUST
+    };
+    CharacterState currentState;
+
+    //enum for walking direction
+    enum CurrentDirection {
         BACK,
+        FRONT,
         LEFT,
         RIGHT
     };
-    Direction currentDirection;
+    CurrentDirection currentDirection;
 
     void updateAnimation(float deltaTime);
 
@@ -102,7 +111,8 @@ protected:
     bool checkCollision(const Wall& wall);
 
 private:
-    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
+    Texture2D getCurrentTexture();
+    //Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
     Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
     Vector2 lastSafePosition;
     void updateLastSafePosition();

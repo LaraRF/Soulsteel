@@ -5,86 +5,21 @@
 #include "maincharacter.h"
 #include "scene.h"
 
-//frame duration
+//anything esle but functions
 const float maincharacter::FRAME_DURATION = 0.1f;
-
-maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
-    frameRec = { 0.0f, 0.0f, 0.0f, 0.0f };  // Will be set in updateAnimation
-    currentFrame = 0;
-    frameCounter = 0.0f;
-    currentDirection = FRONT;
-}
-
 int maincharacter::attackPower = 2;
 
-void maincharacter::update() {
+//functions
 
-    maincharacterwalking();
+void maincharacter::attack(Enemy *target) {
+    target->health -= Enemy::attackPower;
 
-    //update animation
-    updateAnimation(GetFrameTime());
-
-    // Update current direction based on movement
-    if (IsKeyDown(KEY_W)) currentDirection = BACK;
-    else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
-    else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
-    else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
-
-    //allows you to switch between soul and robot functions
-    switch (currentmodus) {
-        case soulmodus:
-            //switch mode
-            if (IsKeyPressed(KEY_SPACE)) {
-                currentmodus = robotmodus;
-            }
-            //souldash
-            if (IsKeyPressed(KEY_I)) {
-                souldashactivated=true;
-                souldash();
-            }
-            else{
-                souldashactivated=false;
-            }
-            //soul dust
-            souldustcanbeused();
-
-            break;
-        case robotmodus:
-            //switch mode
-            if (IsKeyPressed(KEY_SPACE)) {
-                currentmodus = soulmodus;
-            }
-
-
-            //bomb throwing
-
-            //space for more robot function
-            break;
-    }
-//collisions
-    collisionwall();
-    collisionenemies();
-    collisionbars();
-    collisionabyss();
-    updateLastSafePosition();
 }
 
-void maincharacter::maincharacterwalking() {
-    if (IsKeyDown(KEY_S)) {
-        position.y = position.y + stepsize;
-        lookingdirection = south;
-    }
-    if (IsKeyDown(KEY_W)) {
-        position.y = position.y - stepsize;
-        lookingdirection = north;
-    }
-    if (IsKeyDown(KEY_A)) {
-        position.x = position.x - stepsize;
-        lookingdirection = west;
-    }
-    if (IsKeyDown(KEY_D)) {
-        position.x = position.x + stepsize;
-        lookingdirection = east;
+void calculateDamage(maincharacter &maincharacter, int damage) {
+    maincharacter.health -= damage;
+    if (maincharacter.health < 0) {
+        maincharacter.health = 0;
     }
 }
 
@@ -162,6 +97,94 @@ void maincharacter::collisionabyss() {
     }
 }
 
+void maincharacter::draw() {
+    if (currentmodus==soulmodus) {
+        drawsoul();
+    } else {
+        drawrobot();
+    }
+
+    if(felldown){
+        DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
+    }
+}
+
+void maincharacter::drawsoul() {
+
+    //draws curent frame of soul animation
+    Texture2D currentTexture = getCurrentTexture();
+
+    DrawTextureRec(currentTexture, frameRec,
+                   {position.x - frameRec.width / 2, position.y - frameRec.height / 2},
+                   WHITE);
+
+    if (souldustcanbeused()) {
+        DrawText("Press L to use Soul Dust", position.x - 50, position.y - 40, 10, YELLOW);
+    }
+
+}
+
+void maincharacter::drawrobot() {
+
+    //DrawCircle(position.x, position.y, size,GRAY);
+    DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
+
+}
+//g
+Rectangle maincharacter::getCollisionRectangle() const {
+    return Rectangle{position.x - size / 2, position.y - size / 2, size, size};
+}
+
+Texture2D maincharacter::getCurrentTexture() {
+    std::string state;
+    switch (currentState) {
+        case IDLE: state = "idle_"; break;
+        case WALKING: state = "walk_"; break;
+        case DASH: state = "dash_"; break;
+        case DUST: state = "dust_"; break;
+    }
+
+    std::string direction;
+    switch (currentDirection) {
+        case BACK: direction = "back"; break;
+        case FRONT: direction = "front"; break;
+        case LEFT: direction = "left"; break;
+        case RIGHT: direction = "right"; break;
+    }
+
+    return assestmanagergraphics::getTexture("characters/soul/" + state + direction);
+}
+
+int getHealth(const maincharacter &maincharacter) {
+    return maincharacter.health;
+}
+
+maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
+}
+
+void maincharacter::maincharacterwalking() {
+    if (IsKeyDown(KEY_S)) {
+        position.y = position.y + stepsize;
+        lookingdirection = south;
+    }
+    if (IsKeyDown(KEY_W)) {
+        position.y = position.y - stepsize;
+        lookingdirection = north;
+    }
+    if (IsKeyDown(KEY_A)) {
+        position.x = position.x - stepsize;
+        lookingdirection = west;
+    }
+    if (IsKeyDown(KEY_D)) {
+        position.x = position.x + stepsize;
+        lookingdirection = east;
+    }
+}
+
+void setAttackPower(int attack) {
+    int attackPower = attack;
+}
+
 void maincharacter::souldash() {
     Vector2 newPosition = position;
     switch (lookingdirection) {
@@ -205,86 +228,74 @@ void maincharacter::souldust(){
     }
 }
 
+void maincharacter::update() {
+
+    Vector2 oldPosition = position;
+    maincharacterwalking();
+
+    //checks if character is moving
+    if (Vector2Equals(oldPosition, position)) {
+        currentState = IDLE;
+    } else {
+        currentState = WALKING;
+    }
+
+    //update current direction based on movement
+    if (IsKeyDown(KEY_W)) currentDirection = BACK;
+    else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
+    else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
+    else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
+
+    //update animation
+    updateAnimation(GetFrameTime());
+
+
+
+    //allows you to switch between soul and robot functions
+    switch (currentmodus) {
+        case soulmodus:
+            //switch mode
+            if (IsKeyPressed(KEY_SPACE)) {
+                currentmodus = robotmodus;
+            }
+            //souldash
+            if (IsKeyPressed(KEY_I)) {
+                souldashactivated=true;
+                souldash();
+            }
+            else{
+                souldashactivated=false;
+            }
+            //soul dust
+            souldustcanbeused();
+
+            break;
+        case robotmodus:
+            //switch mode
+            if (IsKeyPressed(KEY_SPACE)) {
+                currentmodus = soulmodus;
+            }
+
+
+            //bomb throwing
+
+            //space for more robot function
+            break;
+    }
+
+
+//collisions
+    collisionwall();
+    collisionenemies();
+    collisionbars();
+    collisionabyss();
+    updateLastSafePosition();
+}
+
 void maincharacter::updateLastSafePosition() {
     if (!_scene->touchesAbyss(position, size)) {
         lastSafePosition = position;
     }
-}
-
-void maincharacter::draw() {
-    if (currentmodus==soulmodus) {
-        drawsoul();
-    } else {
-        drawrobot();
-    }
-
-    if(felldown){
-        DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
-    }
-}
-
-void maincharacter::drawsoul() {
-
-    //draws curent frame of soul animation
-    std::string direction;
-    switch (currentDirection) {
-        case BACK: direction = "back"; break;
-        case FRONT: direction = "front"; break;
-        case LEFT: direction = "side left"; break;
-        case RIGHT: direction = "side right"; break;
-    }
-    Texture2D currentTexture = assestmanagergraphics::getTexture("characters/soul/" + direction);
-
-    DrawTextureRec(currentTexture, frameRec,
-                   {position.x - frameRec.width / 2, position.y - frameRec.height / 2},
-                   WHITE);
-
-
-
-    //DrawCircle(position.x, position.y, size, PINK);
-    //DrawTexture(characterSoulTexture, position.x - 16, position.y - 24, WHITE);
-    /*if (souldashactivated) {
-        DrawText("Souldash activated", 10, 10, 10, WHITE);
-    } else if (!souldashactivated) {
-        DrawText("Souldash deactivated", 10, 10, 10, WHITE);
-    }*/
-
-    if (souldustcanbeused()) {
-        DrawText("Press L to use Soul Dust", position.x - 50, position.y - 40, 10, YELLOW);
-    }
-
-}
-
-void maincharacter::drawrobot() {
-
-    //DrawCircle(position.x, position.y, size,GRAY);
-    DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
-
-}
-
-Rectangle maincharacter::getCollisionRectangle() const {
-    return Rectangle{position.x - size / 2, position.y - size / 2, size, size};
-}
-
-//attack
-void maincharacter::attack(Enemy *target) {
-    target->health -= Enemy::attackPower;
-
-}
-
-int getHealth(const maincharacter &maincharacter) {
-    return maincharacter.health;
-}
-
-void calculateDamage(maincharacter &maincharacter, int damage) {
-    maincharacter.health -= damage;
-    if (maincharacter.health < 0) {
-        maincharacter.health = 0;
-    }
-}
-
-void setAttackPower(int attack) {
-    int attackPower = attack;
 }
 
 void maincharacter::updateAnimation(float deltaTime) {
@@ -294,18 +305,13 @@ void maincharacter::updateAnimation(float deltaTime) {
         currentFrame++;
         if (currentFrame >= FRAME_COUNT) currentFrame = 0;
     }
-    // Update frameRec based on current frame
-    Texture2D currentTexture;
-    std::string direction;
-    switch (currentDirection) {
-        case BACK: direction = "back"; break;
-        case FRONT: direction = "front"; break;
-        case LEFT: direction = "side left"; break;
-        case RIGHT: direction = "side right"; break;
-    }
-    currentTexture = assestmanagergraphics::getTexture("characters/soul/" + direction);
 
+    // Update frameRec based on current frame
+    Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
     frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
 }
+
+
+

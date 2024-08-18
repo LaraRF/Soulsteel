@@ -64,19 +64,22 @@ void assestmanagergraphics::init() {
 
     //load soul animation frames
     const std::string basePath = "assets/graphics/characters/soul/";
-    const std::vector<std::string> directions = {"back", "front", "side left", "side right"};
-    const std::vector<std::string> fileNames = {
-            "Character - Soul - Idle back - animated",
-            "Character - Soul - Idle front - animated",
-            "Character - Soul - Idle side left - animated",
-            "Character - Soul - Idle side right - animated"
+    const std::vector<std::pair<std::string, std::string>> animations = {
+            {"idle_back", "Character - Soul - Idle back - animated"},
+            {"idle_front", "Character - Soul - Idle front - animated"},
+            {"idle_left", "Character - Soul - Idle side left - animated"},
+            {"idle_right", "Character - Soul - Idle side right - animated"},
+            {"walk_back", "Character - Soul - Walk back - animated"},
+            {"walk_front", "Character - Soul - Walk front - animated"},
+            {"walk_left", "Character - Soul - Walk side left - animated"},
+            {"walk_right", "Character - Soul - Walk side right - animated"}
     };
 
-    for (size_t i = 0; i < directions.size(); ++i) {
-        std::string key = "characters/soul/" + directions[i];
-        std::string path = basePath + fileNames[i] + ".png";
-        m_textures[key] = LoadTexture(path.c_str());
-        if (m_textures[key].id == 0) {
+    for (const auto& [key, fileName] : animations) {
+        std::string fullKey = "characters/soul/" + key;
+        std::string path = basePath + fileName + ".png";
+        m_textures[fullKey] = LoadTexture(path.c_str());
+        if (m_textures[fullKey].id == 0) {
             TraceLog(LOG_WARNING, "Failed to load texture: %s", path.c_str());
         }
     }
