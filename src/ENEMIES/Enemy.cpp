@@ -38,24 +38,6 @@ void Enemy::update() {
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
     }
-
-    /*Wall aWall;
-    if (checkCollision(aWall)) {
-        if (Enemy::controltype == Path) {
-            Enemy::controltype = Random; // Change to random movement upon collision
-        } else {
-            // Reverses direction
-            if (Enemy::direction == Left) {
-                Enemy::direction = Right;
-            } else if (Enemy::direction == Right) {
-                Enemy::direction = Left;
-            } else if (Enemy::direction == Up) {
-                Enemy::direction = Down;
-            } else if (Enemy::direction == Down) {
-                Enemy::direction = Up;
-        }
-        }
-    }*/
 }
 
 void Enemy::calculatePathAsRectangle() {
@@ -87,54 +69,6 @@ void Enemy::moveOnPath() {
 }
 
 void Enemy::moveRandomly() {
-
-    //mit getrandom von raylib
-
-    /*if (currentPathIndex >= path.size()) {
-        currentPathIndex = 0;
-    }
-    Vector2 target = path[currentPathIndex];
-    if (position.x < target.x) {
-        position.x += stepsize;
-    } else if (position.x > target.x) {
-        position.x -= stepsize;
-    }
-
-    if (position.y < target.y) {
-        position.y += stepsize;
-    } else if (position.y > target.y) {
-        position.y -= stepsize;
-    }
-
-
-    // if statement for checking if the enemy reached current target
-    if (Vector2Distance(position, target) <= stepsize * 2) {
-        currentPathIndex++;
-    }*/
-
-/*switch (direction) {
-    case Left:
-
-        break;
-    case Down:
-        position.y += stepsize;
-        if (position.y >= stopdown) {
-            direction = Right;
-        }
-        break;
-    case Right:
-        position.x += stepsize;
-        if (position.x >= stopright) {
-            direction = Up;
-        }
-        break;
-    case Up:
-        position.y -= stepsize;
-        if (position.y <= stopup) {
-            direction = Left;
-        }
-        break;
-}/*/
 }
 
 bool Enemy::checkCollision(const Wall &wall) { //Oli-> looks prettier than in Utils

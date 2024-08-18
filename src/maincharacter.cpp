@@ -110,7 +110,7 @@ void maincharacter::draw() {
 
 void maincharacter::drawsoul() {
 
-    //draws curent frame of soul animation
+    //draws current frame of soul animation
     Texture2D currentTexture = getCurrentTexture();
 
     DrawTextureRec(currentTexture, frameRec,
@@ -193,9 +193,6 @@ void maincharacter::souldash() {
         dashStartPosition = position;
         dashEndPosition = position;
 
-
-        //Vector2 newPosition = position;
-
         switch (lookingdirection) {
             case north:
                 dashEndPosition.y -= DASH_DISTANCE;
@@ -226,7 +223,6 @@ void maincharacter::souldash() {
     if (!_scene->touchesWall(newPosition, size)){
         position = newPosition;
     } else {
-        //stop dash if it hits wall
         currentState = IDLE;
         dashProgress = 1.0f; //ensures dah ends
     }

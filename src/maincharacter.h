@@ -86,7 +86,7 @@ public:
 
     //movement
     int stepsize =4;
-    int stepsizesouldash =5;
+    //int stepsizesouldash =5;
     bool souldashactivated=false;
     gameplay* _scene;
 
