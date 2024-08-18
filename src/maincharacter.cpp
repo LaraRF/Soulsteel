@@ -6,7 +6,7 @@
 #include "scene.h"
 
 const float maincharacter::FRAME_DURATION = 0.1f;
-const float maincharacter::DASH_ANIMATION_SPEED = 0.05f;
+const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
 
 int maincharacter::attackPower = 2;
 
