@@ -5,11 +5,11 @@
 #include "maincharacter.h"
 #include "scene.h"
 
-//anything esle but functions
-const float maincharacter::FRAME_DURATION = 0.1f;
-int maincharacter::attackPower = 2;
 
-//functions
+const float maincharacter::FRAME_DURATION = 0.1f;
+const float maincharacter::DASH_ANIMATION_SPEED = 0.05f;
+
+int maincharacter::attackPower = 2;
 
 void maincharacter::attack(Enemy *target) {
     target->health -= Enemy::attackPower;
@@ -186,6 +186,7 @@ void setAttackPower(int attack) {
 }
 
 void maincharacter::souldash() {
+    currentState = DASH;
     Vector2 newPosition = position;
     switch (lookingdirection) {
         case north:
@@ -213,6 +214,24 @@ void maincharacter::souldash() {
     }
 
     position = newPosition;
+    //updateDashAnimation(GetFrameTime());
+
+    //controlls speed of dash animation
+    frameCounter += DASH_ANIMATION_SPEED;
+    if (frameCounter >= 1.0f) {
+        frameCounter = 0.0f;
+        currentFrame++;
+        if (currentFrame >= FRAME_COUNT) {
+            currentFrame = 0;
+            currentState = IDLE;  // End dash after one full animation cycle
+        }
+    }
+// Update the frame rectangle for drawing
+    Texture2D currentTexture = getCurrentTexture();
+    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
+    float frameHeight = static_cast<float>(currentTexture.height);
+    frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
+
 }
 
 bool maincharacter::souldustcanbeused() const {
@@ -233,24 +252,6 @@ void maincharacter::update() {
     Vector2 oldPosition = position;
     maincharacterwalking();
 
-    //checks if character is moving
-    if (Vector2Equals(oldPosition, position)) {
-        currentState = IDLE;
-    } else {
-        currentState = WALKING;
-    }
-
-    //update current direction based on movement
-    if (IsKeyDown(KEY_W)) currentDirection = BACK;
-    else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
-    else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
-    else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
-
-    //update animation
-    updateAnimation(GetFrameTime());
-
-
-
     //allows you to switch between soul and robot functions
     switch (currentmodus) {
         case soulmodus:
@@ -262,9 +263,11 @@ void maincharacter::update() {
             if (IsKeyPressed(KEY_I)) {
                 souldashactivated=true;
                 souldash();
+            }else if (currentState == DASH) {
+                souldash();
             }
-            else{
-                souldashactivated=false;
+            else {
+                souldashactivated = false;
             }
             //soul dust
             souldustcanbeused();
@@ -283,6 +286,18 @@ void maincharacter::update() {
             break;
     }
 
+    //checks if character is moving
+    if (Vector2Equals(oldPosition, position) && currentState != DASH) {
+        currentState = IDLE;
+    } else if (currentState != DASH) {
+        currentState = WALKING;
+    }
+
+    //update current direction based on movement
+    if (IsKeyDown(KEY_W)) currentDirection = BACK;
+    else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
+    else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
+    else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
 
 //collisions
     collisionwall();
@@ -290,12 +305,15 @@ void maincharacter::update() {
     collisionbars();
     collisionabyss();
     updateLastSafePosition();
-}
 
-void maincharacter::updateLastSafePosition() {
-    if (!_scene->touchesAbyss(position, size)) {
-        lastSafePosition = position;
+    //update animation
+    //updateAnimation(GetFrameTime());
+    if (currentState == DASH) {
+        // Dash animation is handled in souldash()
+    } else {
+        updateAnimation(GetFrameTime());
     }
+
 }
 
 void maincharacter::updateAnimation(float deltaTime) {
@@ -312,6 +330,31 @@ void maincharacter::updateAnimation(float deltaTime) {
     float frameHeight = static_cast<float>(currentTexture.height);
     frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
 }
+
+void maincharacter::updateDashAnimation(float deltaTime) {
+    frameCounter += deltaTime;
+    if (frameCounter >= FRAME_DURATION) {
+        frameCounter = 0.0f;
+        currentFrame++;
+        if (currentFrame >= FRAME_COUNT) {
+            currentFrame = 0;
+            currentState = IDLE;  // End dash after one full animation cycle
+        }
+    }
+
+    Texture2D currentTexture = getCurrentTexture();
+    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
+    float frameHeight = static_cast<float>(currentTexture.height);
+    frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
+}
+
+void maincharacter::updateLastSafePosition() {
+    if (!_scene->touchesAbyss(position, size)) {
+        lastSafePosition = position;
+    }
+}
+
+
 
 
 

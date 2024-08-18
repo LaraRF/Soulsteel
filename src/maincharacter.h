@@ -40,6 +40,7 @@ public:
     //code for idle animation
     static const int FRAME_COUNT = 8;
     static const float FRAME_DURATION;
+    static const float DASH_ANIMATION_SPEED;
     Rectangle frameRec;
     int currentFrame;
     float frameCounter;
@@ -63,6 +64,8 @@ public:
     CurrentDirection currentDirection;
 
     void updateAnimation(float deltaTime);
+    void updateDashAnimation(float deltaTime);
+    bool isDashing() const {return currentState == DASH;}
 
 
 
