@@ -14,7 +14,8 @@ public:
     void draw() override;
 
     ~Enemy1();
-
+private:
+    Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
 };
 
 

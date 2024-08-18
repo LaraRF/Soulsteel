@@ -5,11 +5,30 @@
 #include "maincharacter.h"
 #include "scene.h"
 
+//frame duration
+const float maincharacter::FRAME_DURATION = 0.1f;
+
+maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
+    frameRec = { 0.0f, 0.0f, 0.0f, 0.0f };  // Will be set in updateAnimation
+    currentFrame = 0;
+    frameCounter = 0.0f;
+    currentDirection = FRONT;
+}
+
 int maincharacter::attackPower = 2;
 
 void maincharacter::update() {
 
     maincharacterwalking();
+
+    //update animation
+    updateAnimation(GetFrameTime());
+
+    // Update current direction based on movement
+    if (IsKeyDown(KEY_W)) currentDirection = BACK;
+    else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
+    else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
+    else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
 
     //allows you to switch between soul and robot functions
     switch (currentmodus) {
@@ -193,6 +212,12 @@ void maincharacter::updateLastSafePosition() {
 }
 
 void maincharacter::draw() {
+    if (currentmodus==soulmodus) {
+        drawsoul();
+    } else {
+        drawrobot();
+    }
+
     if(felldown){
         DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
     }
@@ -200,9 +225,24 @@ void maincharacter::draw() {
 
 void maincharacter::drawsoul() {
 
+    //draws curent frame of soul animation
+    std::string direction;
+    switch (currentDirection) {
+        case BACK: direction = "back"; break;
+        case FRONT: direction = "front"; break;
+        case LEFT: direction = "side left"; break;
+        case RIGHT: direction = "side right"; break;
+    }
+    Texture2D currentTexture = assestmanagergraphics::getTexture("characters/soul/" + direction);
 
-    DrawCircle(position.x, position.y, size, PINK);
-    DrawTexture(characterSoulTexture, position.x - 16, position.y - 24, WHITE);
+    DrawTextureRec(currentTexture, frameRec,
+                   {position.x - frameRec.width / 2, position.y - frameRec.height / 2},
+                   WHITE);
+
+
+
+    //DrawCircle(position.x, position.y, size, PINK);
+    //DrawTexture(characterSoulTexture, position.x - 16, position.y - 24, WHITE);
     /*if (souldashactivated) {
         DrawText("Souldash activated", 10, 10, 10, WHITE);
     } else if (!souldashactivated) {
@@ -219,10 +259,6 @@ void maincharacter::drawrobot() {
 
     //DrawCircle(position.x, position.y, size,GRAY);
     DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
-
-}
-
-maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
 
 }
 
@@ -249,4 +285,27 @@ void calculateDamage(maincharacter &maincharacter, int damage) {
 
 void setAttackPower(int attack) {
     int attackPower = attack;
+}
+
+void maincharacter::updateAnimation(float deltaTime) {
+    frameCounter += deltaTime;
+    if (frameCounter >= FRAME_DURATION) {
+        frameCounter = 0.0f;
+        currentFrame++;
+        if (currentFrame >= FRAME_COUNT) currentFrame = 0;
+    }
+    // Update frameRec based on current frame
+    Texture2D currentTexture;
+    std::string direction;
+    switch (currentDirection) {
+        case BACK: direction = "back"; break;
+        case FRONT: direction = "front"; break;
+        case LEFT: direction = "side left"; break;
+        case RIGHT: direction = "side right"; break;
+    }
+    currentTexture = assestmanagergraphics::getTexture("characters/soul/" + direction);
+
+    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
+    float frameHeight = static_cast<float>(currentTexture.height);
+    frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
 }

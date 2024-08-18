@@ -68,9 +68,9 @@ public:
     Enemy(gameplay *scene);
 
     //Textures
-    Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
-    Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
-    Texture2D enemyTexture3 = assestmanagergraphics::getTexture("characters/enemies/enemy_3");
+    //Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
+    //Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
+    //Texture2D enemyTexture3 = assestmanagergraphics::getTexture("characters/enemies/enemy_3");
 
     virtual ~Enemy() = default; //virtual destructor for proper cleanup
 

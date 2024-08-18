@@ -37,6 +37,27 @@ public:
     int health = 10;
     static int attackPower;
 
+    //code for idle animation
+    static const int FRAME_COUNT = 8;
+    static const float FRAME_DURATION;
+    Rectangle frameRec;
+    int currentFrame;
+    float frameCounter;
+
+    //enum for character direction
+    enum Direction {
+        FRONT,
+        BACK,
+        LEFT,
+        RIGHT
+    };
+    Direction currentDirection;
+
+    void updateAnimation(float deltaTime);
+
+
+
+
     int getHealth(const maincharacter& maincharacter);
     void calculateDamage(maincharacter& maincharacter, int damage);
 

@@ -62,6 +62,7 @@ int main() {
             }
         }
 
+
         //checks which screen is shown and calls the methods needed there
         currentScene->update();
         scene* newScene = currentScene->evaluateSceneChange();

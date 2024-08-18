@@ -16,9 +16,7 @@ public:
     ~Enemy3();
 
 private:
-    //Vector2 position;
-    //gameplay *_scene;
-
+    Texture2D enemyTexture3 = assestmanagergraphics::getTexture("characters/enemies/enemy_3");
 };
 
 

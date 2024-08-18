@@ -2,6 +2,7 @@
 // Created by sweet on 29.05.2024.
 //
 #include <iostream>
+#include <vector>
 #include "assestmanagergraphics.h"
 
 bool assestmanagergraphics::m_texturesLoaded = false;
@@ -45,6 +46,8 @@ void assestmanagergraphics::init() {
     m_textures["characters/soul/Idle_Animation_front"] = LoadTexture("assets/graphics/characters/soul/Idle_Animation_front.gif");
     m_textures["characters/robot/Robot_front"] = LoadTexture("assets/graphics/characters/robot/Robot_front.png");
     m_textures["characters/robot/Character_-_Robot_-_Idle_Front_-_animated"] = LoadTexture("assets/graphics/characters/robot/Character_-_Robot_-_Idle_Front_-_animated.gif");
+    //Soul
+
     //enemies
     m_textures["characters/enemies/enemy_1"] = LoadTexture("assets/graphics/characters/enemies/enemy_1.png");
     m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
@@ -59,18 +62,37 @@ void assestmanagergraphics::init() {
     m_textures["item/souldust"] = LoadTexture("assets/items/souldust.png");
     m_textures["ability/souldust_deactivated"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - static - unactivated.png");
 
-    for (auto &texture: m_textures) {
+    //load soul animation frames
+    const std::string basePath = "assets/graphics/characters/soul/";
+    const std::vector<std::string> directions = {"back", "front", "side left", "side right"};
+    const std::vector<std::string> fileNames = {
+            "Character - Soul - Idle back - animated",
+            "Character - Soul - Idle front - animated",
+            "Character - Soul - Idle side left - animated",
+            "Character - Soul - Idle side right - animated"
+    };
+
+    for (size_t i = 0; i < directions.size(); ++i) {
+        std::string key = "characters/soul/" + directions[i];
+        std::string path = basePath + fileNames[i] + ".png";
+        m_textures[key] = LoadTexture(path.c_str());
+        if (m_textures[key].id == 0) {
+            TraceLog(LOG_WARNING, "Failed to load texture: %s", path.c_str());
+        }
+    }
+
+    for (auto &texture : m_textures) {
         if (!IsTextureReady(texture.second)) {
             TraceLog(LOG_WARNING, "assetmanagergraphics::init() failed to load texture: %s", texture.first.c_str());
         }
     }
 }
 
-Texture2D assestmanagergraphics::getTexture(std::string name) { //call this texture on consturction of a new object,
-    //not every frame, check if the texture exists in map
+Texture2D assestmanagergraphics::getTexture(const std::string &name) {
     if (m_textures.find(name) != m_textures.end()) {
         return m_textures[name];
-}
+    }
+
     TraceLog(LOG_WARNING, "assetmanagergraphics::getTexture() called with unknown texture name: %s", name.c_str());
     return m_textures["ERROR"];
 
