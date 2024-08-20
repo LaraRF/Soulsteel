@@ -233,7 +233,10 @@ void gameplay::draw() {
                              (float) (tileSize), (float) (tileSize)};
             Rectangle dest = {(float) (x * tileSize), (float) (y * tileSize), (float) (tileSize), (float) (tileSize)};
             //hier kann man "static_cast<float>" durch (float) ersetzen -> ist C, aber geht hier auch
-            DrawTexturePro(tilesetgrass, src, dest, {}, 0, WHITE);
+            //DrawTexturePro(tilesetgrass, src, dest, {}, 0, WHITE);
+            DrawTexturePro(tileset_room1, src, dest, {}, 0, WHITE);
+
+
         }
 
         for (Enemy *enemy: enemies) {
@@ -320,7 +323,7 @@ void gameplay::reloadRoom() {
 
     switch (room) {
         case 1: {
-            auto map = tileson.parse("assets/graphics/tilesets/room1test_greyboxing1.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room1_greyboxing3.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -338,7 +341,7 @@ void gameplay::reloadRoom() {
 
             break;
         case 2: {
-            auto map = tileson.parse("assets/graphics/tilesets/room2test_greyboxing1.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room2_greyboxing3.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -453,7 +456,7 @@ void gameplay::reloadRoom() {
             break;
 
         case 3: {
-            auto map = tileson.parse("assets/graphics/tilesets/room3test_greyboxing1.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room3_greyboxing3.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -470,7 +473,7 @@ void gameplay::reloadRoom() {
         }
             break;
         case 4: {
-            auto map = tileson.parse("assets/graphics/tilesets/room4test.tmj");
+            auto map = tileson.parse("assets/graphics/tilesets/room5_greyboxing3.tmj");
             if (map->getStatus() != tson::ParseStatus::OK) {
                 std::cout << map->getStatusMessage();
             }
@@ -536,10 +539,28 @@ int gameplay::getTileAt(float x, float y) const {
 bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if ((getTileAt(x * 32, y * 32) == wallID|| getTileAt(x*32,y*32)==firebowlID)) {
+            int tileID = getTileAt(x * 32, y * 32);
+            if (tileID== firebowlID) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
+                }
+            } else {
+                bool touchesAny = false;
+                for (const auto& group : wallIDs) {
+                    for (int id : group) {
+                        if (id == tileID) {
+                            if (CheckCollisionCircleRec(pos, size,
+                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
+                                return true;
+                            }
+                            touchesAny = true;
+                            break;
+                        }
+                    }
+                    if (touchesAny) {
+                        break;
+                    }
                 }
             }
         }
@@ -562,9 +583,11 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     //return wall with shortest distance
     float shortestDistance = 1000000;
     Rectangle closestWall{};
+    bool foundWall = false;
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == wallID|| getTileAt(x*32,y*32)==firebowlID) {
+            int tileID = getTileAt(x * 32, y * 32);
+            if (tileID==firebowlID) {
                 Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
                                                       Vector2{wall.x + wall.width, wall.y + wall.height});
@@ -572,11 +595,34 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
                 if (distance < shortestDistance) {
                     shortestDistance = distance;
                     closestWall = wall;
+                    foundWall = true;
+                }
+            } else {
+                for (const auto& group : wallIDs) {
+                    for (int id : group) {
+                        if (tileID == id) {
+                            Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                            Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
+                                                                  Vector2{wall.x + wall.width, wall.y + wall.height});
+                            float distance = Vector2Distance(position, wallTouchPoint);
+                            if (distance < shortestDistance) {
+                                shortestDistance = distance;
+                                closestWall = wall;
+                                foundWall = true;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
-    return closestWall;
+
+    if (foundWall) {
+        return closestWall;
+    } else {
+        return Rectangle{};
+    }
 }
 
 bool gameplay::touchesBars(Vector2 pos, float size) {

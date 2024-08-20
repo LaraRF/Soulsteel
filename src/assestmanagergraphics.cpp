@@ -15,7 +15,9 @@ void assestmanagergraphics::init() {
     }
     m_texturesLoaded = true;
     m_textures["ERROR"] = LoadTexture("assets/graphics/ERROR.png");
-    m_textures["tilesets/level1"] = LoadTexture("assets/graphics/tilesets/tilesets/level1.png");
+    //m_textures["tilesets/level1"] = LoadTexture("assets/graphics/tilesets/tilesets/level1.png");
+    m_textures["tileset/level1"] = LoadTexture("assets/graphics/tilesets/tileset_alles_Stand20240820.png");
+
     //placeholder menu
     m_textures["background/background_blue"] = LoadTexture("assets/graphics/backgrounds/background_blue.png");
     m_textures["userinterface/button_close"] = LoadTexture("assets/graphics/userinterface/button_close.png");
