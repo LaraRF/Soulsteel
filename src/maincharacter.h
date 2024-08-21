@@ -14,6 +14,7 @@
 #include "gameplay.h"
 #include "Utils.h"
 #include "ENEMIES/Enemy.h"
+struct ActivatedFirebowls;
 
 class gameplay;
 class Enemy;

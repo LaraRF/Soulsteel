@@ -61,7 +61,7 @@ void assestmanagergraphics::init() {
     m_textures["item/bomb_exploded"] = LoadTexture("assets/items/bomb_exploded.png");
     //soul functions
     //soul dust
-    m_textures["item/souldust"] = LoadTexture("assets/items/souldust.png");
+    m_textures["item/souldust"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - animated - activated.png");
     m_textures["ability/souldust_deactivated"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - static - unactivated.png");
     //soul dash
     m_textures["characters/soul/dash_front"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash front - animated.png");

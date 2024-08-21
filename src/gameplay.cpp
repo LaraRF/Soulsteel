@@ -4,6 +4,7 @@
 #include "gameplay.h"
 #include "tileson.hpp"
 #include "raymath.h"
+#include "raylib.h"
 #include "mainmenu.h"
 #include "pausescreen.h"
 #include "journal.h"
@@ -186,17 +187,19 @@ std::pair<int, int> gameplay::getNearestFirebowlTile(Vector2 pos) const {
 }
 
 void gameplay::activateFirebowl(int x, int y) {
-    activatedFirebowls.push_back({x, y});
+    if (!isFirebowlActivated(x, y)) {
+        activatedFirebowls.push_back({x, y, room});
+        activeFirebowlAnimations.push_back({x, y, 0.0f, 0, room});
+    }
 }
 
 bool gameplay::isFirebowlActivated(int x, int y) const {
-    return std::find(activatedFirebowls.begin(), activatedFirebowls.end(), std::make_pair(x, y)) != activatedFirebowls.end();
-}
-
-void gameplay::drawActivatedFirebowls() {
-    for (const auto &bowl: activatedFirebowls) {
-        DrawTexture(activatedFirebowlTexture, bowl.first * 32, bowl.second * 32, WHITE);
+    for (const auto& bowl : activatedFirebowls) {
+        if (bowl.x == x && bowl.y == y && bowl.room == room) {
+            return true;
+        }
     }
+    return false;
 }
 
 void gameplay::updateAllenemies() {
@@ -253,10 +256,27 @@ void gameplay::draw() {
 
     drawtextonscreen();
     drawhealthhearts();
-    drawActivatedFirebowls();
+    drawActivatedFirebowls(GetFrameTime());
 
     if (IsKeyDown(KEY_H)) {
         this->drawDebug();
+    }
+}
+
+void gameplay::drawActivatedFirebowls(float deltaTime) {
+    for (auto& bowl : activeFirebowlAnimations) {
+        if (bowl.room == room) {  // Only draw if in current room
+            int frameWidth = activatedFirebowlTexture.width / 8;
+            Rectangle srcRect = { static_cast<float>(bowl.currentFrame * frameWidth), 0, static_cast<float>(frameWidth), static_cast<float>(activatedFirebowlTexture.height) };
+            DrawTexturePro(activatedFirebowlTexture, srcRect, { static_cast<float>(bowl.x * 32), static_cast<float>(bowl.y * 32), 32, 32 }, { 0, 0 }, 0, WHITE);
+
+            // Update animation
+            bowl.animationTimer += deltaTime;
+            if (bowl.animationTimer >= activatedFirebowlAnimationSpeed) {
+                bowl.currentFrame = (bowl.currentFrame + 1) % 8;
+                bowl.animationTimer -= activatedFirebowlAnimationSpeed;
+            }
+        }
     }
 }
 
@@ -320,6 +340,19 @@ void gameplay::reloadRoom() {
     tson::Tileson tileson;
     tiles.clear();
     enemies.clear();
+    /* this is needed, if you want the firebowls to be deactived again, once you leave the room. without this code, the firebowl will still be active when you come back to the room
+    // Clear activated firebowls not in the current room
+    activatedFirebowls.erase(
+            std::remove_if(activatedFirebowls.begin(), activatedFirebowls.end(),
+                           [this](const auto& bowl) { return bowl.room != room; }),
+            activatedFirebowls.end()
+    );
+
+    activeFirebowlAnimations.erase(
+            std::remove_if(activeFirebowlAnimations.begin(), activeFirebowlAnimations.end(),
+                           [this](const auto& bowl) { return bowl.room != room; }),
+            activeFirebowlAnimations.end()
+    );*/
 
     switch (room) {
         case 1: {

@@ -25,6 +25,18 @@ class Enemy1;
 class Enemy2;
 class Enemy3;
 
+struct ActivatedFirebowls {
+    int x;
+    int y;
+    float animationTimer;
+    int currentFrame;
+    int room;
+};
+struct ActivatedFirebowl {
+    int x;
+    int y;
+    int room;
+};
 
     class gameplay : public scene {
     private:
@@ -32,7 +44,10 @@ class Enemy3;
         void clearEnemies();
         bool isAlive;
 
-        std::vector<std::pair<int, int>> activatedFirebowls;
+        //std::vector<std::pair<int, int>> activatedFirebowls;
+        std::vector<ActivatedFirebowls> activeFirebowlAnimations;
+        std::vector<ActivatedFirebowl> activatedFirebowls;
+        float activatedFirebowlAnimationSpeed = 0.1f;
 
 
     public:
@@ -50,21 +65,12 @@ class Enemy3;
 
         void drawDebug() override;
 
-        void activateFirebowl(int x, int y);
-        bool isFirebowlActivated(int x, int y) const;
-        void drawActivatedFirebowls();
-
         //loads the necessary textures
         Texture2D heart = assestmanagergraphics::getTexture("userinterface/heart_smaller");
 
         //loads the textures on the map (Kachelsatz)
         Texture2D tilesetgrass = assestmanagergraphics::getTexture("tilesets/greyboxing1");
         Texture2D tileset_room1 = assestmanagergraphics::getTexture("tileset/level1");
-
-
-        Texture2D activatedFirebowlTexture=assestmanagergraphics::getTexture("item/souldust");
-        bool isAdjacentToFirebowl(Vector2 pos) const;
-        std::pair<int, int> getNearestFirebowlTile(Vector2 pos) const;
 
         //attributes necessary for using the map
         std::vector<int> tiles;
@@ -81,6 +87,13 @@ class Enemy3;
         bool soulhasntchangedformsyet=true;
         bool soulcantakeover();
         int takeoverradius =40;
+        //soul dust
+        Texture2D activatedFirebowlTexture=assestmanagergraphics::getTexture("item/souldust");
+        bool isAdjacentToFirebowl(Vector2 pos) const;
+        std::pair<int, int> getNearestFirebowlTile(Vector2 pos) const;
+        void activateFirebowl(int x, int y);
+        bool isFirebowlActivated(int x, int y) const;
+        void drawActivatedFirebowls(float deltaTime);
 
         //collision functions
         int getTileAt(float x, float y) const;
@@ -211,8 +224,6 @@ class Enemy3;
         std::vector<int> stonewallIDs ={stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4};
 
         std::vector<std::vector<int>> wallIDs = {fenceIDs, pipeIDs, treeIDs, doorhingeIDs,stonewallIDs};
-
-
 
     protected:
         std::vector<int>enemyID;
