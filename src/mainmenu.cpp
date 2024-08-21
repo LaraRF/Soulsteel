@@ -4,6 +4,7 @@
 #include "mainmenu.h"
 #include "gameplay.h"
 #include "optionen.h"
+#include "gamechoicescreen.h"
 
 
 void mainmenu::update() {
@@ -28,7 +29,7 @@ scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
     if (IsKeyPressed(KEY_ENTER)) {
         switch (cursor) {
             case 0:
-                return new gameplay();
+                return new gamechoicescreen(reinterpret_cast<gameplay *>(this));
                 break;
             case 1:
                 return new optionen();

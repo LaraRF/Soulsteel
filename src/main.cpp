@@ -15,6 +15,7 @@
 #include "assestmanagergraphics.h"
 #include "scene.h"
 #include "ENEMIES/Enemy.h"
+#include "gamechoicescreen.h"
 //#include "HealthManager.h"
 
 int main() {
@@ -72,14 +73,17 @@ int main() {
             std::cout << "Switching scenes\n";
 
             if (dynamic_cast<gameplay*>(newScene) != nullptr) {
-                if (gameplayInstance == nullptr) {
-                    std::cout << "Creating new gameplay instance\n";
-                    gameplayInstance = new gameplay();
-                }
+                gameplayInstance = dynamic_cast<gameplay*>(newScene);
                 if (currentScene != gameplayInstance) {
                     delete currentScene;
                 }
                 currentScene = gameplayInstance;
+            } else if (dynamic_cast<gamechoicescreen*>(newScene) != nullptr) {
+                if (gameplayInstance == nullptr) {
+                    gameplayInstance = new gameplay();
+                }
+                delete currentScene;
+                currentScene = new gamechoicescreen(gameplayInstance);
             } else if (dynamic_cast<gameplay*>(currentScene) != nullptr) {
                 currentScene = newScene;
             } else {

@@ -15,7 +15,7 @@ class ingameoptions: public scene {
 public:
     ingameoptions(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
         if (gameplayInstance == nullptr) {
-            std::cout << "Warning: gameplayInstance is null in pausescreen constructor\n";
+            std::cout << "Warning: gameplayInstance is null in ingameoptions constructor\n";
         }
     }
 

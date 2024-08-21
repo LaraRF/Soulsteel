@@ -14,7 +14,7 @@ class journal :public scene{
 public:
     journal(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
         if (gameplayInstance == nullptr) {
-            std::cout << "Warning: gameplayInstance is null in pausescreen constructor\n";
+            std::cout << "Warning: gameplayInstance is null in journal constructor\n";
         }
     }
     int cursor = 0;
