@@ -9,12 +9,12 @@
 #include "raylib.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
-
+class gameplay;
 class journal :public scene{
 public:
     journal(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
         if (gameplayInstance == nullptr) {
-            std::cout << "Warning: gameplayInstance is null in journal constructor\n";
+            std::cout << "Warning: gameplayInstance is null in ingameoptions constructor\n";
         }
     }
     int cursor = 0;

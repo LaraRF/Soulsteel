@@ -8,6 +8,7 @@
 #include "assestmanagergraphics.h"
 #include <iostream>
 #include "gameplay.h"
+#include "mainmenu.h"
 class gamechoicescreen: public scene {
 public:
     gamechoicescreen(gameplay* existingGameplay) : scene(), gameplayInstance(existingGameplay) {

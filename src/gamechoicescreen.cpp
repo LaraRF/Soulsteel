@@ -3,6 +3,7 @@
 //
 
 #include "gamechoicescreen.h"
+
 void gamechoicescreen::update() {
     if (IsKeyPressed(KEY_D) || IsKeyPressed(KEY_RIGHT)) {
         if (cursor == 1) {
@@ -36,7 +37,9 @@ scene *gamechoicescreen::evaluateSceneChange() {
                 return gameplayInstance;
         }
     }
-    return this;
+    if(IsKeyPressed(KEY_M)){
+        return new mainmenu();
+    }else{return this;}
 }
 
 void gamechoicescreen::draw() {

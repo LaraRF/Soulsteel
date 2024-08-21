@@ -98,12 +98,6 @@ void maincharacter::collisionabyss() {
 
 void maincharacter::draw() {
 
-    if (currentmodus == soulmodus) {
-        drawsoul();
-    } else {
-        drawrobot();
-    }
-
     if(felldown){
         DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
     }

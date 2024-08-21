@@ -26,7 +26,7 @@ void journal::update() {
 
 scene *journal::evaluateSceneChange() {
     if (IsKeyPressed(KEY_J)) {
-        return new gameplay();
+        return gameplayInstance;
     } else if (IsKeyPressed(KEY_ENTER)) {
         switch (cursor) {
             case 0:
