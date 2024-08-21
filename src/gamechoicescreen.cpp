@@ -58,8 +58,8 @@ void gamechoicescreen::draw() {
     DrawRectangleRec(hitbox_continue, GRAY);
 
     //draws the text on the buttons
-    DrawText("NEW GAME",90,330,20,BLACK);
-    DrawText("CONTINUE",325,330,20,BLACK);
+    DrawText("NEW GAME",140,360,30,BLACK);
+    DrawText("CONTINUE",485,360,30,BLACK);
 }
 
 void gamechoicescreen::drawDebug() {

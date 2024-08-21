@@ -33,11 +33,11 @@ public:
     Texture2D title = assestmanagergraphics::getTexture("userinterface/title_3");
 
     //creates the boxes that will be used as buttons; marked boxes are to create an outline that shows which button is selected
-    Rectangle hitbox_newgame = {90, 330, 150, 90};
-    Rectangle hitbox_newgame_marked = {80, 320, 170, 110};
+    Rectangle hitbox_newgame = {120, 330, 200, 90};
+    Rectangle hitbox_newgame_marked = {110, 320, 220, 110};
 
-    Rectangle hitbox_continue = {325, 330, 150, 90};
-    Rectangle hitbox_continue_marked = {315, 320, 170, 110};
+    Rectangle hitbox_continue = {460, 330, 200, 90};
+    Rectangle hitbox_continue_marked = {450, 320, 220, 110};
 };
 
 
