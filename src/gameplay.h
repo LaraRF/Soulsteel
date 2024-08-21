@@ -87,6 +87,7 @@ struct ActivatedFirebowl {
         bool soulhasntchangedformsyet=true;
         bool soulcantakeover();
         int takeoverradius =40;
+
         //soul dust
         Texture2D activatedFirebowlTexture=assestmanagergraphics::getTexture("item/souldust");
         bool isAdjacentToFirebowl(Vector2 pos) const;
@@ -94,6 +95,8 @@ struct ActivatedFirebowl {
         void activateFirebowl(int x, int y);
         bool isFirebowlActivated(int x, int y) const;
         void drawActivatedFirebowls(float deltaTime);
+        bool areAllFirebowlsActivatedInRoom(int roomNumber) const;
+        bool showDoorIsLockedMessage = false;
 
         //collision functions
         int getTileAt(float x, float y) const;
@@ -124,7 +127,7 @@ struct ActivatedFirebowl {
         void reloadRoom();
 
         //doors
-        int doorfromroom1to2=32;
+        int doorfromroom1to2=32*2;
         int startposroom1to2=14*32+16;
         int doorfromroom2to1=14*32+20;
         int startposroom2to1=2*32+16;
@@ -221,7 +224,7 @@ struct ActivatedFirebowl {
         std::vector<int> treeIDs = {tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, tree9ID, tree10ID, tree11ID};
         std::vector<int> doorIDs = {doorID1, doorID2, doorID3, doorID4, doorID5, doorID6};
         std::vector<int> doorhingeIDs = {doorhingeID0, doorhingeID1, doorhingeID2, doorhingeID3};
-        std::vector<int> stonewallIDs ={stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4};
+        std::vector<int> stonewallIDs ={stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4,doorID1};
 
         std::vector<std::vector<int>> wallIDs = {fenceIDs, pipeIDs, treeIDs, doorhingeIDs,stonewallIDs};
 

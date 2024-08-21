@@ -58,12 +58,19 @@ void gameplay::doRoomSwitch() {
     switch (room) {
         case 1:
             if (themaincharacter->position.y <= (doorfromroom1to2)) {
-                room = 2;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 2;
-                } else { robotisinroom = 2; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom1to2;
+                if (areAllFirebowlsActivatedInRoom(1)) {
+                    showDoorIsLockedMessage = false;
+                    room = 2;
+                    if (currentmodus == soulmodus) {
+                        soulisinroom = 2;
+                    } else {
+                        robotisinroom = 2;
+                    }
+                    themaincharacter->position.y = startposroom1to2;
+                    reloadRoom();
+                }else{
+                    showDoorIsLockedMessage=true;
+                }
             }
             break;
         case 2:
@@ -193,6 +200,21 @@ void gameplay::activateFirebowl(int x, int y) {
     }
 }
 
+bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
+    // Assuming there are always 2 firebowls in room 1
+    if (roomNumber == 1) {
+        int activatedCount = 0;
+        for (const auto& bowl : activatedFirebowls) {
+            if (bowl.room == 1) {
+                activatedCount++;
+            }
+        }
+        return activatedCount == 2;
+    }
+    // For other rooms, you can implement different logic if needed
+    return true;
+}
+
 bool gameplay::isFirebowlActivated(int x, int y) const {
     for (const auto& bowl : activatedFirebowls) {
         if (bowl.x == x && bowl.y == y && bowl.room == room) {
@@ -257,6 +279,9 @@ void gameplay::draw() {
     drawtextonscreen();
     drawhealthhearts();
     drawActivatedFirebowls(GetFrameTime());
+    if (showDoorIsLockedMessage) {
+        DrawText("This door is locked!\nActivate both firebowls to proceed.", 9*32, 2*32, 15, RED);
+    }
 
     if (IsKeyDown(KEY_H)) {
         this->drawDebug();
