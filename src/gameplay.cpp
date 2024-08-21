@@ -68,10 +68,13 @@ void gameplay::doRoomSwitch() {
                     }
                     themaincharacter->position.y = startposroom1to2;
                     reloadRoom();
-                }else{
-                    showDoorIsLockedMessage=true;
+                } else if (themaincharacter->position.y <= doortextarea) {
+                    showDoorIsLockedMessage = true;
                 }
+            } else {
+                showDoorIsLockedMessage = false;
             }
+
             break;
         case 2:
             if (themaincharacter->position.y <= doorfromroom2to3) {
@@ -204,7 +207,7 @@ bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
     // Assuming there are always 2 firebowls in room 1
     if (roomNumber == 1) {
         int activatedCount = 0;
-        for (const auto& bowl : activatedFirebowls) {
+        for (const auto &bowl: activatedFirebowls) {
             if (bowl.room == 1) {
                 activatedCount++;
             }
@@ -216,7 +219,7 @@ bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
 }
 
 bool gameplay::isFirebowlActivated(int x, int y) const {
-    for (const auto& bowl : activatedFirebowls) {
+    for (const auto &bowl: activatedFirebowls) {
         if (bowl.x == x && bowl.y == y && bowl.room == room) {
             return true;
         }
@@ -280,7 +283,7 @@ void gameplay::draw() {
     drawhealthhearts();
     drawActivatedFirebowls(GetFrameTime());
     if (showDoorIsLockedMessage) {
-        DrawText("This door is locked!\nActivate both firebowls to proceed.", 9*32, 2*32, 15, RED);
+        DrawText("This door is locked!\nActivate both firebowls to proceed.", 9 * 32, 4 * 32, 15, DARKBLUE);
     }
 
     if (IsKeyDown(KEY_H)) {
@@ -289,11 +292,14 @@ void gameplay::draw() {
 }
 
 void gameplay::drawActivatedFirebowls(float deltaTime) {
-    for (auto& bowl : activeFirebowlAnimations) {
+    for (auto &bowl: activeFirebowlAnimations) {
         if (bowl.room == room) {  // Only draw if in current room
             int frameWidth = activatedFirebowlTexture.width / 8;
-            Rectangle srcRect = { static_cast<float>(bowl.currentFrame * frameWidth), 0, static_cast<float>(frameWidth), static_cast<float>(activatedFirebowlTexture.height) };
-            DrawTexturePro(activatedFirebowlTexture, srcRect, { static_cast<float>(bowl.x * 32), static_cast<float>(bowl.y * 32), 32, 32 }, { 0, 0 }, 0, WHITE);
+            Rectangle srcRect = {static_cast<float>(bowl.currentFrame * frameWidth), 0, static_cast<float>(frameWidth),
+                                 static_cast<float>(activatedFirebowlTexture.height)};
+            DrawTexturePro(activatedFirebowlTexture, srcRect,
+                           {static_cast<float>(bowl.x * 32), static_cast<float>(bowl.y * 32), 32, 32}, {0, 0}, 0,
+                           WHITE);
 
             // Update animation
             bowl.animationTimer += deltaTime;
@@ -317,7 +323,7 @@ void gameplay::drawmaincharacter() {
     }
 
     //only shows inactive robot when soul is in soul mode, also enables soul to leave robot behind and go to other rooms alone
-    if(robotisinroom==room&&currentmodus==soulmodus){
+    if (robotisinroom == room && currentmodus == soulmodus) {
         therobot->draw();
     }
 
@@ -598,18 +604,19 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-            if (tileID== firebowlID) {
+            if (tileID == firebowlID) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
                 }
             } else {
                 bool touchesAny = false;
-                for (const auto& group : wallIDs) {
-                    for (int id : group) {
+                for (const auto &group: wallIDs) {
+                    for (int id: group) {
                         if (id == tileID) {
                             if (CheckCollisionCircleRec(pos, size,
-                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
+                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                                  (float) 32})) {
                                 return true;
                             }
                             touchesAny = true;
@@ -645,7 +652,7 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-            if (tileID==firebowlID) {
+            if (tileID == firebowlID) {
                 Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
                                                       Vector2{wall.x + wall.width, wall.y + wall.height});
@@ -656,8 +663,8 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
                     foundWall = true;
                 }
             } else {
-                for (const auto& group : wallIDs) {
-                    for (int id : group) {
+                for (const auto &group: wallIDs) {
+                    for (int id: group) {
                         if (tileID == id) {
                             Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                             Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},

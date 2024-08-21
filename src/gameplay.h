@@ -127,6 +127,7 @@ struct ActivatedFirebowl {
         void reloadRoom();
 
         //doors
+        int doortextarea=32*4;
         int doorfromroom1to2=32*2;
         int startposroom1to2=14*32+16;
         int doorfromroom2to1=14*32+20;
