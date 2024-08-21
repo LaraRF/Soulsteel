@@ -98,6 +98,12 @@ void maincharacter::collisionabyss() {
 
 void maincharacter::draw() {
 
+    if (currentmodus == soulmodus) {
+        drawsoul();
+    } else {
+        drawrobot();
+    }
+
     if(felldown){
         DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
     }
@@ -154,6 +160,19 @@ int getHealth(const maincharacter &maincharacter) {
 }
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
+    position = {32*12, 32*6};  // Set initial position
+    currentState = IDLE;
+    currentDirection = FRONT;
+    currentFrame = 0;
+    frameCounter = 0.0f;
+    currentmodus = soulmodus;
+    lookingdirection = south;
+
+    // Set initial frame rectangle
+    Texture2D currentTexture = getCurrentTexture();
+    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
+    float frameHeight = static_cast<float>(currentTexture.height);
+    frameRec = { 0, 0, frameWidth, frameHeight };
 }
 
 void maincharacter::maincharacterwalking() {

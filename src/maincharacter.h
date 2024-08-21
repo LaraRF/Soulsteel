@@ -59,7 +59,7 @@ public:
         DASH,
         DUST
     };
-    CharacterState currentState;
+    CharacterState currentState=IDLE;
 
     //enum for walking direction
     enum CurrentDirection {
@@ -68,7 +68,7 @@ public:
         LEFT,
         RIGHT
     };
-    CurrentDirection currentDirection;
+    CurrentDirection currentDirection=FRONT;
 
     void updateAnimation(float deltaTime);
     void updateDashAnimation(float deltaTime);
