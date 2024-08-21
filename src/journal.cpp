@@ -36,7 +36,7 @@ scene *journal::evaluateSceneChange() {
                 //no journal content yet
                 break;
             case 2:
-                return new gameplay();
+                return gameplayInstance;
         }
     } else {
         return this;

@@ -73,6 +73,4 @@ void mainmenu::drawDebug() {
 
 }
 
-mainmenu::mainmenu() {
 
-}

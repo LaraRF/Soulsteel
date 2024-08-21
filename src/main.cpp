@@ -41,9 +41,10 @@ int main() {
     maincharactermodus modus =soulmodus;
 
 
+    gameplay* gameplayInstance = nullptr;
+    scene* currentScene =  new mainmenu();
 
-    scene* currentScene = new mainmenu();
-
+    std::cout << "Starting main loop\n";
 
 
     //SetWindowSize(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()));
@@ -67,6 +68,25 @@ int main() {
         currentScene->update();
         scene* newScene = currentScene->evaluateSceneChange();
 
+        if (currentScene != newScene) {
+            std::cout << "Switching scenes\n";
+
+            if (dynamic_cast<gameplay*>(newScene) != nullptr) {
+                if (gameplayInstance == nullptr) {
+                    std::cout << "Creating new gameplay instance\n";
+                    gameplayInstance = new gameplay();
+                }
+                if (currentScene != gameplayInstance) {
+                    delete currentScene;
+                }
+                currentScene = gameplayInstance;
+            } else if (dynamic_cast<gameplay*>(currentScene) != nullptr) {
+                currentScene = newScene;
+            } else {
+                delete currentScene;
+                currentScene = newScene;
+            }
+        }
 
         BeginDrawing();
         // You can draw on the screen between BeginDrawing() and EndDrawing()
@@ -92,14 +112,15 @@ int main() {
                        renderRec,
                        {}, 0, WHITE);
         EndDrawing();
-        if (currentScene != newScene){
-            delete currentScene;
-            currentScene = newScene;
-        }
+
     } // Main game loop end
-
+    std::cout << "Exiting main loop\n";
+    if (currentScene != gameplayInstance) {
+        delete currentScene;
+    }
+    delete gameplayInstance;
+    std::cout << "Cleanup complete\n";
     // De-initialization here
-
     // Close window and OpenGL context
     CloseWindow();
 

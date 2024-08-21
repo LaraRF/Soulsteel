@@ -21,7 +21,7 @@ public:
 
     int cursor = 0;
 
-    mainmenu();
+    mainmenu() : scene() {}
 
     void update() override;
 

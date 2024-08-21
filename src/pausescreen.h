@@ -9,13 +9,15 @@
 #include <iostream>
 #include "assestmanagergraphics.h"
 #include "scene.h"
-
+class gameplay;
 class pausescreen:public scene {
-private:
-    //Texture2D pausebutton = assestmanagergraphics::getTexture("userinterface/button_pause");
-
 
 public:
+    pausescreen(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
+        if (gameplayInstance == nullptr) {
+            std::cout << "Warning: gameplayInstance is null in pausescreen constructor\n";
+        }
+    }
     void update() override;
 
     scene *evaluateSceneChange() override;
@@ -30,5 +32,6 @@ public:
 
     //creates the box that will be used as a button
     Rectangle boxforpausebutton = {339,340,122,122};
+    gameplay *gameplayInstance;
 };
 #endif //RAYLIBSTARTER_PAUSESCREEN_H

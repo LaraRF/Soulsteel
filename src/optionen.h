@@ -12,6 +12,8 @@
 
 class optionen: public scene {
 public:
+    optionen() : scene() {}
+
     int cursor=0;
 
     void update() override;

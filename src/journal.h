@@ -5,12 +5,18 @@
 #ifndef RAYLIBSTARTER_JOURNAL_H
 #define RAYLIBSTARTER_JOURNAL_H
 
+#include <iostream>
 #include "raylib.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
 
 class journal :public scene{
 public:
+    journal(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
+        if (gameplayInstance == nullptr) {
+            std::cout << "Warning: gameplayInstance is null in pausescreen constructor\n";
+        }
+    }
     int cursor = 0;
 
     void update() override;
@@ -34,6 +40,7 @@ public:
 
     Texture2D journalbackground = assestmanagergraphics::getTexture("userinterface/journal_background_newsize");
 
+    gameplay *gameplayInstance;
 };
 
 

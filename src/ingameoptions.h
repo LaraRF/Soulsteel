@@ -9,9 +9,16 @@
 #include <iostream>
 #include "assestmanagergraphics.h"
 #include "scene.h"
-
+class gameplay;
 class ingameoptions: public scene {
+
 public:
+    ingameoptions(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
+        if (gameplayInstance == nullptr) {
+            std::cout << "Warning: gameplayInstance is null in pausescreen constructor\n";
+        }
+    }
+
     int cursor=0;
 
     void update() override;
@@ -63,6 +70,7 @@ public:
     Texture2D soundlessbutton = assestmanagergraphics::getTexture("userinterface/soundless");
     Texture2D soundmorebutton = assestmanagergraphics::getTexture("userinterface/soundmore");
 
+    gameplay *gameplayInstance;
 };
 
 

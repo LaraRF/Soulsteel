@@ -237,11 +237,12 @@ scene *gameplay::evaluateSceneChange() {
     if (IsKeyPressed(KEY_M)) {
         return new mainmenu();
     } else if (IsKeyPressed(KEY_P)) {
-        return new pausescreen();
+        std::cout << "Switching to pause screen\n";
+        return new pausescreen(this);
     } else if (IsKeyPressed(KEY_J)) {
-        return new journal();
+        return new journal(this);
     } else if (IsKeyPressed(KEY_O)) {
-        return new ingameoptions();
+        return new ingameoptions(this);
     }
     return this;
 }
@@ -360,7 +361,8 @@ void gameplay::drawDebug() { //draws red outlines around the wall tiles for exam
 }
 
 //gets the data from the map needed to draw it
-gameplay::gameplay() {
+gameplay::gameplay() : scene(this) {
+    std::cout << "Gameplay instance created\n";
     tson::Tileson tileson;
     themaincharacter = new class maincharacter(this);
     therobot = new robot(this);

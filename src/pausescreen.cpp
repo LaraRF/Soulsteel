@@ -11,11 +11,13 @@ void pausescreen::update() {
 }
 
 scene *pausescreen::evaluateSceneChange() {
+
     if (IsKeyPressed(KEY_P)) {
-        return new gameplay();
-    } else {
-        return this;
+        std::cout << "Returning to gameplay from pause screen\n";
+        return gameplayInstance;  // Return the stored gameplay instance
     }
+    return this;
+
 }
 
 void pausescreen::draw() {

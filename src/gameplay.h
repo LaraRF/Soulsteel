@@ -229,6 +229,9 @@ struct ActivatedFirebowl {
 
         std::vector<std::vector<int>> wallIDs = {fenceIDs, pipeIDs, treeIDs, doorhingeIDs,stonewallIDs};
 
+        ~gameplay() {
+            std::cout << "Gameplay instance destroyed\n";
+        }
     protected:
         std::vector<int>enemyID;
 
