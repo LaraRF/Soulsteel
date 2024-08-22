@@ -83,23 +83,22 @@ void maincharacter::collisionabyss() {
         if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
             // Robot or non-dashing soul falls into abyss, soul using dash is fine
             //health--; // Lose one heart
-            felldown=true;
+            felldown = true;
             position = lastSafePosition; // Reset position
 
             //falling animation or something here
 
         }
-    }
-    else {
+    } else {
         updateLastSafePosition();
-        felldown=false;
+        felldown = false;
     }
 }
 
 void maincharacter::draw() {
 
-    if(felldown){
-        DrawText("You fell into the abyss. You lost one life.", 10*15, 7*15, 20, RED);
+    if (felldown) {
+        DrawText("You fell into the abyss. You lost one life.", 10 * 15, 7 * 15, 20, RED);
     }
 }
 
@@ -124,6 +123,7 @@ void maincharacter::drawrobot() {
     DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
 
 }
+
 //g
 Rectangle maincharacter::getCollisionRectangle() const {
     return Rectangle{position.x - size / 2, position.y - size / 2, size, size};
@@ -132,18 +132,34 @@ Rectangle maincharacter::getCollisionRectangle() const {
 Texture2D maincharacter::getCurrentTexture() {
     std::string state;
     switch (currentState) {
-        case IDLE: state = "idle_"; break;
-        case WALKING: state = "walk_"; break;
-        case DASH: state = "dash_"; break;
-        case DUST: state = "dust_"; break;
+        case IDLE:
+            state = "idle_";
+            break;
+        case WALKING:
+            state = "walk_";
+            break;
+        case DASH:
+            state = "dash_";
+            break;
+        case DUST:
+            state = "dust_";
+            break;
     }
 
     std::string direction;
     switch (currentDirection) {
-        case BACK: direction = "back"; break;
-        case FRONT: direction = "front"; break;
-        case LEFT: direction = "left"; break;
-        case RIGHT: direction = "right"; break;
+        case BACK:
+            direction = "back";
+            break;
+        case FRONT:
+            direction = "front";
+            break;
+        case LEFT:
+            direction = "left";
+            break;
+        case RIGHT:
+            direction = "right";
+            break;
     }
 
     return assestmanagergraphics::getTexture("characters/soul/" + state + direction);
@@ -154,7 +170,7 @@ int getHealth(const maincharacter &maincharacter) {
 }
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
-    position = {32*12, 32*6};  // Set initial position
+    position = {32 * 12, 32 * 6};  // Set initial position
     currentState = IDLE;
     currentDirection = FRONT;
     currentFrame = 0;
@@ -166,25 +182,52 @@ maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
     Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
-    frameRec = { 0, 0, frameWidth, frameHeight };
+    frameRec = {0, 0, frameWidth, frameHeight};
 }
 
 void maincharacter::maincharacterwalking() {
+    Vector2 newPosition = position;
+    bool moved = false;
+
     if (IsKeyDown(KEY_S)) {
-        position.y = position.y + stepsize;
+        newPosition.y += stepsize;
         lookingdirection = south;
+        moved = true;
     }
     if (IsKeyDown(KEY_W)) {
-        position.y = position.y - stepsize;
+        newPosition.y -= stepsize;
         lookingdirection = north;
+        moved = true;
     }
     if (IsKeyDown(KEY_A)) {
-        position.x = position.x - stepsize;
+        newPosition.x -= stepsize;
         lookingdirection = west;
+        moved = true;
     }
     if (IsKeyDown(KEY_D)) {
-        position.x = position.x + stepsize;
+        newPosition.x += stepsize;
         lookingdirection = east;
+        moved = true;
+    }
+
+    if (moved) {
+        if (!_scene->touchesStone(newPosition, size)) {
+            // No stone collision, update position
+            position = newPosition;
+        } else if (currentmodus == robotmodus) {
+            // Robot tries to push the stone
+            Vector2 pushDirection = Vector2Normalize(Vector2Subtract(newPosition, position));
+            Vector2 stoneMapPos = {
+                    static_cast<float>(static_cast<int>((newPosition.x) / 32)),
+                    static_cast<float>(static_cast<int>((newPosition.y) / 32))
+            };
+            Stone *stone = _scene->getStoneAt(stoneMapPos);
+            if (stone && stone->tryMove(pushDirection)) {
+                // Stone was successfully pushed, allow movement
+                position = newPosition;
+            }
+        }
+        // If it's the soul or the stone couldn't be pushed, prevent movement (do nothing)
     }
 }
 
@@ -228,7 +271,7 @@ void maincharacter::souldash() {
     Vector2 newPosition = Vector2Lerp(dashStartPosition, dashEndPosition, dashProgress);
 
     //checks wall collision
-    if (!_scene->touchesWall(newPosition, size)){
+    if (!_scene->touchesWall(newPosition, size)) {
         position = newPosition;
     } else {
         currentState = IDLE;
@@ -263,7 +306,7 @@ void maincharacter::souldash() {
     Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / DASH_FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
-    frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
+    frameRec = {currentFrame * frameWidth, 0, frameWidth, frameHeight};
 
     // End dash when animation completes
     if (dashProgress >= 1.0f) {
@@ -275,7 +318,7 @@ bool maincharacter::souldustcanbeused() const {
     return _scene->isAdjacentToFirebowl(position);
 }
 
-void maincharacter::souldust(){
+void maincharacter::souldust() {
     if (souldustcanbeused() && IsKeyPressed(KEY_L)) {
         auto [bowlX, bowlY] = _scene->getNearestFirebowlTile(position);
         if (bowlX != -1 && bowlY != -1 && !_scene->isFirebowlActivated(bowlX, bowlY)) {
@@ -285,7 +328,6 @@ void maincharacter::souldust(){
 }
 
 void maincharacter::update() {
-
     Vector2 oldPosition = position;
     maincharacterwalking();
 
@@ -345,9 +387,9 @@ void maincharacter::update() {
     //update animation
     //updateAnimation(GetFrameTime());
     //if (currentState == DASH) {
-        // Dash animation is handled in souldash()
+    // Dash animation is handled in souldash()
     //} else {
-        updateAnimation(GetFrameTime());
+    updateAnimation(GetFrameTime());
     //}
 
 }
@@ -364,7 +406,7 @@ void maincharacter::updateAnimation(float deltaTime) {
     Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
-    frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
+    frameRec = {currentFrame * frameWidth, 0, frameWidth, frameHeight};
 }
 
 void maincharacter::updateDashAnimation(float deltaTime) {
@@ -381,7 +423,7 @@ void maincharacter::updateDashAnimation(float deltaTime) {
     Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
-    frameRec = { currentFrame * frameWidth, 0, frameWidth, frameHeight };
+    frameRec = {currentFrame * frameWidth, 0, frameWidth, frameHeight};
 }
 
 void maincharacter::updateLastSafePosition() {
@@ -389,8 +431,5 @@ void maincharacter::updateLastSafePosition() {
         lastSafePosition = position;
     }
 }
-
-
-
 
 

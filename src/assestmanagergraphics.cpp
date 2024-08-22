@@ -70,6 +70,9 @@ void assestmanagergraphics::init() {
     m_textures["characters/soul/dash_right"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side right - animated.png");
     //soul dust
 
+    //stones
+    m_textures["item/stone"]= LoadTexture("assets/graphics/items/stone.png");
+
     //load soul animation frames
     const std::string basePath = "assets/graphics/characters/soul/";
     const std::vector<std::pair<std::string, std::string>> animations = {

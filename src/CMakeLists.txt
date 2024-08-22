@@ -48,10 +48,10 @@ add_executable(${PROJECT_NAME} main.cpp
         Utils.h
         Wall.cpp
         Wall.h
-        "GAME OBJECTS/boxes.cpp"
-        "GAME OBJECTS/boxes.h"
         gamechoicescreen.cpp
         gamechoicescreen.h
+        "GAME OBJECTS/stone.cpp"
+        "GAME OBJECTS/stone.h"
 )
 
 # Add config.h.in file

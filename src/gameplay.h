@@ -14,6 +14,7 @@
 #include "maincharactermodus.h"
 #include "maincharacter.h"
 #include "Wall.h"
+#include "GAME OBJECTS/stone.h"
 
 
 
@@ -97,6 +98,18 @@ struct ActivatedFirebowl {
         void drawActivatedFirebowls(float deltaTime);
         bool areAllFirebowlsActivatedInRoom(int roomNumber) const;
         bool showDoorIsLockedMessage = false;
+        void deactivateFirebowls();
+
+        //stones
+        std::vector<Stone*> stones;
+        void spawnStone(Vector2 position);
+        bool touchesStone(Vector2 mapPosition) const;
+        void updateStones();
+        void drawStones();
+        std::map<int, std::vector<Stone*>> stonesInRooms;
+        void spawnStone(int room, Vector2 position);
+        bool touchesStone(Vector2 pos, float size) const;
+        Stone* getStoneAt(Vector2 mapPosition) const;
 
         //collision functions
         int getTileAt(float x, float y) const;
@@ -124,6 +137,7 @@ struct ActivatedFirebowl {
         int soulisinroom=1;
         bool hasbeeninroom1before =false;
 
+        void loadMap();
         void reloadRoom();
 
         //doors
@@ -231,6 +245,11 @@ struct ActivatedFirebowl {
 
         ~gameplay() {
             std::cout << "Gameplay instance destroyed\n";
+            for (auto& roomStones : stonesInRooms) {
+                for (auto stone : roomStones.second) {
+                    delete stone;
+                }
+            }
         }
     protected:
         std::vector<int>enemyID;

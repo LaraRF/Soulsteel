@@ -99,6 +99,9 @@ public:
     maincharactermodus currentmodus =soulmodus;
     Vector2 position = {12*32, 6*32};
     float size = 12;
+    //stones
+    void interactWithStone();
+    void collisionstone();
 
     //looking direction
     enum lookingdirection{

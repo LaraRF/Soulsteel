@@ -25,6 +25,7 @@ void gameplay::update() {
 
     themaincharacter->update();
     therobot->update();
+    updateStones();
 
     updateAllenemies();
     for (int i = 0; i < gameobjects.size(); i++) {
@@ -282,6 +283,7 @@ void gameplay::draw() {
 
     drawtextonscreen();
     drawhealthhearts();
+    drawStones();
     drawActivatedFirebowls(GetFrameTime());
     if (showDoorIsLockedMessage) {
         DrawText("This door is locked!\nActivate both firebowls to proceed.", 9 * 32, 4 * 32, 15, DARKBLUE);
@@ -370,58 +372,30 @@ gameplay::gameplay() : scene(this) {
 }
 
 void gameplay::reloadRoom() {
-    tson::Tileson tileson;
-    tiles.clear();
+    loadMap();
     enemies.clear();
-    /* this is needed, if you want the firebowls to be deactived again, once you leave the room. without this code, the firebowl will still be active when you come back to the room
-    // Clear activated firebowls not in the current room
-    activatedFirebowls.erase(
-            std::remove_if(activatedFirebowls.begin(), activatedFirebowls.end(),
-                           [this](const auto& bowl) { return bowl.room != room; }),
-            activatedFirebowls.end()
-    );
+    //deactivateFirebowls(); needed if you want the firebowls to deactive when leaving the room -> you have to turn them on again when you are back in that room
 
-    activeFirebowlAnimations.erase(
-            std::remove_if(activeFirebowlAnimations.begin(), activeFirebowlAnimations.end(),
-                           [this](const auto& bowl) { return bowl.room != room; }),
-            activeFirebowlAnimations.end()
-    );*/
-
-    switch (room) {
-        case 1: {
-            auto map = tileson.parse("assets/graphics/tilesets/room1_greyboxing3.tmj");
-            if (map->getStatus() != tson::ParseStatus::OK) {
-                std::cout << map->getStatusMessage();
-            }
-            auto layer = map->getLayer("Kachelebene 1");
-
-            for (int y = 0; y < layer->getSize().y; y++) {
-                for (int x = 0; x < layer->getSize().x; x++) {
-                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-                    tiles.back()--;
-                }
-            }
-            mapWidth = layer->getSize().x;
-            mapHeight = layer->getSize().y;
+    if (stonesInRooms.find(room) == stonesInRooms.end()) {
+        switch (room) {
+            case 2:
+                spawnStone(2, {23 * 32, 6 * 32});
+                spawnStone(2, {22 * 32, 7 * 32});
+                spawnStone(2, {23 * 32, 8 * 32});
+                spawnStone(2, {22 * 32, 9 * 32});
+                spawnStone(2, {23 * 32, 10 * 32});
+                break;
+                // Add cases for other rooms if needed
         }
+    }
+
+
+    //enemies
+    switch (room) {
+        case 1:
 
             break;
         case 2: {
-            auto map = tileson.parse("assets/graphics/tilesets/room2_greyboxing3.tmj");
-            if (map->getStatus() != tson::ParseStatus::OK) {
-                std::cout << map->getStatusMessage();
-            }
-            auto layer = map->getLayer("Kachelebene 1");
-
-            for (int y = 0; y < layer->getSize().y; y++) {
-                for (int x = 0; x < layer->getSize().x; x++) {
-                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-                    tiles.back()--;
-                }
-            }
-            mapWidth = layer->getSize().x;
-            mapHeight = layer->getSize().y;
-
 
             //attack
 
@@ -522,74 +496,78 @@ void gameplay::reloadRoom() {
             break;
 
         case 3: {
-            auto map = tileson.parse("assets/graphics/tilesets/room3_greyboxing3.tmj");
-            if (map->getStatus() != tson::ParseStatus::OK) {
-                std::cout << map->getStatusMessage();
-            }
-            auto layer = map->getLayer("Kachelebene 1");
-
-            for (int y = 0; y < layer->getSize().y; y++) {
-                for (int x = 0; x < layer->getSize().x; x++) {
-                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-                    tiles.back()--;
-                }
-            }
-            mapWidth = layer->getSize().x;
-            mapHeight = layer->getSize().y;
         }
             break;
         case 4: {
-            auto map = tileson.parse("assets/graphics/tilesets/room5_greyboxing3.tmj");
-            if (map->getStatus() != tson::ParseStatus::OK) {
-                std::cout << map->getStatusMessage();
-            }
-            auto layer = map->getLayer("Kachelebene 1");
 
-            for (int y = 0; y < layer->getSize().y; y++) {
-                for (int x = 0; x < layer->getSize().x; x++) {
-                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-                    tiles.back()--;
-                }
-            }
-            mapWidth = layer->getSize().x;
-            mapHeight = layer->getSize().y;
         }
             break;
         case 5: {
-            auto map = tileson.parse("assets/graphics/tilesets/room5test_greyboxing1.tmj");
-            if (map->getStatus() != tson::ParseStatus::OK) {
-                std::cout << map->getStatusMessage();
-            }
-            auto layer = map->getLayer("Kachelebene 1");
 
-            for (int y = 0; y < layer->getSize().y; y++) {
-                for (int x = 0; x < layer->getSize().x; x++) {
-                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-                    tiles.back()--;
-                }
-            }
-            mapWidth = layer->getSize().x;
-            mapHeight = layer->getSize().y;
         }
             break;
         case 6: {
-            auto map = tileson.parse("assets/graphics/tilesets/room5test.tmj");
-            if (map->getStatus() != tson::ParseStatus::OK) {
-                std::cout << map->getStatusMessage();
-            }
-            auto layer = map->getLayer("Kachelebene 1");
 
-            for (int y = 0; y < layer->getSize().y; y++) {
-                for (int x = 0; x < layer->getSize().x; x++) {
-                    tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
-                    tiles.back()--;
-                }
-            }
-            mapWidth = layer->getSize().x;
-            mapHeight = layer->getSize().y;
         }
             break;
     }
+}
+void gameplay::deactivateFirebowls() {
+    //this is needed, if you want the firebowls to be deactived again, once you leave the room. without this code, the firebowl will still be active when you come back to the room
+    // Clear activated firebowls not in the current room
+    activatedFirebowls.erase(
+            std::remove_if(activatedFirebowls.begin(), activatedFirebowls.end(),
+                           [this](const auto& bowl) { return bowl.room != room; }),
+            activatedFirebowls.end()
+    );
+
+    activeFirebowlAnimations.erase(
+            std::remove_if(activeFirebowlAnimations.begin(), activeFirebowlAnimations.end(),
+                           [this](const auto& bowl) { return bowl.room != room; }),
+            activeFirebowlAnimations.end()
+    );
+}
+
+void gameplay::loadMap(){
+    tson::Tileson tileson;
+    tiles.clear();
+    std::string mapFile;
+    //load map
+    switch (room) {
+        case 1:
+            mapFile = "assets/graphics/tilesets/room1_greyboxing3.tmj";
+            break;
+        case 2:
+            mapFile = "assets/graphics/tilesets/room2_greyboxing3.tmj";
+            break;
+        case 3:
+            mapFile = "assets/graphics/tilesets/room3_greyboxing3.tmj";
+            break;
+        case 4:
+            mapFile = "assets/graphics/tilesets/room5_greyboxing3.tmj";
+            break;
+        case 5:
+            mapFile = "assets/graphics/tilesets/room5test_greyboxing1.tmj";
+            break;
+        case 6:
+            mapFile = "assets/graphics/tilesets/room5test.tmj";
+            break;
+    }
+    auto map = tileson.parse(mapFile);
+    if (map->getStatus() != tson::ParseStatus::OK) {
+        std::cout << map->getStatusMessage();
+    }
+    auto layer = map->getLayer("Kachelebene 1");
+
+    for (int y = 0; y < layer->getSize().y; y++) {
+        for (int x = 0; x < layer->getSize().x; x++) {
+            tiles.push_back(layer->getData()[y * layer->getSize().x + x]);
+            tiles.back()--;
+        }
+    }
+    mapWidth = layer->getSize().x;
+    mapHeight = layer->getSize().y;
+
 }
 
 int gameplay::getTileAt(float x, float y) const {
@@ -776,4 +754,56 @@ void gameplay::clearEnemies() {
     enemies.clear();
 }
 
+void gameplay::spawnStone(int room, Vector2 position) {
+    stonesInRooms[room].push_back(new Stone(this, position));
+}
 
+bool gameplay::touchesStone(Vector2 mapPosition) const {
+    if (stonesInRooms.find(room) != stonesInRooms.end()) {
+        for (const auto& stone : stonesInRooms.at(room)) {
+            if (stone->mapPosition.x / 32 == mapPosition.x && stone->mapPosition.y / 32 == mapPosition.y) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void gameplay::updateStones() {
+    if (stonesInRooms.find(room) != stonesInRooms.end()) {
+        for (auto& stone : stonesInRooms[room]) {
+            stone->update();
+        }
+    }
+}
+
+void gameplay::drawStones() {
+    if (stonesInRooms.find(room) != stonesInRooms.end()) {
+        for (const auto& stone : stonesInRooms[room]) {
+            stone->draw();
+        }
+    }
+}
+bool gameplay::touchesStone(Vector2 pos, float size) const {
+    if (stonesInRooms.find(room) != stonesInRooms.end()) {
+        for (const auto& stone : stonesInRooms.at(room)) {
+            if (CheckCollisionCircleRec(pos, size,
+                                        Rectangle{stone->position.x, stone->position.y, stone->size, stone->size})) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+Stone* gameplay::getStoneAt(Vector2 mapPosition) const {
+    if (stonesInRooms.find(room) != stonesInRooms.end()) {
+        for (auto& stone : stonesInRooms.at(room)) {
+            if (stone->mapPosition.x / 32 == mapPosition.x / 32 &&
+                stone->mapPosition.y / 32 == mapPosition.y / 32) {
+                return stone;
+            }
+        }
+    }
+    return nullptr;
+}
