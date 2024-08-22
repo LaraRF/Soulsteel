@@ -7,10 +7,9 @@
 #include "../assestmanagergraphics.h"
 
 Stone::Stone(gameplay* scene, Vector2 initialPosition) : gameobjects(scene) {
-    mapPosition = initialPosition;
-    position = {mapPosition.x, mapPosition.y};
-    size = 32;
+    position = initialPosition;
     stoneTexture = assestmanagergraphics::getTexture("item/stone");
+    size = 32;
 }
 
 void Stone::update() {
@@ -23,17 +22,33 @@ void Stone::draw() {
 }
 
 bool Stone::tryMove(Vector2 direction) {
-    Vector2 newMapPosition = {
-            mapPosition.x + direction.x * 32,
-            mapPosition.y + direction.y * 32
+    if (_scene == nullptr) {
+        std::cout << "Error: Stone's _scene is null" << std::endl;
+        return false;
+    }
+
+    Vector2 newPosition = {
+            position.x + direction.x * 32,
+            position.y + direction.y * 32
     };
 
-    // Check if the new position is valid (not occupied by a wall or another stone)
-    if (!_scene->touchesWall(newMapPosition, size) &&
-        !_scene->touchesStone({newMapPosition.x / 32, newMapPosition.y / 32})) {
-        mapPosition = newMapPosition;
-        position = mapPosition;
+    Vector2 newTile = {std::floor(newPosition.x / 32), std::floor(newPosition.y / 32)};
+
+    std::cout << "Attempting to move stone from (" << position.x << ", " << position.y
+              << ") to (" << newPosition.x << ", " << newPosition.y << ")" << std::endl;
+
+    // Add bounds checking
+    if (newTile.x < 0 || newTile.x >= _scene->mapWidth || newTile.y < 0 || newTile.y >= _scene->mapHeight) {
+        std::cout << "Stone move failed: Out of bounds" << std::endl;
+        return false;
+    }
+
+    if (!_scene->touchesWall(newPosition, size) && !_scene->touchesStone(newTile)) {
+        position = newPosition;
+        std::cout << "Stone moved successfully" << std::endl;
         return true;
     }
+
+    std::cout << "Stone move failed: Collision detected" << std::endl;
     return false;
 }

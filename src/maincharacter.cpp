@@ -186,50 +186,77 @@ maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
 }
 
 void maincharacter::maincharacterwalking() {
-    Vector2 newPosition = position;
+    Vector2 movement = {0, 0};
     bool moved = false;
 
     if (IsKeyDown(KEY_S)) {
-        newPosition.y += stepsize;
+        movement.y = stepsize;
         lookingdirection = south;
         moved = true;
     }
     if (IsKeyDown(KEY_W)) {
-        newPosition.y -= stepsize;
+        movement.y = -stepsize;
         lookingdirection = north;
         moved = true;
     }
     if (IsKeyDown(KEY_A)) {
-        newPosition.x -= stepsize;
+        movement.x = -stepsize;
         lookingdirection = west;
         moved = true;
     }
     if (IsKeyDown(KEY_D)) {
-        newPosition.x += stepsize;
+        movement.x = stepsize;
         lookingdirection = east;
         moved = true;
     }
 
     if (moved) {
-        if (!_scene->touchesStone(newPosition, size)) {
-            // No stone collision, update position
-            position = newPosition;
-        } else if (currentmodus == robotmodus) {
-            // Robot tries to push the stone
-            Vector2 pushDirection = Vector2Normalize(Vector2Subtract(newPosition, position));
-            Vector2 stoneMapPos = {
-                    static_cast<float>(static_cast<int>((newPosition.x) / 32)),
-                    static_cast<float>(static_cast<int>((newPosition.y) / 32))
-            };
-            Stone *stone = _scene->getStoneAt(stoneMapPos);
-            if (stone && stone->tryMove(pushDirection)) {
-                // Stone was successfully pushed, allow movement
-                position = newPosition;
+        Vector2 newPosition = {position.x + movement.x, position.y + movement.y};
+        Vector2 currentTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
+        Vector2 newTile = {std::floor(newPosition.x / 32), std::floor(newPosition.y / 32)};
+
+        std::cout << "Current position: (" << position.x << ", " << position.y << ")" << std::endl;
+        std::cout << "Attempting to move to: (" << newPosition.x << ", " << newPosition.y << ")" << std::endl;
+
+        bool canMove = true;
+        if (_scene->touchesWall(newPosition, size)) {
+            std::cout << "Wall collision detected" << std::endl;
+            canMove = false;
+        } else if (currentTile.x != newTile.x || currentTile.y != newTile.y) {
+            std::cout << "Entering new tile" << std::endl;
+            if (_scene->touchesStone(newTile)) {
+                std::cout << "Stone detected in new tile" << std::endl;
+                if (currentmodus == robotmodus) {
+                    Vector2 pushDirection = {newTile.x - currentTile.x, newTile.y - currentTile.y};
+                    Stone* stone = _scene->getStoneAt(newTile);
+                    if (stone != nullptr) {
+                        std::cout << "Attempting to push stone" << std::endl;
+                        if (stone->tryMove(pushDirection)) {
+                            std::cout << "Stone pushed successfully" << std::endl;
+                        } else {
+                            std::cout << "Failed to push stone" << std::endl;
+                            canMove = false;
+                        }
+                    } else {
+                        std::cout << "Warning: Null stone detected at tile (" << newTile.x << ", " << newTile.y << ")" << std::endl;
+                        canMove = false;
+                    }
+                } else {
+                    std::cout << "Cannot push stone in soul mode" << std::endl;
+                    canMove = false;
+                }
             }
         }
-        // If it's the soul or the stone couldn't be pushed, prevent movement (do nothing)
+
+        if (canMove) {
+            position = newPosition;
+            std::cout << "Moved to new position: (" << position.x << ", " << position.y << ")" << std::endl;
+        } else {
+            std::cout << "Movement blocked" << std::endl;
+        }
     }
 }
+
 
 void setAttackPower(int attack) {
     int attackPower = attack;

@@ -103,12 +103,11 @@ struct ActivatedFirebowl {
         //stones
         std::vector<Stone*> stones;
         void spawnStone(Vector2 position);
-        bool touchesStone(Vector2 mapPosition) const;
         void updateStones();
         void drawStones();
         std::map<int, std::vector<Stone*>> stonesInRooms;
         void spawnStone(int room, Vector2 position);
-        bool touchesStone(Vector2 pos, float size) const;
+        bool touchesStone(Vector2 tilePosition) const;
         Stone* getStoneAt(Vector2 mapPosition) const;
 
         //collision functions

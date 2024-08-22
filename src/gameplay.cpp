@@ -75,7 +75,6 @@ void gameplay::doRoomSwitch() {
             } else {
                 showDoorIsLockedMessage = false;
             }
-
             break;
         case 2:
             if (themaincharacter->position.y <= doorfromroom2to3) {
@@ -755,18 +754,9 @@ void gameplay::clearEnemies() {
 }
 
 void gameplay::spawnStone(int room, Vector2 position) {
-    stonesInRooms[room].push_back(new Stone(this, position));
-}
-
-bool gameplay::touchesStone(Vector2 mapPosition) const {
-    if (stonesInRooms.find(room) != stonesInRooms.end()) {
-        for (const auto& stone : stonesInRooms.at(room)) {
-            if (stone->mapPosition.x / 32 == mapPosition.x && stone->mapPosition.y / 32 == mapPosition.y) {
-                return true;
-            }
-        }
-    }
-    return false;
+    Stone* newStone = new Stone(this, position);
+    newStone->setScene(this);  // Ensure the stone has a reference to the gameplay instance
+    stonesInRooms[room].push_back(newStone);
 }
 
 void gameplay::updateStones() {
@@ -778,32 +768,45 @@ void gameplay::updateStones() {
 }
 
 void gameplay::drawStones() {
+    std::cout << "Drawing stones for room " << room << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
+        std::cout << "Number of stones in room: " << stonesInRooms[room].size() << std::endl;
         for (const auto& stone : stonesInRooms[room]) {
             stone->draw();
+            std::cout << "Stone drawn at position: (" << stone->position.x << ", " << stone->position.y << ")" << std::endl;
         }
+    } else {
+        std::cout << "No stones in this room" << std::endl;
     }
 }
-bool gameplay::touchesStone(Vector2 pos, float size) const {
+bool gameplay::touchesStone(Vector2 tilePosition) const {
+    std::cout << "Checking for stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
         for (const auto& stone : stonesInRooms.at(room)) {
-            if (CheckCollisionCircleRec(pos, size,
-                                        Rectangle{stone->position.x, stone->position.y, stone->size, stone->size})) {
+            Vector2 stoneTilePos = stone->getTilePosition();
+            std::cout << "Stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
+            if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f && std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
+                std::cout << "Stone collision detected" << std::endl;
                 return true;
             }
         }
     }
+    std::cout << "No stone collision detected" << std::endl;
     return false;
 }
 
-Stone* gameplay::getStoneAt(Vector2 mapPosition) const {
+Stone* gameplay::getStoneAt(Vector2 tilePosition) const {
+    std::cout << "Getting stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
         for (auto& stone : stonesInRooms.at(room)) {
-            if (stone->mapPosition.x / 32 == mapPosition.x / 32 &&
-                stone->mapPosition.y / 32 == mapPosition.y / 32) {
+            Vector2 stoneTilePos = stone->getTilePosition();
+            std::cout << "Checking stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
+            if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f && std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
+                std::cout << "Stone found" << std::endl;
                 return stone;
             }
         }
     }
+    std::cout << "No stone found" << std::endl;
     return nullptr;
 }
