@@ -215,17 +215,12 @@ void maincharacter::maincharacterwalking() {
         Vector2 currentTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
         Vector2 newTile = {std::floor(newPosition.x / 32), std::floor(newPosition.y / 32)};
 
-        std::cout << "Current position: (" << position.x << ", " << position.y << ")" << std::endl;
-        std::cout << "Attempting to move to: (" << newPosition.x << ", " << newPosition.y << ")" << std::endl;
-
         bool canMove = true;
         if (_scene->touchesWall(newPosition, size)) {
-            std::cout << "Wall collision detected" << std::endl;
             canMove = false;
         } else if (currentTile.x != newTile.x || currentTile.y != newTile.y) {
-            std::cout << "Entering new tile" << std::endl;
+            // Only check for stone collision if we're moving to a new tile
             if (_scene->touchesStone(newTile)) {
-                std::cout << "Stone detected in new tile" << std::endl;
                 if (currentmodus == robotmodus) {
                     Vector2 pushDirection = {newTile.x - currentTile.x, newTile.y - currentTile.y};
                     Stone* stone = _scene->getStoneAt(newTile);
@@ -233,6 +228,8 @@ void maincharacter::maincharacterwalking() {
                         std::cout << "Attempting to push stone" << std::endl;
                         if (stone->tryMove(pushDirection)) {
                             std::cout << "Stone pushed successfully" << std::endl;
+                            // Move the character only if the stone was successfully pushed
+                            position = newPosition;
                         } else {
                             std::cout << "Failed to push stone" << std::endl;
                             canMove = false;
@@ -245,13 +242,16 @@ void maincharacter::maincharacterwalking() {
                     std::cout << "Cannot push stone in soul mode" << std::endl;
                     canMove = false;
                 }
+            } else {
+                // If there's no stone, the character can move freely
+                position = newPosition;
             }
+        } else {
+            // Moving within the same tile
+            position = newPosition;
         }
 
-        if (canMove) {
-            position = newPosition;
-            std::cout << "Moved to new position: (" << position.x << ", " << position.y << ")" << std::endl;
-        } else {
+        if (!canMove) {
             std::cout << "Movement blocked" << std::endl;
         }
     }

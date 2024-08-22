@@ -669,6 +669,22 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     }
 }
 
+bool gameplay::isTileYouCantPushStoneOnto(int tileID) const {
+    // Add all tile IDs that represent walls
+    static const std::vector<int> wallTileIDs = {
+            pipe0ID, pipe1ID, pipe2ID, pipe3ID, pipe4ID, pipe5ID, pipe6ID, pipe7ID, pipe8ID, pipe9ID,
+            tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, tree9ID, tree10ID, tree11ID,
+            stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4,
+            firebowlID,
+            abyssID,
+            doorhingeID0,doorhingeID1, doorhingeID2, doorhingeID3,
+            doorID1, doorID2, doorID3, doorID4, doorID5, doorID6
+
+    };
+
+    return std::find(wallTileIDs.begin(), wallTileIDs.end(), tileID) != wallTileIDs.end();
+}
+
 bool gameplay::touchesBars(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
@@ -785,7 +801,7 @@ bool gameplay::touchesStone(Vector2 tilePosition) const {
         for (const auto& stone : stonesInRooms.at(room)) {
             Vector2 stoneTilePos = stone->getTilePosition();
             std::cout << "Stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
-            if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f && std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
+            if (stoneTilePos.x == tilePosition.x && stoneTilePos.y == tilePosition.y) {
                 std::cout << "Stone collision detected" << std::endl;
                 return true;
             }

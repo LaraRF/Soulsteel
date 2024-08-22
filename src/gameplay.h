@@ -118,6 +118,7 @@ struct ActivatedFirebowl {
         Rectangle getTouchedBars(Vector2 position, float size); //radius replaced with size
         Rectangle getTouchedWall(Vector2 position, float size);
         Rectangle getTouchedAbyss(Vector2 position, float size);
+        bool isTileYouCantPushStoneOnto(int tileID) const;
 
         Vector2 touchWallPosition(Vector2 pos, Vector2 size);
         Rectangle getWallAt(Vector2 pos);
@@ -240,7 +241,7 @@ struct ActivatedFirebowl {
         std::vector<int> doorhingeIDs = {doorhingeID0, doorhingeID1, doorhingeID2, doorhingeID3};
         std::vector<int> stonewallIDs ={stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4,doorID1};
 
-        std::vector<std::vector<int>> wallIDs = {fenceIDs, pipeIDs, treeIDs, doorhingeIDs,stonewallIDs};
+        std::vector<std::vector<int>> wallIDs = {pipeIDs, treeIDs, doorhingeIDs,stonewallIDs};
 
         ~gameplay() {
             std::cout << "Gameplay instance destroyed\n";

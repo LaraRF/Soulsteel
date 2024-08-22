@@ -43,12 +43,21 @@ bool Stone::tryMove(Vector2 direction) {
         return false;
     }
 
-    if (!_scene->touchesWall(newPosition, size) && !_scene->touchesStone(newTile)) {
-        position = newPosition;
-        std::cout << "Stone moved successfully" << std::endl;
-        return true;
+    // Check for wall collision
+    int tileID = _scene->getTileAt(newPosition.x, newPosition.y);
+    if (_scene->isTileYouCantPushStoneOnto(tileID)) {
+        std::cout << "Stone move failed: Wall collision (Tile ID: " << tileID << ")" << std::endl;
+        return false;
     }
 
-    std::cout << "Stone move failed: Collision detected" << std::endl;
-    return false;
+    // Check for collision with other stones
+    if (_scene->touchesStone(newTile)) {
+        std::cout << "Stone move failed: Stone collision" << std::endl;
+        return false;
+    }
+
+    // If we've passed all checks, move the stone
+    position = newPosition;
+    std::cout << "Stone moved successfully to (" << position.x << ", " << position.y << ")" << std::endl;
+    return true;
 }
