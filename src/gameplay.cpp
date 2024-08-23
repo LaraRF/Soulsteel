@@ -688,10 +688,29 @@ bool gameplay::isTileYouCantPushStoneOnto(int tileID) const {
 bool gameplay::touchesBars(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if ((getTileAt(x * 32, y * 32) == barsID)) {
+            int tileID = getTileAt(x * 32, y * 32);
+            if (tileID == barsID) {
                 if (CheckCollisionCircleRec(pos, size,
                                             Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
                     return true;
+                }
+            } else {
+                bool touchesAny = false;
+                for (const auto &group: fencesIDs) {
+                    for (int id: group) {
+                        if (id == tileID) {
+                            if (CheckCollisionCircleRec(pos, size,
+                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                                  (float) 32})) {
+                                return true;
+                            }
+                            touchesAny = true;
+                            break;
+                        }
+                    }
+                    if (touchesAny) {
+                        break;
+                    }
                 }
             }
         }
@@ -700,14 +719,13 @@ bool gameplay::touchesBars(Vector2 pos, float size) {
 }
 
 Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
-    //check all walls
-    //on contact, note distance to wall
-    //return wall with shortest distance
     float shortestDistance = 1000000;
     Rectangle closestBar{};
+    bool foundBars = false;
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == barsID) {
+            int tileID = getTileAt(x * 32, y * 32);
+            if (tileID == barsID) {
                 Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                 Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
                                                       Vector2{bars.x + bars.width, bars.y + bars.height});
@@ -715,13 +733,36 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
                 if (distance < shortestDistance) {
                     shortestDistance = distance;
                     closestBar = bars;
+                    foundBars =true;
+                }
+            } else {
+                for (const auto &group: fencesIDs) {
+                    for (int id: group) {
+                        if (tileID == id) {
+                            Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                            Vector2 barsTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
+                                                                  Vector2{bars.x + bars.width, bars.y + bars.height});
+                            float distance = Vector2Distance(position, barsTouchPoint);
+                            if (distance < shortestDistance) {
+                                shortestDistance = distance;
+                                closestBar = bars;
+                                foundBars = true;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
     }
-    return closestBar;
 
+    if (foundBars) {
+        return closestBar;
+    } else {
+        return Rectangle{};
+    }
 }
+
 
 bool gameplay::touchesAbyss(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
