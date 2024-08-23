@@ -31,6 +31,10 @@ public:
 
     void drawDebug() override;
 
+    static bool IsGameRunning;
+
+
+
     //creates the boxes that will be used as buttons; marked boxes are to create an outline that shows which button is selected
     Rectangle hitbox_play = {90, 330, 150, 90};
     Rectangle hitbox_play_marked = {80, 320, 170, 110};

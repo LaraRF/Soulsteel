@@ -17,6 +17,7 @@
 #include "ENEMIES/Enemy.h"
 #include "gamechoicescreen.h"
 //#include "HealthManager.h"
+#include "AudioPlayer.h"
 
 int main() {
     // Raylib initialization
@@ -25,10 +26,30 @@ int main() {
     InitWindow(Game::ScreenWidth, Game::ScreenHeight, "Soul Steel");
     SetTargetFPS(60);
     assestmanagergraphics::init();
+    InitAudioDevice();
 
 #ifdef GAME_START_FULLSCREEN
     ToggleFullscreen();
 #endif
+
+    SoundManager soundManager;
+    std::vector<std::string> filenames = {
+            "assets/audio/sfx/switchsound.wav"
+    };
+    if (!soundManager.loadSounds(filenames)) {
+        printf("sound load failed");
+        return 1;
+    }
+
+    if (!soundManager.loadBackgroundMusic("assets/audio/sfx/BackgroundMusic.mp3")) {
+        printf("Failed to load Music.\n");
+        CloseWindow();
+        return 1;
+    }
+
+    soundManager.playBackgroundMusic();
+
+
 
     // Your own initialization code here
 
@@ -81,6 +102,7 @@ int main() {
             } else if (dynamic_cast<gamechoicescreen*>(newScene) != nullptr) {
                 if (gameplayInstance == nullptr) {
                     gameplayInstance = new gameplay();
+
                 }
                 delete currentScene;
                 currentScene = new gamechoicescreen(gameplayInstance);
@@ -116,6 +138,21 @@ int main() {
                        renderRec,
                        {}, 0, WHITE);
         EndDrawing();
+
+        if (mainmenu::IsGameRunning) {
+
+            soundManager.updateBackgroundMusic();
+
+            if (IsKeyDown(KEY_SPACE)) {
+                soundManager.playSound(0);
+
+            }
+        } else {
+            std::cout << "not working musicbg" << std::endl;
+        }
+
+
+
 
     } // Main game loop end
     std::cout << "Exiting main loop\n";

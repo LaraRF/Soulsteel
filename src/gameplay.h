@@ -242,6 +242,7 @@ struct ActivatedFirebowl {
         std::vector<int> stonewallIDs ={stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4,doorID1};
 
         std::vector<std::vector<int>> wallIDs = {pipeIDs, treeIDs, doorhingeIDs,stonewallIDs};
+        std::vector<std::vector<int>> fencesIDs = {fenceIDs};
 
         ~gameplay() {
             std::cout << "Gameplay instance destroyed\n";

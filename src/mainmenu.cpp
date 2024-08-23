@@ -24,11 +24,13 @@ void mainmenu::update() {
         }
     }
 }
+bool mainmenu::IsGameRunning = false;
 
 scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
     if (IsKeyPressed(KEY_ENTER)) {
         switch (cursor) {
             case 0:
+                IsGameRunning = true;
                 return new gamechoicescreen(reinterpret_cast<gameplay *>(this));
                 break;
             case 1:

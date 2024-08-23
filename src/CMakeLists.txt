@@ -52,6 +52,7 @@ add_executable(${PROJECT_NAME} main.cpp
         gamechoicescreen.h
         "GAME OBJECTS/stone.cpp"
         "GAME OBJECTS/stone.h"
+        AudioPlayer.cpp
 )
 
 # Add config.h.in file
