@@ -245,7 +245,7 @@ struct ActivatedFirebowl {
         std::vector<std::vector<int>> fencesIDs = {fenceIDs};
 
         ~gameplay() {
-            std::cout << "Gameplay instance destroyed\n";
+            //std::cout << "Gameplay instance destroyed\n";
             for (auto& roomStones : stonesInRooms) {
                 for (auto stone : roomStones.second) {
                     delete stone;

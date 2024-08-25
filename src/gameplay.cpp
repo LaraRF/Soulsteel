@@ -363,7 +363,7 @@ void gameplay::drawDebug() { //draws red outlines around the wall tiles for exam
 
 //gets the data from the map needed to draw it
 gameplay::gameplay() : scene(this) {
-    std::cout << "Gameplay instance created\n";
+    //std::cout << "Gameplay instance created\n";
     tson::Tileson tileson;
     themaincharacter = new class maincharacter(this);
     therobot = new robot(this);
@@ -825,45 +825,45 @@ void gameplay::updateStones() {
 }
 
 void gameplay::drawStones() {
-    std::cout << "Drawing stones for room " << room << std::endl;
+    //std::cout << "Drawing stones for room " << room << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
-        std::cout << "Number of stones in room: " << stonesInRooms[room].size() << std::endl;
+        //std::cout << "Number of stones in room: " << stonesInRooms[room].size() << std::endl;
         for (const auto& stone : stonesInRooms[room]) {
             stone->draw();
-            std::cout << "Stone drawn at position: (" << stone->position.x << ", " << stone->position.y << ")" << std::endl;
+            //std::cout << "Stone drawn at position: (" << stone->position.x << ", " << stone->position.y << ")" << std::endl;
         }
     } else {
-        std::cout << "No stones in this room" << std::endl;
+        //std::cout << "No stones in this room" << std::endl;
     }
 }
 bool gameplay::touchesStone(Vector2 tilePosition) const {
-    std::cout << "Checking for stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
+    //std::cout << "Checking for stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
         for (const auto& stone : stonesInRooms.at(room)) {
             Vector2 stoneTilePos = stone->getTilePosition();
-            std::cout << "Stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
+            //std::cout << "Stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
             if (stoneTilePos.x == tilePosition.x && stoneTilePos.y == tilePosition.y) {
-                std::cout << "Stone collision detected" << std::endl;
+                //std::cout << "Stone collision detected" << std::endl;
                 return true;
             }
         }
     }
-    std::cout << "No stone collision detected" << std::endl;
+    //std::cout << "No stone collision detected" << std::endl;
     return false;
 }
 
 Stone* gameplay::getStoneAt(Vector2 tilePosition) const {
-    std::cout << "Getting stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
+    //std::cout << "Getting stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
         for (auto& stone : stonesInRooms.at(room)) {
             Vector2 stoneTilePos = stone->getTilePosition();
-            std::cout << "Checking stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
+            //std::cout << "Checking stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
             if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f && std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
-                std::cout << "Stone found" << std::endl;
+                //std::cout << "Stone found" << std::endl;
                 return stone;
             }
         }
     }
-    std::cout << "No stone found" << std::endl;
+    //std::cout << "No stone found" << std::endl;
     return nullptr;
 }
