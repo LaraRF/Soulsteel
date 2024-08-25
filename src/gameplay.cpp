@@ -540,10 +540,10 @@ void gameplay::loadMap(){
             mapFile = "assets/graphics/tilesets/room2_greyboxing3.tmj";
             break;
         case 3:
-            mapFile = "assets/graphics/tilesets/room3_greyboxing3.tmj";
+            mapFile = "assets/graphics/tilesets/room5_greyboxing3.tmj";
             break;
         case 4:
-            mapFile = "assets/graphics/tilesets/room5_greyboxing3.tmj";
+            mapFile = "assets/graphics/tilesets/room3_greyboxing3.tmj";
             break;
         case 5:
             mapFile = "assets/graphics/tilesets/room5test_greyboxing1.tmj";
