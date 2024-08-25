@@ -225,21 +225,21 @@ void maincharacter::maincharacterwalking() {
                     Vector2 pushDirection = {newTile.x - currentTile.x, newTile.y - currentTile.y};
                     Stone* stone = _scene->getStoneAt(newTile);
                     if (stone != nullptr) {
-                        std::cout << "Attempting to push stone" << std::endl;
+                        //std::cout << "Attempting to push stone" << std::endl;
                         if (stone->tryMove(pushDirection)) {
-                            std::cout << "Stone pushed successfully" << std::endl;
+                            //std::cout << "Stone pushed successfully" << std::endl;
                             // Move the character only if the stone was successfully pushed
                             position = newPosition;
                         } else {
-                            std::cout << "Failed to push stone" << std::endl;
+                            //std::cout << "Failed to push stone" << std::endl;
                             canMove = false;
                         }
                     } else {
-                        std::cout << "Warning: Null stone detected at tile (" << newTile.x << ", " << newTile.y << ")" << std::endl;
+                        //std::cout << "Warning: Null stone detected at tile (" << newTile.x << ", " << newTile.y << ")" << std::endl;
                         canMove = false;
                     }
                 } else {
-                    std::cout << "Cannot push stone in soul mode" << std::endl;
+                    //std::cout << "Cannot push stone in soul mode" << std::endl;
                     canMove = false;
                 }
             } else {
@@ -252,7 +252,7 @@ void maincharacter::maincharacterwalking() {
         }
 
         if (!canMove) {
-            std::cout << "Movement blocked" << std::endl;
+            //std::cout << "Movement blocked" << std::endl;
         }
     }
 }
