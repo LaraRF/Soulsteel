@@ -15,6 +15,7 @@
 #include "maincharacter.h"
 #include "Wall.h"
 #include "GAME OBJECTS/stone.h"
+#include <map>
 
 
 
@@ -109,6 +110,8 @@ struct ActivatedFirebowl {
         void spawnStone(int room, Vector2 position);
         bool touchesStone(Vector2 tilePosition) const;
         Stone* getStoneAt(Vector2 mapPosition) const;
+        void resetStonesToInitialPositions();
+        std::map<int, std::vector<std::pair<Stone*, Vector2>>> initialStonePositions;
 
         //collision functions
         int getTileAt(float x, float y) const;

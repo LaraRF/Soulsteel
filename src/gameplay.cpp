@@ -373,6 +373,7 @@ gameplay::gameplay() : scene(this) {
 void gameplay::reloadRoom() {
     loadMap();
     enemies.clear();
+    resetStonesToInitialPositions();
     //deactivateFirebowls(); needed if you want the firebowls to deactive when leaving the room -> you have to turn them on again when you are back in that room
 
     if (stonesInRooms.find(room) == stonesInRooms.end()) {
@@ -513,6 +514,7 @@ void gameplay::reloadRoom() {
             break;
     }
 }
+
 void gameplay::deactivateFirebowls() {
     //this is needed, if you want the firebowls to be deactived again, once you leave the room. without this code, the firebowl will still be active when you come back to the room
     // Clear activated firebowls not in the current room
@@ -814,8 +816,9 @@ void gameplay::clearEnemies() {
 
 void gameplay::spawnStone(int room, Vector2 position) {
     Stone* newStone = new Stone(this, position);
-    newStone->setScene(this);  // Ensure the stone has a reference to the gameplay instance
+    newStone->setScene(this);
     stonesInRooms[room].push_back(newStone);
+    initialStonePositions[room].push_back({newStone, position});
 }
 
 void gameplay::updateStones() {
@@ -868,4 +871,14 @@ Stone* gameplay::getStoneAt(Vector2 tilePosition) const {
     }
     //std::cout << "No stone found" << std::endl;
     return nullptr;
+}
+
+void gameplay::resetStonesToInitialPositions() {
+    if (initialStonePositions.find(room) != initialStonePositions.end()) {
+        for (auto& stonePair : initialStonePositions[room]) {
+            Stone* stone = stonePair.first;
+            Vector2 initialPos = stonePair.second;
+            stone->position = initialPos;
+        }
+    }
 }
