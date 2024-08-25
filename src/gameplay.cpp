@@ -378,11 +378,13 @@ void gameplay::reloadRoom() {
     if (stonesInRooms.find(room) == stonesInRooms.end()) {
         switch (room) {
             case 2:
-                spawnStone(2, {23 * 32, 6 * 32});
-                spawnStone(2, {22 * 32, 7 * 32});
                 spawnStone(2, {23 * 32, 8 * 32});
-                spawnStone(2, {22 * 32, 9 * 32});
-                spawnStone(2, {23 * 32, 10 * 32});
+
+                spawnStone(2, {10 * 32, 3 * 32});
+                spawnStone(2, {11 * 32, 4 * 32});
+                spawnStone(2, {12 * 32, 3 * 32});
+                spawnStone(2, {13 * 32, 4 * 32});
+                spawnStone(2, {14 * 32, 3 * 32});
                 break;
                 // Add cases for other rooms if needed
         }
