@@ -26,6 +26,9 @@ class Enemy;
 class Enemy1;
 class Enemy2;
 class Enemy3;
+class movableblocks;
+class yellowblock;
+class blueblock;
 
 struct ActivatedFirebowls {
     int x;
@@ -46,10 +49,13 @@ struct ActivatedFirebowl {
         void clearEnemies();
         bool isAlive;
 
-        //std::vector<std::pair<int, int>> activatedFirebowls;
+        //firebowls
         std::vector<ActivatedFirebowls> activeFirebowlAnimations;
         std::vector<ActivatedFirebowl> activatedFirebowls;
         float activatedFirebowlAnimationSpeed = 0.1f;
+        //movable blocks
+        std::map<int, std::vector<movableblocks*>> blocksInRooms;
+        std::map<int, std::vector<movableblocks*>> switchesInRooms;
 
 
     public:
@@ -112,6 +118,19 @@ struct ActivatedFirebowl {
         Stone* getStoneAt(Vector2 mapPosition) const;
         void resetStonesToInitialPositions();
         std::map<int, std::vector<std::pair<Stone*, Vector2>>> initialStonePositions;
+
+        //movable blocks
+        void spawnBlock(Vector2 position, bool isYellow);
+        void updateBlocks();
+        void drawBlocks();
+        bool isBlockAt(Vector2 tilePosition) const;
+        void toggleBlockAt(Vector2 tilePosition);
+        void spawnSwitch(Vector2 position, bool isYellow);
+        void updateSwitches();
+        void drawSwitches();
+        bool isSwitchAt(Vector2 tilePosition) const;
+        void toggleSwitchAt(Vector2 tilePosition);
+        bool isAdjacentToSwitch(Vector2 position) const;
 
         //collision functions
         int getTileAt(float x, float y) const;

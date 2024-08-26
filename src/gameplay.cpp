@@ -20,12 +20,16 @@
 #include "maincharactermodus.h"
 #include "maincharacter.h"
 #include "Wall.h"
+#include "GAME OBJECTS/yellowblock.h"
+#include "GAME OBJECTS/blueblock.h"
 
 void gameplay::update() {
 
     themaincharacter->update();
     therobot->update();
     updateStones();
+    updateBlocks();
+    updateSwitches();
 
     updateAllenemies();
     for (int i = 0; i < gameobjects.size(); i++) {
@@ -283,6 +287,8 @@ void gameplay::draw() {
     drawtextonscreen();
     drawhealthhearts();
     drawStones();
+    drawBlocks();
+    drawSwitches();
     drawActivatedFirebowls(GetFrameTime());
     if (showDoorIsLockedMessage) {
         DrawText("This door is locked!\nActivate both firebowls to proceed.", 9 * 32, 4 * 32, 15, DARKBLUE);
@@ -376,6 +382,7 @@ void gameplay::reloadRoom() {
     resetStonesToInitialPositions();
     //deactivateFirebowls(); needed if you want the firebowls to deactive when leaving the room -> you have to turn them on again when you are back in that room
 
+    //stones
     if (stonesInRooms.find(room) == stonesInRooms.end()) {
         switch (room) {
             case 2:
@@ -390,7 +397,27 @@ void gameplay::reloadRoom() {
                 // Add cases for other rooms if needed
         }
     }
+    //blocks
+    switch (room) {
+        case 3:
+            spawnBlock({2 * 32, 3 * 32}, false);  // Blue block top left corner 1
+            spawnBlock({1 * 32, 4 * 32}, false);  // Blue block top left corner 2
+            spawnBlock({12 * 32, 3 * 32}, false);  // Blue block top middle
 
+            spawnBlock({11 * 32, 3 * 32}, true);  // Yellow block top middle top line 1
+            spawnBlock({13 * 32, 3 * 32}, true);  // Yellow block top middle top line 2
+            spawnBlock({11 * 32, 4 * 32}, true);  // Yellow block top middle second line 1
+            spawnBlock({12 * 32, 4 * 32}, true);  // Yellow block top middle second line 2
+            spawnBlock({13 * 32, 4 * 32}, true);  // Yellow block top middle second line 3
+
+            spawnBlock({17 * 32, 7 * 32}, true);  // Yellow block middle by fence 1
+            spawnBlock({17 * 32, 8 * 32}, true);  // Yellow block middle by fence 2
+
+            spawnSwitch({1 * 32, 3 * 32}, true);  // Yellow switch
+            spawnSwitch({22 * 32, 12 * 32}, false);  // Blue switch
+            std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
+            break;
+    }
 
     //enemies
     switch (room) {
@@ -520,18 +547,18 @@ void gameplay::deactivateFirebowls() {
     // Clear activated firebowls not in the current room
     activatedFirebowls.erase(
             std::remove_if(activatedFirebowls.begin(), activatedFirebowls.end(),
-                           [this](const auto& bowl) { return bowl.room != room; }),
+                           [this](const auto &bowl) { return bowl.room != room; }),
             activatedFirebowls.end()
     );
 
     activeFirebowlAnimations.erase(
             std::remove_if(activeFirebowlAnimations.begin(), activeFirebowlAnimations.end(),
-                           [this](const auto& bowl) { return bowl.room != room; }),
+                           [this](const auto &bowl) { return bowl.room != room; }),
             activeFirebowlAnimations.end()
     );
 }
 
-void gameplay::loadMap(){
+void gameplay::loadMap() {
     tson::Tileson tileson;
     tiles.clear();
     std::string mapFile;
@@ -677,11 +704,12 @@ bool gameplay::isTileYouCantPushStoneOnto(int tileID) const {
     // Add all tile IDs that represent walls
     static const std::vector<int> wallTileIDs = {
             pipe0ID, pipe1ID, pipe2ID, pipe3ID, pipe4ID, pipe5ID, pipe6ID, pipe7ID, pipe8ID, pipe9ID,
-            tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, tree9ID, tree10ID, tree11ID,
+            tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, tree9ID, tree10ID,
+            tree11ID,
             stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4,
             firebowlID,
             abyssID,
-            doorhingeID0,doorhingeID1, doorhingeID2, doorhingeID3,
+            doorhingeID0, doorhingeID1, doorhingeID2, doorhingeID3,
             doorID1, doorID2, doorID3, doorID4, doorID5, doorID6
 
     };
@@ -737,7 +765,7 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
                 if (distance < shortestDistance) {
                     shortestDistance = distance;
                     closestBar = bars;
-                    foundBars =true;
+                    foundBars = true;
                 }
             } else {
                 for (const auto &group: fencesIDs) {
@@ -815,7 +843,7 @@ void gameplay::clearEnemies() {
 }
 
 void gameplay::spawnStone(int room, Vector2 position) {
-    Stone* newStone = new Stone(this, position);
+    Stone *newStone = new Stone(this, position);
     newStone->setScene(this);
     stonesInRooms[room].push_back(newStone);
     initialStonePositions[room].push_back({newStone, position});
@@ -823,7 +851,7 @@ void gameplay::spawnStone(int room, Vector2 position) {
 
 void gameplay::updateStones() {
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
-        for (auto& stone : stonesInRooms[room]) {
+        for (auto &stone: stonesInRooms[room]) {
             stone->update();
         }
     }
@@ -833,7 +861,7 @@ void gameplay::drawStones() {
     //std::cout << "Drawing stones for room " << room << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
         //std::cout << "Number of stones in room: " << stonesInRooms[room].size() << std::endl;
-        for (const auto& stone : stonesInRooms[room]) {
+        for (const auto &stone: stonesInRooms[room]) {
             stone->draw();
             //std::cout << "Stone drawn at position: (" << stone->position.x << ", " << stone->position.y << ")" << std::endl;
         }
@@ -841,10 +869,11 @@ void gameplay::drawStones() {
         //std::cout << "No stones in this room" << std::endl;
     }
 }
+
 bool gameplay::touchesStone(Vector2 tilePosition) const {
     //std::cout << "Checking for stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
-        for (const auto& stone : stonesInRooms.at(room)) {
+        for (const auto &stone: stonesInRooms.at(room)) {
             Vector2 stoneTilePos = stone->getTilePosition();
             //std::cout << "Stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
             if (stoneTilePos.x == tilePosition.x && stoneTilePos.y == tilePosition.y) {
@@ -857,10 +886,10 @@ bool gameplay::touchesStone(Vector2 tilePosition) const {
     return false;
 }
 
-Stone* gameplay::getStoneAt(Vector2 tilePosition) const {
+Stone *gameplay::getStoneAt(Vector2 tilePosition) const {
     //std::cout << "Getting stone at tile position: (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (stonesInRooms.find(room) != stonesInRooms.end()) {
-        for (auto& stone : stonesInRooms.at(room)) {
+        for (auto &stone: stonesInRooms.at(room)) {
             Vector2 stoneTilePos = stone->getTilePosition();
             //std::cout << "Checking stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
             if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f && std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
@@ -875,10 +904,176 @@ Stone* gameplay::getStoneAt(Vector2 tilePosition) const {
 
 void gameplay::resetStonesToInitialPositions() {
     if (initialStonePositions.find(room) != initialStonePositions.end()) {
-        for (auto& stonePair : initialStonePositions[room]) {
-            Stone* stone = stonePair.first;
+        for (auto &stonePair: initialStonePositions[room]) {
+            Stone *stone = stonePair.first;
             Vector2 initialPos = stonePair.second;
             stone->position = initialPos;
         }
     }
+}
+
+void gameplay::spawnBlock(Vector2 position, bool isYellow) {
+    int tileX = static_cast<int>(position.x / 32);
+    int tileY = static_cast<int>(position.y / 32);
+
+    // Check if the tile is walkable
+    if (getTileAt(tileX * 32, tileY * 32) == grassID ||
+        (getTileAt(tileX * 32, tileY * 32) >= grassID0 && getTileAt(tileX * 32, tileY * 32) <= grassID13)) {
+
+        movableblocks *newBlock;
+        if (isYellow) {
+            newBlock = new yellowblock(this, position);
+            //std::cout << "Spawned yellow block at (" << position.x << ", " << position.y << ")" << std::endl;
+        } else {
+            newBlock = new blueblock(this, position);
+            //std::cout << "Spawned blue block at (" << position.x << ", " << position.y << ")" << std::endl;
+        }
+        blocksInRooms[room].push_back(newBlock);
+    } else {
+        //std::cout << "Failed to spawn block at (" << position.x << ", " << position.y << ") - not a walkable tile" << std::endl;
+    }
+}
+
+void gameplay::updateBlocks() {
+    if (blocksInRooms.find(room) != blocksInRooms.end()) {
+        for (auto &block: blocksInRooms[room]) {
+            block->update();
+        }
+    }
+}
+
+void gameplay::drawBlocks() {
+    //std::cout << "Drawing blocks for room " << room << std::endl;
+    if (blocksInRooms.find(room) != blocksInRooms.end()) {
+        //std::cout << "Number of blocks in room: " << blocksInRooms[room].size() << std::endl;
+        for (const auto &block: blocksInRooms[room]) {
+            block->draw();
+            //std::cout << "Block drawn at position: (" << block->position.x << ", " << block->position.y << ")" << std::endl;
+        }
+    } else {
+        //std::cout << "No blocks in this room" << std::endl;
+    }
+}
+
+bool gameplay::isBlockAt(Vector2 tilePosition) const {
+    if (blocksInRooms.find(room) != blocksInRooms.end()) {
+        for (const auto &block: blocksInRooms.at(room)) {
+            Vector2 blockTilePos = {std::floor(block->position.x / 32), std::floor(block->position.y / 32)};
+            if (blockTilePos.x == tilePosition.x && blockTilePos.y == tilePosition.y) {
+                return !block->canWalkThrough();
+            }
+        }
+    }
+    return false;
+}
+
+void gameplay::toggleBlockAt(Vector2 tilePosition) {
+    if (blocksInRooms.find(room) != blocksInRooms.end()) {
+        for (auto &block: blocksInRooms.at(room)) {
+            Vector2 blockTilePos = {std::floor(block->position.x / 32), std::floor(block->position.y / 32)};
+            if (blockTilePos.x == tilePosition.x && blockTilePos.y == tilePosition.y) {
+                block->toggle();
+                break;
+            }
+        }
+    }
+}
+
+void gameplay::spawnSwitch(Vector2 position, bool isYellow) {
+    int tileX = static_cast<int>(position.x / 32);
+    int tileY = static_cast<int>(position.y / 32);
+
+    // Check if the tile is walkable
+    if (getTileAt(tileX * 32, tileY * 32) == grassID ||
+        (getTileAt(tileX * 32, tileY * 32) >= grassID0 && getTileAt(tileX * 32, tileY * 32) <= grassID13)) {
+
+        movableblocks *newSwitch;
+        if (isYellow) {
+            newSwitch = new yellowblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)}, true);
+            std::cout << "Spawned yellow switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
+        } else {
+            newSwitch = new blueblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)}, true);
+            std::cout << "Spawned blue switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
+        }
+        switchesInRooms[room].push_back(newSwitch);
+    } else {
+        std::cout << "Failed to spawn switch at (" << position.x << ", " << position.y << ") - not a walkable tile"
+                  << std::endl;
+    }
+}
+
+void gameplay::updateSwitches() {
+    if (switchesInRooms.find(room) != switchesInRooms.end()) {
+        for (auto &switchBlock: switchesInRooms[room]) {
+            switchBlock->update();
+        }
+    }
+}
+
+void gameplay::drawSwitches() {
+    std::cout << "Drawing switches for room " << room << std::endl;
+    if (switchesInRooms.find(room) != switchesInRooms.end()) {
+        std::cout << "Number of switches in room: " << switchesInRooms[room].size() << std::endl;
+        for (const auto &switchBlock: switchesInRooms[room]) {
+            switchBlock->draw();
+            std::cout << "Switch drawn at position: (" << switchBlock->position.x << ", " << switchBlock->position.y
+                      << ")" << std::endl;
+        }
+    } else {
+        std::cout << "No switches in this room" << std::endl;
+    }
+}
+
+bool gameplay::isSwitchAt(Vector2 tilePosition) const {
+    if (switchesInRooms.find(room) != switchesInRooms.end()) {
+        for (const auto &switchBlock: switchesInRooms.at(room)) {
+            Vector2 switchTilePos = {std::floor(switchBlock->position.x / 32),
+                                     std::floor(switchBlock->position.y / 32)};
+            if (switchTilePos.x == tilePosition.x && switchTilePos.y == tilePosition.y) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void gameplay::toggleSwitchAt(Vector2 tilePosition) {
+    std::cout << "Attempting to toggle switch near (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
+    if (switchesInRooms.find(room) != switchesInRooms.end()) {
+        for (auto &switchBlock: switchesInRooms.at(room)) {
+            Vector2 switchTilePos = {std::floor(switchBlock->position.x / 32),
+                                     std::floor(switchBlock->position.y / 32)};
+            std::cout << "Checking switch at (" << switchTilePos.x << ", " << switchTilePos.y << ")" << std::endl;
+            if (abs(switchTilePos.x - tilePosition.x) <= 1 && abs(switchTilePos.y - tilePosition.y) <= 1) {
+                switchBlock->toggle();
+                std::cout << "Switch toggled at (" << switchTilePos.x << ", " << switchTilePos.y << ")" << std::endl;
+                // Toggle all blocks of the same color
+                for (auto &block: blocksInRooms[room]) {
+                    if ((dynamic_cast<yellowblock *>(switchBlock) && dynamic_cast<yellowblock *>(block)) ||
+                        (dynamic_cast<blueblock *>(switchBlock) && dynamic_cast<blueblock *>(block))) {
+                        block->toggle();
+                    }
+                }
+                return;
+            }
+        }
+    }
+    std::cout << "No switch found to toggle" << std::endl;
+}
+
+bool gameplay::isAdjacentToSwitch(Vector2 position) const {
+    int tileX = static_cast<int>(position.x / 32);
+    int tileY = static_cast<int>(position.y / 32);
+
+    for (int dy = -1; dy <= 1; dy++) {
+        for (int dx = -1; dx <= 1; dx++) {
+            if (dx == 0 && dy == 0) continue; // Skip the tile the character is on
+            int checkX = tileX + dx;
+            int checkY = tileY + dy;
+            if (isSwitchAt({static_cast<float>(checkX), static_cast<float>(checkY)})) {
+                return true;
+            }
+        }
+    }
+    return false;
 }

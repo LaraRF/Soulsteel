@@ -68,10 +68,19 @@ void assestmanagergraphics::init() {
     m_textures["characters/soul/dash_back"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash back - animated.png");
     m_textures["characters/soul/dash_left"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side left - animated.png");
     m_textures["characters/soul/dash_right"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side right - animated.png");
-    //soul dust
-
     //stones
     m_textures["item/stone"]= LoadTexture("assets/graphics/items/stone.png");
+    //movable blocks
+    m_textures["item/yellow_block"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Static.png");
+    m_textures["item/yellow_block_turning_on"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Animated - Turn on.png");
+    m_textures["item/yellow_block_turning_off"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Animated - Turn off.png");
+    m_textures["item/blue_block"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Blue Block - Static.png");
+    m_textures["item/blue_block_turning_on"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Blue Block - Animated - Turn on.png");
+    m_textures["item/blue_block_turning_off"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Blue Block - Animated - Turn off.png");
+    m_textures["item/blue_switch_on"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Blue Switch - Animated.png");
+    m_textures["item/blue_switch_off"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Blue Switch - Static.png");
+    m_textures["item/yellow_switch_on"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Switch - Animated.png");
+    m_textures["item/yellow_switch_off"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Switch - Static.png");
 
     //load soul animation frames
     const std::string basePath = "assets/graphics/characters/soul/";

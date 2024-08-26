@@ -216,7 +216,7 @@ void maincharacter::maincharacterwalking() {
         Vector2 newTile = {std::floor(newPosition.x / 32), std::floor(newPosition.y / 32)};
 
         bool canMove = true;
-        if (_scene->touchesWall(newPosition, size)) {
+        if (_scene->touchesWall(newPosition, size) || _scene->isBlockAt(newTile) || _scene->isSwitchAt(newTile)) {
             canMove = false;
         } else if (currentTile.x != newTile.x || currentTile.y != newTile.y) {
             // Only check for stone collision if we're moving to a new tile
@@ -383,7 +383,16 @@ void maincharacter::update() {
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = soulmodus;
             }
-
+            if (IsKeyPressed(KEY_B)) {
+                std::cout << "B key pressed in robot mode at position ("
+                          << std::floor(position.x / 32) << ", " << std::floor(position.y / 32) << ")" << std::endl;
+                if (_scene->isAdjacentToSwitch(position)) {
+                    Vector2 characterTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
+                    _scene->toggleSwitchAt(characterTile);
+                } else {
+                    std::cout << "Not adjacent to any switch" << std::endl;
+                }
+            }
 
             //bomb throwing
 
