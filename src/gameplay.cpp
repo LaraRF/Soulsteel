@@ -243,7 +243,7 @@ scene *gameplay::evaluateSceneChange() {
     } else if (IsKeyPressed(KEY_P)) {
         std::cout << "Switching to pause screen\n";
         return new pausescreen(this);
-    } else if (IsKeyPressed(KEY_J)) {
+    } else if (IsKeyPressed(KEY_T)) {
         return new journal(this);
     } else if (IsKeyPressed(KEY_O)) {
         return new ingameoptions(this);
@@ -348,7 +348,7 @@ void gameplay::drawtextonscreen() {
     DrawText("Press O to go to options.", 10, 400, 10, WHITE);
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
     DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
-    DrawText("Press J to open the journal.", 10, 460, 10, WHITE);
+    DrawText("Press T to open the journal.", 10, 460, 10, WHITE);
 }
 
 void gameplay::drawhealthhearts() {
