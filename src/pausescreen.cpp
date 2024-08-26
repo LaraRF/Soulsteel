@@ -5,6 +5,7 @@
 #include <iostream>
 #include "raylib.h"
 #include "gameplay.h"
+#include "mainmenu.h"
 
 void pausescreen::update() {
 
@@ -15,9 +16,9 @@ scene *pausescreen::evaluateSceneChange() {
     if (IsKeyPressed(KEY_P)) {
         std::cout << "Returning to gameplay from pause screen\n";
         return gameplayInstance;  // Return the stored gameplay instance
-    }
-    return this;
-
+    }else if (IsKeyPressed(KEY_M)) {
+        return new mainmenu();}
+    else{return this;}
 }
 
 void pausescreen::draw() {

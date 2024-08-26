@@ -4,6 +4,7 @@
 #include "journal.h"
 #include "raylib.h"
 #include "gameplay.h"
+#include "mainmenu.h"
 
 void journal::update() {
     //navigating the journal by using arrow keys
@@ -27,6 +28,8 @@ void journal::update() {
 scene *journal::evaluateSceneChange() {
     if (IsKeyPressed(KEY_T)) {
         return gameplayInstance;
+    }else if (IsKeyPressed(KEY_M)) {
+        return new mainmenu();
     } else if (IsKeyPressed(KEY_ENTER)) {
         switch (cursor) {
             case 0:
