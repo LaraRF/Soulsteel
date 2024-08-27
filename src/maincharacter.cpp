@@ -7,6 +7,8 @@
 
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
+const float maincharacter::bomb_cooldown = 1.0f;
+
 
 int maincharacter::attackPower = 2;
 
@@ -383,6 +385,7 @@ void maincharacter::update() {
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = soulmodus;
             }
+            //activate switch
             if (IsKeyPressed(KEY_B)) {
                 std::cout << "B key pressed in robot mode at position ("
                           << std::floor(position.x / 32) << ", " << std::floor(position.y / 32) << ")" << std::endl;
@@ -393,10 +396,10 @@ void maincharacter::update() {
                     std::cout << "Not adjacent to any switch" << std::endl;
                 }
             }
-
             //bomb throwing
-
-            //space for more robot function
+            if (IsKeyPressed(KEY_J) && (GetTime() - lastBombThrowTime) >= bomb_cooldown) {
+                throwBomb();
+            }
             break;
     }
 
@@ -468,4 +471,24 @@ void maincharacter::updateLastSafePosition() {
     }
 }
 
+void maincharacter::throwBomb() {
+    Vector2 bombPosition;
+    switch (lookingdirection) {
+        case north:
+            bombPosition = {position.x, position.y - 32};
+            break;
+        case south:
+            bombPosition = {position.x, position.y + 32};
+            break;
+        case east:
+            bombPosition = {position.x + 32, position.y};
+            break;
+        case west:
+            bombPosition = {position.x - 32, position.y};
+            break;
+    }
+    bombs* newBomb = new bombs(_scene, bombPosition);
+    _scene->addBomb(newBomb);
+    lastBombThrowTime = GetTime();
+}
 

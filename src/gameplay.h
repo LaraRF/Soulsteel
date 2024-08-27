@@ -29,6 +29,7 @@ class Enemy3;
 class movableblocks;
 class yellowblock;
 class blueblock;
+class bombs;
 
 struct ActivatedFirebowls {
     int x;
@@ -131,6 +132,10 @@ struct ActivatedFirebowl {
         bool isSwitchAt(Vector2 tilePosition) const;
         void toggleSwitchAt(Vector2 tilePosition);
         bool isAdjacentToSwitch(Vector2 position) const;
+
+        //bombs
+        std::vector<bombs*> activeBombs;
+        void addBomb(bombs* bomb);
 
         //collision functions
         int getTileAt(float x, float y) const;

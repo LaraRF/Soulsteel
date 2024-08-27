@@ -55,6 +55,17 @@ void gameplay::update() {
         }
     }
 
+    //bombs
+    for (auto it = activeBombs.begin(); it != activeBombs.end();) {
+        (*it)->update();
+        if ((*it)->state == bombs::finished) {
+            delete *it;
+            it = activeBombs.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
     //enables room-switch and checks which version of the character is the one leaving the room
     doRoomSwitch();
 }
@@ -296,6 +307,10 @@ void gameplay::draw() {
 
     if (IsKeyDown(KEY_H)) {
         this->drawDebug();
+    }
+    //bombs
+    for (auto& bomb : activeBombs) {
+        bomb->draw();
     }
 }
 
@@ -1076,4 +1091,8 @@ bool gameplay::isAdjacentToSwitch(Vector2 position) const {
         }
     }
     return false;
+}
+
+void gameplay::addBomb(bombs* bomb) {
+    activeBombs.push_back(bomb);
 }

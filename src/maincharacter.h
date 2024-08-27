@@ -14,10 +14,13 @@
 #include "gameplay.h"
 #include "Utils.h"
 #include "ENEMIES/Enemy.h"
+#include "GAME OBJECTS/gameobjects.h"
+#include "GAME OBJECTS/bombs.h"
 struct ActivatedFirebowls;
 
 class gameplay;
 class Enemy;
+class bombs;
 
 class maincharacter {
 
@@ -74,9 +77,6 @@ public:
     void updateDashAnimation(float deltaTime);
     bool isDashing() const {return currentState == DASH;}
 
-
-
-
     int getHealth(const maincharacter& maincharacter);
     void calculateDamage(maincharacter& maincharacter, int damage);
 
@@ -120,6 +120,11 @@ public:
      */
     bool felldown=false;
 
+    //bombs
+    void throwBomb();
+    float lastBombThrowTime;
+    static const float bomb_cooldown;
+
 protected:
     bool checkCollision(const Wall& wall);
 
@@ -130,6 +135,7 @@ private:
     Vector2 lastSafePosition;
     void updateLastSafePosition();
     bool souldustcanbeused() const;
+    bombs* activeBomb;
 };
 
 
