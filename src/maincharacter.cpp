@@ -221,7 +221,7 @@ void maincharacter::maincharacterwalking() {
         } else if (currentTile.x != newTile.x || currentTile.y != newTile.y) {
             // Only check for stone collision if we're moving to a new tile
             if (_scene->touchesStone(newTile)) {
-                if (currentmodus == robotmodus) {
+                if (currentmodus == robotmodus&& IsKeyDown(KEY_K)) {
                     Vector2 pushDirection = {newTile.x - currentTile.x, newTile.y - currentTile.y};
                     Stone* stone = _scene->getStoneAt(newTile);
                     if (stone != nullptr) {

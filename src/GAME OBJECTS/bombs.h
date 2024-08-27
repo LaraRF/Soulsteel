@@ -7,12 +7,16 @@
 
 #include "raylib.h"
 #include "gameobjects.h"
+#include "../assestmanagergraphics.h"
 
-class bombs:public gameobjects {
+class bombs : public gameobjects {
 public:
     void update() override;
+
     void draw() override;
 
+    Texture2D bomb_thrown = assestmanagergraphics::getTexture("item/bomb_thrown");
+    Texture2D bomb_exploding = assestmanagergraphics::getTexture("item/bomb_exploding");
 };
 
 
