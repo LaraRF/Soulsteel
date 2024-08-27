@@ -67,7 +67,8 @@ void assestmanagergraphics::init() {
     m_textures["characters/soul/dash_left"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side left - animated.png");
     m_textures["characters/soul/dash_right"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side right - animated.png");
     //stones
-    m_textures["item/stone"]= LoadTexture("assets/graphics/items/stone.png");
+    m_textures["item/stone"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - MovableBlock - Static.png");
+
     //movable blocks
     m_textures["item/yellow_block"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Static.png");
     m_textures["item/yellow_block_turning_on"]= LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Animated - Turn on.png");
