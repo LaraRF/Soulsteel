@@ -472,6 +472,7 @@ void maincharacter::updateLastSafePosition() {
 }
 
 void maincharacter::throwBomb() {
+    std::cout << "Throwing bomb!" << std::endl;
     Vector2 bombPosition;
     switch (lookingdirection) {
         case north:

@@ -28,12 +28,19 @@ private:
     static const float thrown_duration;
     static const float exploding_duration;
     static const float explosion_radius;
-    static const int explosiion_damage;
+    static const int explosion_damage;
 
     Texture2D bomb_thrown = assestmanagergraphics::getTexture("item/bomb_thrown");
     Texture2D bomb_exploding = assestmanagergraphics::getTexture("item/bomb_exploding");
 
+    int currentFrame;
+    float frameTimer;
+    static const float frame_duration;
+    static const int thrown_frame_count;
+    static const int exploding_frame_count;
+
     void applyDamage();
+    void updateAnimation();
 };
 
 

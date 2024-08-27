@@ -1094,5 +1094,6 @@ bool gameplay::isAdjacentToSwitch(Vector2 position) const {
 }
 
 void gameplay::addBomb(bombs* bomb) {
+    std::cout << "Adding bomb to game!" << std::endl;
     activeBombs.push_back(bomb);
 }
