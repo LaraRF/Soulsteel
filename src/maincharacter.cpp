@@ -476,16 +476,16 @@ void maincharacter::throwBomb() {
     Vector2 bombPosition;
     switch (lookingdirection) {
         case north:
-            bombPosition = {position.x, position.y - 32};
+            bombPosition = {position.x, position.y - bombthrowing_range};
             break;
         case south:
-            bombPosition = {position.x, position.y + 32};
+            bombPosition = {position.x, position.y + bombthrowing_range};
             break;
         case east:
-            bombPosition = {position.x + 32, position.y};
+            bombPosition = {position.x + bombthrowing_range, position.y};
             break;
         case west:
-            bombPosition = {position.x - 32, position.y};
+            bombPosition = {position.x - bombthrowing_range, position.y};
             break;
     }
     bombs* newBomb = new bombs(_scene, bombPosition);

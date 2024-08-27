@@ -124,6 +124,7 @@ public:
     void throwBomb();
     float lastBombThrowTime;
     static const float bomb_cooldown;
+    float bombthrowing_range=48;
 
 protected:
     bool checkCollision(const Wall& wall);
