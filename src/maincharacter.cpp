@@ -387,13 +387,13 @@ void maincharacter::update() {
             }
             //activate switch
             if (IsKeyPressed(KEY_B)) {
-                std::cout << "B key pressed in robot mode at position ("
-                          << std::floor(position.x / 32) << ", " << std::floor(position.y / 32) << ")" << std::endl;
+                /*std::cout << "B key pressed in robot mode at position ("
+                          << std::floor(position.x / 32) << ", " << std::floor(position.y / 32) << ")" << std::endl;*/
                 if (_scene->isAdjacentToSwitch(position)) {
                     Vector2 characterTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
                     _scene->toggleSwitchAt(characterTile);
                 } else {
-                    std::cout << "Not adjacent to any switch" << std::endl;
+                    //std::cout << "Not adjacent to any switch" << std::endl;
                 }
             }
             //bomb throwing
@@ -472,7 +472,7 @@ void maincharacter::updateLastSafePosition() {
 }
 
 void maincharacter::throwBomb() {
-    std::cout << "Throwing bomb!" << std::endl;
+    //std::cout << "Throwing bomb!" << std::endl;
     Vector2 bombPosition;
     switch (lookingdirection) {
         case north:

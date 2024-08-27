@@ -14,8 +14,8 @@ blueblock::blueblock(gameplay* scene, Vector2 position, bool isSwitch) : movable
 }
 
 void blueblock::draw() {
-    std::cout << "Drawing " << (isSwitch ? "switch" : "block") << " at (" << position.x << ", " << position.y
-              << "), activated: " << isActivated << ", animating: " << isAnimating << std::endl;
+    /*std::cout << "Drawing " << (isSwitch ? "switch" : "block") << " at (" << position.x << ", " << position.y
+              << "), activated: " << isActivated << ", animating: " << isAnimating << std::endl;*/
     if (isSwitch) {
         if (isActivated) {
             // Draw animated switch
@@ -41,8 +41,8 @@ void blueblock::draw() {
 }
 
 void blueblock::toggle() {
-    std::cout << "Blue " << (isSwitch ? "switch" : "block") << " toggled, now "
-              << (isActivated ? "activated" : "deactivated") << std::endl;
+    /*std::cout << "Blue " << (isSwitch ? "switch" : "block") << " toggled, now "
+              << (isActivated ? "activated" : "deactivated") << std::endl;*/
     isActivated = !isActivated;
     isAnimating = true;
     currentFrame = 0;

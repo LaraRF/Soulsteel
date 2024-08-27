@@ -430,7 +430,7 @@ void gameplay::reloadRoom() {
 
             spawnSwitch({1 * 32, 3 * 32}, true);  // Yellow switch
             spawnSwitch({22 * 32, 12 * 32}, false);  // Blue switch
-            std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
+            //std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
             break;
     }
 
@@ -1005,15 +1005,15 @@ void gameplay::spawnSwitch(Vector2 position, bool isYellow) {
         movableblocks *newSwitch;
         if (isYellow) {
             newSwitch = new yellowblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)}, true);
-            std::cout << "Spawned yellow switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
+            //std::cout << "Spawned yellow switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
         } else {
             newSwitch = new blueblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)}, true);
-            std::cout << "Spawned blue switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
+            //std::cout << "Spawned blue switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
         }
         switchesInRooms[room].push_back(newSwitch);
     } else {
-        std::cout << "Failed to spawn switch at (" << position.x << ", " << position.y << ") - not a walkable tile"
-                  << std::endl;
+        /*std::cout << "Failed to spawn switch at (" << position.x << ", " << position.y << ") - not a walkable tile"
+                  << std::endl;*/
     }
 }
 
@@ -1026,16 +1026,16 @@ void gameplay::updateSwitches() {
 }
 
 void gameplay::drawSwitches() {
-    std::cout << "Drawing switches for room " << room << std::endl;
+    //std::cout << "Drawing switches for room " << room << std::endl;
     if (switchesInRooms.find(room) != switchesInRooms.end()) {
-        std::cout << "Number of switches in room: " << switchesInRooms[room].size() << std::endl;
+        //std::cout << "Number of switches in room: " << switchesInRooms[room].size() << std::endl;
         for (const auto &switchBlock: switchesInRooms[room]) {
             switchBlock->draw();
-            std::cout << "Switch drawn at position: (" << switchBlock->position.x << ", " << switchBlock->position.y
-                      << ")" << std::endl;
+            /*std::cout << "Switch drawn at position: (" << switchBlock->position.x << ", " << switchBlock->position.y
+                      << ")" << std::endl;*/
         }
     } else {
-        std::cout << "No switches in this room" << std::endl;
+        //std::cout << "No switches in this room" << std::endl;
     }
 }
 
@@ -1053,15 +1053,15 @@ bool gameplay::isSwitchAt(Vector2 tilePosition) const {
 }
 
 void gameplay::toggleSwitchAt(Vector2 tilePosition) {
-    std::cout << "Attempting to toggle switch near (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
+    //std::cout << "Attempting to toggle switch near (" << tilePosition.x << ", " << tilePosition.y << ")" << std::endl;
     if (switchesInRooms.find(room) != switchesInRooms.end()) {
         for (auto &switchBlock: switchesInRooms.at(room)) {
             Vector2 switchTilePos = {std::floor(switchBlock->position.x / 32),
                                      std::floor(switchBlock->position.y / 32)};
-            std::cout << "Checking switch at (" << switchTilePos.x << ", " << switchTilePos.y << ")" << std::endl;
+            //std::cout << "Checking switch at (" << switchTilePos.x << ", " << switchTilePos.y << ")" << std::endl;
             if (abs(switchTilePos.x - tilePosition.x) <= 1 && abs(switchTilePos.y - tilePosition.y) <= 1) {
                 switchBlock->toggle();
-                std::cout << "Switch toggled at (" << switchTilePos.x << ", " << switchTilePos.y << ")" << std::endl;
+                //std::cout << "Switch toggled at (" << switchTilePos.x << ", " << switchTilePos.y << ")" << std::endl;
                 // Toggle all blocks of the same color
                 for (auto &block: blocksInRooms[room]) {
                     if ((dynamic_cast<yellowblock *>(switchBlock) && dynamic_cast<yellowblock *>(block)) ||
@@ -1073,7 +1073,7 @@ void gameplay::toggleSwitchAt(Vector2 tilePosition) {
             }
         }
     }
-    std::cout << "No switch found to toggle" << std::endl;
+    //std::cout << "No switch found to toggle" << std::endl;
 }
 
 bool gameplay::isAdjacentToSwitch(Vector2 position) const {
@@ -1094,6 +1094,6 @@ bool gameplay::isAdjacentToSwitch(Vector2 position) const {
 }
 
 void gameplay::addBomb(bombs* bomb) {
-    std::cout << "Adding bomb to game!" << std::endl;
+    //std::cout << "Adding bomb to game!" << std::endl;
     activeBombs.push_back(bomb);
 }
