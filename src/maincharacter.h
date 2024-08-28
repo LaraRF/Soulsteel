@@ -94,6 +94,10 @@ public:
     //sprite animation
     //Texture2D soulanimated =LoadTexture("assets/graphics/soulsprite.png");
 
+    // possessed Status
+    bool isCharacterPossessed() const;
+    void setPossessionStatus(bool possessed);
+
     //Character map interaction stuff
     maincharacter(gameplay *scene);
     maincharactermodus currentmodus =soulmodus;
@@ -136,6 +140,7 @@ private:
     Vector2 lastSafePosition;
     void updateLastSafePosition();
     bool souldustcanbeused() const;
+    bool isPossessed;
     bombs* activeBomb;
 };
 

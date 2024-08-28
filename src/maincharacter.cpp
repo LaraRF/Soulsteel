@@ -135,17 +135,19 @@ Texture2D maincharacter::getCurrentTexture() {
     std::string state;
     switch (currentState) {
         case IDLE:
-            state = "idle";
+            state = "idle_";
             break;
         case WALKING:
-            state = "walk";
+            state = "walk_";
             break;
         case DASH:
-            state = "dash";
+            state = "dash_";
             break;
         case DUST:
-            state = "dust";
+            state = "dust_";
             break;
+        default:
+            state = "idle_";
     }
 
     std::string direction;
@@ -164,8 +166,21 @@ Texture2D maincharacter::getCurrentTexture() {
             break;
     }
 
-    std::string key = state + "_" + direction;
-    return assestmanagergraphics::getCharacterTexture("soul", key);
+    std::string characterName = (currentmodus == soulmodus) ? "soul" : "robot";
+    std::string key = state + direction;
+
+    if (characterName == "robot") {
+        if (state == "idle_" || state == "walk_") {
+            if (direction == "front" || direction == "left" || direction == "right") {
+                key += isCharacterPossessed() ? "_possessed" : "_normal";
+            }
+        } else if ((state == "melee_" || state == "ranged_") && (direction == "left" || direction == "right")) {
+            // For side melee and ranged attacks, we need to decide which part to show (arm or body)
+            key += "_body"; // or "_arm" depending on your needs
+        }
+    }
+
+    return assestmanagergraphics::getCharacterTexture(characterName, key);
 }
 
 int getHealth(const maincharacter &maincharacter) {
@@ -186,7 +201,17 @@ maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
     float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
     frameRec = {0, 0, frameWidth, frameHeight};
+
+    isPossessed = false;
 }
+bool maincharacter::isCharacterPossessed() const {
+    return isPossessed;
+}
+
+void maincharacter::setPossessionStatus(bool possessed) {
+    isPossessed = possessed;
+}
+
 
 void maincharacter::maincharacterwalking() {
     Vector2 movement = {0, 0};
