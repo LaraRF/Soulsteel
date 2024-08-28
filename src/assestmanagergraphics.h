@@ -14,10 +14,13 @@ class assestmanagergraphics {
 public:
     static void init();
     static Texture2D getTexture(const std::string &name);
-    //static Texture2D getTexture(std::string name);
+    static Texture2D getCharacterTexture(const std::string& characterName, const std::string& animationName);
+
 private:
+    static void loadCharacterAnimations(const std::string& characterName);
     static bool m_texturesLoaded;
     static std::map<std::string, Texture2D> m_textures;
+    static std::map<std::string, std::map<std::string, Texture2D>> m_characterAnimations;
 };
 
 

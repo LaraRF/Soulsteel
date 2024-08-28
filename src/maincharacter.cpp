@@ -135,16 +135,16 @@ Texture2D maincharacter::getCurrentTexture() {
     std::string state;
     switch (currentState) {
         case IDLE:
-            state = "idle_";
+            state = "idle";
             break;
         case WALKING:
-            state = "walk_";
+            state = "walk";
             break;
         case DASH:
-            state = "dash_";
+            state = "dash";
             break;
         case DUST:
-            state = "dust_";
+            state = "dust";
             break;
     }
 
@@ -164,7 +164,8 @@ Texture2D maincharacter::getCurrentTexture() {
             break;
     }
 
-    return assestmanagergraphics::getTexture("characters/soul/" + state + direction);
+    std::string key = state + "_" + direction;
+    return assestmanagergraphics::getCharacterTexture("soul", key);
 }
 
 int getHealth(const maincharacter &maincharacter) {
