@@ -1,4 +1,3 @@
-//
 // Created by lrfri on 20.05.2024.
 //
 
@@ -208,6 +207,7 @@ maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
 
     isPossessed = false;
 }
+
 bool maincharacter::isCharacterPossessed() const {
     return isPossessed;
 }
@@ -436,12 +436,15 @@ void maincharacter::update() {
     Vector2 oldPosition = position;
     maincharacterwalking();
 
+
+
     //allows you to switch between soul and robot functions
     switch (currentmodus) {
         case soulmodus:
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
-                currentmodus = robotmodus;
+                //currentmodus = robotmodus;
+                currentmodus = (currentmodus == soulmodus) ? robotmodus : soulmodus;
             }
 
             // soul dash
@@ -460,7 +463,9 @@ void maincharacter::update() {
             //switch mode
             if (IsKeyPressed(KEY_SPACE)) {
                 currentmodus = soulmodus;
+                //currentmodus = (currentmodus == soulmodus) ? robotmodus : soulmodus;
             }
+
             //activate switch
             if (IsKeyPressed(KEY_B)) {
                 /*std::cout << "B key pressed in robot mode at position ("
@@ -485,6 +490,10 @@ void maincharacter::update() {
     } else if (currentState != DASH) {
         currentState = WALKING;
     }
+
+
+
+
 
     //update current direction based on movement
     if (IsKeyDown(KEY_W)) currentDirection = BACK;

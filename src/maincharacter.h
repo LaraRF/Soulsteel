@@ -76,6 +76,7 @@ public:
     };
     CurrentDirection currentDirection=FRONT;
 
+
     void updateAnimation(float deltaTime);
     void updateDashAnimation(float deltaTime);
     bool isDashing() const {return currentState == DASH;}

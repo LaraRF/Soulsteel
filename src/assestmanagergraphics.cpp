@@ -1,4 +1,4 @@
-//
+///
 // Created by sweet on 29.05.2024.
 //
 #include <iostream>
@@ -82,16 +82,13 @@ void assestmanagergraphics::init() {
 
 
 
-    //placeholder character
+    /*/placeholder character
     m_textures["characters/soul/Idle_Animation_front"] = LoadTexture("assets/graphics/characters/soul/Idle_Animation_front.gif");
     m_textures["characters/robot/Robot_front"] = LoadTexture("assets/graphics/characters/robot/Robot_front.png");
     m_textures["characters/robot/Character_-_Robot_-_Idle_Front_-_animated"] = LoadTexture("assets/graphics/characters/robot/Character_-_Robot_-_Idle_Front_-_animated.gif");
-    //Soul
+    //Soul*/
 
-    //enemies
-    m_textures["characters/enemies/enemy_1"] = LoadTexture("assets/graphics/characters/enemies/enemy_1.png");
-    m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
-    m_textures["characters/enemies/enemy_3"] = LoadTexture("assets/graphics/characters/enemies/enemy_3.png");
+
     //robot functions
     //bombs
     m_textures["item/bomb_thrown"]=LoadTexture("assets/graphics/items/Character object - Bomb - animated.png");
@@ -112,7 +109,7 @@ void assestmanagergraphics::init() {
     loadCharacterAnimations("soul");
     loadCharacterAnimations("robot");
     loadCharacterAnimations("enemies");
-    }
+}
 
 void assestmanagergraphics::loadCharacterAnimations(const std::string &characterName) {
     std::string basePath = "assets/graphics/characters/" + characterName + "/";

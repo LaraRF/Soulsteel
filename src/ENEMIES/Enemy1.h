@@ -36,6 +36,8 @@ private:
     void loadAnimations() override;
     void updateBombThrow();
     void drawBombThrow();
+
+    std::string toLowerCase(const std::string &str);
 };
 
 
