@@ -30,7 +30,8 @@ void assestmanagergraphics::init() {
     m_texturesLoaded = true;
     m_textures["ERROR"] = LoadTexture("assets/graphics/ERROR.png");
     //m_textures["tilesets/level1"] = LoadTexture("assets/graphics/tilesets/tilesets/level1.png");
-    m_textures["tileset/level1"] = LoadTexture("assets/graphics/tilesets/tileset_alles_Stand20240820.png");
+    //m_textures["tileset/level1"] = LoadTexture("assets/graphics/tilesets/tileset_alles_Stand20240820.png");
+    m_textures["tileset/final"] = LoadTexture("assets/graphics/tilesets/Tilesnek.png");
 
     //placeholder menu
     m_textures["background/background_blue"] = LoadTexture("assets/graphics/backgrounds/background_blue.png");
@@ -92,10 +93,9 @@ void assestmanagergraphics::init() {
     m_textures["characters/enemies/enemy_2"] = LoadTexture("assets/graphics/characters/enemies/enemy_2.png");
     m_textures["characters/enemies/enemy_3"] = LoadTexture("assets/graphics/characters/enemies/enemy_3.png");
     //robot functions
-    /*/bombs
-    m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
-    m_textures["item/bomb_activated"] = LoadTexture("assets/items/bomb_abouttoexplode.png");
-    m_textures["item/bomb_exploded"] = LoadTexture("assets/items/bomb_exploded.png");
+    //bombs
+    m_textures["item/bomb_thrown"]=LoadTexture("assets/graphics/items/Character object - Bomb - animated.png");
+    m_textures["item/bomb_exploding"]=LoadTexture("assets/graphics/items/Character object - Explosion - animated.png");
     //soul functions
     //soul dust*/
     m_textures["item/souldust"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - animated - activated.png");

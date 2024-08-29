@@ -186,7 +186,7 @@ bool gameplay::isAdjacentToFirebowl(Vector2 pos) const {
             if (dx == 0 && dy == 0) continue; // Skip the tile the character is on
             int checkX = tileX + dx;
             int checkY = tileY + dy;
-            if (getTileAt(checkX * 32, checkY * 32) == firebowlID) {
+            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID||firebowl1ID) {
                 return true;
             }
         }
@@ -203,7 +203,7 @@ std::pair<int, int> gameplay::getNearestFirebowlTile(Vector2 pos) const {
             if (dx == 0 && dy == 0) continue;
             int checkX = tileX + dx;
             int checkY = tileY + dy;
-            if (getTileAt(checkX * 32, checkY * 32) == firebowlID) {
+            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID||firebowl1ID) {
                 return {checkX, checkY};
             }
         }
@@ -278,7 +278,7 @@ void gameplay::draw() {
             Rectangle dest = {(float) (x * tileSize), (float) (y * tileSize), (float) (tileSize), (float) (tileSize)};
             //hier kann man "static_cast<float>" durch (float) ersetzen -> ist C, aber geht hier auch
             //DrawTexturePro(tilesetgrass, src, dest, {}, 0, WHITE);
-            DrawTexturePro(tileset_room1, src, dest, {}, 0, WHITE);
+            DrawTexturePro(tileset_final, src, dest, {}, 0, WHITE);
 
 
         }
@@ -309,7 +309,7 @@ void gameplay::draw() {
         this->drawDebug();
     }
     //bombs
-    for (auto& bomb : activeBombs) {
+    for (auto &bomb: activeBombs) {
         bomb->draw();
     }
 }
@@ -580,19 +580,19 @@ void gameplay::loadMap() {
     //load map
     switch (room) {
         case 1:
-            mapFile = "assets/graphics/tilesets/room1_greyboxing3.tmj";
+            mapFile = "assets/graphics/tilesets/room1.tmj";
             break;
         case 2:
-            mapFile = "assets/graphics/tilesets/room2_greyboxing3.tmj";
+            mapFile = "assets/graphics/tilesets/room2.tmj";
             break;
         case 3:
-            mapFile = "assets/graphics/tilesets/room5_greyboxing3.tmj";
+            mapFile = "assets/graphics/tilesets/room5.tmj";
             break;
         case 4:
-            mapFile = "assets/graphics/tilesets/room3_greyboxing3.tmj";
+            mapFile = "assets/graphics/tilesets/room3.tmj";
             break;
         case 5:
-            mapFile = "assets/graphics/tilesets/room5test_greyboxing1.tmj";
+            mapFile = "assets/graphics/tilesets/room4.tmj";
             break;
         case 6:
             mapFile = "assets/graphics/tilesets/room5test.tmj";
@@ -629,28 +629,37 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-            if (tileID == firebowlID) {
-                if (CheckCollisionCircleRec(pos, size,
-                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
-                    return true;
-                }
-            } else {
-                bool touchesAny = false;
-                for (const auto &group: wallIDs) {
-                    for (int id: group) {
-                        if (id == tileID) {
-                            if (CheckCollisionCircleRec(pos, size,
-                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32,
-                                                                  (float) 32})) {
-                                return true;
-                            }
-                            touchesAny = true;
-                            break;
+            bool touchesAny = false;
+            for (const auto &group: firebowlsIDs) {
+                for (int id: group) {
+                    if (id == tileID) {
+                        if (CheckCollisionCircleRec(pos, size,
+                                                    Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                              (float) 32})) {
+                            return true;
                         }
-                    }
-                    if (touchesAny) {
+                        touchesAny = true;
                         break;
                     }
+                }
+                if (touchesAny) {
+                    break;
+                }
+            }
+            for (const auto &group: wallIDs) {
+                for (int id: group) {
+                    if (id == tileID) {
+                        if (CheckCollisionCircleRec(pos, size,
+                                                    Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                              (float) 32})) {
+                            return true;
+                        }
+                        touchesAny = true;
+                        break;
+                    }
+                }
+                if (touchesAny) {
+                    break;
                 }
             }
         }
@@ -677,72 +686,66 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-            if (tileID == firebowlID) {
-                Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
-                Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
-                                                      Vector2{wall.x + wall.width, wall.y + wall.height});
-                float distance = Vector2Distance(position, wallTouchPoint);
-                if (distance < shortestDistance) {
-                    shortestDistance = distance;
-                    closestWall = wall;
-                    foundWall = true;
-                }
-            } else {
-                for (const auto &group: wallIDs) {
-                    for (int id: group) {
-                        if (tileID == id) {
-                            Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
-                            Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
-                                                                  Vector2{wall.x + wall.width, wall.y + wall.height});
-                            float distance = Vector2Distance(position, wallTouchPoint);
-                            if (distance < shortestDistance) {
-                                shortestDistance = distance;
-                                closestWall = wall;
-                                foundWall = true;
-                            }
-                            break;
+            for (const auto &group: firebowlsIDs) {
+                for (int id: group) {
+                    if (tileID == id) {
+                        Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                        Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
+                                                              Vector2{wall.x + wall.width, wall.y + wall.height});
+                        float distance = Vector2Distance(position, wallTouchPoint);
+                        if (distance < shortestDistance) {
+                            shortestDistance = distance;
+                            closestWall = wall;
+                            foundWall = true;
                         }
+                        break;
+                    }
+                }
+            }
+            for (const auto &group: wallIDs) {
+                for (int id: group) {
+                    if (tileID == id) {
+                        Rectangle wall{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                        Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{wall.x, wall.y},
+                                                              Vector2{wall.x + wall.width,
+                                                                      wall.y + wall.height});
+                        float distance = Vector2Distance(position, wallTouchPoint);
+                        if (distance < shortestDistance) {
+                            shortestDistance = distance;
+                            closestWall = wall;
+                            foundWall = true;
+                        }
+                        break;
                     }
                 }
             }
         }
     }
-
     if (foundWall) {
-        return closestWall;
+        return
+                closestWall;
     } else {
-        return Rectangle{};
+        return Rectangle{
+        };
     }
 }
 
+
 bool gameplay::isTileYouCantPushStoneOnto(int tileID) const {
     // Add all tile IDs that represent walls
-    static const std::vector<int> wallTileIDs = {
-            pipe0ID, pipe1ID, pipe2ID, pipe3ID, pipe4ID, pipe5ID, pipe6ID, pipe7ID, pipe8ID, pipe9ID,
-            tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, tree9ID, tree10ID,
-            tree11ID,
-            stonewallID0, stonewallID1, stonewallID2, stonewallID3, stonewallID4,
-            firebowlID,
-            abyssID,
-            doorhingeID0, doorhingeID1, doorhingeID2, doorhingeID3,
-            doorID1, doorID2, doorID3, doorID4, doorID5, doorID6
+    static const std::vector<std::vector<int>> wallIDs;
 
-    };
-
-    return std::find(wallTileIDs.begin(), wallTileIDs.end(), tileID) != wallTileIDs.end();
+    return std::any_of(wallIDs.begin(), wallIDs.end(),
+                       [tileID](const std::vector<int>& wallSet) {
+                           return std::find(wallSet.begin(), wallSet.end(), tileID) != wallSet.end();
+                       });
 }
 
 bool gameplay::touchesBars(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-            if (tileID == barsID) {
-                if (CheckCollisionCircleRec(pos, size,
-                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
-                    return true;
-                }
-            } else {
-                bool touchesAny = false;
+            bool touchesAny = false;
                 for (const auto &group: fencesIDs) {
                     for (int id: group) {
                         if (id == tileID) {
@@ -761,7 +764,6 @@ bool gameplay::touchesBars(Vector2 pos, float size) {
                 }
             }
         }
-    }
     return false;
 }
 
@@ -772,23 +774,13 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-            if (tileID == barsID) {
-                Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
-                Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
-                                                      Vector2{bars.x + bars.width, bars.y + bars.height});
-                float distance = Vector2Distance(position, wallTouchPoint);
-                if (distance < shortestDistance) {
-                    shortestDistance = distance;
-                    closestBar = bars;
-                    foundBars = true;
-                }
-            } else {
                 for (const auto &group: fencesIDs) {
                     for (int id: group) {
                         if (tileID == id) {
                             Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
                             Vector2 barsTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
-                                                                  Vector2{bars.x + bars.width, bars.y + bars.height});
+                                                                  Vector2{bars.x + bars.width,
+                                                                          bars.y + bars.height});
                             float distance = Vector2Distance(position, barsTouchPoint);
                             if (distance < shortestDistance) {
                                 shortestDistance = distance;
@@ -801,7 +793,6 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
                 }
             }
         }
-    }
 
     if (foundBars) {
         return closestBar;
@@ -814,10 +805,22 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
 bool gameplay::touchesAbyss(Vector2 pos, float size) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if ((getTileAt(x * 32, y * 32) == abyssID)) {
-                if (CheckCollisionCircleRec(pos, size,
-                                            Rectangle{(float) x * 32, (float) y * 32, (float) 32, (float) 32})) {
-                    return true;
+            bool touchesAny = false;
+            int tileID = getTileAt(x * 32, y * 32);
+            for (const auto &group: allabyssIDs) {
+                for (int id: group) {
+                    if (id == tileID) {
+                        if (CheckCollisionCircleRec(pos, size,
+                                                    Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                              (float) 32})) {
+                            return true;
+                        }
+                        touchesAny = true;
+                        break;
+                    }
+                }
+                if (touchesAny) {
+                    break;
                 }
             }
         }
@@ -830,20 +833,26 @@ Rectangle gameplay::getTouchedAbyss(Vector2 position, float radius) {
     Rectangle closestAbyss{};
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
-            if (getTileAt(x * 32, y * 32) == abyssID) {
-                Rectangle abyss{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
-                Vector2 wallTouchPoint = Vector2Clamp(position, Vector2{abyss.x, abyss.y},
-                                                      Vector2{abyss.x + abyss.width, abyss.y + abyss.height});
-                float distance = Vector2Distance(position, wallTouchPoint);
-                if (distance < shortestDistance) {
-                    shortestDistance = distance;
-                    closestAbyss = abyss;
+            int tileID = getTileAt(x * 32, y * 32);
+            for (const auto &group: allabyssIDs) {
+                for (int id: group) {
+                    if (tileID == id) {
+                        Rectangle abyss{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                        Vector2 barsTouchPoint = Vector2Clamp(position, Vector2{abyss.x, abyss.y},
+                                                              Vector2{abyss.x + abyss.width,
+                                                                      abyss.y + abyss.height});
+                        float distance = Vector2Distance(position, barsTouchPoint);
+                        if (distance < shortestDistance) {
+                            shortestDistance = distance;
+                            closestAbyss = abyss;
+
+                        }
+                        return closestAbyss;
+                    }
                 }
             }
         }
     }
-    return closestAbyss;
-
 }
 
 const std::vector<Enemy *> &gameplay::getEnemies() const {
@@ -907,7 +916,8 @@ Stone *gameplay::getStoneAt(Vector2 tilePosition) const {
         for (auto &stone: stonesInRooms.at(room)) {
             Vector2 stoneTilePos = stone->getTilePosition();
             //std::cout << "Checking stone at tile position: (" << stoneTilePos.x << ", " << stoneTilePos.y << ")" << std::endl;
-            if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f && std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
+            if (std::abs(stoneTilePos.x - tilePosition.x) < 0.1f &&
+                std::abs(stoneTilePos.y - tilePosition.y) < 0.1f) {
                 //std::cout << "Stone found" << std::endl;
                 return stone;
             }
@@ -932,8 +942,8 @@ void gameplay::spawnBlock(Vector2 position, bool isYellow) {
     int tileY = static_cast<int>(position.y / 32);
 
     // Check if the tile is walkable
-    if (getTileAt(tileX * 32, tileY * 32) == grassID ||
-        (getTileAt(tileX * 32, tileY * 32) >= grassID0 && getTileAt(tileX * 32, tileY * 32) <= grassID13)) {
+    if (getTileAt(tileX * 32, tileY * 32) == floor0ID ||
+        (getTileAt(tileX * 32, tileY * 32) >= grass0ID && getTileAt(tileX * 32, tileY * 32) <= grass6ID)) {
 
         movableblocks *newBlock;
         if (isYellow) {
@@ -999,15 +1009,17 @@ void gameplay::spawnSwitch(Vector2 position, bool isYellow) {
     int tileY = static_cast<int>(position.y / 32);
 
     // Check if the tile is walkable
-    if (getTileAt(tileX * 32, tileY * 32) == grassID ||
-        (getTileAt(tileX * 32, tileY * 32) >= grassID0 && getTileAt(tileX * 32, tileY * 32) <= grassID13)) {
+    if (getTileAt(tileX * 32, tileY * 32) == floor0ID ||
+        (getTileAt(tileX * 32, tileY * 32) >= grass0ID && getTileAt(tileX * 32, tileY * 32) <= grass6ID)) {
 
         movableblocks *newSwitch;
         if (isYellow) {
-            newSwitch = new yellowblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)}, true);
+            newSwitch = new yellowblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)},
+                                        true);
             //std::cout << "Spawned yellow switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
         } else {
-            newSwitch = new blueblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)}, true);
+            newSwitch = new blueblock(this, {static_cast<float>(tileX * 32), static_cast<float>(tileY * 32)},
+                                      true);
             //std::cout << "Spawned blue switch at (" << tileX * 32 << ", " << tileY * 32 << ")" << std::endl;
         }
         switchesInRooms[room].push_back(newSwitch);
@@ -1093,7 +1105,7 @@ bool gameplay::isAdjacentToSwitch(Vector2 position) const {
     return false;
 }
 
-void gameplay::addBomb(bombs* bomb) {
+void gameplay::addBomb(bombs *bomb) {
     //std::cout << "Adding bomb to game!" << std::endl;
     activeBombs.push_back(bomb);
 }
