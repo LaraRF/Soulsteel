@@ -14,8 +14,10 @@ Enemy::Enemy(gameplay*scene, int hp, int damage, bool melee, bool ranged, bool a
              float left, float down, float right, float up)
         : _scene(scene), health(hp), enemyDamage(damage), enemyTypeMelee(melee), enemyTypeRanged(ranged), enemyTypeArmed(armed),
           stopleft(left), stopdown(down), stopright(right), stopup(up), stepsize(1.0f), controltype(Path),
-          direction(Left) {
+          direction(static_cast<Direction>(Left)) {
     this->health = hp; //initialization of health
+
+    setAnimation("idle"); // Sets default animation
 }
 
 void Enemy::update() {
@@ -38,6 +40,12 @@ void Enemy::update() {
         pushForce = Vector2Scale(pushForce, overlapDistance);
         position = Vector2Add(position, pushForce);
     }
+    updateAnimation();
+    static constexpr int FRAME_COUNT = 8; // Add this line, adjust the value as needed
+    static constexpr float FRAME_DURATION = 0.1f; // Add this line, adjust the value as needed
+
+    float animationTimer;
+    int currentFrame;
 }
 
 void Enemy::calculatePathAsRectangle() {
@@ -97,4 +105,42 @@ void Enemy::setAttackPower (int damage) {
 
 void Enemy::attack(maincharacter* target) {
     target->health -= maincharacter::attackPower;
+}
+
+void Enemy::updateAnimation() {
+    animationTimer += GetFrameTime();
+    if (animationTimer >= FRAME_DURATION) {
+        animationTimer = 0;
+        currentFrame = (currentFrame + 1) % FRAME_COUNT;
+    }
+}
+
+void Enemy::draw() {
+    drawAnimation();
+}
+
+Texture2D Enemy::loadTexture(const std::string& animationName, const std::string& direction) {
+    std::string textureName = "enemies_" + std::to_string(id) + "_" + animationName + "_" + direction;
+    return assestmanagergraphics::getCharacterTexture("enemies", textureName);
+}
+
+void Enemy::drawAnimation() {
+    if (animations.find(currentAnimationKey) != animations.end()) {
+        const AnimationInfo& anim = animations[currentAnimationKey];
+        DrawTextureRec(anim.texture,
+                       Rectangle{static_cast<float>(currentFrame * anim.texture.width / anim.frameCount), 0.0f,
+                                 static_cast<float>(anim.texture.width / anim.frameCount),
+                                 static_cast<float>(anim.texture.height)},
+                       Vector2{position.x - static_cast<float>(anim.texture.width) / (2.0f * anim.frameCount),
+                               position.y - static_cast<float>(anim.texture.height) / 2.0f},
+                       WHITE);
+    }
+}
+
+void Enemy::setAnimation(const std::string& animationKey) {
+    if (animations.find(animationKey) != animations.end() && animationKey != currentAnimationKey) {
+        currentAnimationKey = animationKey;
+        animationTimer = 0.0f;
+        currentFrame = 0;
+    }
 }

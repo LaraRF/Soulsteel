@@ -175,8 +175,7 @@ void assestmanagergraphics::loadCharacterAnimations(const std::string &character
         for (const auto &enemyType : enemyTypes) {
             for (const auto &action : actions) {
                 if ((enemyType == "Spider" && action == "Bomb throw") ||
-                    (enemyType == "Tackle Spider" && action == "Ranged") ||
-                    (enemyType == "Tackle Spider" && action == "Bomb throw") ||
+                    (enemyType == "Tackle Spider" && (action == "Ranged" || action == "Bomb throw")) ||
                     (enemyType == "Teddy" && action == "Ranged")) {
                     continue; // Skip combinations that don't exist
                 }

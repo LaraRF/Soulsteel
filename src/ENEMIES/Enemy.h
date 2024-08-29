@@ -53,24 +53,20 @@ public:
     void setAttackPower(int damage);
     void attack(maincharacter* target);
 
-
     virtual void update();
     virtual void draw() = 0;
 
     void calculatePathAsRectangle();
 
+    void setAnimation(const std::string& animationKey);
 
+    virtual void drawAnimation();
 
     ControlType controltype;
 
     gameplay *_scene;
 
     Enemy(gameplay *scene);
-
-    //Textures
-    //Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
-    //Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
-    //Texture2D enemyTexture3 = assestmanagergraphics::getTexture("characters/enemies/enemy_3");
 
     virtual ~Enemy() = default; //virtual destructor for proper cleanup
 
@@ -83,6 +79,43 @@ public:
 
 
 protected:
+    //animation enemy
+    enum class AnimationState { IDLE, WALK, ATTACK, SPECIAL};
+    enum class Direction { Left, Right, Up, Down };
+
+    AnimationState currentAnimationState;
+    float animationTimer;
+    int currentFrame;
+    Direction facingDirection;
+    std::string currentAnimation;
+    Direction facing;
+
+    static constexpr int FRAME_COUNT = 8; // Add this line, adjust the value as needed
+    static constexpr float FRAME_DURATION = 0.1f; // Add this line, adjust the value as needed
+
+
+    struct AnimationInfo {
+        int frameCount;
+        float duration;
+        Texture2D texture;
+    };
+
+    std::map<std::string, AnimationInfo> animations;
+    std::string currentAnimationKey;
+
+
+    virtual void loadAnimations() = 0;
+
+
+    // New method to handle animations
+
+    virtual void updateAnimation();
+    virtual Texture2D getCurrentTexture() = 0;
+
+    // Texture loading helper
+    Texture2D loadTexture(const std::string& animationName, const std::string& direction);
+
+
     int enemyHP{};
     int enemyDamage{};
     bool enemyTypeMelee{};

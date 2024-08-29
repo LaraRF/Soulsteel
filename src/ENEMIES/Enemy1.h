@@ -10,12 +10,32 @@
 class Enemy1: public Enemy{
 public:
     Enemy1(gameplay *scene);
-
+    void update() override;
     void draw() override;
+    void throwBomb();
 
     ~Enemy1();
+
+
 private:
-    Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
+    bool isThrowing;
+    Vector2 bombPosition;
+    float bombAnimationTimer;
+
+    Texture2D getCurrentTexture() override;
+
+    Texture2D idleTexture;
+    Texture2D walkTexture;
+    Texture2D attackTexture;
+    Texture2D throwTexture;
+    Texture2D bombTexture;
+
+    //void updateAnimation(float deltaTime) override;
+    //void drawAnimation() override;
+
+    void loadAnimations() override;
+    void updateBombThrow();
+    void drawBombThrow();
 };
 
 

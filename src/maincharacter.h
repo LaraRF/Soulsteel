@@ -36,6 +36,9 @@ public:
     void collisionenemies();
     void collisionbars();
     void collisionabyss();
+    void startDusting();
+    void updateDustAnimation(float deltaTime);
+    void drawDustAnimation();
 
     //health & Damage
     int health = 10;
@@ -142,6 +145,14 @@ private:
     bool souldustcanbeused() const;
     bool isPossessed;
     bombs* activeBomb;
+    bool isDusting;
+    float dustAnimationTimer;
+    Vector2 dustPosition;
+    std::string currentDustAnimation;
+    static constexpr float DUST_ANIMATION_DURATION = 1.0f; // Adjust as needed
+    static constexpr int DUST_FRAME_COUNT = 8; // Adjust based on your sprite sheet
+
+
 };
 
 

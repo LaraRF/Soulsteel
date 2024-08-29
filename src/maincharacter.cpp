@@ -99,6 +99,10 @@ void maincharacter::collisionabyss() {
 
 void maincharacter::draw() {
 
+    if (currentState == DUST) {
+        drawDustAnimation();
+    }
+
     if (felldown) {
         DrawText("You fell into the abyss. You lost one life.", 10 * 15, 7 * 15, 20, RED);
     }
@@ -347,7 +351,7 @@ void maincharacter::souldash() {
     //position = newPosition;
     //updateDashAnimation(GetFrameTime());
 
-    /*controlls speed of dash animation
+    //controlls speed of dash animation
     frameCounter += DASH_ANIMATION_SPEED;
     if (frameCounter >= 1.0f) {
         frameCounter = 0.0f;
@@ -356,7 +360,7 @@ void maincharacter::souldash() {
             currentFrame = 0;
             currentState = IDLE;  // Ends dash after one full animation cycle
         }
-    }*/
+    }
 // Update the frame rectangle for drawing
     Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / DASH_FRAME_COUNT;
@@ -379,6 +383,52 @@ void maincharacter::souldust() {
         if (bowlX != -1 && bowlY != -1 && !_scene->isFirebowlActivated(bowlX, bowlY)) {
             _scene->activateFirebowl(bowlX, bowlY);
         }
+    }
+}
+
+void maincharacter::startDusting() {
+    if (souldustcanbeused()) {
+        isDusting = true;
+        dustAnimationTimer = 0.0f;
+        dustPosition = position;
+        currentState = DUST; // Assuming you have a DUST state in your State enum
+    }
+}
+
+void maincharacter::updateDustAnimation(float deltaTime) {
+    if (isDusting) {
+        dustAnimationTimer += deltaTime;
+        if (dustAnimationTimer >= DUST_ANIMATION_DURATION) {
+            isDusting = false;
+            currentState = IDLE; // Or whatever state should come after dusting
+        }
+    }
+}
+
+void maincharacter::drawDustAnimation() {
+    if (isDusting) {
+        Texture2D characterDustTexture = getCurrentTexture();
+        Texture2D dustEffectTexture = assestmanagergraphics::getCharacterTexture("soul", "dust_" + std::to_string(static_cast<int>(currentDirection)) + "_dust");
+
+        int currentFrame = static_cast<int>((dustAnimationTimer / DUST_ANIMATION_DURATION) * DUST_FRAME_COUNT) % DUST_FRAME_COUNT;
+
+        // Draw character dust animation
+        DrawTextureRec(characterDustTexture,
+                       Rectangle{static_cast<float>(currentFrame * characterDustTexture.width / DUST_FRAME_COUNT), 0.0f,
+                                 static_cast<float>(characterDustTexture.width / DUST_FRAME_COUNT),
+                                 static_cast<float>(characterDustTexture.height)},
+                       Vector2{position.x - static_cast<float>(characterDustTexture.width) / (2.0f * DUST_FRAME_COUNT),
+                               position.y - static_cast<float>(characterDustTexture.height) / 2.0f},
+                       WHITE);
+
+        // Draw dust effect animation
+        DrawTextureRec(dustEffectTexture,
+                       Rectangle{static_cast<float>(currentFrame * dustEffectTexture.width / DUST_FRAME_COUNT), 0.0f,
+                                 static_cast<float>(dustEffectTexture.width / DUST_FRAME_COUNT),
+                                 static_cast<float>(dustEffectTexture.height)},
+                       Vector2{dustPosition.x - static_cast<float>(dustEffectTexture.width) / (2.0f * DUST_FRAME_COUNT),
+                               dustPosition.y - static_cast<float>(dustEffectTexture.height) / 2.0f},
+                       WHITE);
     }
 }
 
@@ -442,6 +492,10 @@ void maincharacter::update() {
     else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
     else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
 
+
+
+
+
 //collisions
     collisionwall();
     collisionenemies();
@@ -451,11 +505,10 @@ void maincharacter::update() {
 
     //update animation
     //updateAnimation(GetFrameTime());
-    //if (currentState == DASH) {
-    // Dash animation is handled in souldash()
-    //} else {
+
     updateAnimation(GetFrameTime());
-    //}
+    updateDustAnimation(GetFrameTime());
+
 
 }
 
@@ -481,7 +534,7 @@ void maincharacter::updateDashAnimation(float deltaTime) {
         currentFrame++;
         if (currentFrame >= FRAME_COUNT) {
             currentFrame = 0;
-            currentState = IDLE;  // End dash after one full animation cycle
+            currentState = IDLE;  // Ends dash after one full animation cycle
         }
     }
 
