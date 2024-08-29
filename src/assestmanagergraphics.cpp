@@ -87,7 +87,7 @@ void assestmanagergraphics::init() {
     m_textures["characters/robot/Character_-_Robot_-_Idle_Front_-_animated"] = LoadTexture("assets/graphics/characters/robot/Character_-_Robot_-_Idle_Front_-_animated.gif");
     //Soul*/
 
-    
+
     //robot functions
     /*/bombs
     m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
