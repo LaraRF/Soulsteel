@@ -9,18 +9,24 @@
 #include "../Wall.h"
 
 int Enemy::attackPower = 1;
+const int Enemy::MAX_HEALTH;
+
 
 Enemy::Enemy(gameplay*scene, int hp, int damage, bool melee, bool ranged, bool armed,
              float left, float down, float right, float up)
         : _scene(scene), health(hp), enemyDamage(damage), enemyTypeMelee(melee), enemyTypeRanged(ranged), enemyTypeArmed(armed),
           stopleft(left), stopdown(down), stopright(right), stopup(up), stepsize(1.0f), controltype(Path),
-          direction(static_cast<Direction>(Left)) {
+          direction(static_cast<Direction>(Left)), m_health(hp) {
     this->health = hp; //initialization of health
-
     setAnimation("idle"); // Sets default animation
 }
 
 void Enemy::update() {
+
+        if (!isAlive()) {
+            // Handle enemy death (e.g., remove from game, play death animation, etc.)
+            return;
+        }
     if (controltype == Path) {
         moveOnPath();
     } else if (controltype == Random) {
@@ -87,9 +93,12 @@ Rectangle Enemy::getCollisionRectangle() const{
     return Rectangle();
 }
 
+void Enemy::calculateDamage(Enemy& enemy, int damage) {
+    enemy.takeDamage(damage);
+}
 
-int Enemy::getHealth(const Enemy &enemy) {
-    return enemy.health;
+int Enemy::getHealth(const Enemy& enemy) {
+    return enemy.m_health;
 }
 
 void Enemy::takeDamage(Enemy &enemy, int damage) {
@@ -143,4 +152,21 @@ void Enemy::setAnimation(const std::string& animationKey) {
         animationTimer = 0.0f;
         currentFrame = 0;
     }
+}
+
+//*NEW CODE*
+void Enemy::takeDamage(int amount) {
+    m_health = std::max(0, m_health - amount);
+}
+
+void Enemy::heal(int amount) {
+    m_health = std::min(MAX_HEALTH, m_health + amount);
+}
+
+bool Enemy::isAlive() const {
+    return m_health > 0;
+}
+
+float Enemy::getHealthPercentage() const {
+    return static_cast<float>(m_health) / MAX_HEALTH;
 }

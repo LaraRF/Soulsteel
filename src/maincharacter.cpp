@@ -7,7 +7,7 @@
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
 const float maincharacter::bomb_cooldown = 1.0f;
-
+const int maincharacter::MAX_HEALTH;
 
 int maincharacter::attackPower = 2;
 
@@ -97,6 +97,29 @@ void maincharacter::collisionabyss() {
 }
 
 void maincharacter::draw() {
+    Texture2D currentTexture = getCurrentTexture();
+
+    if (currentState == SWITCHING) {
+        int currentFrame = static_cast<int>((switchAnimationTimer / SWITCH_ANIMATION_DURATION) * SWITCH_FRAME_COUNT) % SWITCH_FRAME_COUNT;
+
+        float frameWidth = static_cast<float>(currentTexture.width) / SWITCH_FRAME_COUNT;
+        Rectangle sourceRec = {
+                currentFrame * frameWidth,
+                0.0f,
+                frameWidth,
+                static_cast<float>(currentTexture.height)
+        };
+
+        Vector2 drawPosition = {
+                position.x - frameWidth / 2,
+                position.y - currentTexture.height / 2
+        };
+
+        DrawTextureRec(currentTexture, sourceRec, drawPosition, WHITE);
+    } else {
+        // Existing drawing logic for other states
+        drawsoul();  // or drawrobot() depending on your current mode
+    }
 
     if (currentState == DUST) {
         drawDustAnimation();
@@ -136,6 +159,8 @@ Rectangle maincharacter::getCollisionRectangle() const {
 
 Texture2D maincharacter::getCurrentTexture() {
     std::string state;
+    std::string key;
+
     switch (currentState) {
         case IDLE:
             state = "idle_";
@@ -149,6 +174,14 @@ Texture2D maincharacter::getCurrentTexture() {
         case DUST:
             state = "dust_";
             break;
+        case SWITCHING:
+            // Handle the switching state
+            return assestmanagergraphics::getCharacterTexture(
+                    "Switch-Animation",
+                    (currentmodus == soulmodus)
+                    ? "Character - Robot+Soul - Switch Soul to Robot - animated"
+                    : "Character - Robot+Soul - Switch Robot to Soul - animated"
+            );
         default:
             state = "idle_";
     }
@@ -169,8 +202,9 @@ Texture2D maincharacter::getCurrentTexture() {
             break;
     }
 
+    key = state + direction;
+
     std::string characterName = (currentmodus == soulmodus) ? "soul" : "robot";
-    std::string key = state + direction;
 
     if (characterName == "robot") {
         if (state == "idle_" || state == "walk_") {
@@ -178,7 +212,6 @@ Texture2D maincharacter::getCurrentTexture() {
                 key += isCharacterPossessed() ? "_possessed" : "_normal";
             }
         } else if ((state == "melee_" || state == "ranged_") && (direction == "left" || direction == "right")) {
-            // For side melee and ranged attacks, we need to decide which part to show (arm or body)
             key += "_body"; // or "_arm" depending on your needs
         }
     }
@@ -436,19 +469,18 @@ void maincharacter::update() {
     Vector2 oldPosition = position;
     maincharacterwalking();
 
-
-
     //allows you to switch between soul and robot functions
     switch (currentmodus) {
         case soulmodus:
             //switch mode
-            if (IsKeyPressed(KEY_SPACE)) {
-                //currentmodus = robotmodus;
-                currentmodus = (currentmodus == soulmodus) ? robotmodus : soulmodus;
+            if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
+                isSwitching = true;
+                switchAnimationTimer = 0.0f;
+                currentState = SWITCHING;
             }
 
             // soul dash
-            if (IsKeyPressed(KEY_I) && currentState != DASH) {
+            if (IsKeyPressed(KEY_I) && currentState != DASH && !isSwitching) {
                 souldashactivated = true;
                 souldash();
             } else if (currentState == DASH) {
@@ -461,51 +493,49 @@ void maincharacter::update() {
             break;
         case robotmodus:
             //switch mode
-            if (IsKeyPressed(KEY_SPACE)) {
-                currentmodus = soulmodus;
-                //currentmodus = (currentmodus == soulmodus) ? robotmodus : soulmodus;
+            if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
+                isSwitching = true;
+                switchAnimationTimer = 0.0f;
+                currentState = SWITCHING;
             }
 
             //activate switch
-            if (IsKeyPressed(KEY_B)) {
-                /*std::cout << "B key pressed in robot mode at position ("
-                          << std::floor(position.x / 32) << ", " << std::floor(position.y / 32) << ")" << std::endl;*/
+            if (IsKeyPressed(KEY_B) && !isSwitching) {
                 if (_scene->isAdjacentToSwitch(position)) {
                     Vector2 characterTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
                     _scene->toggleSwitchAt(characterTile);
-                } else {
-                    //std::cout << "Not adjacent to any switch" << std::endl;
                 }
             }
             //bomb throwing
-            if (IsKeyPressed(KEY_J) && (GetTime() - lastBombThrowTime) >= bomb_cooldown) {
+            if (IsKeyPressed(KEY_J) && (GetTime() - lastBombThrowTime) >= bomb_cooldown && !isSwitching) {
                 throwBomb();
             }
             break;
     }
 
-    //checks if character is moving
-    if (Vector2Equals(oldPosition, position) && currentState != DASH) {
-        currentState = IDLE;
-    } else if (currentState != DASH) {
-        currentState = WALKING;
+    if (isSwitching) {
+        switchAnimationTimer += GetFrameTime();
+        if (switchAnimationTimer >= SWITCH_ANIMATION_DURATION) {
+            isSwitching = false;
+            currentmodus = (currentmodus == soulmodus) ? robotmodus : soulmodus;
+            currentState = IDLE;
+        }
+    } else {
+        //checks if character is moving
+        if (Vector2Equals(oldPosition, position) && currentState != DASH) {
+            currentState = IDLE;
+        } else if (currentState != DASH) {
+            currentState = WALKING;
+        }
+
+        //update current direction based on movement
+        if (IsKeyDown(KEY_W)) currentDirection = BACK;
+        else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
+        else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
+        else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
     }
 
-
-
-
-
-    //update current direction based on movement
-    if (IsKeyDown(KEY_W)) currentDirection = BACK;
-    else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
-    else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
-    else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
-
-
-
-
-
-//collisions
+    //collisions
     collisionwall();
     collisionenemies();
     collisionbars();
@@ -513,12 +543,12 @@ void maincharacter::update() {
     updateLastSafePosition();
 
     //update animation
-    //updateAnimation(GetFrameTime());
-
-    updateAnimation(GetFrameTime());
+    if (currentState == SWITCHING) {
+        // The animation update is handled by the switchAnimationTimer
+    } else {
+        updateAnimation(GetFrameTime());
+    }
     updateDustAnimation(GetFrameTime());
-
-
 }
 
 void maincharacter::updateAnimation(float deltaTime) {
@@ -581,3 +611,19 @@ void maincharacter::throwBomb() {
     lastBombThrowTime = GetTime();
 }
 
+//*NEW CODE*
+void maincharacter::takeDamage(int amount) {
+    m_health = std::max(0, m_health - amount);
+}
+
+void maincharacter::heal(int amount) {
+    m_health = std::min(MAX_HEALTH, m_health + amount);
+}
+
+bool maincharacter::isAlive() const {
+    return m_health > 0;
+}
+
+float maincharacter::getHealthPercentage() const {
+    return static_cast<float>(m_health) / MAX_HEALTH;
+}

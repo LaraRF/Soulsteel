@@ -77,6 +77,15 @@ public:
 
     Rectangle getCollisionRectangle() const;
 
+    //*NEW CODE*
+    static const int MAX_HEALTH = 10;
+    void takeDamage(int amount);
+    void heal(int amount);
+    bool isAlive() const;
+    float getHealthPercentage() const;
+
+    int m_health = MAX_HEALTH;
+
 
 protected:
     //animation enemy
