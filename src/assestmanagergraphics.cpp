@@ -66,7 +66,6 @@ void assestmanagergraphics::init() {
     m_textures["item/bomb_exploded"] = LoadTexture("assets/items/bomb_exploded.png");
     m_textures["item/souldust"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - animated - activated.png");
     m_textures["ability/souldust_deactivated"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - static - unactivated.png");
-    m_textures["item/stone"] = LoadTexture("assets/graphics/items/stone.png");
 
     // Load block textures
     m_textures["item/yellow_block"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Static.png");
@@ -106,7 +105,7 @@ void assestmanagergraphics::init() {
     m_textures["characters/soul/dash_left"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side left - animated.png");
     m_textures["characters/soul/dash_right"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side right - animated.png");
     //stones
-    m_textures["item/stone"]= LoadTexture("assets/graphics/items/stone.png");
+    m_textures["item/stone"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - MovableBlock - Static.png");
 
     // Load character animations
     loadCharacterAnimations("soul");
