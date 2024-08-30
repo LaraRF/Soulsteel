@@ -127,9 +127,7 @@ void gameplay::doRoomSwitch() {
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
             }
-            break;
-        case 4:
-            if (themaincharacter->position.y <= doorfromroom4to5) {
+            if (themaincharacter->position.y <= (doorfromroom4to5)) {
                 room = 5;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 5;
@@ -137,6 +135,8 @@ void gameplay::doRoomSwitch() {
                 reloadRoom();
                 themaincharacter->position.y = startposroom4to5;
             }
+            break;
+        case 4:
             if (themaincharacter->position.x <= (doorfromroom4to2)) {
                 room = 2;
                 if (currentmodus == soulmodus) {
@@ -147,24 +147,16 @@ void gameplay::doRoomSwitch() {
             }
             break;
         case 5:
-            if (themaincharacter->position.y <= doorfromroom5to6) {
-                room = 6;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 6;
-                } else { robotisinroom = 6; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom5to6;
-            }
             if (themaincharacter->position.y >= doorfromroom5to4) {
-                room = 4;
+                room = 3;
                 if (currentmodus == soulmodus) {
-                    soulisinroom = 4;
-                } else { robotisinroom = 4; }
+                    soulisinroom = 3;
+                } else { robotisinroom = 3; }
                 reloadRoom();
                 themaincharacter->position.y = startposroom5to4;
             }
             break;
-        case 6:
+        /*case 6:
             if (themaincharacter->position.y >= doorfromroom6to5) {
                 room = 5;
                 if (currentmodus == soulmodus) {
@@ -173,7 +165,7 @@ void gameplay::doRoomSwitch() {
                 reloadRoom();
                 themaincharacter->position.y = startposroom6to5;
             }
-            break;
+            break;*/
     }
 }
 

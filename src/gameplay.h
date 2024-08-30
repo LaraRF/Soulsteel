@@ -184,10 +184,10 @@ struct ActivatedFirebowl {
         int startposroom2to4=16;
         int doorfromroom4to2=16;
         int startposroom4to2=24*32+16;
-        int doorfromroom4to5=16;
+        int doorfromroom4to5=2*32;
         int startposroom4to5=14*32+16;
         int doorfromroom5to4=14*32+20;
-        int startposroom5to4=20;
+        int startposroom5to4=3*32;
         int doorfromroom5to6=2*32;
         int startposroom5to6=14*32+16;
         int doorfromroom6to5=14*32+20;
@@ -301,7 +301,8 @@ struct ActivatedFirebowl {
         static const int stonewall28ID=124;
         static const int stonewall29ID=125;
         static const int stonewall30ID=126;
-        //3 unused factory tiles
+        static const int stonewall31ID=127;
+        //2 unused factory tiles
         static const int door2ID=130;
         static const int door3ID=131;
         static const int door4ID=132;
@@ -323,7 +324,7 @@ struct ActivatedFirebowl {
         std::vector<int> treeIDs = {tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, bush0ID, bush1ID, bush2ID};
         std::vector<int> doorIDs = {door0ID, door1ID, door2ID, door3ID, door4ID, door5ID, door6ID, door7ID};
         std::vector<int> doorhingeIDs = {doorhinge0ID, doorhinge1ID, doorhinge2ID, doorhinge3ID};
-        std::vector<int> stonewallIDs ={greywallblock0ID, stonewall0ID, stonewall1ID, stonewall2ID, stonewall3ID, stonewall4ID,stonewall5ID, stonewall6ID, stonewall7ID, stonewall8ID, stonewall9ID, stonewall10ID, stonewall11ID, stonewall12ID, stonewall13ID, stonewall14ID, stonewall15ID, stonewall16ID, stonewall17ID, stonewall18ID, stonewall19ID, stonewall20ID, stonewall21ID, stonewall22ID, stonewall23ID, stonewall24ID, stonewall25ID, stonewall26ID, stonewall27ID, stonewall28ID, stonewall29ID, stonewall30ID};
+        std::vector<int> stonewallIDs ={greywallblock0ID, stonewall0ID, stonewall1ID, stonewall2ID, stonewall3ID, stonewall4ID,stonewall5ID, stonewall6ID, stonewall7ID, stonewall8ID, stonewall9ID, stonewall10ID, stonewall11ID, stonewall12ID, stonewall13ID, stonewall14ID, stonewall15ID, stonewall16ID, stonewall17ID, stonewall18ID, stonewall19ID, stonewall20ID, stonewall21ID, stonewall22ID, stonewall23ID, stonewall24ID, stonewall25ID, stonewall26ID, stonewall27ID, stonewall28ID, stonewall29ID, stonewall30ID, stonewall31ID};
         std::vector<int> abyssIDs={abyss0ID, abyss1ID, abyss2ID, abyss3ID, abyss4ID, abyss5ID, abyss6ID, abyss7ID, abyss8ID, abyss9ID, abyss10ID, abyss11ID, abyss12ID, abyss13ID, abyss14ID, abyss15ID, abyss16ID, abyss17ID};
         std::vector<int> firebowlIDs={firebowl0ID, firebowl1ID};
         std::vector<int> tableIDs={table0ID, table1ID, table2ID, table3ID, table4ID, table5ID, table6ID};
