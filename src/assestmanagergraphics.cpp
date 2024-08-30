@@ -60,6 +60,17 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/title_3"] = LoadTexture("assets/graphics/userinterface/title_3.png");
     m_textures["userinterface/title_4"] = LoadTexture("assets/graphics/userinterface/title_4.png");
 
+    //final menu
+    m_textures["userinterface/start"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Start - static.png");
+    m_textures["userinterface/start_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Start - static.png");
+    m_textures["userinterface/settings"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Settings - static.png");
+    m_textures["userinterface/settings_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Settings - static.png");
+    m_textures["userinterface/close"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Close - static.png");
+    m_textures["userinterface/close_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Close - static.png");
+    m_textures["userinterface/pause"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Pause - static.png");
+
+
+
     // Load item textures
     m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
     m_textures["item/bomb_activated"] = LoadTexture("assets/items/bomb_abouttoexplode.png");
