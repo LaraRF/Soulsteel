@@ -127,8 +127,8 @@ void gameplay::doRoomSwitch() {
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
             }
-            if (areAllFirebowlsActivatedInRoom(3)) {
-                if (themaincharacter->position.y <= (doorfromroom4to5)) {
+            else if (themaincharacter->position.y <= (doorfromroom4to5)) {
+                if (areAllFirebowlsActivatedInRoom(3)) {
                     room = 5;
                     if (currentmodus == soulmodus) {
                         soulisinroom = 5;
@@ -156,6 +156,12 @@ void gameplay::doRoomSwitch() {
                 } else { robotisinroom = 3; }
                 reloadRoom();
                 themaincharacter->position.y = startposroom5to4;
+            }
+            else if(themaincharacter->position.x<=doorfromroom5to7||themaincharacter->position.y<=doorfromroom5to6){
+                showDemoMessage=true;
+            }
+            else{
+                showDemoMessage=false;
             }
             break;
             /*case 6:
@@ -220,26 +226,21 @@ void gameplay::activateFirebowl(int x, int y) {
 }
 
 bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
+    int requiredCount = 0;
     if (roomNumber == 1) {
-        int activatedCount = 0;
-        for (const auto &bowl: activatedFirebowls) {
-            if (bowl.room == 1) {
-                activatedCount++;
-            }
-        }
-        return activatedCount == 2;
+        requiredCount = 2;  // Room 1 requires 2 firebowls
+    } else if (roomNumber == 3) {
+        requiredCount = 1;  // Room 3 requires only 1 firebowl
     }
-    if (roomNumber == 3) {
-        int activatedCount = 0;
-        for (const auto &bowl: activatedFirebowls) {
-            if (bowl.room == 1) {
-                activatedCount++;
-            }
+    // Add conditions for other rooms if needed
+
+    int activatedCount = 0;
+    for (const auto &bowl: activatedFirebowls) {
+        if (bowl.room == roomNumber) {
+            activatedCount++;
         }
-        return activatedCount == 2;
     }
-    // this is where we can put the logic/conditions for other rooms if needed
-    return true;
+    return activatedCount >= requiredCount;
 }
 
 bool gameplay::isFirebowlActivated(int x, int y) const {
@@ -372,6 +373,10 @@ void gameplay::drawtextonscreen() {
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
     DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
     DrawText("Press T to open the journal.", 10, 460, 10, WHITE);
+
+    if(showDemoMessage==true){
+        DrawText("This is the end of the SoulSteel Demo version.", 200,120,20, WHITE);
+    }
 }
 
 void gameplay::drawhealthhearts() {

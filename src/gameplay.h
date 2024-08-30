@@ -171,27 +171,30 @@ struct ActivatedFirebowl {
         void reloadRoom();
 
         //doors
-        int doortextarea=32*4;
-        int doorfromroom1to2=32*2;
-        int startposroom1to2=14*32+16;
-        int doorfromroom2to1=14*32+20;
-        int startposroom2to1=2*32+16;
-        int doorfromroom2to3=2*32;
-        int startposroom2to3=14*32+16;
-        int doorfromroom3to2=14*32+20;
-        int startposroom3to2=2*32+16;
-        int doorfromroom2to4=24*32+16;
-        int startposroom2to4=16;
-        int doorfromroom4to2=16;
-        int startposroom4to2=24*32+16;
-        int doorfromroom4to5=2*32;
-        int startposroom4to5=14*32+16;
-        int doorfromroom5to4=14*32+20;
-        int startposroom5to4=3*32;
-        int doorfromroom5to6=2*32;
-        int startposroom5to6=14*32+16;
-        int doorfromroom6to5=14*32+20;
-        int startposroom6to5=2*32+16;
+        float doortextarea=32*4;
+        float doorfromroom1to2=32*2;
+        float startposroom1to2=14*32+16;
+        float doorfromroom2to1=14*32+20;
+        float startposroom2to1=2*32+16;
+        float doorfromroom2to3=2*32;
+        float startposroom2to3=14*32+16;
+        float doorfromroom3to2=14*32+20;
+        float startposroom3to2=2*32+16;
+        float doorfromroom2to4=24*32+16;
+        float startposroom2to4=16;
+        float doorfromroom4to2=16;
+        float startposroom4to2=24*32+16;
+        float doorfromroom4to5=2*32;
+        float startposroom4to5=14*32+16;
+        float doorfromroom5to4=14*32+20;
+        float startposroom5to4=3*32;
+        float doorfromroom5to6=3*32;
+        float startposroom5to6=14*32+16;
+        float doorfromroom6to5=14*32+20;
+        float startposroom6to5=2*32+16;
+        float doorfromroom5to7=32+16;
+
+        bool showDemoMessage=false;
 
         static const int tree0ID=0;
         static const int tree1ID=1;
