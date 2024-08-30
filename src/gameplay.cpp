@@ -410,25 +410,28 @@ void gameplay::reloadRoom() {
         }
     }
     //blocks
-    switch (room) {
-        case 3:
-            spawnBlock({2 * 32, 3 * 32}, false);  // Blue block top left corner 1
-            spawnBlock({1 * 32, 4 * 32}, false);  // Blue block top left corner 2
-            spawnBlock({12 * 32, 3 * 32}, false);  // Blue block top middle
+    // Only spawn blocks and switches if they haven't been created for this room before
+    if (blocksInRooms.find(room) == blocksInRooms.end()) {
+        switch (room) {
+            case 3:
+                spawnBlock({2 * 32, 3 * 32}, false);  // Blue block top left corner 1
+                spawnBlock({1 * 32, 4 * 32}, false);  // Blue block top left corner 2
+                spawnBlock({12 * 32, 3 * 32}, false);  // Blue block top middle
 
-            spawnBlock({11 * 32, 3 * 32}, true);  // Yellow block top middle top line 1
-            spawnBlock({13 * 32, 3 * 32}, true);  // Yellow block top middle top line 2
-            spawnBlock({11 * 32, 4 * 32}, true);  // Yellow block top middle second line 1
-            spawnBlock({12 * 32, 4 * 32}, true);  // Yellow block top middle second line 2
-            spawnBlock({13 * 32, 4 * 32}, true);  // Yellow block top middle second line 3
+                spawnBlock({11 * 32, 3 * 32}, true);  // Yellow block top middle top line 1
+                spawnBlock({13 * 32, 3 * 32}, true);  // Yellow block top middle top line 2
+                spawnBlock({11 * 32, 4 * 32}, true);  // Yellow block top middle second line 1
+                spawnBlock({12 * 32, 4 * 32}, true);  // Yellow block top middle second line 2
+                spawnBlock({13 * 32, 4 * 32}, true);  // Yellow block top middle second line 3
 
-            spawnBlock({17 * 32, 7 * 32}, true);  // Yellow block middle by fence 1
-            spawnBlock({17 * 32, 8 * 32}, true);  // Yellow block middle by fence 2
+                spawnBlock({17 * 32, 7 * 32}, true);  // Yellow block middle by fence 1
+                spawnBlock({17 * 32, 8 * 32}, true);  // Yellow block middle by fence 2
 
-            spawnSwitch({1 * 32, 3 * 32}, true);  // Yellow switch
-            spawnSwitch({22 * 32, 12 * 32}, false);  // Blue switch
-            //std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
-            break;
+                spawnSwitch({1 * 32, 3 * 32}, true);  // Yellow switch
+                spawnSwitch({22 * 32, 12 * 32}, false);  // Blue switch
+                //std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
+                break;
+        }
     }
 
     //enemies
