@@ -89,6 +89,7 @@ void assestmanagergraphics::init() {
     m_textures["characters/robot/Robot_front"] = LoadTexture("assets/graphics/characters/robot/Robot_front.png");
     m_textures["characters/robot/Character_-_Robot_-_Idle_Front_-_animated"] = LoadTexture("assets/graphics/characters/robot/Character_-_Robot_-_Idle_Front_-_animated.gif");
     //Soul*/
+    m_textures["placeholder/standby-robot"]= LoadTexture("assets/graphics/characters/robot/Character - Robot - Offline - static.png");
 
 
     //robot functions

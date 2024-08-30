@@ -296,7 +296,6 @@ void gameplay::draw() {
     themaincharacter->draw();
     drawmaincharacter();
 
-
     for (int i = 0; i < gameobjects.size(); i++) {
         gameobjects[i]->draw();
     }
