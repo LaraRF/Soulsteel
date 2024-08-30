@@ -75,6 +75,7 @@ struct ActivatedFirebowl {
         void draw() override;
         void drawtextonscreen();
         void drawhealthhearts();
+        void drawicons();
         void drawmaincharacter();
 
 

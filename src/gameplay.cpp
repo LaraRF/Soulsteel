@@ -126,8 +126,7 @@ void gameplay::doRoomSwitch() {
                 } else { robotisinroom = 2; }
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
-            }
-            else if (themaincharacter->position.y <= (doorfromroom4to5)) {
+            } else if (themaincharacter->position.y <= (doorfromroom4to5)) {
                 if (areAllFirebowlsActivatedInRoom(3)) {
                     room = 5;
                     if (currentmodus == soulmodus) {
@@ -156,12 +155,11 @@ void gameplay::doRoomSwitch() {
                 } else { robotisinroom = 3; }
                 reloadRoom();
                 themaincharacter->position.y = startposroom5to4;
-            }
-            else if(themaincharacter->position.x<=doorfromroom5to7||themaincharacter->position.y<=doorfromroom5to6){
-                showDemoMessage=true;
-            }
-            else{
-                showDemoMessage=false;
+            } else if (themaincharacter->position.x <= doorfromroom5to7 ||
+                       themaincharacter->position.y <= doorfromroom5to6) {
+                showDemoMessage = true;
+            } else {
+                showDemoMessage = false;
             }
             break;
             /*case 6:
@@ -306,6 +304,7 @@ void gameplay::draw() {
 
     drawtextonscreen();
     drawhealthhearts();
+    drawicons();
     drawStones();
     drawBlocks();
     drawSwitches();
@@ -374,15 +373,30 @@ void gameplay::drawtextonscreen() {
     DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
     DrawText("Press T to open the journal.", 10, 460, 10, WHITE);
 
-    if(showDemoMessage==true){
-        DrawText("This is the end of the SoulSteel Demo version.", 200,120,20, WHITE);
+    if (showDemoMessage == true) {
+        DrawText("This is the end of the SoulSteel Demo version.", 200, 120, 20, WHITE);
     }
 }
 
+void gameplay::drawicons() {
+    DrawTexture(icon_dash, 23*32, 16, WHITE);
+    DrawTexture(icon_dust, 23*32+16, 32, WHITE);
+    DrawTexture(icon_bomb, 23*32-16, 32, WHITE);
+    DrawTexture(icon_stone, 23*32, 32+16, WHITE);
+}
+
 void gameplay::drawhealthhearts() {
-    DrawTexture(heart, 10, 20, WHITE);
-    DrawTexture(heart, 50, 20, WHITE);
-    DrawTexture(heart, 90, 20, WHITE);
+    switch (currentmodus) {
+        case soulmodus:
+            DrawTexture(heart_soul, 10, 20, WHITE);
+            DrawTexture(heart_soul, 50, 20, WHITE);
+            DrawTexture(heart_soul, 90, 20, WHITE);
+            break;
+        case robotmodus:
+            DrawTexture(heart_robot, 10, 20, WHITE);
+            DrawTexture(heart_robot, 50, 20, WHITE);
+            DrawTexture(heart_robot, 90, 20, WHITE);
+    }
 }
 
 void gameplay::drawDebug() { //draws red outlines around the wall tiles for example to help detect collision problems

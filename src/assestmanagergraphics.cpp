@@ -76,7 +76,7 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/icon_bomb"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Robot bomb - static.png");
 
     m_textures["userinterface/heart_robot"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Robot - static.png");
-    m_textures["userinterface/heart_soul"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Robot - static.png");
+    m_textures["userinterface/heart_soul"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Soul - static.png");
 
     // Load item textures
     m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
