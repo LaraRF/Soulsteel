@@ -127,13 +127,15 @@ void gameplay::doRoomSwitch() {
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
             }
-            if (themaincharacter->position.y <= (doorfromroom4to5)) {
-                room = 5;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 5;
-                } else { robotisinroom = 5; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom4to5;
+            if (areAllFirebowlsActivatedInRoom(3)) {
+                if (themaincharacter->position.y <= (doorfromroom4to5)) {
+                    room = 5;
+                    if (currentmodus == soulmodus) {
+                        soulisinroom = 5;
+                    } else { robotisinroom = 5; }
+                    reloadRoom();
+                    themaincharacter->position.y = startposroom4to5;
+                }
             }
             break;
         case 4:
@@ -156,16 +158,16 @@ void gameplay::doRoomSwitch() {
                 themaincharacter->position.y = startposroom5to4;
             }
             break;
-        /*case 6:
-            if (themaincharacter->position.y >= doorfromroom6to5) {
-                room = 5;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 6;
-                } else { robotisinroom = 6; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom6to5;
-            }
-            break;*/
+            /*case 6:
+                if (themaincharacter->position.y >= doorfromroom6to5) {
+                    room = 5;
+                    if (currentmodus == soulmodus) {
+                        soulisinroom = 6;
+                    } else { robotisinroom = 6; }
+                    reloadRoom();
+                    themaincharacter->position.y = startposroom6to5;
+                }
+                break;*/
     }
 }
 
@@ -201,7 +203,8 @@ std::pair<int, int> gameplay::getNearestFirebowlTile(Vector2 pos) const {
             if (dx == 0 && dy == 0) continue;
             int checkX = tileX + dx;
             int checkY = tileY + dy;
-            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID || getTileAt(checkX * 32, checkY * 32) == firebowl1ID) {
+            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID ||
+                getTileAt(checkX * 32, checkY * 32) == firebowl1ID) {
                 return {checkX, checkY};
             }
         }
@@ -217,8 +220,16 @@ void gameplay::activateFirebowl(int x, int y) {
 }
 
 bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
-    // Assuming there are always 2 firebowls in room 1
     if (roomNumber == 1) {
+        int activatedCount = 0;
+        for (const auto &bowl: activatedFirebowls) {
+            if (bowl.room == 1) {
+                activatedCount++;
+            }
+        }
+        return activatedCount == 2;
+    }
+    if (roomNumber == 3) {
         int activatedCount = 0;
         for (const auto &bowl: activatedFirebowls) {
             if (bowl.room == 1) {
@@ -675,6 +686,7 @@ bool gameplay::soulcantakeover() {
         return false;
     }
 }
+
 Vector2 gameplay::getRobotPosition() const {
     return therobot->position;
 }
