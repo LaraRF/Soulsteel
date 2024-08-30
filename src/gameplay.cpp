@@ -680,6 +680,13 @@ bool gameplay::soulcantakeover() {
         return false;
     }
 }
+Vector2 gameplay::getRobotPosition() const {
+    return therobot->position;
+}
+
+float gameplay::getTakeoverRadius() const {
+    return takeoverradius;
+}
 
 Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     //check all walls

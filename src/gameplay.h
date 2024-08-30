@@ -97,6 +97,8 @@ struct ActivatedFirebowl {
         bool soulhasntchangedformsyet=true;
         bool soulcantakeover();
         int takeoverradius =40;
+        Vector2 getRobotPosition() const;
+        float getTakeoverRadius() const;
 
         //soul dust
         Texture2D activatedFirebowlTexture=assestmanagergraphics::getTexture("item/souldust");

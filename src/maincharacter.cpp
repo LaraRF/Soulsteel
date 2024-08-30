@@ -241,6 +241,15 @@ maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
     isPossessed = false;
 }
 
+bool maincharacter::canSwitchToRobot() const {
+    if (currentmodus != soulmodus) return true;  // Can always switch from robot to soul
+
+    Vector2 robotPos = _scene->getRobotPosition();
+    float takeoverRadius = _scene->getTakeoverRadius();
+
+    return CheckCollisionPointCircle(position, robotPos, takeoverRadius);
+}
+
 bool maincharacter::isCharacterPossessed() const {
     return isPossessed;
 }
@@ -473,7 +482,7 @@ void maincharacter::update() {
     switch (currentmodus) {
         case soulmodus:
             //switch mode
-            if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
+            if (IsKeyPressed(KEY_SPACE) && !isSwitching&& canSwitchToRobot()) {
                 isSwitching = true;
                 switchAnimationTimer = 0.0f;
                 currentState = SWITCHING;
