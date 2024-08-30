@@ -63,7 +63,8 @@ public:
         IDLE,
         WALKING,
         DASH,
-        DUST
+        DUST,
+        SWITCHING
     };
     CharacterState currentState=IDLE;
 
@@ -95,8 +96,6 @@ public:
     bool souldashactivated=false;
     gameplay* _scene;
 
-    //sprite animation
-    //Texture2D soulanimated =LoadTexture("assets/graphics/soulsprite.png");
 
     // possessed Status
     bool isCharacterPossessed() const;
@@ -134,12 +133,18 @@ public:
     static const float bomb_cooldown;
     float bombthrowing_range=48;
 
+    static const int MAX_HEALTH = 10;
+    void takeDamage(int amount);
+    void heal(int amount);
+    bool isAlive() const;
+    float getHealthPercentage() const;
+
 protected:
     bool checkCollision(const Wall& wall);
 
 private:
     Texture2D getCurrentTexture();
-    //Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
+    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
     Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
     Vector2 lastSafePosition;
     void updateLastSafePosition();
@@ -153,6 +158,14 @@ private:
     static constexpr float DUST_ANIMATION_DURATION = 1.0f; // Adjust as needed
     static constexpr int DUST_FRAME_COUNT = 8; // Adjust based on your sprite sheet
 
+    //switch
+    bool isSwitching = false;
+    float switchAnimationTimer = 0.0f;
+    static constexpr float SWITCH_ANIMATION_DURATION = 1.0f; // Adjust as needed
+    static constexpr int SWITCH_FRAME_COUNT = 8;
+
+    //health
+    int m_health = MAX_HEALTH;
 
 };
 

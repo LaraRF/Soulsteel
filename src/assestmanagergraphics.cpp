@@ -81,6 +81,9 @@ void assestmanagergraphics::init() {
     m_textures["item/yellow_switch_off"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Switch - Static.png");
 
 
+    //load switching animation textures
+    m_textures["Switch-Animation/Soul_to_Robot"] = LoadTexture("assets/graphics/characters/Switch-Animation/Character - Robot+Soul - Switch Soul to Robot - animated.png");
+    m_textures["Switch-Animation/Robot_to_Soul"] = LoadTexture("assets/graphics/characters/Switch-Animation/Character - Robot+Soul - Switch Robot to Soul - animated.png");
 
     /*/placeholder character
     m_textures["characters/soul/Idle_Animation_front"] = LoadTexture("assets/graphics/characters/soul/Idle_Animation_front.gif");
@@ -218,8 +221,15 @@ Texture2D assestmanagergraphics::getTexture(const std::string &name) {
 }
 
 Texture2D assestmanagergraphics::getCharacterTexture(const std::string &characterName, const std::string &animationName) {
-    if (m_characterAnimations.find(characterName) != m_characterAnimations.end() &&
-        m_characterAnimations[characterName].find(animationName) != m_characterAnimations[characterName].end()) {
+    if (characterName == "Switch-Animation") {
+        std::string textureName = animationName == "Character - Robot+Soul - Switch Soul to Robot - animated"
+                                  ? "Switch-Animation/Soul_to_Robot"
+                                  : "Switch-Animation/Robot_to_Soul";
+        if (m_textures.find(textureName) != m_textures.end()) {
+            return m_textures[textureName];
+        }
+    } else if (m_characterAnimations.find(characterName) != m_characterAnimations.end() &&
+               m_characterAnimations[characterName].find(animationName) != m_characterAnimations[characterName].end()) {
         return m_characterAnimations[characterName][animationName];
     }
 
