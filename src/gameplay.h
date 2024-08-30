@@ -58,6 +58,12 @@ struct ActivatedFirebowl {
         std::map<int, std::vector<movableblocks*>> blocksInRooms;
         std::map<int, std::vector<movableblocks*>> switchesInRooms;
 
+        Texture2D heart_robot = assestmanagergraphics::getTexture("userinterface/heart_robot");
+        Texture2D heart_soul = assestmanagergraphics::getTexture("userinterface/heart_soul");
+        Texture2D icon_dust = assestmanagergraphics::getTexture("userinterface/icon_dust");
+        Texture2D icon_dash = assestmanagergraphics::getTexture("userinterface/icon_dash");
+        Texture2D icon_bomb = assestmanagergraphics::getTexture("userinterface/icon_bomb");
+        Texture2D icon_stone = assestmanagergraphics::getTexture("userinterface/icon_stone");
 
     public:
 

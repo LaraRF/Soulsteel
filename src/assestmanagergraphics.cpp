@@ -69,7 +69,14 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/close_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Close - static.png");
     m_textures["userinterface/pause"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Pause - static.png");
 
+    //ability icons
+    m_textures["userinterface/icon_dash"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Soul dash - static.png");
+    m_textures["userinterface/icon_dust"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Soul dust - static.png");
+    m_textures["userinterface/icon_stone"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Robot Interaction - static.png");
+    m_textures["userinterface/icon_bomb"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Robot bomb - static.png");
 
+    m_textures["userinterface/heart_robot"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Robot - static.png");
+    m_textures["userinterface/heart_soul"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Robot - static.png");
 
     // Load item textures
     m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
