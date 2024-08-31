@@ -48,26 +48,31 @@ void mainmenu::draw() {
 
     switch (cursor) { //shows which box is selected by giving it a white outline
         case 0:
-            DrawRectangleRec(hitbox_play_marked, WHITE);
+            DrawTexture(start_selected, 90,330,WHITE);
+            DrawTexture(settings, 325, 330, WHITE);
+            DrawTexture(close, 560, 330, WHITE);
             break;
         case 1:
-            DrawRectangleRec(hitbox_settings_marked, WHITE);
+            DrawTexture(start, 90, 330, WHITE);
+            DrawTexture(settings_selected,325,330, WHITE);
+            DrawTexture(close, 560, 330, WHITE);
             break;
         case 2:
-            DrawRectangleRec(hitbox_close_marked, WHITE);
+            DrawTexture(start, 90, 330, WHITE);
+            DrawTexture(settings, 325, 330, WHITE);
+            DrawTexture(close_selected,560,330, WHITE);
             break;
         default:
             break;
     }
     //draws the buttons
-    DrawRectangleRec(hitbox_play, GRAY);
+    /*DrawRectangleRec(hitbox_play, GRAY);
     DrawRectangleRec(hitbox_settings, GRAY);
-    DrawRectangleRec(hitbox_close, GRAY);
+    DrawRectangleRec(hitbox_close, GRAY);*/
 
-    //draws the images on the buttons
-    DrawTexture(buttonplay1, 130, 345, WHITE);
-    DrawTexture(button1settings, 340, 320, WHITE);
-    DrawTexture(button1close, 600, 340, WHITE);
+    /*DrawTexture(start, 90, 330, WHITE);
+    DrawTexture(settings, 325, 330, WHITE);
+    DrawTexture(close, 560, 330, WHITE);*/
 }
 
 void mainmenu::drawDebug() {

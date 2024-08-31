@@ -39,6 +39,7 @@ public:
     void startDusting();
     void updateDustAnimation(float deltaTime);
     void drawDustAnimation();
+    bool canSwitchToRobot() const;
 
     //health & Damage
     int health = 10;

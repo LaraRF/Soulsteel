@@ -126,17 +126,18 @@ void gameplay::doRoomSwitch() {
                 } else { robotisinroom = 2; }
                 reloadRoom();
                 themaincharacter->position.y = startposroom3to2;
+            } else if (themaincharacter->position.y <= (doorfromroom4to5)) {
+                if (areAllFirebowlsActivatedInRoom(3)) {
+                    room = 5;
+                    if (currentmodus == soulmodus) {
+                        soulisinroom = 5;
+                    } else { robotisinroom = 5; }
+                    reloadRoom();
+                    themaincharacter->position.y = startposroom4to5;
+                }
             }
             break;
         case 4:
-            if (themaincharacter->position.y <= doorfromroom4to5) {
-                room = 5;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 5;
-                } else { robotisinroom = 5; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom4to5;
-            }
             if (themaincharacter->position.x <= (doorfromroom4to2)) {
                 room = 2;
                 if (currentmodus == soulmodus) {
@@ -147,33 +148,30 @@ void gameplay::doRoomSwitch() {
             }
             break;
         case 5:
-            if (themaincharacter->position.y <= doorfromroom5to6) {
-                room = 6;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 6;
-                } else { robotisinroom = 6; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom5to6;
-            }
             if (themaincharacter->position.y >= doorfromroom5to4) {
-                room = 4;
+                room = 3;
                 if (currentmodus == soulmodus) {
-                    soulisinroom = 4;
-                } else { robotisinroom = 4; }
+                    soulisinroom = 3;
+                } else { robotisinroom = 3; }
                 reloadRoom();
                 themaincharacter->position.y = startposroom5to4;
+            } else if (themaincharacter->position.x <= doorfromroom5to7 ||
+                       themaincharacter->position.y <= doorfromroom5to6) {
+                showDemoMessage = true;
+            } else {
+                showDemoMessage = false;
             }
             break;
-        case 6:
-            if (themaincharacter->position.y >= doorfromroom6to5) {
-                room = 5;
-                if (currentmodus == soulmodus) {
-                    soulisinroom = 6;
-                } else { robotisinroom = 6; }
-                reloadRoom();
-                themaincharacter->position.y = startposroom6to5;
-            }
-            break;
+            /*case 6:
+                if (themaincharacter->position.y >= doorfromroom6to5) {
+                    room = 5;
+                    if (currentmodus == soulmodus) {
+                        soulisinroom = 6;
+                    } else { robotisinroom = 6; }
+                    reloadRoom();
+                    themaincharacter->position.y = startposroom6to5;
+                }
+                break;*/
     }
 }
 
@@ -186,8 +184,14 @@ bool gameplay::isAdjacentToFirebowl(Vector2 pos) const {
             if (dx == 0 && dy == 0) continue; // Skip the tile the character is on
             int checkX = tileX + dx;
             int checkY = tileY + dy;
-            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID||firebowl1ID) {
-                return true;
+            if (room == 1) {
+                if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID) {
+                    return true;
+                }
+            } else {
+                if (getTileAt(checkX * 32, checkY * 32) == firebowl1ID) {
+                    return true;
+                }
             }
         }
     }
@@ -203,7 +207,8 @@ std::pair<int, int> gameplay::getNearestFirebowlTile(Vector2 pos) const {
             if (dx == 0 && dy == 0) continue;
             int checkX = tileX + dx;
             int checkY = tileY + dy;
-            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID||firebowl1ID) {
+            if (getTileAt(checkX * 32, checkY * 32) == firebowl0ID ||
+                getTileAt(checkX * 32, checkY * 32) == firebowl1ID) {
                 return {checkX, checkY};
             }
         }
@@ -219,18 +224,21 @@ void gameplay::activateFirebowl(int x, int y) {
 }
 
 bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
-    // Assuming there are always 2 firebowls in room 1
+    int requiredCount = 0;
     if (roomNumber == 1) {
-        int activatedCount = 0;
-        for (const auto &bowl: activatedFirebowls) {
-            if (bowl.room == 1) {
-                activatedCount++;
-            }
-        }
-        return activatedCount == 2;
+        requiredCount = 2;  // Room 1 requires 2 firebowls
+    } else if (roomNumber == 3) {
+        requiredCount = 1;  // Room 3 requires only 1 firebowl
     }
-    // For other rooms, you can implement different logic if needed
-    return true;
+    // Add conditions for other rooms if needed
+
+    int activatedCount = 0;
+    for (const auto &bowl: activatedFirebowls) {
+        if (bowl.room == roomNumber) {
+            activatedCount++;
+        }
+    }
+    return activatedCount >= requiredCount;
 }
 
 bool gameplay::isFirebowlActivated(int x, int y) const {
@@ -290,13 +298,13 @@ void gameplay::draw() {
     themaincharacter->draw();
     drawmaincharacter();
 
-
     for (int i = 0; i < gameobjects.size(); i++) {
         gameobjects[i]->draw();
     }
 
     drawtextonscreen();
     drawhealthhearts();
+    drawicons();
     drawStones();
     drawBlocks();
     drawSwitches();
@@ -364,12 +372,31 @@ void gameplay::drawtextonscreen() {
     DrawText("Press P to pause the game.", 10, 420, 10, WHITE);
     DrawText("Press M to go back to the main menu.", 10, 440, 10, WHITE);
     DrawText("Press T to open the journal.", 10, 460, 10, WHITE);
+
+    if (showDemoMessage == true) {
+        DrawText("This is the end of the SoulSteel Demo version.", 200, 120, 20, WHITE);
+    }
+}
+
+void gameplay::drawicons() {
+    DrawTexture(icon_dash, 23*32, 16, WHITE);
+    DrawTexture(icon_dust, 23*32+16, 32, WHITE);
+    DrawTexture(icon_bomb, 23*32-16, 32, WHITE);
+    DrawTexture(icon_stone, 23*32, 32+16, WHITE);
 }
 
 void gameplay::drawhealthhearts() {
-    DrawTexture(heart, 10, 20, WHITE);
-    DrawTexture(heart, 50, 20, WHITE);
-    DrawTexture(heart, 90, 20, WHITE);
+    switch (currentmodus) {
+        case soulmodus:
+            DrawTexture(heart_soul, 10, 20, WHITE);
+            DrawTexture(heart_soul, 50, 20, WHITE);
+            DrawTexture(heart_soul, 90, 20, WHITE);
+            break;
+        case robotmodus:
+            DrawTexture(heart_robot, 10, 20, WHITE);
+            DrawTexture(heart_robot, 50, 20, WHITE);
+            DrawTexture(heart_robot, 90, 20, WHITE);
+    }
 }
 
 void gameplay::drawDebug() { //draws red outlines around the wall tiles for example to help detect collision problems
@@ -413,25 +440,28 @@ void gameplay::reloadRoom() {
         }
     }
     //blocks
-    switch (room) {
-        case 3:
-            spawnBlock({2 * 32, 3 * 32}, false);  // Blue block top left corner 1
-            spawnBlock({1 * 32, 4 * 32}, false);  // Blue block top left corner 2
-            spawnBlock({12 * 32, 3 * 32}, false);  // Blue block top middle
+    // Only spawn blocks and switches if they haven't been created for this room before
+    if (blocksInRooms.find(room) == blocksInRooms.end()) {
+        switch (room) {
+            case 3:
+                spawnBlock({2 * 32, 3 * 32}, false);  // Blue block top left corner 1
+                spawnBlock({1 * 32, 4 * 32}, false);  // Blue block top left corner 2
+                spawnBlock({12 * 32, 3 * 32}, false);  // Blue block top middle
 
-            spawnBlock({11 * 32, 3 * 32}, true);  // Yellow block top middle top line 1
-            spawnBlock({13 * 32, 3 * 32}, true);  // Yellow block top middle top line 2
-            spawnBlock({11 * 32, 4 * 32}, true);  // Yellow block top middle second line 1
-            spawnBlock({12 * 32, 4 * 32}, true);  // Yellow block top middle second line 2
-            spawnBlock({13 * 32, 4 * 32}, true);  // Yellow block top middle second line 3
+                spawnBlock({11 * 32, 3 * 32}, true);  // Yellow block top middle top line 1
+                spawnBlock({13 * 32, 3 * 32}, true);  // Yellow block top middle top line 2
+                spawnBlock({11 * 32, 4 * 32}, true);  // Yellow block top middle second line 1
+                spawnBlock({12 * 32, 4 * 32}, true);  // Yellow block top middle second line 2
+                spawnBlock({13 * 32, 4 * 32}, true);  // Yellow block top middle second line 3
 
-            spawnBlock({17 * 32, 7 * 32}, true);  // Yellow block middle by fence 1
-            spawnBlock({17 * 32, 8 * 32}, true);  // Yellow block middle by fence 2
+                spawnBlock({17 * 32, 7 * 32}, true);  // Yellow block middle by fence 1
+                spawnBlock({17 * 32, 8 * 32}, true);  // Yellow block middle by fence 2
 
-            spawnSwitch({1 * 32, 3 * 32}, true);  // Yellow switch
-            spawnSwitch({22 * 32, 12 * 32}, false);  // Blue switch
-            //std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
-            break;
+                spawnSwitch({1 * 32, 3 * 32}, true);  // Yellow switch
+                spawnSwitch({22 * 32, 12 * 32}, false);  // Blue switch
+                //std::cout << "Switches spawned at (1, 3) and (22, 12)" << std::endl;
+                break;
+        }
     }
 
     //enemies
@@ -676,6 +706,14 @@ bool gameplay::soulcantakeover() {
     }
 }
 
+Vector2 gameplay::getRobotPosition() const {
+    return therobot->position;
+}
+
+float gameplay::getTakeoverRadius() const {
+    return takeoverradius;
+}
+
 Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
     //check all walls
     //on contact, note distance to wall
@@ -736,7 +774,7 @@ bool gameplay::isTileYouCantPushStoneOnto(int tileID) const {
     static const std::vector<std::vector<int>> wallIDs;
 
     return std::any_of(wallIDs.begin(), wallIDs.end(),
-                       [tileID](const std::vector<int>& wallSet) {
+                       [tileID](const std::vector<int> &wallSet) {
                            return std::find(wallSet.begin(), wallSet.end(), tileID) != wallSet.end();
                        });
 }
@@ -746,24 +784,24 @@ bool gameplay::touchesBars(Vector2 pos, float size) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
             bool touchesAny = false;
-                for (const auto &group: fencesIDs) {
-                    for (int id: group) {
-                        if (id == tileID) {
-                            if (CheckCollisionCircleRec(pos, size,
-                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32,
-                                                                  (float) 32})) {
-                                return true;
-                            }
-                            touchesAny = true;
-                            break;
+            for (const auto &group: fencesIDs) {
+                for (int id: group) {
+                    if (id == tileID) {
+                        if (CheckCollisionCircleRec(pos, size,
+                                                    Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                              (float) 32})) {
+                            return true;
                         }
-                    }
-                    if (touchesAny) {
+                        touchesAny = true;
                         break;
                     }
                 }
+                if (touchesAny) {
+                    break;
+                }
             }
         }
+    }
     return false;
 }
 
@@ -774,25 +812,25 @@ Rectangle gameplay::getTouchedBars(Vector2 position, float radius) {
     for (int y = 0; y < mapHeight; y++) {
         for (int x = 0; x < mapWidth; x++) {
             int tileID = getTileAt(x * 32, y * 32);
-                for (const auto &group: fencesIDs) {
-                    for (int id: group) {
-                        if (tileID == id) {
-                            Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
-                            Vector2 barsTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
-                                                                  Vector2{bars.x + bars.width,
-                                                                          bars.y + bars.height});
-                            float distance = Vector2Distance(position, barsTouchPoint);
-                            if (distance < shortestDistance) {
-                                shortestDistance = distance;
-                                closestBar = bars;
-                                foundBars = true;
-                            }
-                            break;
+            for (const auto &group: fencesIDs) {
+                for (int id: group) {
+                    if (tileID == id) {
+                        Rectangle bars{static_cast<float>(x * 32), static_cast<float>(y * 32), 32, 32};
+                        Vector2 barsTouchPoint = Vector2Clamp(position, Vector2{bars.x, bars.y},
+                                                              Vector2{bars.x + bars.width,
+                                                                      bars.y + bars.height});
+                        float distance = Vector2Distance(position, barsTouchPoint);
+                        if (distance < shortestDistance) {
+                            shortestDistance = distance;
+                            closestBar = bars;
+                            foundBars = true;
                         }
+                        break;
                     }
                 }
             }
         }
+    }
 
     if (foundBars) {
         return closestBar;

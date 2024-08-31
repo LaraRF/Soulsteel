@@ -60,13 +60,30 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/title_3"] = LoadTexture("assets/graphics/userinterface/title_3.png");
     m_textures["userinterface/title_4"] = LoadTexture("assets/graphics/userinterface/title_4.png");
 
+    //final menu
+    m_textures["userinterface/start"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Start - static.png");
+    m_textures["userinterface/start_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Start - static.png");
+    m_textures["userinterface/settings"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Settings - static.png");
+    m_textures["userinterface/settings_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Settings - static.png");
+    m_textures["userinterface/close"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Close - static.png");
+    m_textures["userinterface/close_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Close - static.png");
+    m_textures["userinterface/pause"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Pause - static.png");
+
+    //ability icons
+    m_textures["userinterface/icon_dash"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Soul dash - static.png");
+    m_textures["userinterface/icon_dust"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Soul dust - static.png");
+    m_textures["userinterface/icon_stone"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Robot Interaction - static.png");
+    m_textures["userinterface/icon_bomb"]= LoadTexture("assets/graphics/userinterface/UI - Button symbol - Robot bomb - static.png");
+
+    m_textures["userinterface/heart_robot"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Robot - static.png");
+    m_textures["userinterface/heart_soul"]= LoadTexture("assets/graphics/userinterface/UI - HP heart - Soul - static.png");
+
     // Load item textures
     m_textures["item/bomb"] = LoadTexture("assets/graphics/items/bomb.png");
     m_textures["item/bomb_activated"] = LoadTexture("assets/items/bomb_abouttoexplode.png");
     m_textures["item/bomb_exploded"] = LoadTexture("assets/items/bomb_exploded.png");
     m_textures["item/souldust"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - animated - activated.png");
     m_textures["ability/souldust_deactivated"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Fire bowl - static - unactivated.png");
-    m_textures["item/stone"] = LoadTexture("assets/graphics/items/stone.png");
 
     // Load block textures
     m_textures["item/yellow_block"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - Yellow Block - Static.png");
@@ -90,6 +107,7 @@ void assestmanagergraphics::init() {
     m_textures["characters/robot/Robot_front"] = LoadTexture("assets/graphics/characters/robot/Robot_front.png");
     m_textures["characters/robot/Character_-_Robot_-_Idle_Front_-_animated"] = LoadTexture("assets/graphics/characters/robot/Character_-_Robot_-_Idle_Front_-_animated.gif");
     //Soul*/
+    m_textures["placeholder/standby-robot"]= LoadTexture("assets/graphics/characters/robot/Character - Robot - Offline - static.png");
 
 
     //robot functions
@@ -106,7 +124,7 @@ void assestmanagergraphics::init() {
     m_textures["characters/soul/dash_left"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side left - animated.png");
     m_textures["characters/soul/dash_right"] = LoadTexture("assets/graphics/characters/soul/Character - Soul - Dash side right - animated.png");
     //stones
-    m_textures["item/stone"]= LoadTexture("assets/graphics/items/stone.png");
+    m_textures["item/stone"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - MovableBlock - Static.png");
 
     // Load character animations
     loadCharacterAnimations("soul");

@@ -58,6 +58,12 @@ struct ActivatedFirebowl {
         std::map<int, std::vector<movableblocks*>> blocksInRooms;
         std::map<int, std::vector<movableblocks*>> switchesInRooms;
 
+        Texture2D heart_robot = assestmanagergraphics::getTexture("userinterface/heart_robot");
+        Texture2D heart_soul = assestmanagergraphics::getTexture("userinterface/heart_soul");
+        Texture2D icon_dust = assestmanagergraphics::getTexture("userinterface/icon_dust");
+        Texture2D icon_dash = assestmanagergraphics::getTexture("userinterface/icon_dash");
+        Texture2D icon_bomb = assestmanagergraphics::getTexture("userinterface/icon_bomb");
+        Texture2D icon_stone = assestmanagergraphics::getTexture("userinterface/icon_stone");
 
     public:
 
@@ -69,6 +75,7 @@ struct ActivatedFirebowl {
         void draw() override;
         void drawtextonscreen();
         void drawhealthhearts();
+        void drawicons();
         void drawmaincharacter();
 
 
@@ -97,6 +104,8 @@ struct ActivatedFirebowl {
         bool soulhasntchangedformsyet=true;
         bool soulcantakeover();
         int takeoverradius =40;
+        Vector2 getRobotPosition() const;
+        float getTakeoverRadius() const;
 
         //soul dust
         Texture2D activatedFirebowlTexture=assestmanagergraphics::getTexture("item/souldust");
@@ -169,27 +178,30 @@ struct ActivatedFirebowl {
         void reloadRoom();
 
         //doors
-        int doortextarea=32*4;
-        int doorfromroom1to2=32*2;
-        int startposroom1to2=14*32+16;
-        int doorfromroom2to1=14*32+20;
-        int startposroom2to1=2*32+16;
-        int doorfromroom2to3=2*32;
-        int startposroom2to3=14*32+16;
-        int doorfromroom3to2=14*32+20;
-        int startposroom3to2=2*32+16;
-        int doorfromroom2to4=24*32+16;
-        int startposroom2to4=16;
-        int doorfromroom4to2=16;
-        int startposroom4to2=24*32+16;
-        int doorfromroom4to5=16;
-        int startposroom4to5=14*32+16;
-        int doorfromroom5to4=14*32+20;
-        int startposroom5to4=20;
-        int doorfromroom5to6=2*32;
-        int startposroom5to6=14*32+16;
-        int doorfromroom6to5=14*32+20;
-        int startposroom6to5=2*32+16;
+        float doortextarea=32*4;
+        float doorfromroom1to2=32*2;
+        float startposroom1to2=14*32+16;
+        float doorfromroom2to1=14*32+20;
+        float startposroom2to1=2*32+16;
+        float doorfromroom2to3=2*32;
+        float startposroom2to3=14*32+16;
+        float doorfromroom3to2=14*32+20;
+        float startposroom3to2=2*32+16;
+        float doorfromroom2to4=24*32+16;
+        float startposroom2to4=16;
+        float doorfromroom4to2=16;
+        float startposroom4to2=24*32+16;
+        float doorfromroom4to5=2*32;
+        float startposroom4to5=14*32+16;
+        float doorfromroom5to4=14*32+20;
+        float startposroom5to4=3*32;
+        float doorfromroom5to6=3*32;
+        float startposroom5to6=14*32+16;
+        float doorfromroom6to5=14*32+20;
+        float startposroom6to5=2*32+16;
+        float doorfromroom5to7=32+16;
+
+        bool showDemoMessage=false;
 
         static const int tree0ID=0;
         static const int tree1ID=1;
@@ -299,7 +311,8 @@ struct ActivatedFirebowl {
         static const int stonewall28ID=124;
         static const int stonewall29ID=125;
         static const int stonewall30ID=126;
-        //3 unused factory tiles
+        static const int stonewall31ID=127;
+        //2 unused factory tiles
         static const int door2ID=130;
         static const int door3ID=131;
         static const int door4ID=132;
@@ -321,7 +334,7 @@ struct ActivatedFirebowl {
         std::vector<int> treeIDs = {tree0ID, tree1ID, tree2ID, tree3ID, tree4ID, tree5ID, tree6ID, tree7ID, tree8ID, bush0ID, bush1ID, bush2ID};
         std::vector<int> doorIDs = {door0ID, door1ID, door2ID, door3ID, door4ID, door5ID, door6ID, door7ID};
         std::vector<int> doorhingeIDs = {doorhinge0ID, doorhinge1ID, doorhinge2ID, doorhinge3ID};
-        std::vector<int> stonewallIDs ={greywallblock0ID, stonewall0ID, stonewall1ID, stonewall2ID, stonewall3ID, stonewall4ID,stonewall5ID, stonewall6ID, stonewall7ID, stonewall8ID, stonewall9ID, stonewall10ID, stonewall11ID, stonewall12ID, stonewall13ID, stonewall14ID, stonewall15ID, stonewall16ID, stonewall17ID, stonewall18ID, stonewall19ID, stonewall20ID, stonewall21ID, stonewall22ID, stonewall23ID, stonewall24ID, stonewall25ID, stonewall26ID, stonewall27ID, stonewall28ID, stonewall29ID, stonewall30ID};
+        std::vector<int> stonewallIDs ={greywallblock0ID, stonewall0ID, stonewall1ID, stonewall2ID, stonewall3ID, stonewall4ID,stonewall5ID, stonewall6ID, stonewall7ID, stonewall8ID, stonewall9ID, stonewall10ID, stonewall11ID, stonewall12ID, stonewall13ID, stonewall14ID, stonewall15ID, stonewall16ID, stonewall17ID, stonewall18ID, stonewall19ID, stonewall20ID, stonewall21ID, stonewall22ID, stonewall23ID, stonewall24ID, stonewall25ID, stonewall26ID, stonewall27ID, stonewall28ID, stonewall29ID, stonewall30ID, stonewall31ID};
         std::vector<int> abyssIDs={abyss0ID, abyss1ID, abyss2ID, abyss3ID, abyss4ID, abyss5ID, abyss6ID, abyss7ID, abyss8ID, abyss9ID, abyss10ID, abyss11ID, abyss12ID, abyss13ID, abyss14ID, abyss15ID, abyss16ID, abyss17ID};
         std::vector<int> firebowlIDs={firebowl0ID, firebowl1ID};
         std::vector<int> tableIDs={table0ID, table1ID, table2ID, table3ID, table4ID, table5ID, table6ID};

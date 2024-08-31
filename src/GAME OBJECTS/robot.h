@@ -12,7 +12,7 @@
 class robot {
 private:
     //Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
-    Texture2D robotFront = assestmanagergraphics::getTexture("characters/robot/Robot_front");
+    Texture2D robotFront = assestmanagergraphics::getTexture("placeholder/standby-robot");
 public:
     void update();
     void draw();
@@ -27,7 +27,7 @@ public:
     };
     lookingdirection lookingdirection =south;
 
-    Vector2 position={11*32, 5*32};
+    Vector2 position;
     robot(gameplay*scene);
 
 

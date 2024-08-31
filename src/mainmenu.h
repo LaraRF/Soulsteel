@@ -17,6 +17,15 @@ private:
     Texture2D button1close = assestmanagergraphics::getTexture("userinterface/button_close");
     Texture2D title = assestmanagergraphics::getTexture("userinterface/title_3");
 
+    Texture2D start=assestmanagergraphics::getTexture("userinterface/start");
+    Texture2D start_selected=assestmanagergraphics::getTexture("userinterface/start_selected");
+    Texture2D settings=assestmanagergraphics::getTexture("userinterface/settings");
+    Texture2D settings_selected=assestmanagergraphics::getTexture("userinterface/settings_selected");
+    Texture2D close=assestmanagergraphics::getTexture("userinterface/close");
+    Texture2D close_selected=assestmanagergraphics::getTexture("userinterface/close_selected");
+
+
+
 public:
 
     int cursor = 0;
