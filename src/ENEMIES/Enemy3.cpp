@@ -24,6 +24,9 @@ void Enemy3::draw() {
                    Vector2{position.x - static_cast<float>(texture.width) / (2.0f * FRAME_COUNT),
                            position.y - static_cast<float>(texture.height) / 2.0f},
                    WHITE);
+    if(IsKeyDown(KEY_H)){
+        DrawRectangleRec(getCollisionRectangle(),RED);
+    }
 }
 
 void Enemy3::loadAnimations() {

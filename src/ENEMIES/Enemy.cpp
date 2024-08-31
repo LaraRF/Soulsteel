@@ -90,7 +90,7 @@ bool Enemy::checkCollision(const Wall &wall) { //Oli-> looks prettier than in Ut
 }
 
 Rectangle Enemy::getCollisionRectangle() const{
-    return Rectangle();
+    return Rectangle{position.x-8,position.y-8,16,16};
 }
 
 void Enemy::calculateDamage(Enemy& enemy, int damage) {
@@ -126,6 +126,9 @@ void Enemy::updateAnimation() {
 
 void Enemy::draw() {
     drawAnimation();
+    if(IsKeyDown(KEY_H)){
+    DrawRectangleRec(getCollisionRectangle(),RED);
+    }
 }
 
 Texture2D Enemy::loadTexture(const std::string& animationName, const std::string& direction) {

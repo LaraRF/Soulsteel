@@ -83,6 +83,9 @@ void Enemy1::draw() {
     if (isThrowing) {
         drawBombThrow();
     }
+    if(IsKeyDown(KEY_H)){
+        DrawRectangleRec(getCollisionRectangle(),RED);
+    }
 }
 
 void Enemy1::loadAnimations() {

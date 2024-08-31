@@ -53,6 +53,7 @@ void maincharacter::collisionenemies() {
                 if (overlapDistance <= 1) {
                     break;
                 }
+                this->health--;
                 pushForce = Vector2Normalize(pushForce);
                 pushForce = Vector2Scale(pushForce, overlapDistance);
                 position = Vector2Add(position, pushForce);
@@ -128,6 +129,8 @@ void maincharacter::draw() {
     if (felldown) {
         DrawText("You fell into the abyss. You lost one life.", 10 * 15, 7 * 15, 20, RED);
     }
+    //Draw Health for debug purposes
+    DrawText(TextFormat("Health: %i",this->health),position.x,position.y,10,BLACK);
 }
 
 void maincharacter::drawsoul() {
