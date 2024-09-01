@@ -16,6 +16,10 @@
 #include "ENEMIES/Enemy.h"
 #include "GAME OBJECTS/gameobjects.h"
 #include "GAME OBJECTS/bombs.h"
+#include "Enums.h"
+
+ //
+
 struct ActivatedFirebowls;
 
 class gameplay;
@@ -25,6 +29,11 @@ class bombs;
 class maincharacter {
 
 public:
+
+    AnimationState currentState = AnimationState::IDLE;
+    Direction currentDirection = Direction::Down;
+    CardinalDirection lookingDirection = CardinalDirection::South;
+
     void update();
     void draw();
     void maincharacterwalking();
@@ -59,29 +68,15 @@ public:
     int currentFrame;
     float frameCounter;
 
-    //enum for character direction
-    enum CharacterState {
-        IDLE,
-        WALKING,
-        DASH,
-        DUST,
-        SWITCHING
-    };
-    CharacterState currentState=IDLE;
 
-    //enum for walking direction
-    enum CurrentDirection {
-        BACK,
-        FRONT,
-        LEFT,
-        RIGHT
-    };
-    CurrentDirection currentDirection=FRONT;
-
+    void switchCharacter() {
+        currentState = AnimationState::SWITCH;
+        // Rest of the switching logic
+    }
 
     void updateAnimation(float deltaTime);
     void updateDashAnimation(float deltaTime);
-    bool isDashing() const {return currentState == DASH;}
+    bool isDashing() const {return currentState == AnimationState::DASH;}
 
     int getHealth(const maincharacter& maincharacter);
     void calculateDamage(maincharacter& maincharacter, int damage);

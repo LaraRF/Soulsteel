@@ -3,6 +3,7 @@
 
 #include "maincharacter.h"
 #include "scene.h"
+#include "Enums.h"
 
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
@@ -53,6 +54,7 @@ void maincharacter::collisionenemies() {
                 if (overlapDistance <= 1) {
                     break;
                 }
+                this->health--;
                 pushForce = Vector2Normalize(pushForce);
                 pushForce = Vector2Scale(pushForce, overlapDistance);
                 position = Vector2Add(position, pushForce);
@@ -99,7 +101,7 @@ void maincharacter::collisionabyss() {
 void maincharacter::draw() {
     Texture2D currentTexture = getCurrentTexture();
 
-    if (currentState == SWITCHING) {
+    if (currentState == AnimationState::SWITCH) {
         int currentFrame = static_cast<int>((switchAnimationTimer / SWITCH_ANIMATION_DURATION) * SWITCH_FRAME_COUNT) % SWITCH_FRAME_COUNT;
 
         float frameWidth = static_cast<float>(currentTexture.width) / SWITCH_FRAME_COUNT;
@@ -121,13 +123,15 @@ void maincharacter::draw() {
         drawsoul();  // or drawrobot() depending on your current mode
     }
 
-    if (currentState == DUST) {
+    if (currentState == AnimationState::DUST) {
         drawDustAnimation();
     }
 
     if (felldown) {
         DrawText("You fell into the abyss. You lost one life.", 10 * 15, 7 * 15, 20, RED);
     }
+    //Draw Health for debug purposes
+    DrawText(TextFormat("Health: %i",this->health),position.x,position.y,10,BLACK);
 }
 
 void maincharacter::drawsoul() {
@@ -162,19 +166,19 @@ Texture2D maincharacter::getCurrentTexture() {
     std::string key;
 
     switch (currentState) {
-        case IDLE:
+        case AnimationState::IDLE:
             state = "idle_";
             break;
-        case WALKING:
+        case AnimationState::WALK:
             state = "walk_";
             break;
-        case DASH:
+        case AnimationState::DASH:
             state = "dash_";
             break;
-        case DUST:
+        case AnimationState::DUST:
             state = "dust_";
             break;
-        case SWITCHING:
+        case AnimationState::SWITCH:
             // Handle the switching state
             return assestmanagergraphics::getCharacterTexture(
                     "Switch-Animation",
@@ -225,8 +229,8 @@ int getHealth(const maincharacter &maincharacter) {
 
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
     position = {32 * 12, 32 * 6};  // Set initial position
-    currentState = IDLE;
-    currentDirection = FRONT;
+    currentState = AnimationState::IDLE;
+    currentDirection = static_cast<Direction>(FRONT);
     currentFrame = 0;
     frameCounter = 0.0f;
     currentmodus = soulmodus;
@@ -338,9 +342,9 @@ void setAttackPower(int attack) {
 
 void maincharacter::souldash() {
 
-    if (currentState != DASH) {
+    if (currentState != AnimationState::DASH) {
         // Start of new dash
-        currentState = DASH;
+        currentState = AnimationState::DASH;
         dashProgress = 0.0f;
         dashStartPosition = position;
         dashEndPosition = position;
@@ -348,19 +352,19 @@ void maincharacter::souldash() {
         switch (lookingdirection) {
             case north:
                 dashEndPosition.y -= DASH_DISTANCE;
-                currentDirection = BACK;
+                currentDirection = static_cast<Direction>(BACK);
                 break;
             case east:
                 dashEndPosition.x += DASH_DISTANCE;
-                currentDirection = RIGHT;
+                currentDirection = static_cast<Direction>(RIGHT);
                 break;
             case south:
                 dashEndPosition.y += DASH_DISTANCE;
-                currentDirection = FRONT;
+                currentDirection = static_cast<Direction>(FRONT);
                 break;
             case west:
                 dashEndPosition.x -= DASH_DISTANCE;
-                currentDirection = LEFT;
+                currentDirection = static_cast<Direction>(LEFT);
                 break;
         }
     }
@@ -375,7 +379,7 @@ void maincharacter::souldash() {
     if (!_scene->touchesWall(newPosition, size)) {
         position = newPosition;
     } else {
-        currentState = IDLE;
+        currentState = AnimationState::IDLE;
         dashProgress = 1.0f; //ensures dah ends
     }
 
@@ -400,7 +404,7 @@ void maincharacter::souldash() {
         currentFrame++;
         if (currentFrame >= FRAME_COUNT) {
             currentFrame = 0;
-            currentState = IDLE;  // Ends dash after one full animation cycle
+            currentState = AnimationState::IDLE;  // Ends dash after one full animation cycle
         }
     }
 // Update the frame rectangle for drawing
@@ -411,7 +415,7 @@ void maincharacter::souldash() {
 
     // End dash when animation completes
     if (dashProgress >= 1.0f) {
-        currentState = IDLE;
+        currentState = AnimationState::IDLE;
     }
 }
 
@@ -433,7 +437,7 @@ void maincharacter::startDusting() {
         isDusting = true;
         dustAnimationTimer = 0.0f;
         dustPosition = position;
-        currentState = DUST; // Assuming you have a DUST state in your State enum
+        currentState = AnimationState::DUST; // Assuming you have a DUST state in your State enum
     }
 }
 
@@ -442,7 +446,7 @@ void maincharacter::updateDustAnimation(float deltaTime) {
         dustAnimationTimer += deltaTime;
         if (dustAnimationTimer >= DUST_ANIMATION_DURATION) {
             isDusting = false;
-            currentState = IDLE; // Or whatever state should come after dusting
+            currentState = AnimationState::IDLE; // Or whatever state should come after dusting
         }
     }
 }
@@ -482,17 +486,21 @@ void maincharacter::update() {
     switch (currentmodus) {
         case soulmodus:
             //switch mode
+
+            //if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
+
             if (IsKeyPressed(KEY_SPACE) && !isSwitching&& canSwitchToRobot()) {
+
                 isSwitching = true;
                 switchAnimationTimer = 0.0f;
-                currentState = SWITCHING;
+                currentState = AnimationState::SWITCH;
             }
 
             // soul dash
-            if (IsKeyPressed(KEY_I) && currentState != DASH && !isSwitching) {
+            if (IsKeyPressed(KEY_I) && currentState != AnimationState::DASH && !isSwitching) {
                 souldashactivated = true;
                 souldash();
-            } else if (currentState == DASH) {
+            } else if (currentState == AnimationState::DASH) {
                 souldash();  // Continue the dash
             } else {
                 souldashactivated = false;
@@ -505,7 +513,7 @@ void maincharacter::update() {
             if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
                 isSwitching = true;
                 switchAnimationTimer = 0.0f;
-                currentState = SWITCHING;
+                currentState = AnimationState::SWITCH;
             }
 
             //activate switch
@@ -527,21 +535,21 @@ void maincharacter::update() {
         if (switchAnimationTimer >= SWITCH_ANIMATION_DURATION) {
             isSwitching = false;
             currentmodus = (currentmodus == soulmodus) ? robotmodus : soulmodus;
-            currentState = IDLE;
+            currentState = AnimationState::IDLE;
         }
     } else {
         //checks if character is moving
-        if (Vector2Equals(oldPosition, position) && currentState != DASH) {
-            currentState = IDLE;
-        } else if (currentState != DASH) {
-            currentState = WALKING;
+        if (Vector2Equals(oldPosition, position) && currentState != AnimationState::DASH) {
+            currentState = AnimationState::IDLE;
+        } else if (currentState != AnimationState::DASH) {
+            currentState = AnimationState::WALK;
         }
 
         //update current direction based on movement
-        if (IsKeyDown(KEY_W)) currentDirection = BACK;
-        else if (IsKeyDown(KEY_S)) currentDirection = FRONT;
-        else if (IsKeyDown(KEY_A)) currentDirection = LEFT;
-        else if (IsKeyDown(KEY_D)) currentDirection = RIGHT;
+        if (IsKeyDown(KEY_W)) currentDirection = static_cast<Direction>(BACK);
+        else if (IsKeyDown(KEY_S)) currentDirection = static_cast<Direction>(FRONT);
+        else if (IsKeyDown(KEY_A)) currentDirection = static_cast<Direction>(LEFT);
+        else if (IsKeyDown(KEY_D)) currentDirection = static_cast<Direction>(RIGHT);
     }
 
     //collisions
@@ -552,7 +560,7 @@ void maincharacter::update() {
     updateLastSafePosition();
 
     //update animation
-    if (currentState == SWITCHING) {
+    if (currentState == AnimationState::SWITCH) {
         // The animation update is handled by the switchAnimationTimer
     } else {
         updateAnimation(GetFrameTime());
@@ -582,7 +590,7 @@ void maincharacter::updateDashAnimation(float deltaTime) {
         currentFrame++;
         if (currentFrame >= FRAME_COUNT) {
             currentFrame = 0;
-            currentState = IDLE;  // Ends dash after one full animation cycle
+            currentState = AnimationState::IDLE;  // Ends dash after one full animation cycle
         }
     }
 

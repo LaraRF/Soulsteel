@@ -2,66 +2,64 @@
 // Created by sadeh on 24.06.2024.
 //
 
+#include <regex>
 #include "Enemy3.h"
+
+
+
 
 Enemy3::Enemy3(gameplay *scene)
         : Enemy(scene,2, 2, false, true, false,
-6.0f * 32.0f - 16.0f, 8 * 32 + 16, 8 * 32 - 16, 6 * 32 + 16) {
+6.0f * 32.0f - 16.0f, 8 * 32 + 16, 8 * 32 - 16, 6 * 32 + 16){
 loadAnimations();
 }
 
 void Enemy3::update() {
     Enemy::update();
-    updateAnimation();
+    updateAnimation(GetFrameTime());
+
 }
 
 void Enemy3::draw() {
     Texture2D texture = getCurrentTexture();
-    DrawTextureRec(texture,
-                   Rectangle{static_cast<float>(currentFrame * texture.width / FRAME_COUNT), 0.0f,
-                             static_cast<float>(texture.width / FRAME_COUNT),
-                             static_cast<float>(texture.height)},
-                   Vector2{position.x - static_cast<float>(texture.width) / (2.0f * FRAME_COUNT),
-                           position.y - static_cast<float>(texture.height) / 2.0f},
-                   WHITE);
+    Rectangle sourceRec = {
+            static_cast<float>(currentFrame * texture.width / FRAME_COUNT), 0.0f,
+            static_cast<float>(texture.width / FRAME_COUNT),
+            static_cast<float>(texture.height)
+    };
+    Vector2 drawPosition = {
+            position.x - static_cast<float>(texture.width) / (2.0f * FRAME_COUNT),
+            position.y - static_cast<float>(texture.height) / 2.0f
+    };
+    DrawTextureRec(texture, sourceRec, drawPosition, WHITE);
+
+
+
 }
 
 void Enemy3::loadAnimations() {
-    // Implement animation loading for Enemy2 (Spider)
-    // Similar to Enemy1's loadAnimations, but with Spider-specific animations
-    std::vector<std::string> actions = {"idle", "walk", "ranged"};
-    std::vector<std::string> directions = {"back", "front", "left", "right"};
+    std::vector<std::string> actions = {"Idle", "Walk"};
+    std::vector<std::string> directions = {"back", "front", "side left", "side right"};
 
     for (const auto& action : actions) {
         for (const auto& direction : directions) {
-            std::string key = "tackle_spider_" + action + "_" + direction;
-            std::string actionName;
-            if (action == "idle") {
-                actionName = "Idle";
-            } else {
-                actionName = "Walk";
-            }
+            std::string key = "tackle_spider_" + toLowercase(action) + "_" +
+                              (direction == "side left" ? "left" :
+                               direction == "side right" ? "right" : direction);
+            key = std::regex_replace(key, std::regex("\\s+"), "_");
+            std::string fileName = "Character - Enemy - Tackle Spider - " + action + " " + direction;
 
-            std::string directionName = direction;
-            if (direction == "left" || direction == "right") {
-                directionName = "side " + direction;
-            }
-
-            std::string fileName = std::string("Character - Enemy - Tackle Spider - ") + actionName + " " + directionName;
-
-            if (action == "Idle" && (direction == "left" || direction == "right")) { //change states for spider ranged
-
-            } else {
-                animations[key] = {FRAME_COUNT, FRAME_DURATION,
-                                   assestmanagergraphics::getCharacterTexture("enemies", fileName + " - animated")};
-            }
+            animations[key] = AnimationInfo(
+                    FRAME_COUNT,
+                    FRAME_DURATION,
+                    assestmanagergraphics::getCharacterTexture("enemies", fileName + " - animated")
+            );
         }
     }
 }
 
-
 Texture2D Enemy3::getCurrentTexture() {
-    std::string action = isAttacking ? "bomb_throw" : (currentAnimationState == Enemy::AnimationState::IDLE ? "walk" : "idle");
+    std::string action = (currentAnimationState == Enemy::AnimationState::IDLE) ? "idle" : "walk";
     std::string direction;
     switch(facing) {
         case Direction::Left: direction = "left"; break;
@@ -69,13 +67,23 @@ Texture2D Enemy3::getCurrentTexture() {
         case Direction::Up: direction = "back"; break;
         case Direction::Down: direction = "front"; break;
     }
-    std::string key = "teddy_" + action + "_" + direction;
-    if (isAttacking && (facing == Direction::Left || facing == Direction::Right)) {
-        key += "_body";  // For side bomb throws, we need the body animation
+    std::string key = "tackle_spider_" + action + "_" + direction;
+
+    if (animations.find(key) != animations.end()) {
+        return animations[key].texture;
     }
-    return assestmanagergraphics::getCharacterTexture("enemies", key);
+    return animations["tackle_spider_idle_front"].texture; // Default texture
 }
 
 
+
 Enemy3::~Enemy3() {
+}
+
+void Enemy3::updateAnimation(float deltaTime) {
+    animationTimer += deltaTime;
+    if (animationTimer >= FRAME_DURATION) {
+        currentFrame = (currentFrame + 1) % FRAME_COUNT;
+        animationTimer -= FRAME_DURATION;
+    }
 }

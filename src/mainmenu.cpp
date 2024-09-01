@@ -36,6 +36,7 @@ scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
                 break;
             case 2:
                 CloseWindow();
+                return nullptr;
         }
     } else {
         return this;

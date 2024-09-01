@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <regex>
 #include "assestmanagergraphics.h"
 
 bool assestmanagergraphics::m_texturesLoaded = false;
@@ -102,11 +103,7 @@ void assestmanagergraphics::init() {
     m_textures["Switch-Animation/Soul_to_Robot"] = LoadTexture("assets/graphics/characters/Switch-Animation/Character - Robot+Soul - Switch Soul to Robot - animated.png");
     m_textures["Switch-Animation/Robot_to_Soul"] = LoadTexture("assets/graphics/characters/Switch-Animation/Character - Robot+Soul - Switch Robot to Soul - animated.png");
 
-    /*/placeholder character
-    m_textures["characters/soul/Idle_Animation_front"] = LoadTexture("assets/graphics/characters/soul/Idle_Animation_front.gif");
-    m_textures["characters/robot/Robot_front"] = LoadTexture("assets/graphics/characters/robot/Robot_front.png");
-    m_textures["characters/robot/Character_-_Robot_-_Idle_Front_-_animated"] = LoadTexture("assets/graphics/characters/robot/Character_-_Robot_-_Idle_Front_-_animated.gif");
-    //Soul*/
+
     m_textures["placeholder/standby-robot"]= LoadTexture("assets/graphics/characters/robot/Character - Robot - Offline - static.png");
 
 
@@ -126,21 +123,71 @@ void assestmanagergraphics::init() {
     //stones
     m_textures["item/stone"] = LoadTexture("assets/graphics/PNG - and Spritesheets/Objects/Tile - Object - MovableBlock - Static.png");
 
+    // Enemy1 (Teddy) textures
+    m_textures["enemy1_idle_back"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Idle back - animated.png");
+    m_textures["enemy1_idle_front"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Idle front - animated.png");
+    m_textures["enemy1_idle_left"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Idle side left - animated.png");
+    m_textures["enemy1_idle_right"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Idle side right - animated.png");
+
+    m_textures["enemy1_walk_back"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Walk back - animated.png");
+    m_textures["enemy1_walk_front"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Walk front - animated.png");
+    m_textures["enemy1_walk_left"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Walk side left - animated.png");
+    m_textures["enemy1_walk_right"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Walk side right - animated.png");
+
+    m_textures["enemy1_bomb_throw_back"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Bomb throw back - animated.png");
+    m_textures["enemy1_bomb_throw_front"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Bomb throw front - animated.png");
+    m_textures["enemy1_bomb_throw_left"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Bomb throw side left - body - animated.png");
+    m_textures["enemy1_bomb_throw_right"] = LoadTexture("assets/graphics/characters/enemies/enemy1/Character - Enemy - Teddy - Bomb throw side right - body - animated.png");
+
+    // Enemy2 (Spider) textures
+    m_textures["enemy2_idle_back"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Idle back - animated.png");
+    m_textures["enemy2_idle_front"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Idle front - animated.png");
+    m_textures["enemy2_idle_left"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Idle side left - animated.png");
+    m_textures["enemy2_idle_right"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Idle side right - animated.png");
+
+    m_textures["enemy2_walk_back"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Walk back - animated.png");
+    m_textures["enemy2_walk_front"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Walk front - animated.png");
+    m_textures["enemy2_walk_left"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Walk side left - animated.png");
+    m_textures["enemy2_walk_right"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Walk side right - animated.png");
+
+    m_textures["enemy2_ranged_back"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Ranged back - animated.png");
+    m_textures["enemy2_ranged_front"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Ranged front - animated.png");
+    m_textures["enemy2_ranged_left"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Ranged side left - animated.png");
+    m_textures["enemy2_ranged_right"] = LoadTexture("assets/graphics/characters/enemies/enemy2/Character - Enemy - Spider - Ranged side right - animated.png");
+
+    // Enemy3 (Tackle Spider) textures
+    m_textures["enemy3_idle_back"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Idle back - animated.png");
+    m_textures["enemy3_idle_front"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Idle front - animated.png");
+    m_textures["enemy3_idle_left"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Idle side left - animated.png");
+    m_textures["enemy3_idle_right"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Idle side right - animated.png");
+
+    m_textures["enemy3_walk_back"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Walk back - animated.png");
+    m_textures["enemy3_walk_front"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Walk front - animated.png");
+    m_textures["enemy3_walk_left"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Walk side left - animated.png");
+    m_textures["enemy3_walk_right"] = LoadTexture("assets/graphics/characters/enemies/enemy3/Character - Enemy - Tackle Spider - Walk side right - animated.png");
+
+
+
+    //bombtexture Teddy
+    m_textures["bomb_teddy_left"]  = LoadTexture("assets/graphics/items/Character - Enemy - Teddy - Bomb throw side left - bomb – animated.png");
+    m_textures["bomb_teddy_right"]  = LoadTexture("assets/graphics/items/Character - Enemy - Teddy - Bomb throw side right - bomb – animated.png");
+
     // Load character animations
     loadCharacterAnimations("soul");
     loadCharacterAnimations("robot");
-    loadCharacterAnimations("enemies");
+    //loadCharacterAnimations("enemies");
 }
 
 void assestmanagergraphics::loadCharacterAnimations(const std::string &characterName) {
     std::string basePath = "assets/graphics/characters/" + characterName + "/";
+
     std::vector<std::pair<std::string, std::string>> animations;
 
     if (characterName == "soul") {
         std::vector<std::string> actions = {"Dash", "Idle", "Walk"};
         std::vector<std::string> directions = {"back", "front", "side left", "side right"};
-        for (const auto &action : actions) {
-            for (const auto &direction : directions) {
+        for (const auto &action: actions) {
+            for (const auto &direction: directions) {
                 std::string key = toLowercase(action) + "_" +
                                   (direction == "side left" ? "left" :
                                    direction == "side right" ? "right" : direction);
@@ -151,18 +198,19 @@ void assestmanagergraphics::loadCharacterAnimations(const std::string &character
 
         // Special case for Dust animations
         std::vector<std::string> dustDirections = {"back", "front", "side left", "side right"};
-        for (const auto &direction : dustDirections) {
+        for (const auto &direction: dustDirections) {
             std::string key = "dust_" + (direction == "side left" ? "left" :
                                          direction == "side right" ? "right" : direction);
-            animations.push_back({key + "_character", "Character - Soul - Dust " + direction + " - character - animated"});
+            animations.push_back(
+                    {key + "_character", "Character - Soul - Dust " + direction + " - character - animated"});
             animations.push_back({key + "_dust", "Character - Soul - Dust " + direction + " - dust - animated"});
         }
-    }
-    else if (characterName == "robot") {
+    } else if (characterName == "robot") {
         std::vector<std::string> actions = {"Idle", "Walk", "Melee", "Ranged"};
         std::vector<std::string> directions = {"Back", "Front", "side left", "side right"};
-        for (const auto &action : actions) {
-            for (const auto &direction : directions) {
+
+        for (const auto &action: actions) {
+            for (const auto &direction: directions) {
                 std::string key = toLowercase(action) + "_" +
                                   (direction == "side left" ? "left" :
                                    direction == "side right" ? "right" : toLowercase(direction));
@@ -184,39 +232,11 @@ void assestmanagergraphics::loadCharacterAnimations(const std::string &character
                 }
             }
         }
-    }
-    else if (characterName == "enemies") {
-        std::vector<std::string> enemyTypes = {"Spider", "Tackle Spider", "Teddy"};
-        std::vector<std::string> actions = {"Idle", "Walk", "Ranged", "Bomb throw"};
-        std::vector<std::string> directions = {"back", "front", "side left", "side right"};
 
-        for (const auto &enemyType : enemyTypes) {
-            for (const auto &action : actions) {
-                if ((enemyType == "Spider" && action == "Bomb throw") ||
-                    (enemyType == "Tackle Spider" && (action == "Ranged" || action == "Bomb throw")) ||
-                    (enemyType == "Teddy" && action == "Ranged")) {
-                    continue; // Skip combinations that don't exist
-                }
-
-                for (const auto &direction : directions) {
-                    std::string key = toLowercase(enemyType) + "_" + toLowercase(action) + "_" +
-                                      (direction == "side left" ? "left" :
-                                       direction == "side right" ? "right" : direction);
-                    std::string fileName = "Character - Enemy - " + enemyType + " - " + action + " " + direction;
-
-                    if (enemyType == "Teddy" && action == "Bomb throw" &&
-                        (direction == "side left" || direction == "side right")) {
-                        animations.push_back({key + "_body", fileName + " - body - animated"});
-                        animations.push_back({key + "_bomb", fileName + " - bomb - animated"});
-                    } else {
-                        animations.push_back({key, fileName + " - animated"});
                     }
-                }
-            }
-        }
-    }
 
-    for (const auto &[key, fileName] : animations) {
+
+    for (const auto &[key, fileName]: animations) {
         std::string path = basePath + fileName + ".png";
         TraceLog(LOG_INFO, "Attempting to load texture: %s", path.c_str());
         m_characterAnimations[characterName][key] = LoadTexture(path.c_str());
@@ -227,8 +247,8 @@ void assestmanagergraphics::loadCharacterAnimations(const std::string &character
         }
 
     }
-}
 
+}
 Texture2D assestmanagergraphics::getTexture(const std::string &name) {
     if (m_textures.find(name) != m_textures.end()) {
         return m_textures[name];
@@ -239,6 +259,15 @@ Texture2D assestmanagergraphics::getTexture(const std::string &name) {
 }
 
 Texture2D assestmanagergraphics::getCharacterTexture(const std::string &characterName, const std::string &animationName) {
+    // Check if the character exists in the map
+    if (m_characterAnimations.find(characterName) != m_characterAnimations.end()) {
+        // Check if the animation exists for this character
+        if (m_characterAnimations[characterName].find(animationName) != m_characterAnimations[characterName].end()) {
+            return m_characterAnimations[characterName][animationName];
+        }
+    }
+
+    // Handle Switch-Animation separately
     if (characterName == "Switch-Animation") {
         std::string textureName = animationName == "Character - Robot+Soul - Switch Soul to Robot - animated"
                                   ? "Switch-Animation/Soul_to_Robot"
@@ -246,11 +275,17 @@ Texture2D assestmanagergraphics::getCharacterTexture(const std::string &characte
         if (m_textures.find(textureName) != m_textures.end()) {
             return m_textures[textureName];
         }
-    } else if (m_characterAnimations.find(characterName) != m_characterAnimations.end() &&
-               m_characterAnimations[characterName].find(animationName) != m_characterAnimations[characterName].end()) {
-        return m_characterAnimations[characterName][animationName];
     }
 
-    TraceLog(LOG_WARNING, "Character texture not found: %s, %s", characterName.c_str(), animationName.c_str());
-    return m_textures["ERROR"];
+    // If not found, load the texture
+    std::string path = "assets/graphics/characters/" + characterName + "/" + animationName + ".png";
+    Texture2D texture = LoadTexture(path.c_str());
+    if (texture.id == 0) {
+        TraceLog(LOG_WARNING, "Character texture not found: %s, %s", characterName.c_str(), animationName.c_str());
+        return m_textures["ERROR"];
+    }
+
+    // Store the loaded texture
+    m_characterAnimations[characterName][animationName] = texture;
+    return texture;
 }

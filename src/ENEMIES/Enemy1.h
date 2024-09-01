@@ -13,6 +13,9 @@ public:
     void update() override;
     void draw() override;
     void throwBomb();
+    Texture2D getCurrentTexture() override;
+
+    //static std::string toLowerCase(const std::string& str);
 
     ~Enemy1();
 
@@ -22,13 +25,6 @@ private:
     Vector2 bombPosition;
     float bombAnimationTimer;
 
-    Texture2D getCurrentTexture() override;
-
-    Texture2D idleTexture;
-    Texture2D walkTexture;
-    Texture2D attackTexture;
-    Texture2D throwTexture;
-    Texture2D bombTexture;
 
     //void updateAnimation(float deltaTime) override;
     //void drawAnimation() override;
@@ -37,7 +33,7 @@ private:
     void updateBombThrow();
     void drawBombThrow();
 
-    std::string toLowerCase(const std::string &str);
+
 };
 
 

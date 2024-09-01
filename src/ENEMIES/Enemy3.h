@@ -13,15 +13,18 @@ public:
     void update() override;
     void draw() override;
 
+    Texture2D getCurrentTexture() override;
+    void updateAnimation(float deltaTime) override;
     ~Enemy3();
 
 private:
-    Texture2D getCurrentTexture() override;
+
 
     bool isAttacking;
 
     //void updateAnimation(float deltaTime) override;
     //void drawAnimation() override;
+    bool isNearMainCharacter() const;
 
     void loadAnimations() override;
 };
