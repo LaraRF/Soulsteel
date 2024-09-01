@@ -43,26 +43,29 @@ scene *gamechoicescreen::evaluateSceneChange() {
 }
 
 void gamechoicescreen::draw() {
-    DrawTexture(title, -65, 50, WHITE);
+    DrawTexture(logo_soulsteel, 75, 25, WHITE);
+    DrawTexture(logo_team, 510, 230, WHITE);
 
 
     switch (cursor) { //shows which box is selected by giving it a white outline
         case 0:
-            DrawRectangleRec(hitbox_newgame_marked, WHITE);
+            DrawTexture(new_selected, 140,340, WHITE);
+            DrawTexture(continue_texture, 485, 340, WHITE);
             break;
         case 1:
-            DrawRectangleRec(hitbox_continue_marked, WHITE);
+            DrawTexture(new_texture, 140,340, WHITE);
+            DrawTexture(continue_selected, 485, 340, WHITE);
             break;
         default:
             break;
     }
     //draws the buttons
-    DrawRectangleRec(hitbox_newgame, GRAY);
-    DrawRectangleRec(hitbox_continue, GRAY);
+    //DrawRectangleRec(hitbox_newgame, GRAY);
+    //DrawRectangleRec(hitbox_continue, GRAY);
 
     //draws the text on the buttons
-    DrawText("NEW GAME",140,360,30,BLACK);
-    DrawText("CONTINUE",485,360,30,BLACK);
+    //DrawText("NEW GAME",140,360,30,BLACK);
+    //DrawText("CONTINUE",485,360,30,BLACK);
 }
 
 void gamechoicescreen::drawDebug() {

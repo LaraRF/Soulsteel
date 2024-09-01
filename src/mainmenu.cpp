@@ -44,24 +44,26 @@ scene *mainmenu::evaluateSceneChange() { //gives the buttons their functions
 }
 
 void mainmenu::draw() {
-    DrawTexture(title, -65, 50, WHITE);
+    DrawTexture(logo_soulsteel, 75, 25, WHITE);
+    DrawTexture(logo_team, 510, 230, WHITE);
+
 
 
     switch (cursor) { //shows which box is selected by giving it a white outline
         case 0:
-            DrawTexture(start_selected, 90,330,WHITE);
-            DrawTexture(settings, 325, 330, WHITE);
-            DrawTexture(close, 560, 330, WHITE);
+            DrawTexture(start_selected, 70,340,WHITE);
+            DrawTexture(settings, 305, 340, WHITE);
+            DrawTexture(close, 540, 340, WHITE);
             break;
         case 1:
-            DrawTexture(start, 90, 330, WHITE);
-            DrawTexture(settings_selected,325,330, WHITE);
-            DrawTexture(close, 560, 330, WHITE);
+            DrawTexture(start, 70, 340, WHITE);
+            DrawTexture(settings_selected,305,340, WHITE);
+            DrawTexture(close, 540, 340, WHITE);
             break;
         case 2:
-            DrawTexture(start, 90, 330, WHITE);
-            DrawTexture(settings, 325, 330, WHITE);
-            DrawTexture(close_selected,560,330, WHITE);
+            DrawTexture(start, 70, 340, WHITE);
+            DrawTexture(settings, 305, 340, WHITE);
+            DrawTexture(close_selected,540,340, WHITE);
             break;
         default:
             break;

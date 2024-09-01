@@ -15,7 +15,10 @@ private:
     Texture2D buttonplay1 = assestmanagergraphics::getTexture("userinterface/button_play_1");
     Texture2D button1settings = assestmanagergraphics::getTexture("userinterface/button_settings");
     Texture2D button1close = assestmanagergraphics::getTexture("userinterface/button_close");
-    Texture2D title = assestmanagergraphics::getTexture("userinterface/title_3");
+    //Texture2D title = assestmanagergraphics::getTexture("userinterface/title_3");
+    Texture2D logo_soulsteel = assestmanagergraphics::getTexture("userinterface/logo_soulsteel");
+    Texture2D logo_team = assestmanagergraphics::getTexture("userinterface/logo_team");
+
 
     Texture2D start=assestmanagergraphics::getTexture("userinterface/start");
     Texture2D start_selected=assestmanagergraphics::getTexture("userinterface/start_selected");

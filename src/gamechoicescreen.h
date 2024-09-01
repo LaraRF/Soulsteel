@@ -10,6 +10,13 @@
 #include "gameplay.h"
 #include "mainmenu.h"
 class gamechoicescreen: public scene {
+private:
+    Texture2D new_texture=assestmanagergraphics::getTexture("userinterface/new");
+    Texture2D new_selected=assestmanagergraphics::getTexture("userinterface/new_selected");
+    Texture2D continue_texture=assestmanagergraphics::getTexture("userinterface/continue");
+    Texture2D continue_selected=assestmanagergraphics::getTexture("userinterface/continue_selected");
+    Texture2D logo_soulsteel = assestmanagergraphics::getTexture("userinterface/logo_soulsteel");
+    Texture2D logo_team = assestmanagergraphics::getTexture("userinterface/logo_team");
 public:
     gamechoicescreen(gameplay* existingGameplay) : scene(), gameplayInstance(existingGameplay) {
         std::cout << "Game choice screen created\n";
