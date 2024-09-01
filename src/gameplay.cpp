@@ -478,7 +478,7 @@ void gameplay::reloadRoom() {
 
 
                 Enemy1 *enemy1 = new Enemy1(this);
-                enemy1->controltype = Path;
+                enemy1->controltype = ControlType::Path;
                 enemy1->id = 201;
                 enemy1->position.x = 5 * 32;
                 enemy1->position.y = 4 * 32;
@@ -503,7 +503,7 @@ void gameplay::reloadRoom() {
             if (std::find(enemyID.begin(), enemyID.end(), 202) == enemyID.end()) {
 
                 Enemy2 *enemy2 = new Enemy2(this);
-                enemy2->controltype = Random;
+                enemy2->controltype = ControlType::Random;
                 enemy2->id = 202;
                 enemy2->position.x = 22 * 32 + 16;
                 enemy2->position.y = 8 * 32;
@@ -521,7 +521,7 @@ void gameplay::reloadRoom() {
             if (std::find(enemyID.begin(), enemyID.end(), 203) == enemyID.end()) {
 
                 Enemy3 *enemy3 = new Enemy3(this);
-                enemy3->controltype = Path;
+                enemy3->controltype = ControlType::Path;
                 enemy3->id = 203;
                 enemy3->position.x = 12 * 32;
                 enemy3->position.y = 9 * 32;
@@ -891,6 +891,7 @@ Rectangle gameplay::getTouchedAbyss(Vector2 position, float radius) {
             }
         }
     }
+    return Rectangle{0, 0, 0, 0}; // Returns an empty rectangle if no abyss is touched
 }
 
 const std::vector<Enemy *> &gameplay::getEnemies() const {

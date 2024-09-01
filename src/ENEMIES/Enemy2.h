@@ -11,12 +11,12 @@ public:
     Enemy2(gameplay *scene);
     void update() override;
     void draw() override;
-
+    Texture2D getCurrentTexture() override;
     ~Enemy2();
 
 private:
     void loadAnimations() override;
-    Texture2D getCurrentTexture() override;
+
     bool isAttacking;
 };
 
