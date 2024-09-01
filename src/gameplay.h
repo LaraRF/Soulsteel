@@ -178,7 +178,7 @@ struct ActivatedFirebowl {
         void reloadRoom();
 
         //doors
-        float doortextarea=32*4;
+        float doortextarea=32*3;
         float doorfromroom1to2=32*2;
         float startposroom1to2=14*32+16;
         float doorfromroom2to1=14*32+20;
@@ -340,12 +340,14 @@ struct ActivatedFirebowl {
         std::vector<int> tableIDs={table0ID, table1ID, table2ID, table3ID, table4ID, table5ID, table6ID};
         std::vector<int> grassIDs={grass0ID, grass1ID, grass2ID, grass3ID, grass4ID, grass5ID, grass6ID};
         std::vector<int> factoryfloorIDs={floor0ID};
+        std::vector<int> bigdoor={doorhinge0ID, doorhinge1ID, door0ID};
 
         std::vector<std::vector<int>> wallIDs = { treeIDs, doorhingeIDs,stonewallIDs, tableIDs};
         std::vector<std::vector<int>> fencesIDs = {fenceIDs};
         std::vector<std::vector<int>> firebowlsIDs={firebowlIDs};
         std::vector<std::vector<int>> allabyssIDs={abyssIDs};
         std::vector<std::vector<int>> floorIDs={grassIDs, factoryfloorIDs};
+        std::vector<std::vector<int>> factorydoor={bigdoor};
 
         ~gameplay() {
             //std::cout << "Gameplay instance destroyed\n";

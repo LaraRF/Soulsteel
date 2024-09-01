@@ -84,9 +84,9 @@ void gameplay::doRoomSwitch() {
                     }
                     themaincharacter->position.y = startposroom1to2;
                     reloadRoom();
-                } else if (themaincharacter->position.y <= doortextarea) {
-                    showDoorIsLockedMessage = true;
                 }
+            } else if (themaincharacter->position.y <= (doortextarea)&&!(areAllFirebowlsActivatedInRoom(1))) {
+                showDoorIsLockedMessage = true;
             } else {
                 showDoorIsLockedMessage = false;
             }
@@ -96,26 +96,41 @@ void gameplay::doRoomSwitch() {
                 room = 3;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 3;
-                } else { robotisinroom = 3; }
+                } else {
+                    robotisinroom = 3;
+                }
+
                 reloadRoom();
-                themaincharacter->position.y = startposroom2to3;
+
+                themaincharacter->position.
+                        y = startposroom2to3;
             }
             if (themaincharacter->position.x >= doorfromroom2to4) {
                 room = 4;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 4;
-                } else { robotisinroom = 4; }
+                } else {
+                    robotisinroom = 4;
+                }
+
                 reloadRoom();
-                themaincharacter->position.x = startposroom2to4;
+
+                themaincharacter->position.
+                        x = startposroom2to4;
             }
             if (themaincharacter->position.y >= (doorfromroom2to1)) {
                 room = 1;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 1;
-                } else { robotisinroom = 1; }
+                } else {
+                    robotisinroom = 1;
+                }
                 hasbeeninroom1before = true;
+
                 reloadRoom();
-                themaincharacter->position.y = startposroom2to1;
+
+                themaincharacter->position.
+                        y = startposroom2to1;
             }
             break;
         case 3:
@@ -123,18 +138,33 @@ void gameplay::doRoomSwitch() {
                 room = 2;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 2;
-                } else { robotisinroom = 2; }
+                } else {
+                    robotisinroom = 2;
+                }
+
                 reloadRoom();
-                themaincharacter->position.y = startposroom3to2;
+
+                themaincharacter->position.
+                        y = startposroom3to2;
             } else if (themaincharacter->position.y <= (doorfromroom4to5)) {
                 if (areAllFirebowlsActivatedInRoom(3)) {
                     room = 5;
                     if (currentmodus == soulmodus) {
                         soulisinroom = 5;
-                    } else { robotisinroom = 5; }
+                    } else {
+                        robotisinroom = 5;
+                    }
+
                     reloadRoom();
-                    themaincharacter->position.y = startposroom4to5;
+
+                    themaincharacter->position.
+                            y = startposroom4to5;
+                    showDoorIsLockedMessage = false;
+                } else if (themaincharacter->position.y <= doortextarea) {
+                    showDoorIsLockedMessage = true;
                 }
+            } else {
+                showDoorIsLockedMessage = false;
             }
             break;
         case 4:
@@ -142,9 +172,14 @@ void gameplay::doRoomSwitch() {
                 room = 2;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 2;
-                } else { robotisinroom = 2; }
+                } else {
+                    robotisinroom = 2;
+                }
+
                 reloadRoom();
-                themaincharacter->position.x = startposroom4to2;
+
+                themaincharacter->position.
+                        x = startposroom4to2;
             }
             break;
         case 5:
@@ -152,9 +187,14 @@ void gameplay::doRoomSwitch() {
                 room = 3;
                 if (currentmodus == soulmodus) {
                     soulisinroom = 3;
-                } else { robotisinroom = 3; }
+                } else {
+                    robotisinroom = 3;
+                }
+
                 reloadRoom();
-                themaincharacter->position.y = startposroom5to4;
+
+                themaincharacter->position.
+                        y = startposroom5to4;
             } else if (themaincharacter->position.x <= doorfromroom5to7 ||
                        themaincharacter->position.y <= doorfromroom5to6) {
                 showDemoMessage = true;
@@ -162,17 +202,18 @@ void gameplay::doRoomSwitch() {
                 showDemoMessage = false;
             }
             break;
-            /*case 6:
-                if (themaincharacter->position.y >= doorfromroom6to5) {
-                    room = 5;
-                    if (currentmodus == soulmodus) {
-                        soulisinroom = 6;
-                    } else { robotisinroom = 6; }
-                    reloadRoom();
-                    themaincharacter->position.y = startposroom6to5;
-                }
-                break;*/
+/*case 6:
+    if (themaincharacter->position.y >= doorfromroom6to5) {
+        room = 5;
+        if (currentmodus == soulmodus) {
+            soulisinroom = 6;
+        } else { robotisinroom = 6; }
+        reloadRoom();
+        themaincharacter->position.y = startposroom6to5;
     }
+    break;*/
+    }
+
 }
 
 bool gameplay::isAdjacentToFirebowl(Vector2 pos) const {
@@ -310,7 +351,12 @@ void gameplay::draw() {
     drawSwitches();
     drawActivatedFirebowls(GetFrameTime());
     if (showDoorIsLockedMessage) {
-        DrawText("This door is locked!\nActivate both firebowls to proceed.", 9 * 32, 4 * 32, 15, DARKBLUE);
+        if (room == 1) {
+            DrawText("This door is locked!\nActivate the firebowls to open.", 9 * 32, 4 * 32, 15, DARKBLUE);
+        }
+        if (room == 3) {
+            DrawText("This door is locked!\nActivate the firebowl to open.", 9 * 32 + 16, 5 * 32 + 16, 15, WHITE);
+        }
     }
 
     if (IsKeyDown(KEY_H)) {
@@ -379,10 +425,10 @@ void gameplay::drawtextonscreen() {
 }
 
 void gameplay::drawicons() {
-    DrawTexture(icon_dash, 23*32, 16, WHITE);
-    DrawTexture(icon_dust, 23*32+16, 32, WHITE);
-    DrawTexture(icon_bomb, 23*32-16, 32, WHITE);
-    DrawTexture(icon_stone, 23*32, 32+16, WHITE);
+    DrawTexture(icon_dash, 23 * 32, 16, WHITE);
+    DrawTexture(icon_dust, 23 * 32 + 16, 32, WHITE);
+    DrawTexture(icon_bomb, 23 * 32 - 16, 32, WHITE);
+    DrawTexture(icon_stone, 23 * 32, 32 + 16, WHITE);
 }
 
 void gameplay::drawhealthhearts() {
@@ -690,6 +736,24 @@ bool gameplay::touchesWall(Vector2 pos, float size) {
                 }
                 if (touchesAny) {
                     break;
+                }
+            }
+            if (!areAllFirebowlsActivatedInRoom(1)) {
+                for (const auto &group: factorydoor) {
+                    for (int id: group) {
+                        if (id == tileID) {
+                            if (CheckCollisionCircleRec(pos, size,
+                                                        Rectangle{(float) x * 32, (float) y * 32, (float) 32,
+                                                                  (float) 32})) {
+                                return true;
+                            }
+                            touchesAny = true;
+                            break;
+                        }
+                    }
+                    if (touchesAny) {
+                        break;
+                    }
                 }
             }
         }
