@@ -73,7 +73,7 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/new_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed New - static.png");
     m_textures["userinterface/continue"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - Continue - static.png");
     m_textures["userinterface/continue_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Continue - static.png");
-    m_textures["userinterface/logo_soulsteel"] = LoadTexture("assets/graphics/userinterface/Logo w Border_resized.png");
+    m_textures["userinterface/logo_soulsteel"] = LoadTexture("assets/graphics/userinterface/Logo_resized.png");
     m_textures["userinterface/logo_team"] = LoadTexture("assets/graphics/userinterface/Team Logo White_resized.png");
 
 

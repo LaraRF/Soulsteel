@@ -43,18 +43,18 @@ scene *gamechoicescreen::evaluateSceneChange() {
 }
 
 void gamechoicescreen::draw() {
-    DrawTexture(logo_soulsteel, 75, 25, WHITE);
-    DrawTexture(logo_team, 510, 230, WHITE);
+    DrawTexture(logo_soulsteel, 120, 20, WHITE);
+    DrawTexture(logo_team, 320, 390, WHITE);
 
-
+    int button_height=240;
     switch (cursor) { //shows which box is selected by giving it a white outline
         case 0:
-            DrawTexture(new_selected, 140,340, WHITE);
-            DrawTexture(continue_texture, 485, 340, WHITE);
+            DrawTexture(new_selected, 140,button_height, WHITE);
+            DrawTexture(continue_texture, 485, button_height, WHITE);
             break;
         case 1:
-            DrawTexture(new_texture, 140,340, WHITE);
-            DrawTexture(continue_selected, 485, 340, WHITE);
+            DrawTexture(new_texture, 140,button_height, WHITE);
+            DrawTexture(continue_selected, 485, button_height, WHITE);
             break;
         default:
             break;
