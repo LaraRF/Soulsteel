@@ -301,7 +301,6 @@ scene *gameplay::evaluateSceneChange() {
     if (IsKeyPressed(KEY_M)) {
         return new mainmenu();
     } else if (IsKeyPressed(KEY_P)) {
-        std::cout << "Switching to pause screen\n";
         return new pausescreen(this);
     } else if (IsKeyPressed(KEY_T)) {
         return new journal(this);

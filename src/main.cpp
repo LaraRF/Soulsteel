@@ -45,7 +45,7 @@ int main() {
     gameplay* gameplayInstance = nullptr;
     scene* currentScene =  new mainmenu();
 
-    std::cout << "Starting main loop\n";
+    //std::cout << "Starting main loop\n";
 
 
     //SetWindowSize(GetMonitorWidth(GetCurrentMonitor()), GetMonitorHeight(GetCurrentMonitor()));
@@ -70,7 +70,7 @@ int main() {
         scene* newScene = currentScene->evaluateSceneChange();
 
         if (currentScene != newScene) {
-            std::cout << "Switching scenes\n";
+            //std::cout << "Switching scenes\n";
 
             if (dynamic_cast<gameplay*>(newScene) != nullptr) {
                 gameplayInstance = dynamic_cast<gameplay*>(newScene);
