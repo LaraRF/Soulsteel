@@ -11,6 +11,10 @@
 #include "scene.h"
 class gameplay;
 class pausescreen:public scene {
+private:
+    Texture2D logo_soulsteel = assestmanagergraphics::getTexture("userinterface/logo_soulsteel");
+    Texture2D logo_team = assestmanagergraphics::getTexture("userinterface/logo_team");
+    Texture2D pause = assestmanagergraphics::getTexture("userinterface/pause");
 
 public:
     pausescreen(gameplay* gameplayInstance) : scene(gameplayInstance), gameplayInstance(gameplayInstance) {
