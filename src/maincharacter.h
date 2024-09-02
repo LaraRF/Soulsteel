@@ -32,7 +32,8 @@ public:
 
     AnimationState currentState = AnimationState::IDLE;
     Direction currentDirection = Direction::Down;
-    CardinalDirection lookingDirection = CardinalDirection::South;
+    Direction intendedDirection = Direction::Down;
+    Direction lookingdirection = Direction::Down;
 
     void update();
     void draw();
@@ -49,6 +50,7 @@ public:
     void updateDustAnimation(float deltaTime);
     void drawDustAnimation();
     bool canSwitchToRobot() const;
+    void performMeleeAttack();
 
     //health & Damage
     int health = 10;
@@ -106,11 +108,7 @@ public:
     void interactWithStone();
     void collisionstone();
 
-    //looking direction
-    enum lookingdirection{
-        north, south, east, west
-    };
-    lookingdirection lookingdirection =south;
+
 
     //Collision
     Rectangle getCollisionRectangle() const;
@@ -140,7 +138,7 @@ protected:
 
 private:
     Texture2D getCurrentTexture();
-    Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
+    //Texture2D characterSoulTexture = assestmanagergraphics::getTexture("characters/soul/Idle_Animation_front");
     Texture2D characterRobotTexture = assestmanagergraphics::getTexture("characters/robot/Character_-_Robot_-_Idle_Front_-_animated");
     Vector2 lastSafePosition;
     void updateLastSafePosition();
@@ -154,6 +152,10 @@ private:
     static constexpr float DUST_ANIMATION_DURATION = 1.0f; // Adjust as needed
     static constexpr int DUST_FRAME_COUNT = 8; // Adjust based on your sprite sheet
 
+    //animation
+    AnimationState currentAnimationState;
+    //AnimationFacingDirection facingDirection;
+
     //switch
     bool isSwitching = false;
     float switchAnimationTimer = 0.0f;
@@ -162,6 +164,13 @@ private:
 
     //health
     int m_health = MAX_HEALTH;
+
+    //melee attack
+    bool isAttacking;
+    float attackTimer;
+    static const float ATTACK_DURATION;
+    static const float ATTACK_COOLDOWN;
+    float lastAttackTime;
 
 };
 

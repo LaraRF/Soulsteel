@@ -59,7 +59,7 @@ void Enemy3::loadAnimations() {
 }
 
 Texture2D Enemy3::getCurrentTexture() {
-    std::string action = (currentAnimationState == Enemy::AnimationState::IDLE) ? "idle" : "walk";
+    std::string action = (currentAnimationState == AnimationState::IDLE) ? "idle" : "walk";
     std::string direction;
     switch(facing) {
         case Direction::Left: direction = "left"; break;
