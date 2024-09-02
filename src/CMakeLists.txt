@@ -62,6 +62,8 @@ add_executable(${PROJECT_NAME} main.cpp
         pausescreen.cpp
         pausescreen.cpp
         "GAME OBJECTS/blueblock.cpp"
+        AudioPlayer.h
+        AudioPlayer.cpp
 )
 
 # Add config.h.in file
