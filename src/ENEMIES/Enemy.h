@@ -61,7 +61,9 @@ public:
 
     void setAnimation(const std::string& animationKey);
 
-
+    //direction
+    Direction facing = Direction::Down;
+    Direction facingDirection = Direction::Down;
 
     ControlType controltype;
 
@@ -87,17 +89,18 @@ public:
 
     int m_health = MAX_HEALTH;
 
+    float stepsize = 2;
+    float size = 12;
+    int currentPathIndex = 0;
+
 
 protected:
     //animation enemy
-    enum class AnimationState { IDLE, WALK, ATTACK, SPECIAL};
-    enum class Direction { Left, Right, Up, Down };
+
 
     AnimationState currentAnimationState = AnimationState::IDLE;
     float animationTimer;
     int currentFrame = 0;
-    Direction facingDirection;
-    Direction facing = Direction::Down;
 
     static constexpr int FRAME_COUNT = 8; // Add this line, adjust the value as needed
     static constexpr float FRAME_DURATION = 0.1f; // Add this line, adjust the value as needed
@@ -138,9 +141,7 @@ protected:
     Direction direction{};
     ControlRandom controlrandom;
 
-    float stepsize = 2;
-    float size = 12;
-    int currentPathIndex = 0;
+
 
     //methods for movement: path or random
     virtual void moveOnPath();
