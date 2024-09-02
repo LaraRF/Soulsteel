@@ -607,6 +607,7 @@ void gameplay::reloadRoom() {
 
             Enemy3 enemy3(&scene);
             enemy3.controltype = Path;*/
+            //code
 
 
 
