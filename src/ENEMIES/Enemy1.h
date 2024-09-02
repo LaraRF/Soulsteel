@@ -10,12 +10,30 @@
 class Enemy1: public Enemy{
 public:
     Enemy1(gameplay *scene);
-
+    void update() override;
     void draw() override;
+    void throwBomb();
+    Texture2D getCurrentTexture() override;
+
+    //static std::string toLowerCase(const std::string& str);
 
     ~Enemy1();
+
+
 private:
-    Texture2D enemyTexture1 = assestmanagergraphics::getTexture("characters/enemies/enemy_1");
+    bool isThrowing;
+    Vector2 bombPosition;
+    float bombAnimationTimer;
+
+
+    //void updateAnimation(float deltaTime) override;
+    //void drawAnimation() override;
+
+    void loadAnimations() override;
+    void updateBombThrow();
+    void drawBombThrow();
+
+
 };
 
 

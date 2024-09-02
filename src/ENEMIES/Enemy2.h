@@ -9,13 +9,15 @@
 class Enemy2: public Enemy {
 public:
     Enemy2(gameplay *scene);
-
+    void update() override;
     void draw() override;
-
+    Texture2D getCurrentTexture() override;
     ~Enemy2();
 
 private:
-    Texture2D enemyTexture2 = assestmanagergraphics::getTexture("characters/enemies/enemy_2");
+    void loadAnimations() override;
+
+    bool isAttacking;
 };
 
 

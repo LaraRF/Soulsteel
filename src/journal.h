@@ -9,7 +9,6 @@
 #include "raylib.h"
 #include "assestmanagergraphics.h"
 #include "scene.h"
-
 class gameplay;
 class journal :public scene{
 public:

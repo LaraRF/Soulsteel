@@ -23,7 +23,8 @@ void ingameoptions::draw() {
     DrawText("W: Move up\nA: Move left\nS: Move down\nD: Move right", 200, 120, 20, WHITE);
     DrawText("Abilities:", 50, 280, 25, WHITE);
     DrawText(
-            "I: Soul dash (move through bars and over abyss)\nL: Soul Dust (light up fire bowls)\nK: some robot function\nJ: some robot function",
+
+            "I: Soul dash (move through bars and over abyss)\nL: Soul Dust (light up fire bowls)\nK: Robot Strength (push stone)\nJ: Robot Weapon (throw bomb)",
             200, 280, 20, WHITE);
     DrawText("Press M to go back to main menu", 50, 440, 20, WHITE);
 }

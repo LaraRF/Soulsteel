@@ -10,13 +10,23 @@
 class Enemy3: public Enemy {
 public:
     Enemy3(gameplay *scene);
-
+    void update() override;
     void draw() override;
 
+    Texture2D getCurrentTexture() override;
+    void updateAnimation(float deltaTime) override;
     ~Enemy3();
 
 private:
-    Texture2D enemyTexture3 = assestmanagergraphics::getTexture("characters/enemies/enemy_3");
+
+
+    bool isAttacking;
+
+    //void updateAnimation(float deltaTime) override;
+    //void drawAnimation() override;
+    bool isNearMainCharacter() const;
+
+    void loadAnimations() override;
 };
 
 
