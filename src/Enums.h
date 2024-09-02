@@ -25,13 +25,6 @@ enum class ControlRandom {
     RandomStop
 };
 
-enum class CardinalDirection {
-    North,
-    South,
-    East,
-    West
-};
-
 enum class AnimationState {
     IDLE,
     WALK,
@@ -42,6 +35,6 @@ enum class AnimationState {
     SWITCH
 };
 
-enum AnimationFacingDirection {BACK,FRONT,LEFT,RIGHT};
+//enum AnimationFacingDirection {BACK,FRONT,LEFT,RIGHT};
 
 #endif //RAYLIBSTARTER_ENUMS_H

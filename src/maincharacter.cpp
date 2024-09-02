@@ -9,6 +9,8 @@ const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
 const float maincharacter::bomb_cooldown = 1.0f;
 const int maincharacter::MAX_HEALTH;
+const float maincharacter::ATTACK_DURATION = 0.5f;
+const float maincharacter::ATTACK_COOLDOWN = 1.0f;
 
 int maincharacter::attackPower = 2;
 
@@ -154,7 +156,32 @@ void maincharacter::drawrobot() {
     //DrawCircle(position.x, position.y, size,GRAY);
     DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
 
+    if (currentAnimationState == AnimationState::ATTACK) {
+        // Draw attack animation
+        std::string direction;
+        switch (currentDirection) {
+            case Direction::Up: direction = "back"; break;
+            case Direction::Down: direction = "front"; break;
+            case Direction::Left: direction = "side_left"; break;
+            case Direction::Right: direction = "side_right"; break;
+        }
+
+        Texture2D bodyTexture = assestmanagergraphics::getCharacterTexture("robot", "Character - Robot - Melee " + direction + " - Body - animated");
+        Texture2D armTexture = assestmanagergraphics::getCharacterTexture("robot", "Character - Robot - Melee " + direction + " - Arm - animated");
+
+        int frame = static_cast<int>((attackTimer / ATTACK_DURATION) * 8) % 8;
+        Rectangle sourceRect = { frame * 32.0f, 0, 32, 32 };
+        Vector2 origin = { 16, 16 };
+
+        DrawTexturePro(bodyTexture, sourceRect, (Rectangle){ position.x, position.y, 32, 32 }, origin, 0, WHITE);
+        DrawTexturePro(armTexture, sourceRect, (Rectangle){ position.x, position.y, 32, 32 }, origin, 0, WHITE);
+    } else {
+        // Draw normal robot texture
+        DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
+    }
 }
+
+
 
 //g
 Rectangle maincharacter::getCollisionRectangle() const {
@@ -192,16 +219,16 @@ Texture2D maincharacter::getCurrentTexture() {
 
     std::string direction;
     switch (currentDirection) {
-        case BACK:
+        case Direction::Up:
             direction = "back";
             break;
-        case FRONT:
+        case Direction::Down:
             direction = "front";
             break;
-        case LEFT:
+        case Direction::Left:
             direction = "left";
             break;
-        case RIGHT:
+        case Direction::Right:
             direction = "right";
             break;
     }
@@ -230,11 +257,11 @@ int getHealth(const maincharacter &maincharacter) {
 maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
     position = {32 * 12, 32 * 6};  // Set initial position
     currentState = AnimationState::IDLE;
-    currentDirection = static_cast<Direction>(FRONT);
+    currentDirection = static_cast<Direction>(Up);
     currentFrame = 0;
     frameCounter = 0.0f;
     currentmodus = soulmodus;
-    lookingdirection = south;
+    lookingdirection = Down;
 
     // Set initial frame rectangle
     Texture2D currentTexture = getCurrentTexture();
@@ -269,22 +296,22 @@ void maincharacter::maincharacterwalking() {
 
     if (IsKeyDown(KEY_S)) {
         movement.y = stepsize;
-        lookingdirection = south;
+        lookingdirection = Direction::Down;
         moved = true;
     }
     if (IsKeyDown(KEY_W)) {
         movement.y = -stepsize;
-        lookingdirection = north;
+        lookingdirection = Direction::Up;
         moved = true;
     }
     if (IsKeyDown(KEY_A)) {
         movement.x = -stepsize;
-        lookingdirection = west;
+        lookingdirection = Direction::Left;
         moved = true;
     }
     if (IsKeyDown(KEY_D)) {
         movement.x = stepsize;
-        lookingdirection = east;
+        lookingdirection = Direction::Right;
         moved = true;
     }
 
@@ -349,22 +376,18 @@ void maincharacter::souldash() {
         dashStartPosition = position;
         dashEndPosition = position;
 
-        switch (lookingdirection) {
-            case north:
+        switch (currentDirection) {
+            case Direction::Up:
                 dashEndPosition.y -= DASH_DISTANCE;
-                currentDirection = static_cast<Direction>(BACK);
                 break;
-            case east:
+            case Direction::Right:
                 dashEndPosition.x += DASH_DISTANCE;
-                currentDirection = static_cast<Direction>(RIGHT);
                 break;
-            case south:
+            case Direction::Down:
                 dashEndPosition.y += DASH_DISTANCE;
-                currentDirection = static_cast<Direction>(FRONT);
                 break;
-            case west:
+            case Direction::Left:
                 dashEndPosition.x -= DASH_DISTANCE;
-                currentDirection = static_cast<Direction>(LEFT);
                 break;
         }
     }
@@ -482,52 +505,54 @@ void maincharacter::update() {
     Vector2 oldPosition = position;
     maincharacterwalking();
 
-    //allows you to switch between soul and robot functions
     switch (currentmodus) {
         case soulmodus:
-            //switch mode
-
-            //if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
-
-            if (IsKeyPressed(KEY_SPACE) && !isSwitching&& canSwitchToRobot()) {
-
+            if (IsKeyPressed(KEY_SPACE) && !isSwitching && canSwitchToRobot()) {
                 isSwitching = true;
                 switchAnimationTimer = 0.0f;
                 currentState = AnimationState::SWITCH;
             }
 
-            // soul dash
             if (IsKeyPressed(KEY_I) && currentState != AnimationState::DASH && !isSwitching) {
                 souldashactivated = true;
                 souldash();
             } else if (currentState == AnimationState::DASH) {
-                souldash();  // Continue the dash
+                souldash();
             } else {
                 souldashactivated = false;
             }
-            //soul dust
             souldust();
             break;
         case robotmodus:
-            //switch mode
             if (IsKeyPressed(KEY_SPACE) && !isSwitching) {
                 isSwitching = true;
                 switchAnimationTimer = 0.0f;
                 currentState = AnimationState::SWITCH;
             }
 
-            //activate switch
             if (IsKeyPressed(KEY_B) && !isSwitching) {
                 if (_scene->isAdjacentToSwitch(position)) {
                     Vector2 characterTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
                     _scene->toggleSwitchAt(characterTile);
                 }
             }
-            //bomb throwing
             if (IsKeyPressed(KEY_J) && (GetTime() - lastBombThrowTime) >= bomb_cooldown && !isSwitching) {
                 throwBomb();
             }
             break;
+    }
+
+    if (IsKeyPressed(KEY_U) && currentmodus == robotmodus && GetTime() - lastAttackTime >= ATTACK_COOLDOWN) {
+        performMeleeAttack();
+    }
+
+    if (currentAnimationState == AnimationState::ATTACK) {
+        attackTimer += GetFrameTime();
+        if (attackTimer >= ATTACK_DURATION) {
+            currentAnimationState = AnimationState::IDLE;
+            attackTimer = 0.0f;
+        }
+
     }
 
     if (isSwitching) {
@@ -538,28 +563,24 @@ void maincharacter::update() {
             currentState = AnimationState::IDLE;
         }
     } else {
-        //checks if character is moving
         if (Vector2Equals(oldPosition, position) && currentState != AnimationState::DASH) {
             currentState = AnimationState::IDLE;
         } else if (currentState != AnimationState::DASH) {
             currentState = AnimationState::WALK;
         }
 
-        //update current direction based on movement
-        if (IsKeyDown(KEY_W)) currentDirection = static_cast<Direction>(BACK);
-        else if (IsKeyDown(KEY_S)) currentDirection = static_cast<Direction>(FRONT);
-        else if (IsKeyDown(KEY_A)) currentDirection = static_cast<Direction>(LEFT);
-        else if (IsKeyDown(KEY_D)) currentDirection = static_cast<Direction>(RIGHT);
+        if (IsKeyDown(KEY_W)) currentDirection = Direction::Up;
+        else if (IsKeyDown(KEY_S)) currentDirection = Direction::Down;
+        else if (IsKeyDown(KEY_A)) currentDirection = Direction::Left;
+        else if (IsKeyDown(KEY_D)) currentDirection = Direction::Right;
     }
 
-    //collisions
     collisionwall();
     collisionenemies();
     collisionbars();
     collisionabyss();
     updateLastSafePosition();
 
-    //update animation
     if (currentState == AnimationState::SWITCH) {
         // The animation update is handled by the switchAnimationTimer
     } else {
@@ -609,17 +630,17 @@ void maincharacter::updateLastSafePosition() {
 void maincharacter::throwBomb() {
     //std::cout << "Throwing bomb!" << std::endl;
     Vector2 bombPosition;
-    switch (lookingdirection) {
-        case north:
+    switch (currentDirection) {
+        case Direction::Up:
             bombPosition = {position.x, position.y - bombthrowing_range};
             break;
-        case south:
+        case Direction::Down:
             bombPosition = {position.x, position.y + bombthrowing_range};
             break;
-        case east:
+        case Direction::Right:
             bombPosition = {position.x + bombthrowing_range, position.y};
             break;
-        case west:
+        case Direction::Left:
             bombPosition = {position.x - bombthrowing_range, position.y};
             break;
     }
@@ -644,3 +665,18 @@ bool maincharacter::isAlive() const {
 float maincharacter::getHealthPercentage() const {
     return static_cast<float>(m_health) / MAX_HEALTH;
 }
+
+
+    void maincharacter::performMeleeAttack() {
+        currentAnimationState = AnimationState::ATTACK;
+        attackTimer = 0.0f;
+        lastAttackTime = GetTime();
+
+        // Check for enemies in range and apply damage
+        for (auto& enemy : _scene->getEnemies()) {
+            if (CheckCollisionCircles(position, size + 32.0f, enemy->position, enemy->size)) {
+                enemy->takeDamage(2); // Apply 2 damage to the enemy
+            }
+        }
+    }
+
