@@ -18,7 +18,6 @@ void Stone::update() {
 
 void Stone::draw() {
     DrawTexture(stoneTexture, position.x, position.y, WHITE);
-    //stone texture is still placeholder
 }
 
 bool Stone::tryMove(Vector2 direction) {
@@ -27,15 +26,11 @@ bool Stone::tryMove(Vector2 direction) {
         return false;
     }
 
-    Vector2 newPosition = {
-            position.x + direction.x * 32,
-            position.y + direction.y * 32
-    };
+    Vector2 newPosition = {position.x + direction.x * 32,position.y + direction.y * 32};
 
     Vector2 newTile = {std::floor(newPosition.x / 32), std::floor(newPosition.y / 32)};
 
-    /*std::cout << "Attempting to move stone from (" << position.x << ", " << position.y
-              << ") to (" << newPosition.x << ", " << newPosition.y << ")" << std::endl;*/
+    /*std::cout << "Attempting to move stone from (" << position.x << ", " << position.y << ") to (" << newPosition.x << ", " << newPosition.y << ")" << std::endl;*/
 
     // Add bounds checking
     if (newTile.x < 0 || newTile.x >= _scene->mapWidth || newTile.y < 0 || newTile.y >= _scene->mapHeight) {

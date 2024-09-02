@@ -45,11 +45,10 @@ public:
     void collisionenemies();
     void collisionbars();
     void collisionabyss();
-    void startDusting();
     void updateDustAnimation(float deltaTime);
     void drawDustAnimation();
     bool canSwitchToRobot() const;
-
+    void startDusting();
     //health & Damage
     int health = 10;
     static int attackPower;
