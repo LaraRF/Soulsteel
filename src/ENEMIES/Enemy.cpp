@@ -34,10 +34,10 @@ std::string Enemy::toLowercase(const std::string& str) {
 
 void Enemy::update() {
 
-        if (!isAlive()) {
-            // Handle enemy death (e.g., remove from game, play death animation, etc.)
-            return;
-        }
+    if (!isAlive()) {
+        // Handle enemy death (e.g., remove from game, play death animation, etc.)
+        return;
+    }
     if (controltype == ControlType::Path) {
         moveOnPath();
     } else if (controltype == ControlType::Random) {

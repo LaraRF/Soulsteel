@@ -75,6 +75,8 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/continue_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Continue - static.png");
     m_textures["userinterface/logo_soulsteel"] = LoadTexture("assets/graphics/userinterface/Logo_resized.png");
     m_textures["userinterface/logo_team"] = LoadTexture("assets/graphics/userinterface/Team Logo White_resized.png");
+    m_textures["background/background"] = LoadTexture("assets/graphics/backgrounds/Menu background_resized.png");
+
 
 
     //ability icons

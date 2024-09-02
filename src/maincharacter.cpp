@@ -666,6 +666,7 @@ float maincharacter::getHealthPercentage() const {
     return static_cast<float>(m_health) / MAX_HEALTH;
 }
 
+
     void maincharacter::performMeleeAttack() {
         currentAnimationState = AnimationState::ATTACK;
         attackTimer = 0.0f;

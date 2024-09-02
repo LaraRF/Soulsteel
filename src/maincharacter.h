@@ -18,7 +18,7 @@
 #include "GAME OBJECTS/bombs.h"
 #include "Enums.h"
 
- //
+//
 
 struct ActivatedFirebowls;
 
