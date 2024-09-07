@@ -19,7 +19,6 @@ private:
     Texture2D logo_soulsteel = assestmanagergraphics::getTexture("userinterface/logo_soulsteel");
     Texture2D logo_team = assestmanagergraphics::getTexture("userinterface/logo_team");
 
-    Texture2D background = assestmanagergraphics::getTexture("background/background");
 
     Texture2D start=assestmanagergraphics::getTexture("userinterface/start");
     Texture2D start_selected=assestmanagergraphics::getTexture("userinterface/start_selected");
