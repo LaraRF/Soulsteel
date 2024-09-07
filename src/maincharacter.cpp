@@ -128,6 +128,10 @@ void maincharacter::collisionabyss() {
 }
 
 void maincharacter::draw() {
+
+    std::cout << "Current mode: " << (currentmodus == robotmodus ? "Robot" : "Soul") << std::endl;
+
+
     Texture2D currentTexture = getCurrentTexture();
 
     if (currentState == AnimationState::SWITCH) {
@@ -206,32 +210,66 @@ void maincharacter::drawsoul() {
 }
 
 void maincharacter::drawrobot() {
+    std::cout << "Drawing robot. Current state: " << static_cast<int>(currentState) << std::endl;
 
-    //DrawCircle(position.x, position.y, size,GRAY);
-    DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
-
-    if (currentAnimationState == AnimationState::ATTACK) {
-        // Draw attack animation
+    if (currentState == AnimationState::ATTACK) {
+        std::cout << "Drawing attack animation" << std::endl;
         std::string direction;
         switch (currentDirection) {
             case Direction::Up: direction = "back"; break;
             case Direction::Down: direction = "front"; break;
-            case Direction::Left: direction = "side_left"; break;
-            case Direction::Right: direction = "side_right"; break;
+            case Direction::Left: direction = "side left"; break;
+            case Direction::Right: direction = "side right"; break;
         }
 
-        Texture2D bodyTexture = assestmanagergraphics::getCharacterTexture("robot", "Character - Robot - Melee " + direction + " - Body - animated");
-        Texture2D armTexture = assestmanagergraphics::getCharacterTexture("robot", "Character - Robot - Melee " + direction + " - Arm - animated");
+        std::string bodyAnimName = "Character - Robot - Melee " + direction;
+        std::string armAnimName = bodyAnimName;
+
+        if (direction == "side left" || direction == "side right") {
+            bodyAnimName += " - Body";
+            armAnimName += " - Arm";
+        }
+
+        bodyAnimName += " - animated";
+        armAnimName += " - animated";
+
+        std::cout << "Requesting body texture: " << bodyAnimName << std::endl;
+        Texture2D bodyTexture = assestmanagergraphics::getCharacterTexture("robot", bodyAnimName);
+        std::cout << "Requesting arm texture: " << armAnimName << std::endl;
+        Texture2D armTexture = assestmanagergraphics::getCharacterTexture("robot", armAnimName);
 
         int frame = static_cast<int>((attackTimer / ATTACK_DURATION) * 8) % 8;
         Rectangle sourceRect = { frame * 32.0f, 0, 32, 32 };
-        Vector2 origin = { 16, 16 };
+        Vector2 origin = { 16, 32 };  // Adjust origin to bottom center of sprite
 
-        DrawTexturePro(bodyTexture, sourceRect, (Rectangle){ position.x, position.y, 32, 32 }, origin, 0, WHITE);
-        DrawTexturePro(armTexture, sourceRect, (Rectangle){ position.x, position.y, 32, 32 }, origin, 0, WHITE);
+        // Adjust the position to center the animation on the character's feet
+        Vector2 drawPos = { position.x, position.y };
+
+        if (bodyTexture.id != 0) {
+            std::cout << "Drawing body texture" << std::endl;
+            DrawTexturePro(bodyTexture, sourceRect, (Rectangle){ drawPos.x, drawPos.y, 32, 32 }, origin, 0, WHITE);
+        } else {
+            std::cout << "Drawing error rectangle for body" << std::endl;
+            DrawRectangle(drawPos.x - 16, drawPos.y - 32, 32, 32, PINK);
+            DrawRectangleLines(drawPos.x - 16, drawPos.y - 32, 32, 32, BLACK);
+        }
+
+        if (armTexture.id != 0 && (direction == "side left" || direction == "side right")) {
+            std::cout << "Drawing arm texture" << std::endl;
+            DrawTexturePro(armTexture, sourceRect, (Rectangle){ drawPos.x, drawPos.y, 32, 32 }, origin, 0, WHITE);
+        }
     } else {
-        // Draw normal robot texture
-        DrawTexture(characterRobotTexture, position.x - 16, position.y - 32, WHITE);
+        std::cout << "Drawing normal robot texture" << std::endl;
+        Texture2D currentTexture = getCurrentTexture();
+        if (currentTexture.id != 0) {
+            Rectangle sourceRect = { currentFrame * 32.0f, 0, 32, 32 };
+            Vector2 drawPos = { position.x - 16, position.y - 32 };  // Adjust to draw from top-left corner
+            DrawTextureRec(currentTexture, sourceRect, drawPos, WHITE);
+        } else {
+            std::cout << "Drawing error rectangle for normal texture" << std::endl;
+            DrawRectangle(position.x - 16, position.y - 32, 32, 32, PINK);
+            DrawRectangleLines(position.x - 16, position.y - 32, 32, 32, BLACK);
+        }
     }
 }
 
@@ -245,19 +283,21 @@ Texture2D maincharacter::getCurrentTexture() {
 
     switch (currentState) {
         case AnimationState::IDLE:
-            state = "idle_";
+            state = "Idle";
             break;
         case AnimationState::WALK:
-            state = "walk_";
+            state = "Walk";
             break;
         case AnimationState::DASH:
-            state = "dash_";
+            state = "Dash";
             break;
         case AnimationState::DUST:
-            state = "dust_";
+            state = "Dust";
+            break;
+        case AnimationState::ATTACK:
+            state = "Melee";
             break;
         case AnimationState::SWITCH:
-            // Handle the switching state
             return assestmanagergraphics::getCharacterTexture(
                     "Switch-Animation",
                     (currentmodus == soulmodus)
@@ -265,7 +305,7 @@ Texture2D maincharacter::getCurrentTexture() {
                     : "Character - Robot+Soul - Switch Robot to Soul - animated"
             );
         default:
-            state = "idle_";
+            state = "Idle";
     }
 
     std::string direction;
@@ -277,28 +317,33 @@ Texture2D maincharacter::getCurrentTexture() {
             direction = "front";
             break;
         case Direction::Left:
-            direction = "left";
+            direction = "side left";
             break;
         case Direction::Right:
-            direction = "right";
+            direction = "side right";
             break;
     }
-
-    key = state + direction;
 
     std::string characterName = (currentmodus == soulmodus) ? "soul" : "robot";
 
+    std::string animationName = std::string("Character - ") +
+                                (characterName == "soul" ? "Soul" : "Robot") +
+                                " - " + state + " " + direction;
+
     if (characterName == "robot") {
-        if (state == "idle_" || state == "walk_") {
-            if (direction == "front" || direction == "left" || direction == "right") {
-                key += isCharacterPossessed() ? "_possessed" : "_normal";
+        if (state == "Idle" || state == "Walk") {
+            if (direction == "front" || direction == "side left" || direction == "side right") {
+                animationName += isCharacterPossessed() ? " - possessed" : " - normal";
             }
-        } else if ((state == "melee_" || state == "ranged_") && (direction == "left" || direction == "right")) {
-            key += "_body"; // or "_arm"
+        } else if (state == "Melee" && (direction == "side left" || direction == "side right")) {
+            animationName += " - Body";  // We'll handle the arm separately in drawrobot
         }
     }
 
-    return assestmanagergraphics::getCharacterTexture(characterName, key);
+    animationName += " - animated";
+
+    std::cout << "Requesting texture: " << characterName << " - " << animationName << std::endl;
+    return assestmanagergraphics::getCharacterTexture(characterName, animationName);
 }
 
 float maincharacter::getHealthPercentage() const {
@@ -529,6 +574,11 @@ void maincharacter::update() {
     Vector2 oldPosition = position;
     maincharacterwalking();
 
+    if (IsKeyPressed(KEY_U)) {
+        std::cout << "U key pressed" << std::endl;
+    }
+
+
     switch (currentmodus) {
         case soulmodus:
             if (IsKeyPressed(KEY_SPACE) && !isSwitching && canSwitchToRobot()) {
@@ -554,6 +604,7 @@ void maincharacter::update() {
                 currentState = AnimationState::SWITCH;
             }
 
+
             if (IsKeyPressed(KEY_B) && !isSwitching) {
                 if (_scene->isAdjacentToSwitch(position)) {
                     Vector2 characterTile = {std::floor(position.x / 32), std::floor(position.y / 32)};
@@ -563,21 +614,36 @@ void maincharacter::update() {
             if (IsKeyPressed(KEY_J) && (GetTime() - lastBombThrowTime) >= bomb_cooldown && !isSwitching) {
                 throwBomb();
             }
+
+            if (IsKeyPressed(KEY_U) && GetTime() - lastAttackTime >= ATTACK_COOLDOWN) {
+                std::cout << "Initiating melee attack" << std::endl;
+                performMeleeAttack();
+                currentState = AnimationState::ATTACK;
+            }
+
             break;
     }
 
-    if (IsKeyPressed(KEY_U) && currentmodus == robotmodus && GetTime() - lastAttackTime >= ATTACK_COOLDOWN) {
-        performMeleeAttack();
-    }
-
-    if (currentAnimationState == AnimationState::ATTACK) {
-        attackTimer += GetFrameTime();
-        if (attackTimer >= ATTACK_DURATION) {
-            currentAnimationState = AnimationState::IDLE;
-            attackTimer = 0.0f;
+    if (currentmodus == robotmodus) {
+        if (IsKeyPressed(KEY_U) && GetTime() - lastAttackTime >= ATTACK_COOLDOWN) {
+            std::cout << "Initiating melee attack" << std::endl;
+            performMeleeAttack();
+            currentState = AnimationState::ATTACK;
+            std::cout << "State set to ATTACK in update: " << static_cast<int>(currentState) << std::endl;
         }
-
     }
+
+    if (currentState == AnimationState::ATTACK) {
+        attackTimer += GetFrameTime();
+        std::cout << "Attack timer: " << attackTimer << std::endl;
+        if (attackTimer >= ATTACK_DURATION) {
+            std::cout << "Attack animation finished" << std::endl;
+            currentState = AnimationState::IDLE;
+            attackTimer = 0.0f;
+            currentAnimationState = AnimationState::IDLE;
+        }
+    }
+
 
     if (isSwitching) {
         switchAnimationTimer += GetFrameTime();
@@ -587,11 +653,16 @@ void maincharacter::update() {
             currentState = AnimationState::IDLE;
         }
     } else {
-        if (Vector2Equals(oldPosition, position) && currentState != AnimationState::DASH) {
+        std::cout << "Before state update. Current state: " << static_cast<int>(currentState) << std::endl;
+        if (Vector2Equals(oldPosition, position) && currentState != AnimationState::DASH && currentState != AnimationState::ATTACK) {
             currentState = AnimationState::IDLE;
-        } else if (currentState != AnimationState::DASH) {
+            std::cout << "State set to IDLE" << std::endl;
+        } else if (currentState != AnimationState::DASH && currentState != AnimationState::ATTACK) {
             currentState = AnimationState::WALK;
+            std::cout << "State set to WALK" << std::endl;
         }
+        std::cout << "After state update. Current state: " << static_cast<int>(currentState) << std::endl;
+
 
         if (IsKeyDown(KEY_W)) currentDirection = Direction::Up;
         else if (IsKeyDown(KEY_S)) currentDirection = Direction::Down;
@@ -611,7 +682,11 @@ void maincharacter::update() {
         updateAnimation(GetFrameTime());
     }
     updateDustAnimation(GetFrameTime());
+
+std::cout << "End of update. Current state: " << static_cast<int>(currentState)
+<< ", Current mode: " << (currentmodus == robotmodus ? "Robot" : "Soul") << std::endl;
 }
+
 
 void maincharacter::updateAnimation(float deltaTime) {
     frameCounter += deltaTime;
@@ -662,15 +737,20 @@ void maincharacter::updateLastSafePosition() {
 }
 
 void maincharacter::performMeleeAttack() {
-        currentAnimationState = AnimationState::ATTACK;
-        attackTimer = 0.0f;
-        lastAttackTime = GetTime();
+    std::cout << "Performing melee attack!" << std::endl;
+    std::cout << "Current state before attack: " << static_cast<int>(currentState) << std::endl;
+    currentAnimationState = AnimationState::ATTACK;
+    currentState = AnimationState::ATTACK;
+    std::cout << "Current state after setting to ATTACK: " << static_cast<int>(currentState) << std::endl;
+    attackTimer = 0.0f;
+    lastAttackTime = GetTime();
 
-        // Checks for enemies in range and apply damage
-        for (auto& enemy : _scene->getEnemies()) {
-            if (CheckCollisionCircles(position, size + 32.0f, enemy->position, enemy->size)) {
-                enemy->takeDamage(2); // Applies 2 damage to the enemy
-            }
+    // Check for enemies in range and apply damage
+    for (auto& enemy : _scene->getEnemies()) {
+        if (CheckCollisionCircles(position, size + 32.0f, enemy->position, enemy->size)) {
+            enemy->takeDamage(2); // Apply 2 damage to the enemy
+            std::cout << "Hit enemy!" << std::endl;
         }
     }
+}
 
