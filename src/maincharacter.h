@@ -18,7 +18,7 @@
 #include "GAME OBJECTS/bombs.h"
 #include "Enums.h"
 
- //
+//
 
 struct ActivatedFirebowls;
 
@@ -174,5 +174,5 @@ private:
 
 };
 
-
+//test
 #endif //RAYLIBSTARTER_MAINCHARACTER_H

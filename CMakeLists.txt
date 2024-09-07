@@ -2,4 +2,6 @@
 
 project(raylibstarter)
 
+set(CMAKE_EXE_LINKER_FLAGS "-static")
+
 add_subdirectory ("src")

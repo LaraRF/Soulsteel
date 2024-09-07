@@ -75,6 +75,8 @@ void assestmanagergraphics::init() {
     m_textures["userinterface/continue_selected"] = LoadTexture("assets/graphics/userinterface/UI - Menu Button - pressed Continue - static.png");
     m_textures["userinterface/logo_soulsteel"] = LoadTexture("assets/graphics/userinterface/Logo_resized.png");
     m_textures["userinterface/logo_team"] = LoadTexture("assets/graphics/userinterface/Team Logo White_resized.png");
+    m_textures["background/background"] = LoadTexture("assets/graphics/backgrounds/Menu background_resized.png");
+
 
 
     //ability icons
@@ -266,33 +268,28 @@ Texture2D assestmanagergraphics::getTexture(const std::string &name) {
 }
 
 Texture2D assestmanagergraphics::getCharacterTexture(const std::string &characterName, const std::string &animationName) {
+    std::cout << "Requesting texture: " << characterName << " - " << animationName << std::endl;
+
     // Check if the character exists in the map
     if (m_characterAnimations.find(characterName) != m_characterAnimations.end()) {
         // Check if the animation exists for this character
         if (m_characterAnimations[characterName].find(animationName) != m_characterAnimations[characterName].end()) {
+            std::cout << "Texture found in cache" << std::endl;
             return m_characterAnimations[characterName][animationName];
         }
     }
 
-    // Handle Switch-Animation separately
-    if (characterName == "Switch-Animation") {
-        std::string textureName = animationName == "Character - Robot+Soul - Switch Soul to Robot - animated"
-                                  ? "Switch-Animation/Soul_to_Robot"
-                                  : "Switch-Animation/Robot_to_Soul";
-        if (m_textures.find(textureName) != m_textures.end()) {
-            return m_textures[textureName];
-        }
-    }
-
-    // If not found, load the texture
+    // If not found, load this texture
     std::string path = "assets/graphics/characters/" + characterName + "/" + animationName + ".png";
+    std::cout << "Attempting to load texture from path: " << path << std::endl;
     Texture2D texture = LoadTexture(path.c_str());
     if (texture.id == 0) {
-        TraceLog(LOG_WARNING, "Character texture not found: %s, %s", characterName.c_str(), animationName.c_str());
+        std::cout << "Failed to load texture: " << path << std::endl;
         return m_textures["ERROR"];
     }
 
     // Store the loaded texture
     m_characterAnimations[characterName][animationName] = texture;
+    std::cout << "Texture loaded and cached successfully" << std::endl;
     return texture;
 }
