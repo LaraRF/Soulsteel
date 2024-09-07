@@ -32,39 +32,6 @@ std::string Enemy::toLowercase(const std::string& str) {
 }
 
 
-void Enemy::update() {
-
-    if (!isAlive()) {
-        // Handle enemy death (e.g., remove from game, play death animation, etc.)
-        return;
-    }
-    if (controltype == ControlType::Path) {
-        moveOnPath();
-    } else if (controltype == ControlType::Random) {
-        moveRandomly();
-    }
-    //Collision Wall
-    for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
-        Rectangle touchedWall = _scene->getTouchedWall(position, size);
-        Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
-                                          {touchedWall.x + touchedWall.width, touchedWall.y + touchedWall.height});
-        Vector2 pushForce = Vector2Subtract(position, touchPoint);
-        float overlapDistance = size - Vector2Length(pushForce);
-        if (overlapDistance <= 0) {
-            break;
-        }
-        pushForce = Vector2Normalize(pushForce);
-        pushForce = Vector2Scale(pushForce, overlapDistance);
-        position = Vector2Add(position, pushForce);
-    }
-    updateAnimation(GetFrameTime());
-    static constexpr int FRAME_COUNT = 8; // Add this line, adjust the value as needed
-    static constexpr float FRAME_DURATION = 0.1f; // Add this line, adjust the value as needed
-
-    float animationTimer;
-    int currentFrame;
-}
-
 void Enemy::calculatePathAsRectangle() {
     path.clear();
     path.push_back({stopleft, stopup});
@@ -159,7 +126,7 @@ void Enemy::setAnimation(const std::string& animationKey) {
     }
 }
 
-//*NEW CODE*
+
 void Enemy::takeDamage(int amount) {
     m_health = std::max(0, m_health - amount);
 }
@@ -174,4 +141,37 @@ bool Enemy::isAlive() const {
 
 float Enemy::getHealthPercentage() const {
     return static_cast<float>(m_health) / MAX_HEALTH;
+}
+
+void Enemy::update() {
+
+    if (!isAlive()) {
+        // Handle enemy death (e.g., remove from game, play death animation, etc.)
+        return;
+    }
+    if (controltype == ControlType::Path) {
+        moveOnPath();
+    } else if (controltype == ControlType::Random) {
+        moveRandomly();
+    }
+    //Collision Wall
+    for (int i = 0; _scene->touchesWall(position, size) && i < 4; i++) {
+        Rectangle touchedWall = _scene->getTouchedWall(position, size);
+        Vector2 touchPoint = Vector2Clamp(position, {touchedWall.x, touchedWall.y},
+                                          {touchedWall.x + touchedWall.width, touchedWall.y + touchedWall.height});
+        Vector2 pushForce = Vector2Subtract(position, touchPoint);
+        float overlapDistance = size - Vector2Length(pushForce);
+        if (overlapDistance <= 0) {
+            break;
+        }
+        pushForce = Vector2Normalize(pushForce);
+        pushForce = Vector2Scale(pushForce, overlapDistance);
+        position = Vector2Add(position, pushForce);
+    }
+    updateAnimation(GetFrameTime());
+    static constexpr int FRAME_COUNT = 8; // Add this line, adjust the value as needed
+    static constexpr float FRAME_DURATION = 0.1f; // Add this line, adjust the value as needed
+
+    float animationTimer;
+    int currentFrame;
 }

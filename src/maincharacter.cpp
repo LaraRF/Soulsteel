@@ -14,6 +14,24 @@ const float maincharacter::ATTACK_COOLDOWN = 1.0f;
 
 int maincharacter::attackPower = 2;
 
+maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
+    position = {32 * 12, 32 * 6};  // Set initial position
+    currentState = AnimationState::IDLE;
+    currentDirection = static_cast<Direction>(Up);
+    currentFrame = 0;
+    frameCounter = 0.0f;
+    currentmodus = soulmodus;
+    lookingdirection = Down;
+
+    // Set initial frame rectangle
+    Texture2D currentTexture = getCurrentTexture();
+    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
+    float frameHeight = static_cast<float>(currentTexture.height);
+    frameRec = {0, 0, frameWidth, frameHeight};
+
+    isPossessed = false;
+}
+
 void maincharacter::attack(Enemy *target) {
     target->health -= Enemy::attackPower;
 
@@ -24,6 +42,15 @@ void calculateDamage(maincharacter &maincharacter, int damage) {
     if (maincharacter.health < 0) {
         maincharacter.health = 0;
     }
+}
+
+bool maincharacter::canSwitchToRobot() const {
+    if (currentmodus != soulmodus) return true;  // Can always switch from robot to soul
+
+    Vector2 robotPos = _scene->getRobotPosition();
+    float takeoverRadius = _scene->getTakeoverRadius();
+
+    return CheckCollisionPointCircle(position, robotPos, takeoverRadius);
 }
 
 void maincharacter::collisionwall() {
@@ -136,6 +163,33 @@ void maincharacter::draw() {
     DrawText(TextFormat("Health: %i",this->health),position.x,position.y,10,BLACK);
 }
 
+void maincharacter::drawDustAnimation() {
+    if (isDusting) {
+        Texture2D characterDustTexture = getCurrentTexture();
+        Texture2D dustEffectTexture = assestmanagergraphics::getCharacterTexture("soul", "dust_" + std::to_string(static_cast<int>(currentDirection)) + "_dust");
+
+        int currentFrame = static_cast<int>((dustAnimationTimer / DUST_ANIMATION_DURATION) * DUST_FRAME_COUNT) % DUST_FRAME_COUNT;
+
+        // Draw character dust animation
+        DrawTextureRec(characterDustTexture,
+                       Rectangle{static_cast<float>(currentFrame * characterDustTexture.width / DUST_FRAME_COUNT), 0.0f,
+                                 static_cast<float>(characterDustTexture.width / DUST_FRAME_COUNT),
+                                 static_cast<float>(characterDustTexture.height)},
+                       Vector2{position.x - static_cast<float>(characterDustTexture.width) / (2.0f * DUST_FRAME_COUNT),
+                               position.y - static_cast<float>(characterDustTexture.height) / 2.0f},
+                       WHITE);
+
+        // Draw dust effect animation
+        DrawTextureRec(dustEffectTexture,
+                       Rectangle{static_cast<float>(currentFrame * dustEffectTexture.width / DUST_FRAME_COUNT), 0.0f,
+                                 static_cast<float>(dustEffectTexture.width / DUST_FRAME_COUNT),
+                                 static_cast<float>(dustEffectTexture.height)},
+                       Vector2{dustPosition.x - static_cast<float>(dustEffectTexture.width) / (2.0f * DUST_FRAME_COUNT),
+                               dustPosition.y - static_cast<float>(dustEffectTexture.height) / 2.0f},
+                       WHITE);
+    }
+}
+
 void maincharacter::drawsoul() {
 
     //draws current frame of soul animation
@@ -181,9 +235,6 @@ void maincharacter::drawrobot() {
     }
 }
 
-
-
-//g
 Rectangle maincharacter::getCollisionRectangle() const {
     return Rectangle{position.x - size / 2, position.y - size / 2, size, size};
 }
@@ -243,52 +294,32 @@ Texture2D maincharacter::getCurrentTexture() {
                 key += isCharacterPossessed() ? "_possessed" : "_normal";
             }
         } else if ((state == "melee_" || state == "ranged_") && (direction == "left" || direction == "right")) {
-            key += "_body"; // or "_arm" depending on your needs
+            key += "_body"; // or "_arm"
         }
     }
 
     return assestmanagergraphics::getCharacterTexture(characterName, key);
 }
 
+float maincharacter::getHealthPercentage() const {
+    return static_cast<float>(m_health) / MAX_HEALTH;
+}
+
 int getHealth(const maincharacter &maincharacter) {
     return maincharacter.health;
 }
 
-maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
-    position = {32 * 12, 32 * 6};  // Set initial position
-    currentState = AnimationState::IDLE;
-    currentDirection = static_cast<Direction>(Up);
-    currentFrame = 0;
-    frameCounter = 0.0f;
-    currentmodus = soulmodus;
-    lookingdirection = Down;
-
-    // Set initial frame rectangle
-    Texture2D currentTexture = getCurrentTexture();
-    float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
-    float frameHeight = static_cast<float>(currentTexture.height);
-    frameRec = {0, 0, frameWidth, frameHeight};
-
-    isPossessed = false;
-}
-
-bool maincharacter::canSwitchToRobot() const {
-    if (currentmodus != soulmodus) return true;  // Can always switch from robot to soul
-
-    Vector2 robotPos = _scene->getRobotPosition();
-    float takeoverRadius = _scene->getTakeoverRadius();
-
-    return CheckCollisionPointCircle(position, robotPos, takeoverRadius);
+void maincharacter::heal(int amount) {
+    m_health = std::min(MAX_HEALTH, m_health + amount);
 }
 
 bool maincharacter::isCharacterPossessed() const {
     return isPossessed;
 }
 
-void maincharacter::setPossessionStatus(bool possessed) {
-    isPossessed = possessed;
+bool maincharacter::isAlive() const {
+    return m_health > 0;
 }
-
 
 void maincharacter::maincharacterwalking() {
     Vector2 movement = {0, 0};
@@ -362,6 +393,19 @@ void maincharacter::maincharacterwalking() {
     }
 }
 
+
+void maincharacter::setPossessionStatus(bool possessed) {
+    isPossessed = possessed;
+}
+
+void maincharacter::startDusting() {
+    if (souldustcanbeused()) {
+        isDusting = true;
+        dustAnimationTimer = 0.0f;
+        dustPosition = position;
+        currentState = AnimationState::DUST; //  DUST state in enum.h
+    }
+}
 
 void setAttackPower(int attack) {
     int attackPower = attack;
@@ -455,50 +499,30 @@ void maincharacter::souldust() {
     }
 }
 
-void maincharacter::startDusting() {
-    if (souldustcanbeused()) {
-        isDusting = true;
-        dustAnimationTimer = 0.0f;
-        dustPosition = position;
-        currentState = AnimationState::DUST; // Assuming you have a DUST state in your State enum
-    }
+void maincharacter::takeDamage(int amount) {
+    m_health = std::max(0, m_health - amount);
 }
 
-void maincharacter::updateDustAnimation(float deltaTime) {
-    if (isDusting) {
-        dustAnimationTimer += deltaTime;
-        if (dustAnimationTimer >= DUST_ANIMATION_DURATION) {
-            isDusting = false;
-            currentState = AnimationState::IDLE; // Or whatever state should come after dusting
-        }
+void maincharacter::throwBomb() {
+    //std::cout << "Throwing bomb!" << std::endl;
+    Vector2 bombPosition;
+    switch (currentDirection) {
+        case Direction::Up:
+            bombPosition = {position.x, position.y - bombthrowing_range};
+            break;
+        case Direction::Down:
+            bombPosition = {position.x, position.y + bombthrowing_range};
+            break;
+        case Direction::Right:
+            bombPosition = {position.x + bombthrowing_range, position.y};
+            break;
+        case Direction::Left:
+            bombPosition = {position.x - bombthrowing_range, position.y};
+            break;
     }
-}
-
-void maincharacter::drawDustAnimation() {
-    if (isDusting) {
-        Texture2D characterDustTexture = getCurrentTexture();
-        Texture2D dustEffectTexture = assestmanagergraphics::getCharacterTexture("soul", "dust_" + std::to_string(static_cast<int>(currentDirection)) + "_dust");
-
-        int currentFrame = static_cast<int>((dustAnimationTimer / DUST_ANIMATION_DURATION) * DUST_FRAME_COUNT) % DUST_FRAME_COUNT;
-
-        // Draw character dust animation
-        DrawTextureRec(characterDustTexture,
-                       Rectangle{static_cast<float>(currentFrame * characterDustTexture.width / DUST_FRAME_COUNT), 0.0f,
-                                 static_cast<float>(characterDustTexture.width / DUST_FRAME_COUNT),
-                                 static_cast<float>(characterDustTexture.height)},
-                       Vector2{position.x - static_cast<float>(characterDustTexture.width) / (2.0f * DUST_FRAME_COUNT),
-                               position.y - static_cast<float>(characterDustTexture.height) / 2.0f},
-                       WHITE);
-
-        // Draw dust effect animation
-        DrawTextureRec(dustEffectTexture,
-                       Rectangle{static_cast<float>(currentFrame * dustEffectTexture.width / DUST_FRAME_COUNT), 0.0f,
-                                 static_cast<float>(dustEffectTexture.width / DUST_FRAME_COUNT),
-                                 static_cast<float>(dustEffectTexture.height)},
-                       Vector2{dustPosition.x - static_cast<float>(dustEffectTexture.width) / (2.0f * DUST_FRAME_COUNT),
-                               dustPosition.y - static_cast<float>(dustEffectTexture.height) / 2.0f},
-                       WHITE);
-    }
+    bombs* newBomb = new bombs(_scene, bombPosition);
+    _scene->addBomb(newBomb);
+    lastBombThrowTime = GetTime();
 }
 
 void maincharacter::update() {
@@ -597,7 +621,7 @@ void maincharacter::updateAnimation(float deltaTime) {
         if (currentFrame >= FRAME_COUNT) currentFrame = 0;
     }
 
-    // Update frameRec based on current frame
+    // Updates frameRec based on current frame
     Texture2D currentTexture = getCurrentTexture();
     float frameWidth = static_cast<float>(currentTexture.width) / FRAME_COUNT;
     float frameHeight = static_cast<float>(currentTexture.height);
@@ -621,61 +645,31 @@ void maincharacter::updateDashAnimation(float deltaTime) {
     frameRec = {currentFrame * frameWidth, 0, frameWidth, frameHeight};
 }
 
+void maincharacter::updateDustAnimation(float deltaTime) {
+    if (isDusting) {
+        dustAnimationTimer += deltaTime;
+        if (dustAnimationTimer >= DUST_ANIMATION_DURATION) {
+            isDusting = false;
+            currentState = AnimationState::IDLE; // Or diffrent state
+        }
+    }
+}
+
 void maincharacter::updateLastSafePosition() {
     if (!_scene->touchesAbyss(position, size)) {
         lastSafePosition = position;
     }
 }
 
-void maincharacter::throwBomb() {
-    //std::cout << "Throwing bomb!" << std::endl;
-    Vector2 bombPosition;
-    switch (currentDirection) {
-        case Direction::Up:
-            bombPosition = {position.x, position.y - bombthrowing_range};
-            break;
-        case Direction::Down:
-            bombPosition = {position.x, position.y + bombthrowing_range};
-            break;
-        case Direction::Right:
-            bombPosition = {position.x + bombthrowing_range, position.y};
-            break;
-        case Direction::Left:
-            bombPosition = {position.x - bombthrowing_range, position.y};
-            break;
-    }
-    bombs* newBomb = new bombs(_scene, bombPosition);
-    _scene->addBomb(newBomb);
-    lastBombThrowTime = GetTime();
-}
-
-//*NEW CODE*
-void maincharacter::takeDamage(int amount) {
-    m_health = std::max(0, m_health - amount);
-}
-
-void maincharacter::heal(int amount) {
-    m_health = std::min(MAX_HEALTH, m_health + amount);
-}
-
-bool maincharacter::isAlive() const {
-    return m_health > 0;
-}
-
-float maincharacter::getHealthPercentage() const {
-    return static_cast<float>(m_health) / MAX_HEALTH;
-}
-
-
-    void maincharacter::performMeleeAttack() {
+void maincharacter::performMeleeAttack() {
         currentAnimationState = AnimationState::ATTACK;
         attackTimer = 0.0f;
         lastAttackTime = GetTime();
 
-        // Check for enemies in range and apply damage
+        // Checks for enemies in range and apply damage
         for (auto& enemy : _scene->getEnemies()) {
             if (CheckCollisionCircles(position, size + 32.0f, enemy->position, enemy->size)) {
-                enemy->takeDamage(2); // Apply 2 damage to the enemy
+                enemy->takeDamage(2); // Applies 2 damage to the enemy
             }
         }
     }
