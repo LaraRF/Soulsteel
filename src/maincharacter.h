@@ -55,6 +55,14 @@ public:
     //*NEWCODE*
     HealthManager healthManager;
 
+    // Abyss Message Timer
+    float abyssMessageTimer = 0.0f;
+    static constexpr float ABYSS_MESSAGE_DURATION = 3.0f;
+
+    //recovery timer
+    static float recoveryTimer;
+    float recoveryPeriod;
+    static constexpr float IMMUNITY_DURATION = 1.0f;
 
     //health & Damage
     int health = 10;
@@ -131,11 +139,11 @@ public:
     static const float bomb_cooldown;
     float bombthrowing_range=48;
 
-    static const int MAX_HEALTH = 10;
-    void takeDamage(int amount);
-    void heal(int amount);
-    bool isAlive() const;
-    float getHealthPercentage() const;
+    //static const int MAX_HEALTH = 10;
+    //void takeDamage(int amount);
+    //void heal(int amount);
+    //bool isAlive() const;
+    //float getHealthPercentage() const;
 
 protected:
     bool checkCollision(const Wall& wall);
@@ -166,8 +174,9 @@ private:
     static constexpr float SWITCH_ANIMATION_DURATION = 1.0f; // Adjust as needed
     static constexpr int SWITCH_FRAME_COUNT = 8;
 
-    //health
-    int m_health = MAX_HEALTH;
+    //immunity
+
+    float immunityTimer = 0.0f;
 
     //melee attack
     bool isAttacking;

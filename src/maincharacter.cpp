@@ -8,7 +8,7 @@
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
 const float maincharacter::bomb_cooldown = 1.0f;
-const int maincharacter::MAX_HEALTH;
+
 const float maincharacter::ATTACK_DURATION = 0.5f;
 const float maincharacter::ATTACK_COOLDOWN = 1.0f;
 
@@ -71,20 +71,21 @@ void maincharacter::collisionenemies() {
 
     for (int i = 0; i < enemies.size(); i++) {
         if (Collision::checkCollision(*this, *enemies[i])) {
-            Rectangle enemyRect = enemies[i]->getCollisionRectangle();
-            for (int j = 0; j < 4; j++) {
-                Vector2 touchPoint = Vector2Clamp(position, {enemyRect.x, enemyRect.y},
-                                                  {enemyRect.x + enemyRect.width, enemyRect.y + enemyRect.height});
-                Vector2 pushForce = Vector2Subtract(position, touchPoint);
-                float overlapDistance = size - Vector2Length(pushForce);
-                if (overlapDistance <= 1) {
-                    break;
-                }
-                this->health--;
-                pushForce = Vector2Normalize(pushForce);
-                pushForce = Vector2Scale(pushForce, overlapDistance);
-                position = Vector2Add(position, pushForce);
+            if (immunityTimer <= 0.0f) {
+                healthManager.takeDamage(1);
+                std::cout << "Health after enemy collision: " << healthManager.getCurrentHealth() << "/" << healthManager.getMaxHealth() << std::endl;
+                immunityTimer = IMMUNITY_DURATION;
+
+                // Push the character away from the enemy
+                Vector2 pushDirection = Vector2Subtract(position, enemies[i]->position);
+                pushDirection = Vector2Normalize(pushDirection);
+                position = Vector2Add(position, Vector2Scale(pushDirection, 10.0f)); // Push 10 pixels away
             }
+
+            // Always push the character slightly to prevent sticking
+            Vector2 separationVector = Vector2Subtract(position, enemies[i]->position);
+            separationVector = Vector2Normalize(separationVector);
+            position = Vector2Add(position, Vector2Scale(separationVector, 1.0f));
         }
     }
 }
@@ -108,21 +109,26 @@ void maincharacter::collisionbars() {
 }
 
 void maincharacter::collisionabyss() {
+
     if (_scene->touchesAbyss(position, size)) {
-        if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
-            // Robot or non-dashing soul falls into abyss, soul using dash is fine
-            //health--; // Lose one heart
-            healthManager.takeDamage(1); // Lose one heart when falling into abyss
-            felldown = true;
-            position = lastSafePosition; // Reset position
-
-            //falling animation or something here
-
+        if (_scene->touchesAbyss(position, size)) {
+            if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
+                if (immunityTimer <= 0.0f) {
+                    felldown = true;
+                    position = lastSafePosition; // Reset position
+                    healthManager.takeDamage(1); // Apply damage
+                    std::cout << "Health after abyss damage: " << healthManager.getCurrentHealth() << "/"
+                              << healthManager.getMaxHealth() << std::endl;
+                    immunityTimer = IMMUNITY_DURATION;
+                    abyssMessageTimer = ABYSS_MESSAGE_DURATION;
+                }
+            }
+        } else {
+            updateLastSafePosition();
+            felldown = false;
         }
-    } else {
-        updateLastSafePosition();
-        felldown = false;
     }
+
 }
 
 void maincharacter::draw() {
@@ -158,12 +164,21 @@ void maincharacter::draw() {
         drawDustAnimation();
     }
 
-    if (felldown) {
+    if (abyssMessageTimer > 0.0f) {
         DrawText("You fell into the abyss. You lost one life.", 10 * 15, 7 * 15, 20, RED);
     }
-    //Draw Health for debug purposes
-    DrawText(TextFormat("Health: %i",this->health),position.x,position.y,10,BLACK);
+
+    // Draw health
+    DrawText(TextFormat("Health: %i/%i", healthManager.getCurrentHealth(), healthManager.getMaxHealth()), 10, 10, 20, WHITE);
+
+    // Optionally, indicate immunity
+    if (immunityTimer > 0.0f) {
+        DrawText("IMMUNE", position.x - 30, position.y - 40, 20, YELLOW);
+    }
+
+
 }
+
 
 void maincharacter::drawDustAnimation() {
     if (isDusting) {
@@ -410,24 +425,12 @@ Texture2D maincharacter::getCurrentTexture() {
     return assestmanagergraphics::getCharacterTexture(characterName, animationName);
 }
 
-float maincharacter::getHealthPercentage() const {
-    return static_cast<float>(m_health) / MAX_HEALTH;
-}
-
 int getHealth(const maincharacter &maincharacter) {
-    return maincharacter.health;
-}
-
-void maincharacter::heal(int amount) {
-    m_health = std::min(MAX_HEALTH, m_health + amount);
+    return maincharacter.healthManager.getCurrentHealth();
 }
 
 bool maincharacter::isCharacterPossessed() const {
     return isPossessed;
-}
-
-bool maincharacter::isAlive() const {
-    return m_health > 0;
 }
 
 void maincharacter::maincharacterwalking() {
@@ -595,9 +598,7 @@ void maincharacter::souldust() {
     }
 }
 
-void maincharacter::takeDamage(int amount) {
-    m_health = std::max(0, m_health - amount);
-}
+
 
 void maincharacter::throwBomb() {
     //std::cout << "Throwing bomb!" << std::endl;
@@ -624,6 +625,12 @@ void maincharacter::throwBomb() {
 void maincharacter::update() {
     Vector2 oldPosition = position;
     maincharacterwalking();
+
+    if (!healthManager.isAlive()) {
+        // Handle game over state
+        return; // Exit the update function early
+    }
+
 
     switch (currentmodus) {
         case soulmodus:
@@ -748,6 +755,17 @@ void maincharacter::update() {
 
     std::cout << "End of update. Current state: " << static_cast<int>(currentState)
               << ", Current mode: " << (currentmodus == robotmodus ? "Robot" : "Soul") << std::endl;
+
+    //update timers
+    float deltaTime = GetFrameTime();
+    if (immunityTimer > 0.0f) {
+        immunityTimer -= deltaTime;
+    }
+
+    //update abyss message timer
+    if (abyssMessageTimer > 0.0f) {
+        abyssMessageTimer -= GetFrameTime();
+    }
 }
 
 

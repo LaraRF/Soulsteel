@@ -27,9 +27,12 @@ void gameplay::update() {
 
 // Check maincharacter health
     if (!themaincharacter->healthManager.isAlive()) {
-        // Handle game over
-        // For example: game over icon, transition to a game over screen, etc.
-        return; // Exit the update function early if the game is over
+        // Draw game over message
+        const char* gameOverText = "GAME OVER";
+        int fontSize = 40;
+        int textWidth = MeasureText(gameOverText, fontSize);
+        DrawText(gameOverText, GetScreenWidth()/2 - textWidth/2, GetScreenHeight()/2 - fontSize/2, fontSize, RED);
+        return; // Stop updating the game
     }
 
     // Update and check enemies
@@ -44,9 +47,6 @@ void gameplay::update() {
             ++it;
         }
     }
-
-
-
 
 
 

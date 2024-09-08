@@ -5,28 +5,28 @@
 #include "HealthManager.h"
 #include <algorithm>
 
-HealthManager::HealthManager(int maxHealth) : m_maxHealth(maxHealth), m_currentHealth(maxHealth) {}
+HealthManager::HealthManager(int maxHealth) : maxHealth(maxHealth), currentHealth(maxHealth) {}
 
 void HealthManager::takeDamage(int amount) {
-    m_currentHealth = std::max(0, m_currentHealth - amount);
+    currentHealth = std::max(0, currentHealth - amount);
 }
 
 void HealthManager::heal(int amount) {
-    m_currentHealth = std::min(m_maxHealth, m_currentHealth + amount);
+    currentHealth = std::min(maxHealth, currentHealth + amount);
 }
 
 bool HealthManager::isAlive() const {
-    return m_currentHealth > 0;
+    return currentHealth > 0;
 }
 
 float HealthManager::getHealthPercentage() const {
-    return static_cast<float>(m_currentHealth) / m_maxHealth;
+    return static_cast<float>(currentHealth) / maxHealth;
 }
 
 int HealthManager::getCurrentHealth() const {
-    return m_currentHealth;
+    return currentHealth;
 }
 
 int HealthManager::getMaxHealth() const {
-    return m_maxHealth;
+    return maxHealth;
 }

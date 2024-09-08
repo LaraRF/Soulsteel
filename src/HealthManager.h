@@ -18,8 +18,8 @@ public:
     int getMaxHealth() const;
 
 private:
-    int m_maxHealth;
-    int m_currentHealth;
+    int maxHealth;
+    int currentHealth;
 };
 
 
