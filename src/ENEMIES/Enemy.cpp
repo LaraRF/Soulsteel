@@ -9,28 +9,15 @@
 #include "raymath.h"
 #include "../Wall.h"
 
-int Enemy::attackPower = 1;
-const int Enemy::MAX_HEALTH;
+
 
 Enemy::Enemy(gameplay* scene, int hp, int damage, bool melee, bool ranged, bool armed,
              float left, float down, float right, float up)
-        : _scene(scene), health(hp), currentAnimationState(AnimationState::IDLE),
+        : _scene(scene), healthManager(hp), enemyDamage(damage),  currentAnimationState(AnimationState::IDLE),
           facingDirection(Direction::Down), animationTimer(0.0f), currentFrame(0)
 {
-    this->health = hp; //initialization of health.
+    //this->health = hp; //initialization of health.
 }
-
-
-
-
-
-
-std::string Enemy::toLowercase(const std::string& str) {
-    std::string lower = str;
-    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-    return lower;
-}
-
 
 void Enemy::calculatePathAsRectangle() {
     path.clear();
@@ -38,6 +25,26 @@ void Enemy::calculatePathAsRectangle() {
     path.push_back({stopright, stopup});
     path.push_back({stopright, stopdown});
     path.push_back({stopleft, stopdown});
+}
+
+bool Enemy::checkCollision(const Wall &wall) { //Oli-> looks prettier than in Utils
+    return Collision::checkCollision(*this, wall);
+}
+
+Rectangle Enemy::getCollisionRectangle() const{
+    return Rectangle{position.x-8,position.y-8,16,16};
+}
+
+float Enemy::getHealthPercentage() const {
+    return healthManager.getHealthPercentage();
+}
+
+void Enemy::heal(int amount) {
+    healthManager.heal(amount);
+}
+
+bool Enemy::isAlive() const {
+    return healthManager.isAlive();
 }
 
 void Enemy::moveOnPath() {
@@ -63,32 +70,31 @@ void Enemy::moveOnPath() {
 void Enemy::moveRandomly() {
 }
 
-bool Enemy::checkCollision(const Wall &wall) { //Oli-> looks prettier than in Utils
-    return Collision::checkCollision(*this, wall);
+void Enemy::takeDamage(int amount) {
+    healthManager.takeDamage(amount);
 }
 
-Rectangle Enemy::getCollisionRectangle() const{
-    return Rectangle{position.x-8,position.y-8,16,16};
+std::string Enemy::toLowercase(const std::string& str) {
+    std::string lower = str;
+    std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
+    return lower;
 }
 
-void Enemy::calculateDamage(Enemy& enemy, int damage) {
-    enemy.takeDamage(damage);
-}
 
-int Enemy::getHealth(const Enemy& enemy) {
-    return enemy.m_health;
-}
 
-void Enemy::takeDamage(Enemy &enemy, int damage) {
-    enemy.health -= damage;
-    if (enemy.health < 0) {
-        enemy.health = 0;
-    }
-}
-//attack
-void Enemy::setAttackPower (int damage) {
-    int attackPower = damage;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void Enemy::attack(maincharacter* target) {
     target->health -= maincharacter::attackPower;
@@ -127,21 +133,8 @@ void Enemy::setAnimation(const std::string& animationKey) {
 }
 
 
-void Enemy::takeDamage(int amount) {
-    m_health = std::max(0, m_health - amount);
-}
 
-void Enemy::heal(int amount) {
-    m_health = std::min(MAX_HEALTH, m_health + amount);
-}
 
-bool Enemy::isAlive() const {
-    return m_health > 0;
-}
-
-float Enemy::getHealthPercentage() const {
-    return static_cast<float>(m_health) / MAX_HEALTH;
-}
 
 void Enemy::update() {
 

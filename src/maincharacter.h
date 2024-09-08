@@ -17,7 +17,7 @@
 #include "GAME OBJECTS/gameobjects.h"
 #include "GAME OBJECTS/bombs.h"
 #include "Enums.h"
-
+#include "HealthManager.h"
 //
 
 struct ActivatedFirebowls;
@@ -51,6 +51,10 @@ public:
     void drawDustAnimation();
     bool canSwitchToRobot() const;
     void performMeleeAttack();
+
+    //*NEWCODE*
+    HealthManager healthManager;
+
 
     //health & Damage
     int health = 10;
@@ -149,7 +153,7 @@ private:
     float dustAnimationTimer;
     Vector2 dustPosition;
     std::string currentDustAnimation;
-    static constexpr float DUST_ANIMATION_DURATION = 1.0f; // Adjust as needed
+    static constexpr float DUST_ANIMATION_DURATION = 3.0f; // Adjust as needed
     static constexpr int DUST_FRAME_COUNT = 8; // Adjust based on your sprite sheet
 
     //animation

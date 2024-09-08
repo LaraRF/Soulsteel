@@ -14,9 +14,9 @@ const float maincharacter::ATTACK_COOLDOWN = 1.0f;
 
 int maincharacter::attackPower = 2;
 
-maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
+maincharacter::maincharacter(gameplay *scene) : _scene(scene), healthManager(10) { //initialize health
     position = {32 * 12, 32 * 6};  // Set initial position
-    currentState = AnimationState::IDLE;
+    currentState = AnimationState::IDLE; //set initial animation state
     currentDirection = static_cast<Direction>(Up);
     currentFrame = 0;
     frameCounter = 0.0f;
@@ -32,10 +32,7 @@ maincharacter::maincharacter(gameplay *scene) : _scene(scene) {
     isPossessed = false;
 }
 
-void maincharacter::attack(Enemy *target) {
-    target->health -= Enemy::attackPower;
 
-}
 
 void calculateDamage(maincharacter &maincharacter, int damage) {
     maincharacter.health -= damage;
@@ -115,6 +112,7 @@ void maincharacter::collisionabyss() {
         if (currentmodus == robotmodus || (currentmodus == soulmodus && !souldashactivated)) {
             // Robot or non-dashing soul falls into abyss, soul using dash is fine
             //health--; // Lose one heart
+            healthManager.takeDamage(1); // Lose one heart when falling into abyss
             felldown = true;
             position = lastSafePosition; // Reset position
 

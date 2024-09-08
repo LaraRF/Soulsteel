@@ -64,6 +64,8 @@ add_executable(${PROJECT_NAME} main.cpp
         "GAME OBJECTS/blueblock.cpp"
         AudioPlayer.h
         AudioPlayer.cpp
+        HealthManager.cpp
+        HealthManager.h
 )
 
 # Add config.h.in file
