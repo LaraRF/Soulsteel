@@ -4,6 +4,7 @@
 #include "maincharacter.h"
 #include "scene.h"
 #include "Enums.h"
+#include "GAME OBJECTS/bombs.h"
 
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
