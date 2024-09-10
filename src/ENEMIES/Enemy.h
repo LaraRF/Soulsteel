@@ -47,7 +47,7 @@ public:
 
     //*NEW CODE* HEALTH
 
-    HealthManager healthManager;
+    //HealthManager healthManager;
 
     void takeDamage(int amount);
     void heal(int amount);

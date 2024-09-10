@@ -8,14 +8,14 @@
 const float maincharacter::FRAME_DURATION = 0.1f;
 const float maincharacter::DASH_ANIMATION_SPEED = 0.02f;
 const float maincharacter::bomb_cooldown = 1.0f;
-const int maincharacter::MAX_HEALTH;
+//const int maincharacter::MAX_HEALTH;
 const float maincharacter::ATTACK_DURATION = 0.5f;
 const float maincharacter::ATTACK_COOLDOWN = 1.0f;
 
 int maincharacter::attackPower = 2;
 
 void maincharacter::attack(Enemy *target) {
-    target->health -= Enemy::attackPower;
+    //target->health -= Enemy::attackPower;
 
 }
 
@@ -650,6 +650,7 @@ void maincharacter::throwBomb() {
 }
 
 //*NEW CODE*
+/*
 void maincharacter::takeDamage(int amount) {
     m_health = std::max(0, m_health - amount);
 }
@@ -665,6 +666,7 @@ bool maincharacter::isAlive() const {
 float maincharacter::getHealthPercentage() const {
     return static_cast<float>(m_health) / MAX_HEALTH;
 }
+ */
 
     void maincharacter::performMeleeAttack() {
         currentAnimationState = AnimationState::ATTACK;
@@ -674,7 +676,7 @@ float maincharacter::getHealthPercentage() const {
         // Check for enemies in range and apply damage
         for (auto& enemy : _scene->getEnemies()) {
             if (CheckCollisionCircles(position, size + 32.0f, enemy->position, enemy->size)) {
-                enemy->takeDamage(2); // Apply 2 damage to the enemy
+                //enemy->takeDamage(2); // Apply 2 damage to the enemy
             }
         }
     }

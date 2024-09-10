@@ -8,10 +8,10 @@
 #include "Enemy1.h"
 #include "raymath.h"
 #include "../Wall.h"
-
+/*
 int Enemy::attackPower = 1;
 const int Enemy::MAX_HEALTH;
-
+*/
 Enemy::Enemy(gameplay* scene, int hp, int damage, bool melee, bool ranged, bool armed,
              float left, float down, float right, float up)
         : _scene(scene), health(hp), currentAnimationState(AnimationState::IDLE),
@@ -33,11 +33,12 @@ std::string Enemy::toLowercase(const std::string& str) {
 
 
 void Enemy::update() {
-
+/*
         if (!isAlive()) {
             // Handle enemy death (e.g., remove from game, play death animation, etc.)
             return;
         }
+        */
     if (controltype == ControlType::Path) {
         moveOnPath();
     } else if (controltype == ControlType::Random) {
@@ -105,11 +106,11 @@ Rectangle Enemy::getCollisionRectangle() const{
 }
 
 void Enemy::calculateDamage(Enemy& enemy, int damage) {
-    enemy.takeDamage(damage);
+    //enemy.takeDamage(damage);
 }
 
 int Enemy::getHealth(const Enemy& enemy) {
-    return enemy.m_health;
+    //return enemy.m_health;
 }
 
 void Enemy::takeDamage(Enemy &enemy, int damage) {
@@ -119,9 +120,11 @@ void Enemy::takeDamage(Enemy &enemy, int damage) {
     }
 }
 //attack
+/*
 void Enemy::setAttackPower (int damage) {
     int attackPower = damage;
 }
+ */
 
 void Enemy::attack(maincharacter* target) {
     target->health -= maincharacter::attackPower;
@@ -158,8 +161,9 @@ void Enemy::setAnimation(const std::string& animationKey) {
         currentFrame = 0;
     }
 }
-
+/*
 //*NEW CODE*
+
 void Enemy::takeDamage(int amount) {
     m_health = std::max(0, m_health - amount);
 }
@@ -175,3 +179,4 @@ bool Enemy::isAlive() const {
 float Enemy::getHealthPercentage() const {
     return static_cast<float>(m_health) / MAX_HEALTH;
 }
+ */

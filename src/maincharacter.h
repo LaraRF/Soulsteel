@@ -54,7 +54,7 @@ public:
     void performMeleeAttack();
 
     //*NEWCODE*
-    HealthManager healthManager;
+    //HealthManager healthManager;
 
     // Abyss Message Timer
     float abyssMessageTimer = 0.0f;
