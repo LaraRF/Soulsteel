@@ -9,8 +9,6 @@
 #include "gameobjects.h"
 #include "../assestmanagergraphics.h"
 
-class gameplay;
-
 class bombs : public gameobjects {
 public:
     bombs(gameplay* scene, Vector2 position);
