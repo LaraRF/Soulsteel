@@ -13,6 +13,7 @@
 #include <iostream>
 #include "../Enums.h"
 #include "../Utils.h"
+#include "../HealthManager.h"
 
 
 class gameplay;
@@ -44,14 +45,23 @@ public:
 
     int id = 0;
 
+    //*NEW CODE* HEALTH
+
+    HealthManager healthManager;
+
+    void takeDamage(int amount);
+    void heal(int amount);
+    bool isAlive() const;
+    float getHealthPercentage() const;
+
     //health
     int health;
     int getHealth(const Enemy& enemy);
     void calculateDamage(Enemy& enemy, int damage);
     virtual Texture2D getCurrentTexture() = 0;
     //attack
-    static int attackPower;
-    void setAttackPower(int damage);
+
+
     void attack(maincharacter* target);
 
     virtual void update();
@@ -81,13 +91,10 @@ public:
     Rectangle getCollisionRectangle() const;
 
     //*NEW CODE*
-    static const int MAX_HEALTH = 10;
-    void takeDamage(int amount);
-    void heal(int amount);
-    bool isAlive() const;
-    float getHealthPercentage() const;
+    //static const int MAX_HEALTH = 10;
 
-    int m_health = MAX_HEALTH;
+
+    //int m_health = MAX_HEALTH;
 
     float stepsize = 2;
     float size = 12;
@@ -135,7 +142,7 @@ protected:
 
     //health
     int maxHealth{};
-    int damage{};
+
 
     // position and direction
     Direction direction{};

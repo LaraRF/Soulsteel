@@ -22,14 +22,34 @@
 #include "Wall.h"
 #include "GAME OBJECTS/yellowblock.h"
 #include "GAME OBJECTS/blueblock.h"
+//test
 
 void gameplay::update() {
 
-    themaincharacter->update();
-    therobot->update();
-    updateStones();
-    updateBlocks();
-    updateSwitches();
+// Check maincharacter health
+    if (!themaincharacter->healthManager.isAlive()) {
+        // Draw game over message
+        const char* gameOverText = "GAME OVER";
+        int fontSize = 40;
+        int textWidth = MeasureText(gameOverText, fontSize);
+        DrawText(gameOverText, GetScreenWidth()/2 - textWidth/2, GetScreenHeight()/2 - fontSize/2, fontSize, RED);
+        return; // Stop updating the game
+    }
+
+    // Update and check enemies
+    for (auto it = enemies.begin(); it != enemies.end();) {
+        Enemy* enemy = *it;
+        if (!enemy->healthManager.isAlive()) {
+            // Handle enemy death
+            delete enemy; // Free the memory
+            it = enemies.erase(it); // Remove from the vector and get the next iterator
+        } else {
+            enemy->update(); // Update the enemy if it's alive
+            ++it;
+        }
+    }
+
+
 
     updateAllenemies();
     for (int i = 0; i < gameobjects.size(); i++) {
@@ -68,6 +88,14 @@ void gameplay::update() {
 
     //enables room-switch and checks which version of the character is the one leaving the room
     doRoomSwitch();
+
+
+    themaincharacter->update();
+    therobot->update();
+    updateStones();
+    updateBlocks();
+    updateSwitches();
+
 }
 
 void gameplay::doRoomSwitch() {
@@ -518,7 +546,7 @@ void gameplay::reloadRoom() {
 
             //attack
 
-            //custom enemies
+            //initialize enemies when room is loaded and reloaded
             if (std::find(enemyID.begin(), enemyID.end(), 201) == enemyID.end()) {
 
 
@@ -535,7 +563,7 @@ void gameplay::reloadRoom() {
                 enemies.push_back(enemy1);
 
                 //attack
-                enemy1->setAttackPower(1);
+                //enemy1->setAttackPower(1);
                 //themaincharacter.attack(enemy1);
                 //enemy1.attack(themaincharacter); //attack on maincharacter
                 //enemy1->attack(maincharacter);

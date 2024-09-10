@@ -678,4 +678,3 @@ float maincharacter::getHealthPercentage() const {
             }
         }
     }
-

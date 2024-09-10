@@ -15,7 +15,7 @@
 }*/
 
 Enemy1::Enemy1(gameplay *scene)
-        : Enemy(scene, 1, 1, true, false, false,
+        : Enemy(scene, 1, 1, true, false, false, //initialize health
                 12 * 32 + 16, 10 * 32 - 16, 11 * 32 - 16, 6 * 32 + 16),
           isThrowing(false)
 {

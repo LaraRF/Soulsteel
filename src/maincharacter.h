@@ -17,8 +17,9 @@
 #include "GAME OBJECTS/gameobjects.h"
 #include "GAME OBJECTS/bombs.h"
 #include "Enums.h"
+#include "HealthManager.h"
+//
 
- //
 
 struct ActivatedFirebowls;
 
@@ -51,6 +52,18 @@ public:
     void drawDustAnimation();
     bool canSwitchToRobot() const;
     void performMeleeAttack();
+
+    //*NEWCODE*
+    HealthManager healthManager;
+
+    // Abyss Message Timer
+    float abyssMessageTimer = 0.0f;
+    static constexpr float ABYSS_MESSAGE_DURATION = 3.0f;
+
+    //recovery timer
+    static float recoveryTimer;
+    float recoveryPeriod;
+    static constexpr float IMMUNITY_DURATION = 1.0f;
 
     //health & Damage
     int health = 10;
@@ -127,11 +140,11 @@ public:
     static const float bomb_cooldown;
     float bombthrowing_range=48;
 
-    static const int MAX_HEALTH = 10;
-    void takeDamage(int amount);
-    void heal(int amount);
-    bool isAlive() const;
-    float getHealthPercentage() const;
+    //static const int MAX_HEALTH = 10;
+    //void takeDamage(int amount);
+    //void heal(int amount);
+    //bool isAlive() const;
+    //float getHealthPercentage() const;
 
 protected:
     bool checkCollision(const Wall& wall);
@@ -149,7 +162,7 @@ private:
     float dustAnimationTimer;
     Vector2 dustPosition;
     std::string currentDustAnimation;
-    static constexpr float DUST_ANIMATION_DURATION = 1.0f; // Adjust as needed
+    static constexpr float DUST_ANIMATION_DURATION = 3.0f; // Adjust as needed
     static constexpr int DUST_FRAME_COUNT = 8; // Adjust based on your sprite sheet
 
     //animation
@@ -162,8 +175,9 @@ private:
     static constexpr float SWITCH_ANIMATION_DURATION = 1.0f; // Adjust as needed
     static constexpr int SWITCH_FRAME_COUNT = 8;
 
-    //health
-    int m_health = MAX_HEALTH;
+    //immunity
+
+    float immunityTimer = 0.0f;
 
     //melee attack
     bool isAttacking;
