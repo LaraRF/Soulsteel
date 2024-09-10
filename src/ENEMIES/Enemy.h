@@ -22,7 +22,7 @@ class maincharacter;
 
 struct AnimationInfo {
     int frameCount;
-    float frameDuration;
+    float frameDuration;  // Add this line
     Texture2D texture;
 
     AnimationInfo() : frameCount(0), frameDuration(0.0f), texture{0} {}

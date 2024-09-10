@@ -43,8 +43,6 @@ scene *gamechoicescreen::evaluateSceneChange() {
 }
 
 void gamechoicescreen::draw() {
-    DrawTexture(background,0,0,WHITE);
-
     DrawTexture(logo_soulsteel, 120, 20, WHITE);
     DrawTexture(logo_team, 320, 390, WHITE);
 

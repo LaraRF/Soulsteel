@@ -299,7 +299,7 @@ bool gameplay::areAllFirebowlsActivatedInRoom(int roomNumber) const {
     } else if (roomNumber == 3) {
         requiredCount = 1;  // Room 3 requires only 1 firebowl
     }
-    //conditions for other rooms if needed HERE
+    // Add conditions for other rooms if needed
 
     int activatedCount = 0;
     for (const auto &bowl: activatedFirebowls) {
@@ -536,6 +536,7 @@ void gameplay::reloadRoom() {
                 break;
         }
     }
+
     //enemies
     switch (room) {
         case 1:
@@ -635,7 +636,6 @@ void gameplay::reloadRoom() {
 
             Enemy3 enemy3(&scene);
             enemy3.controltype = Path;*/
-            //code
 
 
 
@@ -861,7 +861,7 @@ Rectangle gameplay::getTouchedWall(Vector2 position, float radius) {
 
 
 bool gameplay::isTileYouCantPushStoneOnto(int tileID) const {
-    //all tile IDs that represent walls
+    // Add all tile IDs that represent walls
     static const std::vector<std::vector<int>> wallIDs;
 
     return std::any_of(wallIDs.begin(), wallIDs.end(),

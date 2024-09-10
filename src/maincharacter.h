@@ -20,6 +20,7 @@
 #include "HealthManager.h"
 //
 
+
 struct ActivatedFirebowls;
 
 class gameplay;
@@ -187,5 +188,5 @@ private:
 
 };
 
-//test
+
 #endif //RAYLIBSTARTER_MAINCHARACTER_H
